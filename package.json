@@ -1,19 +1,26 @@
 {
   "name": "csscraft",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MiraWision/csscraft.git"
+  "dependencies": {
+    "next": "14.1.0",
+    "primeflex": "^3.3.1",
+    "primeicons": "^6.0.1",
+    "primereact": "^10.5.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "styled-components": "^6.1.8"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MiraWision/csscraft/issues"
-  },
-  "homepage": "https://github.com/MiraWision/csscraft#readme"
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  }
 }
