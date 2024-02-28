@@ -15,3 +15,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@font-face {
+  font-family: 'Streamster';
+  src: url('/fonts/Streamster.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
