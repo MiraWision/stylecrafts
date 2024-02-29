@@ -11,9 +11,9 @@ interface Props {
 const Logo: React.FC<Props> = () => {
   return (
     <Container>
-      <Text>CSSCraft</Text>
-      <PinkStar width={8} height={8} top={19} left={14} />
-      <PinkStar width={5} height={5} top={7} left={169} />
+      <Text>CssCraft</Text>
+      <PinkStar width={8} height={8} top={20} left={17} />
+      <PinkStar width={5} height={5} top={7} left={117} />
     </Container>
   );
 }
@@ -24,7 +24,7 @@ const Container = styled.div`
 `;
 
 const Text = styled.span`
-  font-family: 'Streamster', sans-serif;
+  font-family: 'Delius Swash Caps', cursive;
   font-size: 30px;
   color: #f472b6;
 `;
