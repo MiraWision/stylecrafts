@@ -1,14 +1,19 @@
-import { useState } from 'react';
-import { Button } from 'primereact/button';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-import { Logo } from '@/components/common/logo';
+import { BaseLayout } from '@/layouts/base-layout';
 
-function Home() {
-  
+const Home = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/colors-converter');
+  }, [router]);
+
   return (
-    <div>
-      <Logo />
-    </div>
+    <BaseLayout>
+      <div>Redirecting...</div>
+    </BaseLayout>
   );
 }
 
