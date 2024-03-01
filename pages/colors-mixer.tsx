@@ -50,6 +50,7 @@ const ColorsMixer = () => {
   
   useEffect(() => {
     const newColors = calculateIntermediateColors(color1, color2, steps);
+
     setIntermediateColors(newColors);
   }, [color1, color2, steps]);
 
@@ -57,10 +58,10 @@ const ColorsMixer = () => {
     <BaseLayout>
       <div>
         <ColorPicker value={color1} onChange={(e) => setColor1(`#${e.value}`)} />
-        <input type="text" value={color1} onChange={(e) => setColor1(e.target.value)} />
+        <input type='text' value={color1} onChange={(e) => setColor1(e.target.value)} />
         <ColorPicker value={color2} onChange={(e) => setColor2(`#${e.value}`)} />
-        <input type="text" value={color2} onChange={(e) => setColor2(e.target.value)} />
-        <input type="number" value={steps} onChange={(e) => setSteps(e.target.value as unknown as number)} />
+        <input type='text' value={color2} onChange={(e) => setColor2(e.target.value)} />
+        <input type='number' value={steps} onChange={(e) => setSteps(e.target.value as unknown as number)} />
       </div>
       <div>
         {intermediateColors.map((color, index) => (

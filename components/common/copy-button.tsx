@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import styled from 'styled-components';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 
@@ -14,7 +15,7 @@ const CopyButton: React.FC<Props> = ({ text }) => {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(text);
-      
+
       setIcon('pi pi-check');
       toast.current?.show({ severity: 'success', summary: 'Copied!', detail: 'Text has been copied to clipboard.', life: 3000 });
 
@@ -29,9 +30,15 @@ const CopyButton: React.FC<Props> = ({ text }) => {
   return (
     <div>
       <Toast ref={toast} />
-      <Button icon={icon} onClick={copyToClipboard} className="p-button-rounded p-button-success p-button-outlined" />
+      <ButtonSmall icon={icon} onClick={copyToClipboard} className="p-button-rounded p-button-primary p-button-outlined" />
     </div>
   );
 };
+
+const ButtonSmall = styled(Button)`
+  border-radius: 4px;
+  height: 30px;
+  width: 30px;
+`;
 
 export { CopyButton };
