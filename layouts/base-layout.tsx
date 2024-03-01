@@ -37,7 +37,6 @@ const Sidebar = styled.div`
 const Content = styled.div`
   padding: 24px;
   display: flex;
-  align-items: center;
   justify-content: center;
 `;
 

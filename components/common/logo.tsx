@@ -26,7 +26,8 @@ const Container = styled.div`
 const Text = styled.span`
   font-family: 'Delius Swash Caps', cursive;
   font-size: 30px;
-  color: #f472b6;
+  color: var(--primary-color);
+  user-select: none;
 `;
 
 const PinkStar = styled(StarIcon)<{ top: number, left: number, width: number, height: number }>`
@@ -37,7 +38,7 @@ const PinkStar = styled(StarIcon)<{ top: number, left: number, width: number, he
   left: ${({ left }) => `${left}px`};
 
   svg path {
-    fill: #f472b6;
+    fill: var(--primary-color);
   }
 `;
 
