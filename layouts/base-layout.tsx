@@ -38,6 +38,7 @@ const Content = styled.div`
   padding: 24px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
 `;
 
 export { BaseLayout };

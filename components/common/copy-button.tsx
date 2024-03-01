@@ -30,7 +30,7 @@ const CopyButton: React.FC<Props> = ({ text }) => {
   return (
     <div>
       <Toast ref={toast} />
-      <ButtonSmall icon={icon} onClick={copyToClipboard} className="p-button-rounded p-button-primary p-button-outlined" />
+      <ButtonSmall icon={icon} onClick={copyToClipboard} text />
     </div>
   );
 };
@@ -39,6 +39,10 @@ const ButtonSmall = styled(Button)`
   border-radius: 4px;
   height: 30px;
   width: 30px;
+  
+  &:focus {
+    box-shadow: none;
+  }
 `;
 
 export { CopyButton };
