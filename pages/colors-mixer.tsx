@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
 
 import { BaseLayout } from '@/layouts/base-layout';
-import { CopyButton } from '@/components/common/copy-button';
 import { Header1, Header2 } from '@/components/common/typography';
 import { NPMLink } from '@/components/common/npm-link';
 import { ColorInput } from '@/components/common/color-input';
 import { Label } from '@/components/common/label';
+import { ColorsOutput } from '@/components/common/colors-output';
 
 const hexToRgb = (hex: string) => {
   let r = 0, g = 0, b = 0;
@@ -120,7 +120,7 @@ const ColorsMixer = () => {
           <Label>Color 2</Label>
           <ColorInput value={color2} onChange={setColor2} />
 
-          <Label>Steps (1 - 25)</Label>
+          <Label>Number of Intermediate Colors (1 - 25)</Label>
           <InputNumberStyled 
             value={steps} 
             onChange={onChangeSteps} 
@@ -130,15 +130,7 @@ const ColorsMixer = () => {
           />
         </div>
 
-        <ColorsList>
-          {intermediateColors.map((color, index) => (
-            <ColorContainer key={index}>
-              <ColorRectangle color={color} />
-              <ColorText>{color}</ColorText>
-              <CopyButton text={color} />
-            </ColorContainer>
-          ))}
-        </ColorsList>
+        <ColorsOutput colors={intermediateColors} />
       </Grid>
       
       <NPMLink 
@@ -159,32 +151,6 @@ const Grid = styled.div`
 
 const InputNumberStyled = styled(InputNumber)`
   width: 201px;
-`;
-
-const ColorsList = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-row-gap: 4px;
-`;
-
-const ColorContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const ColorRectangle = styled.div<{ color: string }>`
-  width: 72px;
-  height: 24px;
-  border-radius: 4px;
-  background-color: ${({ color }) => color};
-`;
-
-const ColorText = styled.div`
-  margin: 4px;
-  font-size: 14px;
-  font-weight: 400;
-  width: 60px;
-  color: var(--surface-900);
 `;
 
 export default ColorsMixer;
