@@ -25,6 +25,7 @@ const ColorsList = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: 4px;
+  height: fit-content;
 `;
 
 const ColorContainer = styled.div`

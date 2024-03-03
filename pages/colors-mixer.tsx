@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
 
+import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
 import { BaseLayout } from '@/layouts/base-layout';
 import { Header1, Header2 } from '@/components/common/typography';
 import { NPMLink } from '@/components/common/npm-link';

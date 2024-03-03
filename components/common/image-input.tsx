@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FileUpload } from 'primereact/fileupload';
+
 import { UploadIcon } from '../icons/upload';
 
 interface Props {
@@ -100,16 +100,21 @@ const ImageInput: React.FC<Props> = ({ value, onChange }) => {
         </Overlay>
       )}
 
-      {!value && !isDragging && (
+      {!isDragging && (
         <Label>
-          <Text><b>Simply do anything!</b><br />Click to select a file, or drop it on a page, or copy-paste it here</Text>
-          <UploadIcon />
+          {value && (
+            <Image src={value} alt='uploaded' />
+          )}
+
+          {!value && (
+            <>
+              <UploadIcon />
+              <Text><b>Simply do anything!</b><br />Click to select a file, or drop it on a page, or copy-paste it here</Text>
+            </>
+          )}
+        
           <input type='file' accept='image/*' style={{ display: 'none' }} onChange={handleInputChange} />
         </Label>
-      )}
-
-      {value && (
-        <Image src={value} alt='uploaded' />
       )}
     </Container>
   );
@@ -127,12 +132,14 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
-const Label = styled.div`
+const Label = styled.label`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 100%;
+  cursor: pointer;
 `;
 
 const Text = styled.div`
