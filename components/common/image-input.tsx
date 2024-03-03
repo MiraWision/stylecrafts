@@ -33,6 +33,18 @@ const ImageInput: React.FC<Props> = ({ value, onChange }) => {
     }
   };
 
+  const isValidHttpUrl = (string: string) => {
+    let url;
+    
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;  
+    }
+
+    return url.protocol === "http:" || url.protocol === "https:";
+  };
+
   const handlePaste = (event: ClipboardEvent) => {
     const items = event.clipboardData?.items;
 
@@ -46,6 +58,11 @@ const ImageInput: React.FC<Props> = ({ value, onChange }) => {
           }
 
           break;
+        }
+
+        const text = event.clipboardData.getData('text');
+        if (text && isValidHttpUrl(text)) {
+          setImage(text);
         }
       }
     }
