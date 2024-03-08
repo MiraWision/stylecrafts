@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import useLocalStorage from '@/hooks/useLocalStorage/useLocalStorage';
 import { Button } from 'primereact/button';
 import themeStorageHandler from '@/hooks/useLocalStorage/theme-handler';
+import { CSSTransition } from 'primereact/csstransition';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 interface Theme {
   name: string;
@@ -42,26 +45,25 @@ const SelectTheme: React.FC<SelectThemeProps> = ({ darkMode, setTheme: setGlobal
   };
 
   return (
-    <ThemeContainer>
+    <ThemeSelectorContainer>
       <Button icon={icon} onClick={toggleThemeSelector} className="p-button-rounded" />
-      {isThemeSelectorOpen && (
-        <ThemeSelector>
-          {ThemeSwitcher.map((themeOption) => (
-            <ThemeButton
-              key={themeOption.name}
-              onClick={() => changeTheme(themeOption.name)}
-              color={themeOption.name}
-            >
-              {themeOption.name}
-            </ThemeButton>
+      <CSSTransition in={isThemeSelectorOpen} timeout={300} classNames="theme-selector" unmountOnExit>
+        <ThemeSelector isOpen={isThemeSelectorOpen}>
+          {ThemeSwitcher.map((themeOption, index) => (
+            <ChooseThemeContainer key={themeOption.name}>
+              <ThemeButton
+                onClick={() => changeTheme(themeOption.name)}
+                color={index === 0 ? 'orange' : themeOption.name}
+              />
+            </ChooseThemeContainer>
           ))}
         </ThemeSelector>
-      )}
-    </ThemeContainer>
+      </CSSTransition>
+    </ThemeSelectorContainer>
   );
 };
 
-const ThemeContainer = styled.div`
+const ThemeSelectorContainer = styled.div`
   position: fixed;
   top: 1rem;
   right: 5rem;
@@ -69,24 +71,74 @@ const ThemeContainer = styled.div`
 `;
 
 const ThemeButton = styled.button<{ color: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: ${(props) => props.color};
+  border-radius: 50%;
   border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
-  color: white;
+  height: 40px;
+  width: 40px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
 
   &:hover {
-    opacity: 0.8;
+    opacity: 0.6;
+    border: 0.3px solid white;
   }
 `;
 
-const ThemeSelector = styled.div`
+const ThemeSelector = styled.div<{ isOpen: boolean }>`
+  position: absolute;
+  top: 3rem;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 20px;
+  flex-direction: column;
+  padding: 5px;
+  margin-top: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5); // Светлая граница для эффекта "стекла"
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2); // Полупрозрачный белый фон
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(2px); // Увеличенный эффект размытия для эффекта "стекла"
+  -webkit-backdrop-filter: blur(2px); // То же самое для Safari
+  overflow: hidden;
+  animation: ${props => props.isOpen ? expandDown : collapseUp} 0.5s forwards;
+`;
+
+const ThemeName = styled.div`
+  
+`;
+
+const ChooseThemeContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:not(:first-child) {
+    margin-top: 10px; 
+  }
+`;
+
+const expandDown = keyframes`
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 500px;
+    opacity: 1;
+  }
+`;
+
+const collapseUp = keyframes`
+  from {
+    max-height: 500px;
+    opacity: 1;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+  }
 `;
 
 export { SelectTheme };
