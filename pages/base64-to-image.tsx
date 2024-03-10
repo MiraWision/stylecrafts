@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { Button } from 'primereact/button';
 import { BaseLayout } from '@/layouts/base-layout';
 import { ImageInput } from '@/components/common/image-input';
-import { ColorsOutput } from '@/components/common/colors-output';
+import { Button } from 'primereact/button';
+import { ProgressBar } from 'primereact/progressbar';
 
-const ColorsConverter = () => {
+const Base64ToImage = () => {
   const [image, setImage] = useState<string | null>(null);
 
   const onProcess = () => {
@@ -15,32 +15,20 @@ const ColorsConverter = () => {
 
   return (
     <BaseLayout>
-      <Title>Colors Palette</Title>
+      <Title>Base64 to Image</Title>
       <ContentContainer>
         <Grid>
-          <div>
-            <ImageInput value={image} onChange={setImage} />
-          </div>
-
-          <div>
+          <ImageInput value={image} onChange={setImage} />
+          <FlexContainer>
             <Button onClick={onProcess}>Process</Button>
-          </div>
-
-          <ColorsOutput 
-            colors={['#abcdef', '#456789', '#246086']}
-          />
+          </FlexContainer>
+       
         </Grid>
+      
       </ContentContainer>   
     </BaseLayout>
   );
 }
-
-const Grid = styled.div`
-  display: grid;
-  width: 640px;
-  grid-template-columns: 4fr 1fr 1fr;
-  grid-column-gap: 8px;
-`;
 
 const Title = styled.h1`
   text-align: center;
@@ -55,5 +43,17 @@ const ContentContainer = styled.div`
   margin: 0 auto;
 `;
 
+const Grid = styled.div`
+  display: grid;
+  width: 640px;
+  grid-template-columns: 2fr 1fr 2fr;
+  grid-column-gap: 30px;
+`;
 
-export default ColorsConverter;
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export default Base64ToImage;
