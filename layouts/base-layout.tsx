@@ -52,10 +52,22 @@ const Container = styled.div`
 `;
 
 const Sidebar = styled.div<{ isOpen: boolean }>`
+  min-height: 600px;
   padding: 24px;
   display: flex;
   flex-direction: column;
-  background-color: var(--primary-color);
+  position: relative; 
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -1px; 
+    height: 100%;
+    width: 1px; 
+    background: linear-gradient(to bottom, rgba(196, 36, 211, 0.5) 0%, rgba(169, 37, 37, 0.3) 70%, rgba(0, 0, 0, 0.0) 100%);
+    z-index: 10;
+  }
 
   @media (max-width: 768px) {
     transition: transform 0.3s ease-in-out;
@@ -106,6 +118,7 @@ const Overlay = styled.div<{ isOpen: boolean }>`
 const Content = styled.div<{ isOpen: boolean }>`
   padding: 24px;
   display: flex;
+  margin-top: 50px;
   justify-content: center;
   flex-direction: column;
 
