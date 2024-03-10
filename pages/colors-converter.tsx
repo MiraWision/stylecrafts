@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { ColorPicker } from 'primereact/colorpicker';
+import { NPMLink } from '@/components/common/npm-link';
 import { BaseLayout } from '@/layouts/base-layout';
 
 const ColorsConverter = () => {
@@ -52,7 +52,10 @@ const ColorsConverter = () => {
         </FormatsContainer>
         <Button label="Color schema creator" className="p-button-secondary" />
       </ContentContainer>
-     
+      <NPMLink 
+        text='Need to have color tools like these in you app? Feel free to use our NPM package'
+        packageName='@mirawision/colorize'
+      />
     </BaseLayout>
   );
 };
