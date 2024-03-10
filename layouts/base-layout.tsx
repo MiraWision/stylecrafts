@@ -4,11 +4,19 @@ import styled from 'styled-components';
 import { Logo } from '@/components/common/logo';
 import { MenuList } from '@/components/menu/menu-list';
 
+import { DarkModeButton } from '@/components/common/dark-mode-button';
+import { SelectTheme } from '@/components/common/theme-selector-button';
+import useLocalStorage from '@/hooks/useLocalStorage/useLocalStorage';
+import themeStorageHandler from '@/hooks/useLocalStorage/theme-handler';
+
 interface Props {
   children: React.ReactNode;
 }
 
 const BaseLayout: React.FC<Props> = ({ children }) => {
+  const [theme, themeActions] = useLocalStorage(themeStorageHandler);
+  const darkMode = theme?.includes('dark') ?? false;
+
   return (
     <Container>
       <Sidebar>
@@ -16,6 +24,8 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
         <MenuList />
       </Sidebar>
       <Content>
+        <DarkModeButton setTheme={themeActions.set} />
+        <SelectTheme setTheme={themeActions.set} darkMode={darkMode} />
         {children}
       </Content>
     </Container>
