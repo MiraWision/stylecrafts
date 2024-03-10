@@ -37,7 +37,12 @@ const ColorsConverter = () => {
             {['HEX', 'RGB', 'HSL'].map((format) => (
               <div key={format} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <label>{format}</label>
-                <FormatButton label={convertColor(color, format)} onClick={() => copyToClipboard(convertColor(color, format))} />
+                <FormatButton 
+                  label={convertColor(color, format)} 
+                  onClick={() => copyToClipboard(convertColor(color, format))}
+                  icon="pi pi-copy"
+                  className="p-button-rounded p-button-outlined"
+                />
               </div>
             ))}
           </FlexContainer>
@@ -144,6 +149,12 @@ const ColorPreview = styled.div<{ color: string }>`
 
 const FormatButton = styled(Button)`
   margin-top: 0.5rem;
+  background: none;
+  color: var(--primary-color);
+  border-radius: 1rem;
+  .p-button-label {
+    flex: 1;
+  }
 `;
 
 export default ColorsConverter;
