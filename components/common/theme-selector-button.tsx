@@ -11,17 +11,18 @@ interface Theme {
   name: string;
   dark: string;
   light: string;
+  buttonColor: string;
 }
 
 const ThemeSwitcher: Theme[] = [
-  { name: 'amber', dark: 'lara-dark-amber', light: 'lara-light-amber' },
-  { name: 'blue', dark: 'lara-dark-blue', light: 'lara-light-blue' },
-  { name: 'cyan', dark: 'lara-dark-cyan', light: 'lara-light-cyan' },
-  { name: 'green', dark: 'lara-dark-green', light: 'lara-light-green' },
-  { name: 'indigo', dark: 'lara-dark-indigo', light: 'lara-light-indigo' },
-  { name: 'pink', dark: 'lara-dark-pink', light: 'lara-light-pink' },
-  { name: 'purple', dark: 'lara-dark-purple', light: 'lara-light-purple' },
-  { name: 'teal', dark: 'lara-dark-teal', light: 'lara-light-teal' },
+  { name: 'amber', dark: 'lara-dark-amber', light: 'lara-light-amber', buttonColor: '#fbbf24' }, 
+  { name: 'blue', dark: 'lara-dark-blue', light: 'lara-light-blue', buttonColor: '#60a5fa' }, 
+  { name: 'cyan', dark: 'lara-dark-cyan', light: 'lara-light-cyan', buttonColor: '#34d399' }, 
+  { name: 'green', dark: 'lara-dark-green', light: 'lara-light-green', buttonColor: '#4CAF50' },
+  { name: 'indigo', dark: 'lara-dark-indigo', light: 'lara-light-indigo', buttonColor: '#818cf8' }, 
+  { name: 'pink', dark: 'lara-dark-pink', light: 'lara-light-pink', buttonColor: '#f472b6' }, 
+  { name: 'purple', dark: 'lara-dark-purple', light: 'lara-light-purple', buttonColor: '#a78bfa' }, 
+  { name: 'teal', dark: 'lara-dark-teal', light: 'lara-light-teal', buttonColor: '#2dd4bf' }, 
 ];
 
 interface SelectThemeProps {
@@ -49,11 +50,11 @@ const SelectTheme: React.FC<SelectThemeProps> = ({ darkMode, setTheme: setGlobal
       <Button icon={icon} onClick={toggleThemeSelector} className="p-button-rounded" />
       <CSSTransition in={isThemeSelectorOpen} timeout={300} classNames="theme-selector" unmountOnExit>
         <ThemeSelector isOpen={isThemeSelectorOpen}>
-          {ThemeSwitcher.map((themeOption, index) => (
+          {ThemeSwitcher.map((themeOption) => (
             <ChooseThemeContainer key={themeOption.name}>
               <ThemeButton
                 onClick={() => changeTheme(themeOption.name)}
-                color={index === 0 ? 'orange' : themeOption.name}
+                color={themeOption.buttonColor}
               />
             </ChooseThemeContainer>
           ))}
@@ -95,12 +96,12 @@ const ThemeSelector = styled.div<{ isOpen: boolean }>`
   flex-direction: column;
   padding: 5px;
   margin-top: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.5); // Светлая граница для эффекта "стекла"
+  border: 1px solid rgba(255, 255, 255, 0.5); 
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.2); // Полупрозрачный белый фон
+  background-color: rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(2px); // Увеличенный эффект размытия для эффекта "стекла"
-  -webkit-backdrop-filter: blur(2px); // То же самое для Safari
+  backdrop-filter: blur(2px); 
+  -webkit-backdrop-filter: blur(2px);
   overflow: hidden;
   animation: ${props => props.isOpen ? expandDown : collapseUp} 0.5s forwards;
 `;

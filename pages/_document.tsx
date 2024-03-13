@@ -33,11 +33,10 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
           <link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap" rel="stylesheet" />
           <link id="theme-link" rel="stylesheet" href="/themes/lara-dark-pink/theme.css" />
           <link rel="icon" type="image/x-icon" href="logo/favicon.ico" />
-          <title>CSSCraft</title>
         </Head>
         <body>
           <Main />
