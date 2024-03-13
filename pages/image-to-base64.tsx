@@ -66,7 +66,7 @@ const OutputContainer = styled.div`
   padding: 10px;
   border: 1px solid var(--primary-color);
   border-radius: 5px;
-  width: 100%;
+  width: 55%;
   max-height: 200px;
   overflow-y: auto;
   word-wrap: break-word;
