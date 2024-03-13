@@ -103,7 +103,7 @@ const StyledButton = styled(Button)<{ isOpen: boolean }>`
     display: none; 
 
     @media (max-width: 768px) {
-      display: ${({ isOpen }) => (isOpen ? 'none' : 'block')};
+      display: ${({ isOpen }) => (isOpen ? 'none' : 'flex')};
     }
   }
 `;
@@ -126,13 +126,12 @@ const Overlay = styled.div<{ isOpen: boolean }>`
 const Content = styled.div<{ isOpen: boolean }>`
   padding: 24px;
   display: flex;
-  margin-top: 50px;
   justify-content: center;
   flex-direction: column;
 
   @media (max-width: 768px) {
     margin-left: 0;
-    filter: ${({ isOpen }) => (isOpen ? 'blur(4px)' : 'none')}; 
+    transition: filter 0.3s; 
   }
 `;
 
