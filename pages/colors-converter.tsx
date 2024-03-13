@@ -31,15 +31,15 @@ const ColorsConverter = () => {
       <Title>Color Converter</Title>
       <ContentContainer>
         <SubTitle>Enter color</SubTitle>
-        <InputText value={color} onChange={(e) => setColor(e.target.value)} placeholder="Enter a color" />
+        <StyledInputText value={color} onChange={(e) => setColor(e.target.value)} placeholder="Enter a color" />
         <FormatsContainer>
           <FlexContainer>
             {['HEX', 'RGB', 'HSL'].map((format) => (
               <div key={format} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <label>{format}</label>
                 <FormatButton 
-                  label={convertColor(color, format)} 
-                  onClick={() => copyToClipboard(convertColor(color, format))}
+                  label={(format === 'HEX' ? '#' : '') + convertColor(color, format)}
+                  onClick={() => copyToClipboard((format === 'HEX' ? '#' : '') + convertColor(color, format))}
                   icon="pi pi-copy"
                   className="p-button-rounded p-button-outlined"
                 />
@@ -50,12 +50,8 @@ const ColorsConverter = () => {
             <ColorPreview color={color} />
           </ColorPreviewContainer>
         </FormatsContainer>
-        <Button label="Color schema creator" className="p-button-secondary" />
+        <ColorShemaButton label="Color schema creator" className="p-button-secondary" />
       </ContentContainer>
-      <NPMLink 
-        text='Need to have color tools like these in you app? Feel free to use our NPM package'
-        packageName='@mirawision/colorize'
-      />
     </BaseLayout>
   );
 };
@@ -107,22 +103,63 @@ function convertColor(hex: string, format: string) {
 
 const Title = styled.h1`
   text-align: center;
+
+  @media (max-width: 1200px) { 
+    font-size: 1.8rem;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 1.4rem;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 1.2rem;
+  }
+`;
+
+const StyledInputText = styled(InputText)`
+  @media (max-width: 1200px) { 
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 0.6rem;
+  }
 `;
 
 const SubTitle = styled.h2`
+  @media (max-width: 1200px) { 
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const ContentContainer = styled.div`
   width: 70%;
   margin: 0 auto;
-`;
-
-const FormatsContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr; 
-  grid-gap: 70px;
-  justify-content: center;
-  align-items: center;
 `;
 
 const FlexContainer = styled.div`
@@ -137,17 +174,48 @@ const ColorPreviewContainer = styled.div`
   padding: 2px; 
   border-radius: 0.8rem;
   position: relative;
-  box-shadow: 0 0 5px 0 rgba(255, 20, 147, 0.5);
+  box-shadow: 0 0 5px 0 var(--primary-color);
   width: fit-content;
   height: fit-content;
 `;
 
 const ColorPreview = styled.div<{ color: string }>`
-  width: 20rem;
-  height: 20rem;
+  width: 25vw;
+  height: 25vw;
+  max-width: 18rem; 
+  max-height: 18rem;
   border-radius: 0.8rem;
   background-color: ${({ color }) => color};
   transition: background-color 0.3s;
+
+  @media (max-width: 1200px) { 
+    max-width: 16rem; 
+    max-height: 16rem;
+  }
+
+  @media (max-width: 900px) {
+    max-width: 14rem; 
+    max-height: 14rem;
+  }
+
+  @media (max-width: 600px) {
+    max-width: 12rem; 
+    max-height: 12rem;
+  }
+
+  @media (max-width: 400px) {
+    max-width: 10rem; 
+    max-height: 10rem;
+  }
+`;
+
+const FormatsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  grid-gap: 70px;
+  justify-content: center;
+  align-items: center;
+  margin: 0.8rem 0;
 `;
 
 const FormatButton = styled(Button)`
@@ -155,8 +223,48 @@ const FormatButton = styled(Button)`
   background: none;
   color: var(--primary-color);
   border-radius: 1rem;
+  padding: 0.5rem 1rem; 
+  font-size: 1rem;
+  width: auto;
+  white-space: nowrap;
+  
   .p-button-label {
     flex: 1;
+  }
+
+  @media (max-width: 1200px) { 
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 0.6rem;
+  }
+
+`;
+
+const ColorShemaButton = styled(Button)`
+  @media (max-width: 1200px) { 
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 0.6rem;
   }
 `;
 
