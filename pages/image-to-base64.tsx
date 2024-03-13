@@ -4,41 +4,11 @@ import styled from 'styled-components';
 import { BaseLayout } from '@/layouts/base-layout';
 import { ImageInput } from '@/components/common/image-input';
 import { Button } from 'primereact/button';
-import { Steps } from 'primereact/steps';
 import { Toast } from 'primereact/toast';
 
 const ImageToBase64 = () => {
   const [image, setImage] = useState<string | null>(null);
-  const [conversionSuccess, setConversionSuccess] = useState(false); 
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const items = [
-    { label: 'Download image' },
-    { label: 'Press process' },
-    { label: 'Copy result' },
-  ];
-
   const toast = useRef<Toast>(null);
-
-  const onProcess = () => {
-    setActiveIndex(1); 
-    let progressValue = 0;
-    setConversionSuccess(false);
-    const interval = setInterval(() => {
-      progressValue += 10;
-      if (progressValue >= 100) {
-        clearInterval(interval);
-        setConversionSuccess(true);
-        setActiveIndex(2); 
-        toast.current?.show({
-          severity: 'success',
-          summary: 'Processing Complete',
-          detail: 'Image has been successfully converted.',
-          life: 3000
-        });
-      }
-    }, 1000); 
-  };  
 
   const copyToClipboard = (content: string, message: string) => {
     navigator.clipboard.writeText(content)
@@ -53,26 +23,21 @@ const ImageToBase64 = () => {
   return (
     <BaseLayout>
       <Toast ref={toast} />
-      <Title>Base64 to Image</Title>
+      <Title>Image to Base64 Convertor</Title>
       <ContentContainer>
-        <Grid>
-          <FlexContainer>
-            <ImageInput value={image} onChange={setImage} />
-          </FlexContainer>
-          <FlexContainer>
-          <ColumnContainer>
-            <Button onClick={onProcess} disabled={!image}>Process</Button> 
-          </ColumnContainer>
-          </FlexContainer>
-          { conversionSuccess && (
-            <ColumnContainer>
-              <FormatButton icon="pi pi-copy" onClick={copyBase64}>Copy base64</FormatButton>
-              <FormatButton icon="pi pi-copy" onClick={copyHTMLImage}>Copy to HTML</FormatButton>
-              <FormatButton icon="pi pi-copy" onClick={copyCSSImage}>Copy to CSS</FormatButton>
-            </ColumnContainer>
-          )}
-        </Grid>
-        <StyledSteps model={items} activeIndex={activeIndex} />
+        <SingleColumnContainer>
+          <ImageInput 
+          width='50%'
+          value={image} 
+          onChange={setImage} 
+        />
+          <OutputContainer>{image}</OutputContainer>
+          <ButtonsContainer>
+            <FormatButton icon="pi pi-copy" onClick={copyBase64} disabled={!image}>Copy base64</FormatButton>
+            <FormatButton icon="pi pi-copy" onClick={copyHTMLImage} disabled={!image}>Copy to HTML</FormatButton>
+            <FormatButton icon="pi pi-copy" onClick={copyCSSImage} disabled={!image}>Copy to CSS</FormatButton>
+          </ButtonsContainer>
+        </SingleColumnContainer>
       </ContentContainer>   
     </BaseLayout>
   );
@@ -90,47 +55,37 @@ const ContentContainer = styled.div`
   margin: 0 auto;
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin-bottom: 50px;
-`;
-
-const FlexContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ColumnContainer = styled.div`
+const SingleColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 1rem;
 `;
 
+const OutputContainer = styled.div`
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  word-wrap: break-word;
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
 const FormatButton = styled(Button)`
-  margin-top: 0.5rem;
-  width: 11rem;
   background: none;
   color: var(--primary-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   .p-button-label {
     padding: 0.5rem;
   }
 
   .pi {
-    margin-right: 0.5rem; 
+    margin-right: 0.5rem;
   }
-`;
-
-const StyledSteps = styled(Steps)`
-  .p-steps-item {
-    width: calc(100% / 3);
-  }
-
 `;

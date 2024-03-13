@@ -6,9 +6,10 @@ import { UploadIcon } from '../icons/upload';
 interface Props {
   value: string | null;
   onChange: (value: string | null) => void;
+  width?: string;
 }
 
-const ImageInput: React.FC<Props> = ({ value, onChange }) => {
+const ImageInput: React.FC<Props> = ({ value, onChange, width = '240px' }) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const setImage = (value: any) => {
@@ -110,7 +111,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange }) => {
 
 
   return (
-    <Container>
+    <Container width={width} >
       {isDragging && (
         <Overlay>
           <Text><b>Just drop it anywhere!</b></Text>
@@ -137,8 +138,8 @@ const ImageInput: React.FC<Props> = ({ value, onChange }) => {
   );
 }
 
-const Container = styled.div`
-  width: 240px;
+const Container = styled.div<{ width: string }>`
+  width: ${(props) => props.width};
   min-height: 160px;
   position: relative;
   border: 1px solid var(--primary-color);
