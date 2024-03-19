@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
 import { BaseLayout } from '@/layouts/base-layout';
-import { Header1, Header2 } from '@/components/common/typography';
+import { Header1, Header2 } from '@/components/templates/headers-template';
 import { NPMLink } from '@/components/common/npm-link';
 import { ColorInput } from '@/components/common/color-input';
 import { Label } from '@/components/common/label';
