@@ -126,7 +126,6 @@ const Overlay = styled.div<{ isOpen: boolean }>`
 const Content = styled.div<{ isOpen: boolean }>`
   padding: 24px;
   display: flex;
-  justify-content: center;
   flex-direction: column;
 
   @media (max-width: 768px) {
