@@ -1,271 +1,190 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import { Toast } from 'primereact/toast';
-import { NPMLink } from '@/components/common/npm-link';
+
+import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
 import { BaseLayout } from '@/layouts/base-layout';
+import { Header1, Header2 } from '@/components/templates/headers-template';
+import { NPMLink } from '@/components/common/npm-link';
+import { ColorInput } from '@/components/common/color-input';
+import { Label } from '@/components/common/label';
+import { ColorsOutput } from '@/components/common/colors-output';
+import { generateSteppedGradient, generateMultiSteppedGradient } from '@mirawision/colorize';
 
-const ColorsConverter = () => {
-  const [color, setColor] = useState('');
-  const toast = useRef(null);
+const Colors = [
+  '#FF5733',
+  '#3498DB',
+  '#8E44AD',
+  '#16A085',
+  '#F1C40F',
+  '#E74C3C',
+  '#2ECC71',
+  '#D35400',
+  '#7F8C8D',
+  '#2980B9',
+];
 
+const getRandomElements = (arr: any[], count: number) => {
+  let shuffled = arr.slice();
+
+  for (let i = 0; i < count; i++) {
+    let j = i + Math.floor(Math.random() * (shuffled.length - i));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled.slice(0, count);
+};
+
+const [firstColor, secondColor] = getRandomElements(Colors, 2);
+
+const ColorsMixer = () => {
+  const [color1, setColor1] = useState<string>(firstColor);
+  const [color2, setColor2] = useState<string>(secondColor);
+  const [steps, setSteps] = useState<number>(5);
+  const [intermediateColors, setIntermediateColors] = useState<string[]>([]);
+  const [intermediateMultiColors, setIntermediateMultiColors] = useState<string[]>([]);
+  
   useEffect(() => {
-    setColor(generateRandomColor());
-  }, []);
+    try {
+      const newColors = generateSteppedGradient(color1, color2, steps);
+      setIntermediateColors(newColors);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [color1, color2, steps]); 
 
-  const generateRandomColor = () => {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16).padEnd(6, '0');
+  const onChangeSteps = ({ value }: InputNumberChangeEvent) => {
+    if (!value) {
+      return;
+    }
+
+    if (value < 1) {
+      value = 1;
+    } else if (value > 25) {
+      value = 25;
+    }
+
+    setSteps(value);
   };
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      //@ts-ignore
-      toast.current?.show({ severity: 'success', summary: 'Copied', detail: 'Color copied to clipboard' });
-    }).catch(error => console.error('Clipboard write failed', error));
+  const [colorSteps, setColorSteps] = useState<Array<{ color: string; steps: number }>>([
+    { color: '#3498DB', steps: 3 },
+    { color: '#8E44AD', steps: 4 },
+  ]);
+
+  useEffect(() => {
+    try {
+      const gradientArgs = colorSteps.flatMap(({ color, steps }, index) => 
+        index < colorSteps.length - 1 ? [color, steps] : [color]
+      );
+      const newColors = generateMultiSteppedGradient(...gradientArgs);
+      setIntermediateMultiColors(newColors);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [colorSteps]);
+
+  const addColorStep = () => {
+    setColorSteps([...colorSteps, { color: '#FFFFFF', steps: 2 }]);
+  };
+
+  const updateColor = (index: number, newColor: string) => {
+    const newColorSteps = [...colorSteps];
+    newColorSteps[index]. color = newColor;
+    setColorSteps(newColorSteps);
+  };
+
+  const updateSteps = (index: number, newSteps: number) => {
+    const newColorSteps = [...colorSteps];
+    newColorSteps[index].steps = newSteps;
+    setColorSteps(newColorSteps);
   };
 
   return (
     <BaseLayout>
-      <Toast ref={toast} />
-      <Title>Color Converter</Title>
-      <ContentContainer>
-        <SubTitle>Enter color</SubTitle>
-        <StyledInputText value={color} onChange={(e) => setColor(e.target.value)} placeholder="Enter a color" />
-        <FormatsContainer>
-          <FlexContainer>
-            {['HEX', 'RGB', 'HSL'].map((format) => (
-              <div key={format} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <label>{format}</label>
-                <FormatButton 
-                  label={(format === 'HEX' ? '#' : '') + convertColor(color, format)}
-                  onClick={() => copyToClipboard((format === 'HEX' ? '#' : '') + convertColor(color, format))}
-                  icon="pi pi-copy"
-                  className="p-button-rounded p-button-outlined"
-                />
-              </div>
-            ))}
-          </FlexContainer>
-          <ColorPreviewContainer>
-            <ColorPreview color={color} />
-          </ColorPreviewContainer>
-        </FormatsContainer>
-        <ColorShemaButton label="Color schema creator" className="p-button-secondary" />
-      </ContentContainer>
+      <Header1 centered>Colors Mixer</Header1>
+      <Header2 centered>Select 2 Colors and get Intermediate Colors between them</Header2>
+
+      <Grid>
+        <div>
+          <Label>Color 1</Label>
+          <StyledColorInput value={color1} onChange={setColor1} />
+
+          <Label>Color 2</Label>
+          <StyledColorInput value={color2} onChange={setColor2} />
+
+          <Label>Number of Intermediate Colors (1 - 25)</Label>
+          <InputNumberStyled 
+            value={steps} 
+            onChange={onChangeSteps} 
+            showButtons
+            min={1}
+            max={25}  
+          />
+        </div>
+
+        <ColorsOutput colors={intermediateColors} />
+      </Grid>
+
+      <Header1 centered>Gradient Mixer</Header1>
+      <Header2 centered>Create a Multi-Stepped Gradient</Header2>
+
+      <Grid>
+        <div>
+          {colorSteps.map((item, index) => (
+            <div key={index}>
+              <Label>{`Color ${index + 1}`}</Label>
+              <ColorInput
+                value={item.color}
+                onChange={(newColor) => updateColor(index, newColor)}
+              />
+
+              {index < colorSteps.length - 1 && (
+                <>
+                  <Label>{`Steps to Color ${index + 2}`}</Label>
+                  <InputNumberStyled 
+                    value={item.steps} 
+                    onChange={(e) => updateSteps(index, e.value || 0)}
+                    showButtons
+                    min={1}
+                    max={25}
+                  />
+                </>
+              )}
+            </div>
+          ))}
+          <AddColorButton onClick={addColorStep}>+ Add Color</AddColorButton>
+        </div>
+
+        <ColorsOutput colors={intermediateMultiColors} />
+      </Grid>
+      
+      <NPMLink 
+        text='Need to have color tools like these in you app? Feel free to use our NPM package'
+        packageName='@mirawision/colorize'
+      />
     </BaseLayout>
   );
 };
 
-function convertColor(hex: string, format: string) {
-  if (hex.indexOf('#') === 0) {
-    hex = hex.slice(1);
-  }
+export default ColorsMixer;
 
-  let r = parseInt(hex.slice(0, 2), 16),
-      g = parseInt(hex.slice(2, 4), 16),
-      b = parseInt(hex.slice(4, 6), 16);
-
-  if (format === 'RGB') {
-    return `rgb(${r}, ${g}, ${b})`;
-  } else if (format === 'HSL') {
-    r /= 255;
-    g /= 255;
-    b /= 255;
-    let max = Math.max(r, g, b),
-        min = Math.min(r, g, b),
-        h = 0, // Initialize h to 0
-        s,
-        l = (max + min) / 2;
-
-    if (max !== min) {
-      let d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-      switch (max) {
-        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-        case g: h = (b - r) / d + 2; break;
-        case b: h = (r - g) / d + 4; break;
-      }
-      h /= 6;
-    }
-    if(s) {
-      s = s*100;
-      s = Math.round(s);
-    }
-    l = l*100;
-    l = Math.round(l);
-    h = Math.round(360*h);
-    return `hsl(${h}, ${s}%, ${l}%)`;
-  } else {
-    return hex; 
-  }
-}
-
-const Title = styled.h1`
-  text-align: center;
-
-  @media (max-width: 1200px) { 
-    font-size: 1.8rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 1.6rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 1.4rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 1.2rem;
-  }
-`;
-
-const StyledInputText = styled(InputText)`
-  @media (max-width: 1200px) { 
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 0.8rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 0.7rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 0.6rem;
-  }
-`;
-
-const SubTitle = styled.h2`
-  @media (max-width: 1200px) { 
-    font-size: 1.5rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 1.3rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 1.1rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 0.9rem;
-  }
-`;
-
-const ContentContainer = styled.div`
-  width: 70%;
-  margin: 0 auto;
-`;
-
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ColorPreviewContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2px; 
-  border-radius: 0.8rem;
-  position: relative;
-  box-shadow: 0 0 5px 0 var(--primary-color);
-  width: fit-content;
-  height: fit-content;
-`;
-
-const ColorPreview = styled.div<{ color: string }>`
-  width: 25vw;
-  height: 25vw;
-  max-width: 18rem; 
-  max-height: 18rem;
-  border-radius: 0.8rem;
-  background-color: ${({ color }) => color};
-  transition: background-color 0.3s;
-
-  @media (max-width: 1200px) { 
-    max-width: 16rem; 
-    max-height: 16rem;
-  }
-
-  @media (max-width: 900px) {
-    max-width: 14rem; 
-    max-height: 14rem;
-  }
-
-  @media (max-width: 600px) {
-    max-width: 12rem; 
-    max-height: 12rem;
-  }
-
-  @media (max-width: 400px) {
-    max-width: 10rem; 
-    max-height: 10rem;
-  }
-`;
-
-const FormatsContainer = styled.div`
+const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr; 
-  grid-gap: 70px;
-  justify-content: center;
-  align-items: center;
-  margin: 0.8rem 0;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 12px;
+  width: 640px;
+  margin: 24px auto;
 `;
 
-const FormatButton = styled(Button)`
-  margin-top: 0.5rem;
-  background: none;
-  color: var(--primary-color);
-  border-radius: 1rem;
-  padding: 0.5rem 1rem; 
-  font-size: 1rem;
-  width: auto;
-  white-space: nowrap;
-  
-  .p-button-label {
-    flex: 1;
-  }
-
-  @media (max-width: 1200px) { 
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 0.8rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 0.7rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 0.6rem;
-  }
-
+const InputNumberStyled = styled(InputNumber)`
+  width: 201px;
 `;
 
-const ColorShemaButton = styled(Button)`
-  @media (max-width: 1200px) { 
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 0.8rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 0.7rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 0.6rem;
-  }
+const StyledColorInput = styled(ColorInput)`
+  margin-top: 10px;
 `;
 
-export default ColorsConverter;
+const AddColorButton = styled.button`
+  margin-top: 20px;
+  cursor: pointer;
+`;
