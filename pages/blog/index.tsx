@@ -22,11 +22,10 @@ const BlogList = () => {
     <BaseLayout>
       <BlogContainer>
         <Title>Blog</Title>
+
         {articles.map((article, index) => (
           <ArticleCard key={index}>
-            <Card title={article.title}>
-              <Button label="Read More" icon="pi pi-arrow-right" onClick={() => goToArticle(article.link)} />
-            </Card>
+            <h2>{article.title}</h2>
           </ArticleCard>
         ))}
       </BlogContainer>

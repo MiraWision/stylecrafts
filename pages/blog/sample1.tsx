@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from 'primereact/card';
 import { BaseLayout } from '@/layouts/base-layout';
 import ReactMarkdown from 'react-markdown';
 
@@ -25,9 +24,8 @@ const SampleArticle1 = () => {
     <BaseLayout>
       <ArticleContainer>
         <Title>Sample Article 1</Title>
-        <Card>
-          <ReactMarkdown className="markdown-body">{markdownContent}</ReactMarkdown>
-        </Card>
+
+        <ReactMarkdown className='markdown-body'>{markdownContent}</ReactMarkdown>
       </ArticleContainer>
     </BaseLayout>
   );
