@@ -2,12 +2,13 @@ import { useState, useRef } from 'react';
 import styled from 'styled-components';
 
 import { BaseLayout } from '@/layouts/base-layout';
-import { ImageInput } from '@/components/common/image-input';
+import { ImageInput } from '@/components/ui/inputs/image-input';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 
 const ImageToBase64 = () => {
   const [image, setImage] = useState<string | null>(null);
+  const [showButtons, setShowButtons] = useState(false);
   const toast = useRef<Toast>(null);
 
   const copyToClipboard = (content: string, message: string) => {
@@ -27,16 +28,21 @@ const ImageToBase64 = () => {
       <ContentContainer>
         <SingleColumnContainer>
           <ImageInput 
-          width='50%'
-          value={image} 
-          onChange={setImage} 
-        />
-          <OutputContainer>{image}</OutputContainer>
-          <ButtonsContainer>
-            <FormatButton icon="pi pi-copy" onClick={copyBase64} disabled={!image}>Copy base64</FormatButton>
-            <FormatButton icon="pi pi-copy" onClick={copyHTMLImage} disabled={!image}>Copy to HTML</FormatButton>
-            <FormatButton icon="pi pi-copy" onClick={copyCSSImage} disabled={!image}>Copy to CSS</FormatButton>
-          </ButtonsContainer>
+            width='50%'
+            value={image} 
+            onChange={setImage} 
+          />
+          <OutputContainer 
+            onMouseEnter={() => setShowButtons(true)}
+            onMouseLeave={() => setShowButtons(false)}
+          >
+            <ButtonsContainer show={showButtons && !!image}>
+              <FormatButton icon="pi pi-copy" onClick={copyBase64} disabled={!image}>Copy base64</FormatButton>
+              <FormatButton icon="pi pi-copy" onClick={copyHTMLImage} disabled={!image}>Copy to HTML</FormatButton>
+              <FormatButton icon="pi pi-copy" onClick={copyCSSImage} disabled={!image}>Copy to CSS</FormatButton>
+            </ButtonsContainer>
+            {image}
+          </OutputContainer>
         </SingleColumnContainer>
       </ContentContainer>   
     </BaseLayout>
@@ -62,24 +68,33 @@ const SingleColumnContainer = styled.div`
   gap: 1rem;
 `;
 
+const ButtonsContainer = styled.div<{ show: boolean }>`
+  display: ${({ show }) => (show ? 'flex' : 'none')};
+  gap: 0.8rem;
+  position: absolute;
+  right: 0.8rem;
+  top: 0.5rem;
+  z-index: 10;
+  opacity: ${({ show }) => (show ? 1 : 0)};
+  transition: opacity 0.3s ease-in-out;
+`;
+
 const OutputContainer = styled.div`
   padding: 10px;
   border: 1px solid var(--primary-color);
   border-radius: 5px;
-  width: 55%;
+  width: 50%;
   max-height: 200px;
   overflow-y: auto;
   word-wrap: break-word;
-`;
-
-const ButtonsContainer = styled.div`
-  display: flex;
-  gap: 10px;
+  position: relative;
+  z-index: 1;
 `;
 
 const FormatButton = styled(Button)`
-  background: none;
-  color: var(--primary-color);
+  width: 7.2rem;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.2rem;
 
   .p-button-label {
     padding: 0.5rem;
@@ -87,5 +102,6 @@ const FormatButton = styled(Button)`
 
   .pi {
     margin-right: 0.5rem;
+    font-size: 0.8rem;
   }
 `;

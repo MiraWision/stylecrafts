@@ -1,163 +1,79 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-
-import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
-import { BaseLayout } from '@/layouts/base-layout';
-import { Header1, Header2 } from '@/components/templates/headers-template';
-import { NPMLink } from '@/components/common/npm-link';
-import { ColorInput } from '@/components/common/color-input';
 import { Label } from '@/components/common/label';
-import { ColorsOutput } from '@/components/common/colors-output';
-import { generateSteppedGradient, generateMultiSteppedGradient } from '@mirawision/colorize';
+import { Toast } from 'primereact/toast';
+import { NPMLink } from '@/components/common/npm-link';
+import { BaseLayout } from '@/layouts/base-layout';
+import { convertColor, ColorFormat } from '@mirawision/colorize';
+import { ColorInput } from '@/components/ui/inputs/color-input';
+import { CopyButton } from '@/components/ui/buttons/copy-button';
 
-const Colors = [
-  '#FF5733',
-  '#3498DB',
-  '#8E44AD',
-  '#16A085',
-  '#F1C40F',
-  '#E74C3C',
-  '#2ECC71',
-  '#D35400',
-  '#7F8C8D',
-  '#2980B9',
-];
+type ConvertedColors = {
+  [key in ColorFormat]?: string;
+}
 
-const getRandomElements = (arr: any[], count: number) => {
-  let shuffled = arr.slice();
+const ColorsConverter = () => {
+  const [color, setColor] = useState('');
+  const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
+  const toast = useRef<Toast>(null);
 
-  for (let i = 0; i < count; i++) {
-    let j = i + Math.floor(Math.random() * (shuffled.length - i));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-
-  return shuffled.slice(0, count);
-};
-
-const [firstColor, secondColor] = getRandomElements(Colors, 2);
-
-const ColorsMixer = () => {
-  const [color1, setColor1] = useState<string>(firstColor);
-  const [color2, setColor2] = useState<string>(secondColor);
-  const [steps, setSteps] = useState<number>(5);
-  const [intermediateColors, setIntermediateColors] = useState<string[]>([]);
-  const [intermediateMultiColors, setIntermediateMultiColors] = useState<string[]>([]);
-  
-  useEffect(() => {
-    try {
-      const newColors = generateSteppedGradient(color1, color2, steps);
-      setIntermediateColors(newColors);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [color1, color2, steps]); 
-
-  const onChangeSteps = ({ value }: InputNumberChangeEvent) => {
-    if (!value) {
-      return;
-    }
-
-    if (value < 1) {
-      value = 1;
-    } else if (value > 25) {
-      value = 25;
-    }
-
-    setSteps(value);
+  const generateRandomColor = () => {
+    return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0');
   };
 
-  const [colorSteps, setColorSteps] = useState<Array<{ color: string; steps: number }>>([
-    { color: '#3498DB', steps: 3 },
-    { color: '#8E44AD', steps: 4 },
-  ]);
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      toast.current?.show({ severity: 'success', summary: 'Copied', detail: 'Color copied to clipboard' });
+    }).catch(error => console.error('Clipboard write failed', error));
+  };
 
   useEffect(() => {
-    try {
-      const gradientArgs = colorSteps.flatMap(({ color, steps }, index) => 
-        index < colorSteps.length - 1 ? [color, steps] : [color]
-      );
-      const newColors = generateMultiSteppedGradient(...gradientArgs);
-      setIntermediateMultiColors(newColors);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [colorSteps]);
+    setColor(generateRandomColor());
+  }, []);
 
-  const addColorStep = () => {
-    setColorSteps([...colorSteps, { color: '#FFFFFF', steps: 2 }]);
-  };
-
-  const updateColor = (index: number, newColor: string) => {
-    const newColorSteps = [...colorSteps];
-    newColorSteps[index]. color = newColor;
-    setColorSteps(newColorSteps);
-  };
-
-  const updateSteps = (index: number, newSteps: number) => {
-    const newColorSteps = [...colorSteps];
-    newColorSteps[index].steps = newSteps;
-    setColorSteps(newColorSteps);
-  };
+  useEffect(() => {
+    const newConvertedColors: ConvertedColors = {};
+    Object.values(ColorFormat).forEach((format) => {
+      try {
+        newConvertedColors[format] = convertColor(color, format);
+      } catch (error) {
+        console.error('Error converting color:', error);
+        newConvertedColors[format] = '';
+      }
+    });
+    setConvertedColors(newConvertedColors);
+  }, [color]);
 
   return (
     <BaseLayout>
-      <Header1 centered>Colors Mixer</Header1>
-      <Header2 centered>Select 2 Colors and get Intermediate Colors between them</Header2>
-
-      <Grid>
-        <div>
-          <Label>Color 1</Label>
-          <StyledColorInput value={color1} onChange={setColor1} />
-
-          <Label>Color 2</Label>
-          <StyledColorInput value={color2} onChange={setColor2} />
-
-          <Label>Number of Intermediate Colors (1 - 25)</Label>
-          <InputNumberStyled 
-            value={steps} 
-            onChange={onChangeSteps} 
-            showButtons
-            min={1}
-            max={25}  
+      <Toast ref={toast} />
+      <Title>Color Converter</Title>
+      <ContentContainer>
+        <ColorPickerContainer>
+          <SubTitle>Enter color</SubTitle>
+          <ColorInput
+            value={color}
+            onChange={(newColor) => setColor(newColor)}
           />
-        </div>
+          <ColorPreviewContainer>
+            <ColorPreview color={color} />
+          </ColorPreviewContainer>
+        </ColorPickerContainer>
+        <FormatsContainer>
+          <FlexContainer>
+          {Object.values(ColorFormat).map((format) => (
+            <ResultColorContainer key={format}>
+            
+              <Label fontSize="0.9rem" >{format}</Label>
+              <Label fontSize="0.9rem" color="var(--primary-color)" >{convertedColors[format]}</Label>
+              <CopyButton text={convertedColors[format] || ''} />
+                
+            </ResultColorContainer>
+            ))}
+          </FlexContainer>
+        </FormatsContainer>
+      </ContentContainer>
 
-        <ColorsOutput colors={intermediateColors} />
-      </Grid>
-
-      <Header1 centered>Gradient Mixer</Header1>
-      <Header2 centered>Create a Multi-Stepped Gradient</Header2>
-
-      <Grid>
-        <div>
-          {colorSteps.map((item, index) => (
-            <div key={index}>
-              <Label>{`Color ${index + 1}`}</Label>
-              <ColorInput
-                value={item.color}
-                onChange={(newColor) => updateColor(index, newColor)}
-              />
-
-              {index < colorSteps.length - 1 && (
-                <>
-                  <Label>{`Steps to Color ${index + 2}`}</Label>
-                  <InputNumberStyled 
-                    value={item.steps} 
-                    onChange={(e) => updateSteps(index, e.value || 0)}
-                    showButtons
-                    min={1}
-                    max={25}
-                  />
-                </>
-              )}
-            </div>
-          ))}
-          <AddColorButton onClick={addColorStep}>+ Add Color</AddColorButton>
-        </div>
-
-        <ColorsOutput colors={intermediateMultiColors} />
-      </Grid>
-      
       <NPMLink 
         text='Need to have color tools like these in you app? Feel free to use our NPM package'
         packageName='@mirawision/colorize'
@@ -166,25 +82,124 @@ const ColorsMixer = () => {
   );
 };
 
-export default ColorsMixer;
+export default ColorsConverter;
 
-const Grid = styled.div`
+const Title = styled.h1`
+  text-align: center;
+
+  @media (max-width: 1200px) { 
+    font-size: 1.8rem;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 1.4rem;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 1.2rem;
+  }
+`;
+
+const ColorPickerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const SubTitle = styled.h2`
+  @media (max-width: 1200px) { 
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 0.9rem;
+  }
+`;
+
+const ContentContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 12px;
-  width: 640px;
-  margin: 24px auto;
+  gap: 2rem;
+  width: 70%;
+  margin: 0 auto;
+  padding-bottom: 10rem;
 `;
 
-const InputNumberStyled = styled(InputNumber)`
-  width: 201px;
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
 `;
 
-const StyledColorInput = styled(ColorInput)`
-  margin-top: 10px;
+const ColorPreviewContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px; 
+  border-radius: 0.8rem;
+  position: relative;
+  box-shadow: 0 0 5px 0 var(--primary-color);
+  width: fit-content;
+  height: fit-content;
+  margin-top: 2rem;
 `;
 
-const AddColorButton = styled.button`
-  margin-top: 20px;
-  cursor: pointer;
+const ColorPreview = styled.div<{ color: string }>`
+  width: 25vw;
+  height: 25vw;
+  max-width: 18rem; 
+  max-height: 18rem;
+  border-radius: 0.8rem;
+  background-color: ${({ color }) => color};
+  transition: background-color 0.3s;
+
+  @media (max-width: 1200px) { 
+    max-width: 16rem; 
+    max-height: 16rem;
+  }
+
+  @media (max-width: 900px) {
+    max-width: 14rem; 
+    max-height: 14rem;
+  }
+
+  @media (max-width: 600px) {
+    max-width: 12rem; 
+    max-height: 12rem;
+  }
+
+  @media (max-width: 400px) {
+    max-width: 10rem; 
+    max-height: 10rem;
+  }
+`;
+
+const FormatsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4rem;
+`;
+
+const ResultColorContainer = styled.div`
+  display: grid;
+  grid-template-columns: 3rem 13rem 0.5rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
 `;

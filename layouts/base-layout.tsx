@@ -7,8 +7,8 @@ import 'primeicons/primeicons.css';
 import { Logo } from '@/components/common/logo';
 import { MenuList } from '@/components/menu/menu-list';
 
-import { DarkModeButton } from '@/components/common/dark-mode-button';
-import { SelectTheme } from '@/components/common/theme-selector-button';
+import { DarkModeButton } from '@/components/ui/buttons/dark-mode-button';
+import { SelectTheme } from '@/components/ui/buttons/theme-selector-button';
 import useLocalStorage from '@/hooks/useLocalStorage/useLocalStorage';
 import themeStorageHandler from '@/hooks/useLocalStorage/theme-handler';
 

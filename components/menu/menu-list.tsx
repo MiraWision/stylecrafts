@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'
-import { SparklesIcon } from '../icons/sparcles';
+import { SparklesIcon } from '../ui/icons/sparcles';
 
 interface Props {
 }
@@ -16,14 +16,14 @@ const MenuItems = [
         url: '/colors-converter',
       },
       {
-        name: 'Colors Mixer',
-        url: '/colors-mixer',
+        name: 'Colors Gradient',
+        url: '/colors-gradient',
       },
-      {
-        name: 'Colors Palette',
-        url: '/colors-palette',
-        isAI: true,
-      },
+      // {
+      //   name: 'Colors Palette',
+      //   url: '/colors-palette',
+      //   isAI: true,
+      // },
     ],
   },
   {
@@ -56,9 +56,9 @@ const MenuList: React.FC<Props> = ({}) => {
               active={item.url === pathname}
             >
               {item.name}
-              {item.isAI && (
+              {/* {item.isAI && (
                 <SparklesIcon />
-              )}
+              )} */}
             </MenuItem>
           ))}
         </React.Fragment>

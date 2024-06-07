@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { StarIcon } from '../icons/star';
+import { StarIcon } from '../ui/icons/star';
 
 
 interface Props {

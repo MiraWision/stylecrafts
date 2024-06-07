@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CopyButton } from './copy-button';
+import { CopyButton } from '../buttons/copy-button';
 
 interface Props {
   colors: string[];
