@@ -63,6 +63,7 @@ const Container = styled.div`
 
 const Sidebar = styled.div<{ isOpen: boolean }>`
   min-height: 600px;
+  height: 100vh;
   padding: 24px;
   display: flex;
   flex-direction: column;

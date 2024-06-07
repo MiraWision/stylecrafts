@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Card } from 'primereact/card';
 import { BaseLayout } from '@/layouts/base-layout';
 import ReactMarkdown from 'react-markdown';
+
 import 'primeflex/primeflex.css';
 
 const markdownContent = `
@@ -38,6 +39,7 @@ const ArticleContainer = styled.div`
   width: 70%;
   margin: 0 auto;
   padding: 20px;
+
   .markdown-body {
     font-family: var(--font-family);
     color: var(--text-color-secondary);

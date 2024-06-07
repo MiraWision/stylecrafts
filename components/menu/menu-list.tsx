@@ -63,11 +63,11 @@ const MenuList: React.FC<Props> = ({}) => {
           ))}
         </React.Fragment>
       ))}
-      <ButtonContainer>
-        <Link href="/blog" passHref>
-          <StyledButton label="Blog" icon="pi pi-book" />
-        </Link>
-      </ButtonContainer>
+      <BlogContainer>
+        <GroupLink href='/blog' passHref>
+          Blog
+        </GroupLink>
+      </BlogContainer>
     </Container>
   );
 }
@@ -83,6 +83,20 @@ const GroupName = styled.div`
   font-weight: 600;
   letter-spacing: 1px;
   color: var(--surface-900);
+`;
+
+const GroupLink = styled(Link)`
+  padding: 8px 8px 8px 0;
+  margin: 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--surface-900);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const MenuItem = styled(Link)<{ active: boolean }>`
@@ -114,16 +128,13 @@ const MenuItem = styled(Link)<{ active: boolean }>`
   }
 `;
 
-const ButtonContainer = styled.div`
+const BlogContainer = styled.div`
   margin-top: 16px;
   display: flex;
   justify-content: center;
-`;
-
-const StyledButton = styled(Button)`
-  width: 100%;
-  justify-content: center;
-  padding: 0.5rem;
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
 `;
 
 export { MenuList };

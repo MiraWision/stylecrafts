@@ -6,9 +6,9 @@ import { Button } from 'primereact/button';
 import { BaseLayout } from '@/layouts/base-layout';
 
 const articles = [
-  { title: 'Sample Article 1', link: '/blogs/sample1' },
-  { title: 'Sample Article 2', link: '/blogs/sample2' },
-  { title: 'Sample Article 3', link: '/blogs/sample3' },
+  { title: 'Sample Article 1', link: '/blog/sample1' },
+  { title: 'Sample Article 2', link: '/blog/sample2' },
+  { title: 'Sample Article 3', link: '/blog/sample3' },
 ];
 
 const BlogList = () => {
