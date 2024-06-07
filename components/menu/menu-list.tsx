@@ -37,6 +37,10 @@ const MenuItems = [
         name: 'Base64 to Image',
         url: '/base64-to-image',
       },
+      {
+        name: 'Image Resizer',
+        url: '/image-resizer',
+      },
     ],
   },
 ];
