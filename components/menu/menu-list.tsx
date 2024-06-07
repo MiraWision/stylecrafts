@@ -1,11 +1,11 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation';
+import { Button } from 'primereact/button';
 import { SparklesIcon } from '../ui/icons/sparcles';
 
-interface Props {
-}
+interface Props {}
 
 const MenuItems = [
   {
@@ -63,6 +63,11 @@ const MenuList: React.FC<Props> = ({}) => {
           ))}
         </React.Fragment>
       ))}
+      <ButtonContainer>
+        <Link href="/blog" passHref>
+          <StyledButton label="Blog" icon="pi pi-book" />
+        </Link>
+      </ButtonContainer>
     </Container>
   );
 }
@@ -107,6 +112,18 @@ const MenuItem = styled(Link)<{ active: boolean }>`
   div {
     margin-left: 4px;
   }
+`;
+
+const ButtonContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledButton = styled(Button)`
+  width: 100%;
+  justify-content: center;
+  padding: 0.5rem;
 `;
 
 export { MenuList };

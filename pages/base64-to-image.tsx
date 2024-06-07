@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { BaseLayout } from '@/layouts/base-layout';
-import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
+import ImageWithDownload from '@/components/ui/inputs/image-output';
 
 const Base64ToImage = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -24,7 +24,7 @@ const Base64ToImage = () => {
     if (base64Str.endsWith("==")) padding = 2;
     else if (base64Str.endsWith("=")) padding = 1;
     else padding = 0;
-  
+
     base64StringLength = base64Str.length;
     inBytes = (base64StringLength / 4) * 3 - padding;
     return inBytes;
@@ -44,7 +44,7 @@ const Base64ToImage = () => {
   const handleImageInputChange = (value: string | null) => {
     if (value !== null) {
       setBase64Text(value);
-      setImage(value); 
+      setImage(value);
     }
   };
 
@@ -54,15 +54,10 @@ const Base64ToImage = () => {
       <ContentContainer>
         <SingleColumnContainer>
           <StyledInputText placeholder="Paste Base64 here..." value={base64Text} onChange={(e) => handleImageInputChange(e.target.value)} />
-            {image && 
-              <ImageContainer>
-                <StyledImage src={image} alt="Uploaded Image" />
-              </ImageContainer>
-            }
-             {imageSize && <ImageSizeText>Image Size: {(imageSize / 1024).toFixed(2)} KB</ImageSizeText>}
-          <ButtonsContainer>
-            <FormatButton icon="pi pi-download" onClick={handleDownloadImage} disabled={!image}>Download Image</FormatButton>
-          </ButtonsContainer>
+          {image && 
+            <ImageWithDownload image={image} onDownload={handleDownloadImage} />
+          }
+          {imageSize && <ImageSizeText>Image Size: {(imageSize / 1024).toFixed(2)} KB</ImageSizeText>}
         </SingleColumnContainer>
       </ContentContainer>
       <Toast ref={toast} position="top-right" />
@@ -87,13 +82,6 @@ const SingleColumnContainer = styled.div`
   gap: 1rem;
 `;
 
-const ImageContainer = styled.div`
-  margin-top: 20px;
-  width: 50%;
-  display: flex;
-  justify-content: center;
-`;
-
 const ImageSizeText = styled.div`
   font-size: 1rem;
   margin-top: 1rem;
@@ -101,35 +89,9 @@ const ImageSizeText = styled.div`
 `;
 
 const StyledInputText = styled(InputTextarea)`
-  min-width: 300px;
-  max-width: 400px;
+  width: 50%;
   min-height: 100px;
-  max-height: 600px;
-`;
-
-const StyledImage = styled.img`
-  max-width: 100%; 
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
-
-const ButtonsContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const FormatButton = styled(Button)`
-  background: none;
-  color: var(--primary-color);
-
-  .p-button-label {
-    padding: 0.5rem;
-  }
-
-  .pi {
-    margin-right: 0.5rem;
-  }
+  max-height: 300px;
 `;
 
 export default Base64ToImage;
