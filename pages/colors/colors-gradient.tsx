@@ -7,7 +7,7 @@ import { Header1, Header2 } from '@/components/templates/headers-template';
 import { NPMLink } from '@/components/common/npm-link';
 import { ColorInput } from '@/components/ui/inputs/color-input';
 import { Label } from '@/components/common/label';
-import { ColorsOutput } from '@/components/ui/inputs/colors-output';
+import { ColorsOutput } from '@/components/ui/outputs/colors-output';
 import { generateMultiSteppedGradient } from '@mirawision/colorize';
 
 const Colors = [

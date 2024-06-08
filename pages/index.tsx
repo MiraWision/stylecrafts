@@ -7,7 +7,7 @@ const Home = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/colors-converter');
+    router.push('/colors/colors-converter');
   }, [router]);
 
   return (

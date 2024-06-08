@@ -6,9 +6,11 @@ import { Button } from 'primereact/button';
 
 interface Props {
   text: string;
+  color?: string;
+  border?: boolean;
 }
 
-const CopyButton: React.FC<Props> = ({ text }) => {
+const CopyButton: React.FC<Props> = ({ text, color = 'var(--primary-color)', border = false }) => {
   const [icon, setIcon] = useState('pi pi-copy');
 
   const toast = useRef<Toast>(null);
@@ -31,18 +33,25 @@ const CopyButton: React.FC<Props> = ({ text }) => {
   return (
     <div>
       <Toast ref={toast} />
-      <ButtonSmall icon={icon} onClick={copyToClipboard} text />
+      <ButtonSmall border={border} color={color} icon={icon} onClick={copyToClipboard} />
     </div>
   );
 };
 
-const ButtonSmall = styled(Button)`
-  border-radius: 4px;
-  height: 30px;
-  width: 30px;
-  
+const ButtonSmall = styled(Button)<{ border: boolean; color: string }>`
+  border-radius: 0.4rem;
+  height: 2rem;
+  width: 2rem;
+  border: ${({ border, color }) => (border ? `1px solid ${color}` : 'none')};
+  color: ${({ color }) => color};
+  background: none;
+
   &:focus {
     box-shadow: none;
+  }
+
+  .pi {
+    color: ${({ color }) => color};
   }
 `;
 
