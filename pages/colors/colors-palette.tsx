@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Button } from 'primereact/button';
 import { BaseLayout } from '@/layouts/base-layout';
 import { ImageInput } from '@/components/ui/inputs/image-input';
-import { ColorsOutput } from '@/components/ui/inputs/colors-output';
+import { ColorsOutput } from '@/components/ui/outputs/colors-output';
 
 const ColorsConverter = () => {
   const [image, setImage] = useState<string | null>(null);

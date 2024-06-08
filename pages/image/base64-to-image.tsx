@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BaseLayout } from '@/layouts/base-layout';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
-import ImageWithDownload from '@/components/ui/inputs/image-output';
+import ImageWithDownload from '@/components/ui/outputs/image-output';
 
 const Base64ToImage = () => {
   const [image, setImage] = useState<string | null>(null);

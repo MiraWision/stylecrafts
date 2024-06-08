@@ -13,11 +13,15 @@ const MenuItems = [
     items: [
       {
         name: 'Colors Converter',
-        url: '/colors-converter',
+        url: '/colors/colors-converter',
       },
       {
         name: 'Colors Gradient',
-        url: '/colors-gradient',
+        url: '/colors/colors-gradient',
+      },
+      {
+        name: 'Colors Blender',
+        url: '/colors/colors-blender',
       },
       // {
       //   name: 'Colors Palette',
@@ -31,15 +35,24 @@ const MenuItems = [
     items: [
       {
         name: 'Image to Base64',
-        url: '/image-to-base64',
+        url: '/image/image-to-base64',
       },
       {
         name: 'Base64 to Image',
-        url: '/base64-to-image',
+        url: '/image/base64-to-image',
       },
       {
         name: 'Image Resizer',
-        url: '/image-resizer',
+        url: '/image/image-resizer',
+      },
+    ],
+  },
+  {
+    name: 'Games',
+    items: [
+      {
+        name: 'Color Mixer',
+        url: '/games/color-mixer',
       },
     ],
   },
