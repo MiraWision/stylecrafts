@@ -1,32 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
-import { BaseLayout } from '@/layouts/base-layout';
 
-const articles = [
-  { title: 'Sample Article 1', link: '/blog/sample1' },
-  { title: 'Sample Article 2', link: '/blog/sample2' },
-  { title: 'Sample Article 3', link: '/blog/sample3' },
-];
+import { BaseLayout } from '@/layouts/base-layout';
+import { blogPosts } from '@/content/blog-posts';
+import { convertDateToUSFormat } from '@/utils/date';
+import Link from 'next/link';
+
 
 const BlogList = () => {
-  const router = useRouter();
-
-  const goToArticle = (link: string) => {
-    router.push(link);
-  };
-
   return (
     <BaseLayout>
       <BlogContainer>
         <Title>Blog</Title>
 
-        {articles.map((article, index) => (
-          <ArticleCard key={index}>
-            <h2>{article.title}</h2>
-          </ArticleCard>
+        {blogPosts.map((post) => (
+          <PostCard key={post.url}>
+            <h2>
+              <Link href={`/blog/${post.url}`}>
+                {post.title}
+              </Link>
+            </h2>
+            <h3>{post.subtitle}</h3>
+            <p>Published on {convertDateToUSFormat(post.createdAt)} · {post.minutesToRead} min read</p>
+          </PostCard>
         ))}
       </BlogContainer>
     </BaseLayout>
@@ -36,20 +32,45 @@ const BlogList = () => {
 export default BlogList;
 
 const BlogContainer = styled.div`
-  width: 70%;
+  width: 840px;
   margin: 0 auto;
-  padding: 20px;
 `;
 
 const Title = styled.h1`
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 48px;
+  font-weight: 500;
 `;
 
-const ArticleCard = styled.div`
-  margin-bottom: 20px;
+const PostCard = styled.div`
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--surface-border);
+    margin-bottom: 12px;
+  }
 
-  .p-card {
-    margin-bottom: 0;
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 12px 0 12px;
+
+    a {
+      color: var(--text-color);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  h3 {
+    font-weight: 400;
+    font-size: 18px;
+    margin: 6px 0;
+    font-style: italic;
+  }
+
+  p {
+    font-size: 14px;
   }
 `;
