@@ -118,7 +118,7 @@ const GroupLink = styled(Link)`
 
 const MenuItem = styled(Link)<{ active: boolean }>`
   border-left: 1px solid var(--surface-border);
-  font-weight: 450;
+  font-weight: 500;
   display: flex;
   padding: 8px 8px 8px 16px;
   color: var(--surface-700);
