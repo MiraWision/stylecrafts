@@ -31,10 +31,10 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
       {!isSidebarOpen && (
         <StyledButton
           isOpen={isSidebarOpen}
-          icon='pi pi-bars'
+          icon="pi pi-bars"
           onClick={toggleSidebar}
-          className='p-button-rounded p-button-text'
-          aria-label='Toggle Menu'
+          className="p-button-rounded p-button-text"
+          aria-label="Toggle Menu"
         />
       )}
       <Sidebar isOpen={isSidebarOpen}>
@@ -49,25 +49,23 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
       </Content>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   width: 100vw;
-  display: grid;
-  grid-template-columns: 240px calc(100vw - 240px);
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
+  display: flex;
 `;
 
 const Sidebar = styled.div<{ isOpen: boolean }>`
-  min-height: 600px;
+  width: 240px;
   height: 100vh;
   padding: 24px;
   display: flex;
   flex-direction: column;
-  position: relative; 
+  position: fixed; 
+  left: 0;
+  top: 0;
+  background-color: var(--highlight-bg);
 
   &::after {
     content: '';
@@ -76,18 +74,13 @@ const Sidebar = styled.div<{ isOpen: boolean }>`
     right: -1px; 
     height: 100%;
     width: 1px; 
-    background: linear-gradient(to bottom, rgba(196, 36, 211, 0.5) 0%, rgba(169, 37, 37, 0.3) 70%, rgba(0, 0, 0, 0.0) 100%);
+    background: linear-gradient(to bottom, var(--primary-color) 70%, transparent 100%);
     z-index: 10;
   }
 
   @media (max-width: 768px) {
     transition: transform 0.3s ease-in-out;
     transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
-    position: fixed;
-    height: 100%;
-    width: 240px;
-    left: 0;
-    top: 0;
     z-index: 20;
   }
 `;
@@ -98,8 +91,8 @@ const StyledButton = styled(Button)<{ isOpen: boolean }>`
     border: none !important;
     color: inherit;
     position: fixed;
-    top: 20px;
-    left: 20px;
+    top: 1.75rem;
+    left: 1.75rem;
     z-index: 30;
     display: none; 
 
@@ -125,9 +118,10 @@ const Overlay = styled.div<{ isOpen: boolean }>`
 `;
 
 const Content = styled.div<{ isOpen: boolean }>`
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
+  flex-grow: 1;
+  padding: 1.5rem;
+  margin-left: 15rem;
+  transition: margin-left 0.3s ease-in-out;
 
   @media (max-width: 768px) {
     margin-left: 0;

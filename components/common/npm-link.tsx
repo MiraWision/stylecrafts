@@ -15,7 +15,7 @@ const NPMLink: React.FC<Props> = ({ text, packageName }) => {
         href={`https://www.npmjs.com/package/${packageName}`}
         target='_blank'
       >
-        <Logo src='icons/npm.svg' alt='NPM logo' />
+        <Logo src='../icons/npm.svg' alt='NPM logo' />
         {packageName}
       </Link>
     </Container>
