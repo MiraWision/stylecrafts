@@ -30,6 +30,7 @@ const Container = styled.div`
 
   h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
+    font-weight: 500;
   }
 
   h1 {
@@ -70,13 +71,14 @@ const Container = styled.div`
   }
 
   blockquote {
-    border: 1px solid var(--primary-color)ч;
+    border: 1px solid var(--primary-color);
     border-radius: 12px;
     padding: 8px 16px;
     margin: 0;
 
     p {
       margin: 0;
+      font-style: italic;
     }
   }
 `;

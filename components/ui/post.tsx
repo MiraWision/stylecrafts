@@ -11,6 +11,7 @@ const PostTitle = styled.h1`
   line-height: 1.6;
   color: var(--text-color);
   margin: 1rem 0;
+  font-weight: 500;
 `;
 
 const PostSubtitle = styled.h2`

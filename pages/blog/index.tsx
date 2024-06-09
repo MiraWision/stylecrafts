@@ -30,7 +30,7 @@ const BlogPage = () => {
 };
 
 const BlogContainer = styled.div`
-  width: 840px;
+  width: 700px;
   margin: 0 auto;
 `;
 

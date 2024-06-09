@@ -4,7 +4,7 @@ Understanding color theory is fundamental for creating visually appealing and ef
 **Image Placeholder 1**: Display a color wheel showing primary, secondary, and tertiary colors.  
 - **Caption**: "The color wheel: a foundational tool in understanding color relationships."
 
-## 1. The Basics of Color Theory
+## The Basics of Color Theory
 Color theory is a framework that designers use to understand how colors interact and how they can be combined to create aesthetically pleasing designs. The fundamental elements include the color wheel, color harmonies, and color contexts.
 
 - **Primary Colors**: Red, blue, and yellow – these colors cannot be created by mixing other colors.
@@ -14,7 +14,7 @@ Color theory is a framework that designers use to understand how colors interact
 **Image Placeholder 2**: Display examples of color harmonies like complementary, analogous, and triadic colors.  
 - **Caption**: "Examples of color harmonies: complementary, analogous, and triadic."
 
-## 2. Applying Color Harmonies in Digital Design
+## Applying Color Harmonies in Digital Design
 Color harmonies are combinations of colors that are pleasing to the eye. They are used to create a balanced and harmonious design. Some popular harmonies include:
 
 - **Complementary Colors**: Opposite each other on the color wheel (e.g., blue and orange). They provide high contrast and vibrant look.
@@ -24,7 +24,7 @@ Color harmonies are combinations of colors that are pleasing to the eye. They ar
 **Image Placeholder 3**: Show a website design example using complementary colors and another using analogous colors.  
 - **Caption**: "Design examples: Complementary colors vs. Analogous colors in action."
 
-## 3. Understanding Color Context and Interaction
+## Understanding Color Context and Interaction
 How colors appear can change based on their context and the colors around them. Understanding this interaction is crucial for making design decisions that are both functional and visually appealing.
 
 - **Simultaneous Contrast**: How two colors affect each other when placed side by side. For example, a grey color will look lighter next to black and darker next to white.
@@ -33,7 +33,7 @@ How colors appear can change based on their context and the colors around them. 
 **Image Placeholder 4**: Display a grid showing how the same color appears different when placed against different backgrounds.  
 - **Caption**: "The effect of simultaneous contrast: The same color can appear different depending on its background."
 
-## 4. Tools to Help You Apply Color Theory
+## Tools to Help You Apply Color Theory
 Using the right tools can simplify the application of color theory in your projects. Our platform offers several utilities to help you with this:
 
 - **Color Converter**: Convert colors between different formats (Hex, RGB, HSL) to suit your design needs.
