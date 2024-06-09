@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { blogPosts } from '@/content/blog-posts';
