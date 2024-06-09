@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Label } from '@/components/common/label';
+import { Label } from '@/components/ui/label';
 import { Toast } from 'primereact/toast';
-import { NPMLink } from '@/components/common/npm-link';
+import { NPMLink } from '@/components/ui/npm-link';
 import { BaseLayout } from '@/layouts/base-layout';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
 import { ColorInput } from '@/components/ui/inputs/color-input';

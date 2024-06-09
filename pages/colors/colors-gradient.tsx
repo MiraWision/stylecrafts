@@ -4,9 +4,9 @@ import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
 import { BaseLayout } from '@/layouts/base-layout';
 import { Header1, Header2 } from '@/components/templates/headers-template';
-import { NPMLink } from '@/components/common/npm-link';
+import { NPMLink } from '@/components/ui/npm-link';
 import { ColorInput } from '@/components/ui/inputs/color-input';
-import { Label } from '@/components/common/label';
+import { Label } from '@/components/ui/label';
 import { ColorsOutput } from '@/components/ui/outputs/colors-output';
 import { generateMultiSteppedGradient } from '@mirawision/colorize';
 

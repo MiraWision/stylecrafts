@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
-import { Logo } from '@/components/common/logo';
+import { Logo } from '@/components/ui/logo';
 import { MenuList } from '@/components/menu/menu-list';
 
 import { DarkModeButton } from '@/components/ui/buttons/dark-mode-button';
