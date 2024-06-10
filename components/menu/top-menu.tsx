@@ -1,6 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Button } from 'primereact/button';
 
 interface TopBarItemProps {
   name: string;
@@ -29,13 +31,19 @@ const items: TopBarItemProps[] = [
 ];
 
 const TopBarMenu: React.FC = () => {
+  const router = useRouter();
+
+  const handleButtonClick = (url: string) => {
+    router.push(url);
+  };
+
   return (
     <MenuContainer>
       {items.map((item, index) => (
         item.isButton ? (
-          <TopBarButton key={index} href={item.url}>
+          <StyledPrimeButton key={index} onClick={() => handleButtonClick(item.url)}>
             {item.name}
-          </TopBarButton>
+          </StyledPrimeButton>
         ) : (
           <TopBarItem key={index} href={item.url}>
             {item.name}
@@ -65,18 +73,11 @@ const TopBarItem = styled(Link)`
   }
 `;
 
-const TopBarButton = styled(Link)`
-  text-decoration: none;
+const StyledPrimeButton = styled(Button)`
   font-size: 1rem;
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  background-color: var(--primary-color);
-  color: var(--primary-color-text);
-  
-  &:hover {
-    background-color: var(--text-color-secondary);
-  }
 `;
 
 export { TopBarMenu };

@@ -4,11 +4,11 @@ import styled from 'styled-components';
 const LandingLogo: React.FC = () => {
   return (
     <LogoContainer>
-      <LogoText gradient='to bottom right, var(--pink-400), var(--primary-color)'>
+      <LogoText gradient='to top, #ff4e50, #ff70a6, #00aaff'>
         CSS Craft
       </LogoText>
       <Divider />
-      <LogoText gradient='to bottom right, var(--pink-400), var(--primary-color)'>
+      <LogoText gradient='to top, #ff4e50, #ff70a6, #00aaff'>
         @mirawision
       </LogoText>
     </LogoContainer>

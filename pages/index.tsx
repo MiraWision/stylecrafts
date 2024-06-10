@@ -1,45 +1,104 @@
-import { useState, useRef } from 'react';
-import styled from 'styled-components';
+import React, { useRef } from 'react';
+import styled, { keyframes } from 'styled-components';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
 import { TopBarMenu } from '@/components/menu/top-menu';
-import { LandingLogo } from '@/components/ui/landing-logo';
-import { GlassCard } from '@/components/ui/glass-card';
+import { LandingLogo } from '@/components/ui/landing/landing-logo';
+import { GlassCard } from '@/components/ui/landing/cards/glass-card';
 import { Button } from 'primereact/button';
+import { NeonCard } from '@/components/ui/landing/cards/neon-card';
+import { Footer } from '@/components/ui/footer';
 
 const Home = () => {
   const toast = useRef<Toast>(null);
 
   return (
-    <BaseLayout>
+    <>
       <Toast ref={toast} />
 
       <SectionContainer>
         <TopBarMenu />
-        <Grid>
+        <Grid3Col>
+
           <LeftColumn>
-          <GlassCard largeText='7+' smallText='SERVICES' index={0} />
+            <GlassCard largeText='7+' smallText='SERVICES' index={0} />
             <GlassCard largeText='100+' smallText='REVIEWS' index={1} />
             <GlassCard largeText='100k+' smallText='CONVERTATIONS' index={2} />
           </LeftColumn>
 
           <CentralColumn>
             <LandingLogo />
-            <TextBlock>  
+            <Image src='../icons/landing-logo.png' alt='landing-image' />
+            {/* <Glow /> */}
+          </CentralColumn>
+
+          <RightColumn>
+            <TextBlock>
               <TextLine>Seamlessly convert colors, manipulate images,</TextLine>
               <TextLine>and more with our cutting-edge tools.</TextLine>
             </TextBlock>
             <StyledButton>GET STARTED</StyledButton>
-          </CentralColumn>
-          <RightColumn>
-            <RightGlow />
           </RightColumn>
-        </Grid>
-      </SectionContainer>   
+
+        </Grid3Col>
+      </SectionContainer>
+
       <SectionContainer>
-      </SectionContainer>  
-    </BaseLayout>
+        <SectionHeader>Our Services</SectionHeader>
+        <SectionSubHeader>Explore it now!</SectionSubHeader>
+
+        <Grid3Col>
+          <NeonCard 
+            gradient='linear-gradient(135deg, rgba(178, 69, 146, 0.5), rgba(241, 95, 121, 0.5))' 
+            image='../icons/color-converter.jpg' 
+            title='Color Manipulation' 
+            description='Convert, blend, and generate gradients or themes.' 
+            link='/colors/color-converter' 
+          />
+          <NeonCard 
+            gradient='linear-gradient(135deg, rgba(113, 69, 178, 0.5), rgba(95, 102, 241, 0.5))' 
+            image='../icons/image-converter.jpg' 
+            title='Photo Manipulation' 
+            description='Convert, crop, enhance quality, apply filters, and edit photos.' 
+            link='/image/image-optimization' 
+          />
+          <NeonCard 
+            gradient='linear-gradient(135deg, rgba(113, 69, 178, 0.5), rgba(95, 102, 241, 0.5))' 
+            image='../icons/color-converter.jpg' 
+            title='Games' 
+            description='Games related to color or photo manipulation.' 
+            link='/games/color-mixer' 
+          />
+        </Grid3Col>
+        
+      </SectionContainer>
+
+      <SectionContainer>
+        <Grid2Col>
+
+          <RightColumn>
+            <SectionHeader>Our Libraries</SectionHeader>
+            <SectionSubHeader>You can use our libraries for your own projects</SectionSubHeader>
+            <StyledButton>GET STARTED</StyledButton>
+          </RightColumn>
+
+          <LeftColumn>
+            <Container>
+              <CodeContainer>
+              @mirawision/colorize
+              npm install @mirawision/colorize
+              yarn add @mirawision/colorize
+              </CodeContainer>
+              <Subtitle>@mirawision</Subtitle>
+              <Paragraph>You can find a lot of libraries on different tastyies</Paragraph>
+            </Container>
+          </LeftColumn>
+
+        </Grid2Col>
+      </SectionContainer>
+      <Footer />
+    </>
   );
 }
 
@@ -48,13 +107,35 @@ export default Home;
 const SectionContainer = styled.section`
   width: 80%;
   margin: 0 auto;
-  height: 100vh;
-  overflow: hidden;
+  padding: 2rem 0;
+  min-height: 100vh;
 `;
 
-const Grid = styled.div`
+const SectionHeader = styled.h2`
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+`;
+
+const SectionSubHeader = styled.h3`
+  font-size: 1.5rem;
+  font-weight: normal;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: gray;
+`;
+
+const Grid3Col = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-top: 7rem;
+`;
+
+const Grid2Col = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
   margin-top: 7rem;
 `;
@@ -71,6 +152,7 @@ const CentralColumn = styled.div`
   flex-direction: column;
   gap: 1rem;
   align-items: center;
+  position: relative;
 `;
 
 const RightColumn = styled.div`
@@ -138,26 +220,59 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const LeftGlow = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: -40rem;
-  background: radial-gradient(circle, var(--primary-color) 0%, rgba(255, 255, 255, 0) 45%);
-  z-index: -10;
-  border-radius: 1rem;
-  overflow: hidden;
+const Container = styled.div`
+  background: var(--blue-600);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
 `;
 
-const RightGlow = styled.div`
+const CodeContainer = styled.div`
+  background: var(--gray-900);
+  border-radius: 10px;
+  padding: 1rem;
+  color: var(--surface-color);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+`;
+
+const Subtitle = styled.h2`
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--gray-50);
+`;
+
+const Paragraph = styled.p`
+  font-size: 1rem;
+  margin: 0.2rem 0;
+  color: var(--gray-50);
+`;
+
+const glowAnimation = keyframes`
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+`;
+
+const Glow = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 10rem;
-  right: -55rem;
-  background: radial-gradient(circle, var(--pink-400) 0%, rgba(255, 255, 255, 0) 45%);
+  top: 0rem;
+  right: -8rem;
+  background: radial-gradient(circle,
+    rgba(255, 0, 0, 0.1) 0%,
+    rgba(218, 108, 125, 0.1) 15%,
+    rgba(218, 112, 214, 0.1) 30%,
+    rgba(255, 255, 255, 0) 45%);
   z-index: -1;
   border-radius: 1rem;
   overflow: hidden;
+  background-size: 200% 200%;
+  animation: ${glowAnimation} 10s ease infinite;
 `;
+
+export { Home };
