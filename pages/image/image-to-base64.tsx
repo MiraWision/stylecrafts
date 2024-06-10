@@ -5,6 +5,10 @@ import { BaseLayout } from '@/layouts/base-layout';
 import { ImageInput } from '@/components/ui/inputs/image-input';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
+import { PostContainer } from '@/components/ui/post';
+import { Markdown } from '@/components/ui/markdown';
+import { content } from '@/content/function-descriptions/image-to-base64';
 
 const ImageToBase64 = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -25,7 +29,7 @@ const ImageToBase64 = () => {
     <BaseLayout>
       <Toast ref={toast} />
       <Title>Image to Base64 Convertor</Title>
-      <ContentContainer>
+      <MainContainer>
         <SingleColumnContainer>
           <ImageInput 
             width='50%'
@@ -44,7 +48,13 @@ const ImageToBase64 = () => {
             {image}
           </OutputContainer>
         </SingleColumnContainer>
-      </ContentContainer>   
+      </MainContainer>   
+
+      <PostContainer>
+        <Markdown 
+          markdownText={content}
+        />
+      </PostContainer> 
     </BaseLayout>
   );
 }
@@ -54,18 +64,6 @@ export default ImageToBase64;
 const Title = styled.h1`
   text-align: center;
   margin-bottom: 50px;
-`;
-
-const ContentContainer = styled.div`
-  width: 70%;
-  margin: 0 auto;
-`;
-
-const SingleColumnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
 `;
 
 const ButtonsContainer = styled.div<{ show: boolean }>`

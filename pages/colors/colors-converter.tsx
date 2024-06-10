@@ -7,6 +7,10 @@ import { BaseLayout } from '@/layouts/base-layout';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
 import { ColorInput } from '@/components/ui/inputs/color-input';
 import { CopyButton } from '@/components/ui/buttons/copy-button';
+import { MainContainer } from '@/components/ui/containers';
+import { PostContainer } from '@/components/ui/post';
+import { Markdown } from '@/components/ui/markdown';
+import { content } from '@/content/function-descriptions/colors-converter';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -47,37 +51,46 @@ const ColorsConverter = () => {
   return (
     <BaseLayout>
       <Toast ref={toast} />
-      <Title>Color Converter</Title>
-      <ContentContainer>
-        <ColorPickerContainer>
-          <SubTitle>Enter color</SubTitle>
-          <ColorInput
-            value={color}
-            onChange={(newColor) => setColor(newColor)}
-          />
-          <ColorPreviewContainer>
-            <ColorPreview color={color} />
-          </ColorPreviewContainer>
-        </ColorPickerContainer>
-        <FormatsContainer>
-          <FlexContainer>
-          {Object.values(ColorFormat).map((format) => (
-            <ResultColorContainer key={format}>
-            
-              <Label fontSize="0.9rem" >{format}</Label>
-              <Label fontSize="0.9rem" color="var(--primary-color)" >{convertedColors[format]}</Label>
-              <CopyButton text={convertedColors[format] || ''} />
-                
-            </ResultColorContainer>
-            ))}
-          </FlexContainer>
-        </FormatsContainer>
-      </ContentContainer>
 
-      <NPMLink 
-        text='Need to have color tools like these in you app? Feel free to use our NPM package'
-        packageName='@mirawision/colorize'
-      />
+      <MainContainer>
+        <Title>Color Converter</Title>
+        <ContentContainer>
+          <ColorPickerContainer>
+            <SubTitle>Enter color</SubTitle>
+            <ColorInput
+              value={color}
+              onChange={(newColor) => setColor(newColor)}
+            />
+            <ColorPreviewContainer>
+              <ColorPreview color={color} />
+            </ColorPreviewContainer>
+          </ColorPickerContainer>
+          <FormatsContainer>
+            <FlexContainer>
+            {Object.values(ColorFormat).map((format) => (
+              <ResultColorContainer key={format}>
+              
+                <Label fontSize="0.9rem" >{format}</Label>
+                <Label fontSize="0.9rem" color="var(--primary-color)" >{convertedColors[format]}</Label>
+                <CopyButton text={convertedColors[format] || ''} />
+                  
+              </ResultColorContainer>
+              ))}
+            </FlexContainer>
+          </FormatsContainer>
+        </ContentContainer>
+
+        <NPMLink 
+          text='Need to have color tools like these in you app? Feel free to use our NPM package'
+          packageName='@mirawision/colorize'
+        />
+      </MainContainer>
+
+      <PostContainer>
+        <Markdown 
+          markdownText={content}
+        />
+      </PostContainer> 
     </BaseLayout>
   );
 };
