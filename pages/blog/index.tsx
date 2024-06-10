@@ -7,7 +7,7 @@ import { convertDateToUSFormat } from '@/utils/date';
 import Link from 'next/link';
 
 
-const BlogList = () => {
+const BlogPage = () => {
   return (
     <BaseLayout>
       <BlogContainer>
@@ -21,7 +21,7 @@ const BlogList = () => {
               </Link>
             </h2>
             <h3>{post.subtitle}</h3>
-            <p>Published on {convertDateToUSFormat(post.createdAt)} · {post.minutesToRead} min read</p>
+            <p>{post.minutesToRead} min read · {convertDateToUSFormat(post.createdAt)}</p>
           </PostCard>
         ))}
       </BlogContainer>
@@ -29,10 +29,8 @@ const BlogList = () => {
   );
 };
 
-export default BlogList;
-
 const BlogContainer = styled.div`
-  width: 840px;
+  width: 700px;
   margin: 0 auto;
 `;
 
@@ -74,3 +72,5 @@ const PostCard = styled.div`
     font-size: 14px;
   }
 `;
+
+export default BlogPage;

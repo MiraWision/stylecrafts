@@ -13,6 +13,8 @@ const ColorsConverter = () => {
     console.error('PROC', image);
   };
 
+  return null;
+  
   return (
     <BaseLayout>
       <Title>Colors Palette</Title>

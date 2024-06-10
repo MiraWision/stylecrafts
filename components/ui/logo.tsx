@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { StarIcon } from '../ui/icons/star';
+import { StarIcon } from './icons/star';
 
 
 interface Props {
@@ -12,7 +12,7 @@ const Logo: React.FC<Props> = () => {
   return (
     <Container>
       <Text>CssCraft</Text>
-      <PinkStar width={8} height={8} top={20} left={17} />
+      <PinkStar widthw={8} height={8} top={20} left={17} />
       <PinkStar width={5} height={5} top={7} left={117} />
     </Container>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import { BaseLayout } from '@/layouts/base-layout';
 
 import { blogPosts } from '@/content/blog-posts';
-import { content } from '../../content/blog-posts/color-theory-for-digital-design';
+import { content } from '../../content/blog-posts/the-psychology-of-color-in-web-design';
 import { convertDateToUSFormat } from '@/utils/date';
 
 import { PostContainer, PostTitle, PostSubtitle, PostSummary } from '@/components/ui/post';
@@ -11,8 +11,8 @@ import { BackLink } from '@/components/ui/back-link';
 
 import 'primeflex/primeflex.css';
 
-const BlogColorTheoryForDigitalDesignPage = () => {
-  const post = blogPosts.find((post) => post.url === 'color-theory-for-digital-design');
+const BlogThePsycologyOfColorInWebDesignPage = () => {
+  const post = blogPosts.find((post) => post.url === 'the-psychology-of-color-in-web-design');
 
   return (
     <BaseLayout>
@@ -33,4 +33,4 @@ const BlogColorTheoryForDigitalDesignPage = () => {
   );
 };
 
-export default BlogColorTheoryForDigitalDesignPage;
+export default BlogThePsycologyOfColorInWebDesignPage;

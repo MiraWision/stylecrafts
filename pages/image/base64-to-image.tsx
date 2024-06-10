@@ -4,6 +4,10 @@ import { BaseLayout } from '@/layouts/base-layout';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
 import ImageWithDownload from '@/components/ui/outputs/image-output';
+import { Markdown } from '@/components/ui/markdown';
+import { content } from '@/content/function-descriptions/base64-to-image';
+import { PostContainer } from '@/components/ui/post';
+import { MainContainer } from '@/components/ui/containers';
 
 const Base64ToImage = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -50,8 +54,9 @@ const Base64ToImage = () => {
 
   return (
     <BaseLayout>
-      <Title>Base64 to Image Convertor</Title>
-      <ContentContainer>
+      <MainContainer>
+        <Title>Base64 to Image Convertor</Title>
+  
         <SingleColumnContainer>
           <StyledInputText placeholder="Paste Base64 here..." value={base64Text} onChange={(e) => handleImageInputChange(e.target.value)} />
           {image && 
@@ -59,7 +64,13 @@ const Base64ToImage = () => {
           }
           {imageSize && <ImageSizeText>Image Size: {(imageSize / 1024).toFixed(2)} KB</ImageSizeText>}
         </SingleColumnContainer>
-      </ContentContainer>
+      </MainContainer>
+      
+      <PostContainer>
+        <Markdown 
+          markdownText={content}
+        />
+      </PostContainer>
       <Toast ref={toast} position="top-right" />
     </BaseLayout>
   );
@@ -68,11 +79,6 @@ const Base64ToImage = () => {
 const Title = styled.h1`
   text-align: center;
   margin-bottom: 50px;
-`;
-
-const ContentContainer = styled.div`
-  width: 70%;
-  margin: 0 auto;
 `;
 
 const SingleColumnContainer = styled.div`

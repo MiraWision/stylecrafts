@@ -4,11 +4,15 @@ import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
 import { BaseLayout } from '@/layouts/base-layout';
 import { Header1, Header2 } from '@/components/templates/headers-template';
-import { NPMLink } from '@/components/common/npm-link';
+import { NPMLink } from '@/components/ui/npm-link';
 import { ColorInput } from '@/components/ui/inputs/color-input';
-import { Label } from '@/components/common/label';
+import { Label } from '@/components/ui/label';
 import { ColorsOutput } from '@/components/ui/outputs/colors-output';
 import { generateMultiSteppedGradient } from '@mirawision/colorize';
+import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
+import { PostContainer } from '@/components/ui/post';
+import { Markdown } from '@/components/ui/markdown';
+import { content } from '@/content/function-descriptions/colors-gradient';
 
 const Colors = [
   '#FF5733',
@@ -83,45 +87,54 @@ const ColorsGradient = () => {
 
   return (
     <BaseLayout>
-      <Header1 centered>Gradient Mixer</Header1>
-      <Header2 centered>Create a Multi-Stepped Gradient</Header2>
+      <MainContainer>
+        <Header1 centered>Gradient Mixer</Header1>
 
-      <Grid>
-        <div>
-          {colorSteps.map((item, index) => (
-            <div key={index}>
-              <Label margin="1rem 0 0.5rem 0">{`Steps to Color ${index + 1}`}</Label>
-              <ColorInput
-                value={item.color}
-                onChange={(newColor) => updateColor(index, newColor)}
-              />
+        <Header2 centered>Create a Multi-Stepped Gradient</Header2>
 
-              {index < colorSteps.length - 1 && (
-                <>
-                  <Label margin="1rem 0 0.5rem 0">{`Steps to Color ${index + 2}`}</Label>
-                  <InputNumber
-                    value={item.steps}
-                    onChange={(e) => updateSteps(index, e.value || 0)}
-                    showButtons
-                    min={1}
-                    max={25}
-                  />
-                </>
-              )}
-            </div>
-          ))}
-          <StyledButton icon="pi pi-plus" label="Add Color" onClick={addColorStep} />
-        </div>
-        <div>
-          <StyledCopyButton icon="pi pi-copy" label="Copy All" onClick={copyToClipboard} />
-          <ColorsOutput colors={intermediateMultiColors} />
-        </div>
-      </Grid>
+        <Grid>
+          <div>
+            {colorSteps.map((item, index) => (
+              <div key={index}>
+                <Label margin="1rem 0 0.5rem 0">{`Steps to Color ${index + 1}`}</Label>
+                <ColorInput
+                  value={item.color}
+                  onChange={(newColor) => updateColor(index, newColor)}
+                />
 
-      <NPMLink
-        text="Need to have color tools like these in your app? Feel free to use our NPM package"
-        packageName="@mirawision/colorize"
-      />
+                {index < colorSteps.length - 1 && (
+                  <>
+                    <Label margin="1rem 0 0.5rem 0">{`Steps to Color ${index + 2}`}</Label>
+                    <InputNumber
+                      value={item.steps}
+                      onChange={(e) => updateSteps(index, e.value || 0)}
+                      showButtons
+                      min={1}
+                      max={25}
+                    />
+                  </>
+                )}
+              </div>
+            ))}
+            <StyledButton icon="pi pi-plus" label="Add Color" onClick={addColorStep} />
+          </div>
+          <div>
+            <StyledCopyButton icon="pi pi-copy" label="Copy All" onClick={copyToClipboard} />
+            <ColorsOutput colors={intermediateMultiColors} />
+          </div>
+        </Grid>
+
+        <NPMLink
+          text="Need to have color tools like these in your app? Feel free to use our NPM package"
+          packageName="@mirawision/colorize"
+        />
+      </MainContainer>
+      
+      <PostContainer>
+        <Markdown 
+          markdownText={content}
+        />
+      </PostContainer> 
     </BaseLayout>
   );
 };

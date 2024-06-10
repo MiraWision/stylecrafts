@@ -9,6 +9,10 @@ import ColorCircle from '@/components/ui/buttons/color-circle';
 import { CopyButton } from '@/components/ui/buttons/copy-button';
 import InfoButton from '@/components/ui/buttons/info-button';
 import ColorPreview from '@/components/ui/outputs/color-preview';
+import { MainContainer } from '@/components/ui/containers';
+import { PostContainer } from '@/components/ui/post';
+import { Markdown } from '@/components/ui/markdown';
+import { content } from '@/content/function-descriptions/colors-blender';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -100,8 +104,8 @@ const ColorsBlender = () => {
   return (
     <BaseLayout>
       <Toast ref={toast} />
-      <Title>Color Blender</Title>
-      <ContentContainer>
+      <MainContainer>
+        <Title>Color Blender</Title>
         <ColorPreview color={color} contrastColor={contrastColor} resetColor={resetColor}>
           <CopyButton text={color} border={true} color={contrastColor} />
           <ColorCode>{color}</ColorCode>
@@ -126,7 +130,13 @@ const ColorsBlender = () => {
             );
           })}
         </ColorCirclesContainer>
-      </ContentContainer>
+      </MainContainer>
+
+      <PostContainer>
+        <Markdown 
+          markdownText={content}
+        />
+      </PostContainer> 
     </BaseLayout>
   );
 };
@@ -152,15 +162,6 @@ const Title = styled.h1`
   @media (max-width: 400px) {
     font-size: 1.2rem;
   }
-`;
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 2rem;
 `;
 
 const ColorCode = styled.div`

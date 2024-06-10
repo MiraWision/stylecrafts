@@ -8,6 +8,10 @@ import { Toast } from 'primereact/toast';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 import { Slider } from 'primereact/slider';
+import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
+import { PostContainer } from '@/components/ui/post';
+import { Markdown } from '@/components/ui/markdown';
+import { content } from '@/content/function-descriptions/image-optimization';
 
 const ImageResizer = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -71,14 +75,16 @@ const ImageResizer = () => {
   return (
     <BaseLayout>
       <Toast ref={toast} />
-      <Title>Image Resizer</Title>
-      <ContentContainer>
+      <MainContainer>
+        <Title>Image Resizer</Title>
+  
         <SingleColumnContainer>
           <ImageInput 
             width='50%'
             value={image} 
             onChange={handleImageChange} 
           />
+
           {image && 
             <>
               <ImagesContainer>
@@ -127,7 +133,13 @@ const ImageResizer = () => {
             </>
           }
         </SingleColumnContainer>
-      </ContentContainer>   
+      </MainContainer>  
+
+      <PostContainer>
+        <Markdown 
+          markdownText={content}
+        />
+      </PostContainer> 
     </BaseLayout>
   );
 }
@@ -139,17 +151,7 @@ const Title = styled.h1`
   margin-bottom: 50px;
 `;
 
-const ContentContainer = styled.div`
-  width: 70%;
-  margin: 0 auto;
-`;
 
-const SingleColumnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-`;
 
 const ImagesContainer = styled.div`
   display: flex;
