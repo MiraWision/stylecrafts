@@ -142,7 +142,7 @@ const Container = styled.div<{ width: string }>`
   width: ${({ width }) => width};
   min-height: 10rem;
   position: relative;
-  border: 0.625rem solid var(--primary-color);
+  border: 0.0625rem solid var(--primary-color);
   border-radius: 0.5rem;
   display: flex;
   align-items: center;

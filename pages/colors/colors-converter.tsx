@@ -50,7 +50,7 @@ const ColorsConverterPage = () => {
       <Toast ref={toast} />
 
       <MainContainer>
-        <Title>Color Converter</Title>
+        <Title>Colors Converter</Title>
 
         <ContentContainer>
           <ColorPickerContainer>

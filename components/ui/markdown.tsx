@@ -8,6 +8,15 @@ const renderer = new marked.Renderer();
 //   return `<div class="code-block" data-language="${language}" data-code="${encodeURIComponent(code)}"></div>`;
 // };
 
+renderer.image = (href: string, title: string, text: string): string => {
+  return `
+    <figure>
+      <img src="${href}" alt="${text}" />
+      ${title ? `<figcaption>${title}</figcaption>` : ''}
+    </figure>
+  `;
+};
+
 interface Props {
   markdownText: string;
 }
@@ -79,6 +88,22 @@ const Container = styled.div`
     p {
       margin: 0;
       font-style: italic;
+    }
+  }
+
+  figure {
+    margin: 1rem 0;
+
+    img {
+      max-width: 110%;
+      margin-left: -5%;
+      border-radius: 0.5rem;
+    }
+
+    figcaption {
+      font-size: 0.75rem;
+      color: var(--text-color-secondary);
+      text-align: center;
     }
   }
 `;

@@ -109,7 +109,7 @@ const ColorsBlenderPage = () => {
       <Toast ref={toast} />
 
       <MainContainer>
-        <Title>Color Blender</Title>
+        <Title>Colors Blender</Title>
 
         <ColorPreview color={color} contrastColor={contrastColor} resetColor={resetColor}>
           <CopyButton text={color} border color={contrastColor} />

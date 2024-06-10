@@ -3,6 +3,7 @@ import { BaseLayout } from '@/layouts/base-layout';
 
 import { blogPosts } from '@/content/blog-posts';
 import { content } from '../../content/blog-posts/the-psychology-of-color-in-web-design';
+
 import { convertDateToUSFormat } from '@/utils/date';
 
 import { PostContainer, PostTitle, PostSubtitle, PostSummary } from '@/components/ui/post';
