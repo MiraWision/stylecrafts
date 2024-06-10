@@ -12,16 +12,16 @@ const MenuItems = [
     name: 'Colors',
     items: [
       {
-        name: 'Colors Converter',
-        url: '/colors/colors-converter',
-      },
-      {
         name: 'Colors Gradient',
         url: '/colors/colors-gradient',
       },
       {
         name: 'Colors Blender',
         url: '/colors/colors-blender',
+      },
+      {
+        name: 'Colors Converter',
+        url: '/colors/colors-converter',
       },
       // {
       //   name: 'Colors Palette',
@@ -34,6 +34,10 @@ const MenuItems = [
     name: 'Images',
     items: [
       {
+        name: 'Image Optimization',
+        url: '/image/image-optimization',
+      },
+      {
         name: 'Image to Base64',
         url: '/image/image-to-base64',
       },
@@ -41,18 +45,14 @@ const MenuItems = [
         name: 'Base64 to Image',
         url: '/image/base64-to-image',
       },
-      {
-        name: 'Image Resizer',
-        url: '/image/image-resizer',
-      },
     ],
   },
   {
     name: 'Games',
     items: [
       {
-        name: 'Color Mixer',
-        url: '/games/color-mixer',
+        name: 'Guess Color Blend',
+        url: '/games/guess-color-blend',
       },
     ],
   },

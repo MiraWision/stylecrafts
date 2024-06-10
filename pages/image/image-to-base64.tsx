@@ -12,6 +12,7 @@ import { ImageInput } from '@/components/ui/inputs/image-input';
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
+import { Title } from '@/components/ui/typography';
 
 const ImageToBase64Page = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -70,11 +71,6 @@ const ImageToBase64Page = () => {
     </BaseLayout>
   );
 }
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 3rem;
-`;
 
 const ButtonsContainer = styled.div<{ show: boolean }>`
   display: ${({ show }) => (show ? 'flex' : 'none')};

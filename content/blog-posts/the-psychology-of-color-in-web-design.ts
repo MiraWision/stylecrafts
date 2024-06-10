@@ -4,6 +4,8 @@ Color is more than just a visual element in web design; it plays a crucial role 
 **Image Placeholder 1**: A color wheel with labels indicating common emotional responses associated with each color.  
 - **Caption**: "Different colors evoke different emotional responses, which can be strategically used in web design."
 
+![Different colors evoke different emotional responses, which can be strategically used in web design.](/post-images/the-psychology-of-color-in-web-design-1.jpeg "Different colors evoke different emotional responses, which can be strategically used in web design.")
+
 ## The Basics of Color Psychology
 Color psychology studies how different hues affect human behavior and emotions. This understanding is essential in web design, as the colors you choose can influence how visitors perceive your site and interact with it.
 

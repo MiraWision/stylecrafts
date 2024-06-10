@@ -95,9 +95,9 @@ const ColorsGradientPage = () => {
       <Toast ref={toast} />
       
       <MainContainer>
-        <Title>Gradient Mixer</Title>
+        <Title>Colors Gradient</Title>
 
-        <Subtitle>Create a Multi-Stepped Gradient</Subtitle>
+        <Subtitle>Generate Multi-Stepped Gradients</Subtitle>
 
         <TwoColumnsContainer>
           <div>
