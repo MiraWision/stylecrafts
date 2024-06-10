@@ -15,6 +15,7 @@ class ThemeService extends Observer<Theme> {
   }
 
   public setTheme(theme: Theme): void {
+    console.log('theme', this);
     this.theme = theme;
 
     this.updateThemeLink(theme);
@@ -33,6 +34,10 @@ class ThemeService extends Observer<Theme> {
   }
 
   private getDefaultTheme(): Theme {
+    if (typeof window === 'undefined') {
+      return Theme.Light;
+    }
+
     const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     const theme = userPrefersDark ? Theme.Dark : Theme.Light;
@@ -41,7 +46,11 @@ class ThemeService extends Observer<Theme> {
   }
 
   private getThemeFromLocalStorage(): Theme | null {
-    const theme = localStorage.getItem('theme');
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    const theme = localStorage?.getItem('theme');
 
     if (!theme) {
       return null;
@@ -51,7 +60,11 @@ class ThemeService extends Observer<Theme> {
   }
 
   private setThemeToLocalStorage(theme: Theme): void {
-    localStorage.setItem('theme', theme);
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    localStorage?.setItem('theme', theme);
   }
 }
 
