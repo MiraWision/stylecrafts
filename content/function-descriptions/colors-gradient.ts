@@ -16,6 +16,8 @@ Stepped gradients are commonly used in heatmaps, charts, and maps where each ste
 Using a gradient generation tool, you can easily customize your stepped gradients to fit your design needs. Choose your base colors and define the number of steps to create a gradient that provides clear and precise color transitions. This is particularly beneficial in scenarios where accurate representation of different data ranges or categories is required.
 
 By leveraging stepped gradients, you can enhance the clarity and effectiveness of your visual data presentations and designs.
+
+Explore the use of stepped gradients in data visualization and how to create them with our [blog post on generating color steps for heatmaps](/blog/creating-color-steps-for-heatmaps).
 `;
 
 export { content };
