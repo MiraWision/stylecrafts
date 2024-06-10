@@ -14,6 +14,8 @@ Creating harmonious color palettes through mixing is vital for various design fi
 ### Tools and Techniques
 
 Using a color mixing tool simplifies the process by allowing you to experiment with different color combinations quickly. This can help you find the perfect blend that suits your design needs. Whether you’re mixing colors for a logo, website background, or artwork, mastering this technique opens up endless creative possibilities.
+
+For an in-depth guide on how to blend colors to create unique and harmonious palettes, check out our [blog post on blending colors](/blog/blending-colors-for-unique-palettes).
 `;
 
 export { content };

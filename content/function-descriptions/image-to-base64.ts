@@ -16,6 +16,8 @@ Embedding images as Base64 strings can streamline the loading of web pages by re
 To convert an image to Base64, you can use various tools or programming languages that support this encoding. Once converted, the Base64 string can be directly embedded in your HTML or CSS, making it part of the web page's content. This method ensures that the image is loaded as part of the initial page load, providing a seamless user experience without additional file requests.
 
 Using Base64 encoding for your images can simplify your development process and improve the performance of your web pages when used appropriately.
+
+Learn how to decode Base64 strings back to images and when to use this technique in our [blog post on Base64 images](/blog/integrating-base64-images-in-your-web-projects).
 `;
 
 export { content };

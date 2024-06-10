@@ -18,6 +18,8 @@ Large or unoptimized images can significantly slow down your website, leading to
 Use image optimization tools to automate the process of resizing, adjusting quality, and converting formats. This is particularly important for websites with many images, such as e-commerce sites or blogs, where performance impacts can be substantial. Optimized images not only load faster but also consume less bandwidth, which is critical for mobile users and those with limited data plans.
 
 By optimizing your images, you ensure faster load times, better performance, and a more pleasant user experience across all devices and platforms.
+
+For comprehensive strategies on optimizing images for the web, including resizing, quality adjustment, and format changes, read our [blog post on optimizing images](/blog/optimizing-images-for-the-web).
 `;
 
 export { content };
