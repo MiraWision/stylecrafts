@@ -79,4 +79,4 @@ const TopBarButton = styled(Link)`
   }
 `;
 
-export default TopBarMenu;
+export { TopBarMenu };

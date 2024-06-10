@@ -18,7 +18,7 @@ const GlassCard: React.FC<Props> = ({ largeText, smallText, index }) => {
   );
 };
 
-export default GlassCard;
+export { GlassCard };
 
 const slideIn = keyframes`
   0% {

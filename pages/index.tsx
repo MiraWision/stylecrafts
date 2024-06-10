@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
-import TopBarMenu from '@/components/menu/top-menu';
-import LandingLogo from '@/components/ui/landing-logo';
-import GlassCard from '@/components/ui/glass-card';
+import { TopBarMenu } from '@/components/menu/top-menu';
+import { LandingLogo } from '@/components/ui/landing-logo';
+import { GlassCard } from '@/components/ui/glass-card';
 import { Button } from 'primereact/button';
 
 const Home = () => {

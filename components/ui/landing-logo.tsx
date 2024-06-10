@@ -38,4 +38,4 @@ const Divider = styled.div`
   border-radius: 100%;
 `;
 
-export default LandingLogo;
+export { LandingLogo };
