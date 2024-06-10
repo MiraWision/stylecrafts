@@ -66,7 +66,7 @@ const SelectTheme: React.FC<SelectThemeProps> = ({ darkMode, setTheme: setGlobal
 
 const ThemeSelectorContainer = styled.div`
   position: fixed;
-  top: 1rem;
+  top: 1.5rem;
   right: 5rem;
   z-index: 1000;
 `;
@@ -104,10 +104,6 @@ const ThemeSelector = styled.div<{ isOpen: boolean }>`
   -webkit-backdrop-filter: blur(2px);
   overflow: hidden;
   animation: ${props => props.isOpen ? expandDown : collapseUp} 0.5s forwards;
-`;
-
-const ThemeName = styled.div`
-  
 `;
 
 const ChooseThemeContainer = styled.div`

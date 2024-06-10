@@ -48,7 +48,7 @@ const DarkModeButton: React.FC<DarkModeButtonProps> = ({ setTheme: setGlobalThem
 
 const ThemeSwitcherContainer = styled.div`
   position: fixed;
-  top: 1rem;
+  top: 1.5rem;
   right: 1rem;
   z-index: 1000;
 `;

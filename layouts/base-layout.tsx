@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button } from 'primereact/button';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import { useRouter } from 'next/router';
 
 import { Logo } from '@/components/common/logo';
 import { MenuList } from '@/components/menu/menu-list';
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const BaseLayout: React.FC<Props> = ({ children }) => {
+  const router = useRouter();
   const [theme, themeActions] = useLocalStorage(themeStorageHandler);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -24,6 +26,10 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleLogoClick = () => {
+    router.push('/');
   };
 
   return (
@@ -38,7 +44,7 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
         />
       )}
       <Sidebar isOpen={isSidebarOpen}>
-        <Logo />
+        <Logo onClick={handleLogoClick} />
         <MenuList />
       </Sidebar>
       <Content isOpen={isSidebarOpen}>
@@ -66,6 +72,7 @@ const Sidebar = styled.div<{ isOpen: boolean }>`
   left: 0;
   top: 0;
   background-color: var(--highlight-bg);
+  z-index: 10;
 
   &::after {
     content: '';
