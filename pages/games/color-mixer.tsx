@@ -163,17 +163,17 @@ const ColorMixer = () => {
       <Title>Color Mixer</Title>
       <DifficultyButtonsContainer>
         <DifficultyButton
-          label="Easy"
+          label='Easy'
           className={difficulty === 'Easy' ? 'selected' : ''}
           onClick={() => handleDifficultyChange('Easy')}
         />
         <DifficultyButton
-          label="Medium"
+          label='Medium'
           className={difficulty === 'Medium' ? 'selected' : ''}
           onClick={() => handleDifficultyChange('Medium')}
         />
         <DifficultyButton
-          label="Hard"
+          label='Hard'
           className={difficulty === 'Hard' ? 'selected' : ''}
           onClick={() => handleDifficultyChange('Hard')}
         />
@@ -192,7 +192,7 @@ const ColorMixer = () => {
           <ColorBar>{colorBar}</ColorBar>
         </ColorBarContainer>
         <ColorCirclesContainer>
-          <SettingsButton icon="pi pi-cog" />
+          <SettingsButton icon='pi pi-cog' />
           {selectedColors.map((c, index) => (
             <ColorCircle
               key={index}
@@ -205,24 +205,24 @@ const ColorMixer = () => {
         </ColorCirclesContainer>
       </ContentContainer>
       <Dialog
-        header="Congratulations!"
+        header='Congratulations!'
         visible={isWinDialogVisible}
         style={{ width: '50vw' }}
         modal
         onHide={handleWinDialogHide}
       >
         <p>You have successfully matched the color!</p>
-        <Button label="Close" icon="pi pi-check" onClick={handleWinDialogHide} autoFocus />
+        <Button label='Close' icon='pi pi-check' onClick={handleWinDialogHide} autoFocus />
       </Dialog>
       <Dialog
-        header="Time's Up!"
+        header='Time's Up!'
         visible={isLoseDialogVisible}
         style={{ width: '50vw' }}
         modal
         onHide={handleLoseDialogHide}
       >
         <p>You ran out of time!</p>
-        <Button label="Close" icon="pi pi-times" onClick={handleLoseDialogHide} autoFocus />
+        <Button label='Close' icon='pi pi-times' onClick={handleLoseDialogHide} autoFocus />
       </Dialog>
     </BaseLayout>
   );
@@ -261,7 +261,7 @@ const DifficultyButtonsContainer = styled.div`
 const DifficultyButton = styled(Button)`
   background-color: transparent;
   color: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  border: 0.0625rem solid var(--primary-color);
   &.selected {
     background-color: var(--primary-color);
     color: var(--primary-color-text);
@@ -307,7 +307,7 @@ const ColorBarContainer = styled.div`
 const ColorBar = styled.div`
   display: flex;
   width: 100%;
-  height: 20px;
+  height: 1.25rem;
 `;
 
 const ColorBarSegment = styled.div<{ color: string; width: string }>`

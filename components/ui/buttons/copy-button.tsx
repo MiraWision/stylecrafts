@@ -42,7 +42,7 @@ const ButtonSmall = styled(Button)<{ border: boolean; color: string }>`
   border-radius: 0.4rem;
   height: 2rem;
   width: 2rem;
-  border: ${({ border, color }) => (border ? `1px solid ${color}` : 'none')};
+  border: ${({ border, color }) => (border ? `0.0625rem solid ${color}` : 'none')};
   color: ${({ color }) => color};
   background: none;
 

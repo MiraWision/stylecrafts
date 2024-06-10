@@ -36,10 +36,10 @@ const CardContainer = styled.div<{ index: number }>`
   height: 7rem;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 1rem;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--surface-400);
-  box-shadow: 0 4px 15px var(--surface-400);
+  backdrop-filter: blur(0.625rem);
+  -webkit-backdrop-filter: blur(0.625rem);
+  border: 0.0625rem solid var(--surface-400);
+  box-shadow: 0 0.25rem 1rem var(--surface-400);
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -5,13 +5,13 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { useRouter } from 'next/router';
 
+import useLocalStorage from '@/hooks/useLocalStorage/useLocalStorage';
+import themeStorageHandler from '@/hooks/useLocalStorage/theme-handler';
+
 import { Logo } from '@/components/ui/logo';
 import { MenuList } from '@/components/menu/menu-list';
 
-import { DarkModeButton } from '@/components/ui/buttons/dark-mode-button';
-import { SelectTheme } from '@/components/ui/buttons/theme-selector-button';
-import useLocalStorage from '@/hooks/useLocalStorage/useLocalStorage';
-import themeStorageHandler from '@/hooks/useLocalStorage/theme-handler';
+import { ThemeButton } from '@/components/ui/buttons/theme-button';
 
 interface Props {
   children: React.ReactNode;
@@ -21,8 +21,6 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
   const router = useRouter();
   const [theme, themeActions] = useLocalStorage(themeStorageHandler);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const darkMode = theme?.includes('dark') ?? false;
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -37,10 +35,10 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
       {!isSidebarOpen && (
         <StyledButton
           isOpen={isSidebarOpen}
-          icon="pi pi-bars"
+          icon='pi pi-bars'
           onClick={toggleSidebar}
-          className="p-button-rounded p-button-text"
-          aria-label="Toggle Menu"
+          className='p-button-rounded p-button-text'
+          aria-label='Toggle Menu'
         />
       )}
       <Sidebar isOpen={isSidebarOpen}>
@@ -48,8 +46,7 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
         <MenuList />
       </Sidebar>
       <Content isOpen={isSidebarOpen}>
-        <DarkModeButton setTheme={themeActions.set} />
-        <SelectTheme setTheme={themeActions.set} darkMode={darkMode} />
+        <ThemeButton setTheme={themeActions.set} />
         <Overlay isOpen={isSidebarOpen} onClick={toggleSidebar} />
         {children}
       </Content>
@@ -63,25 +60,25 @@ const Container = styled.div`
 `;
 
 const Sidebar = styled.div<{ isOpen: boolean }>`
-  width: 240px;
+  width: 15rem;
   height: 100vh;
-  padding: 24px;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   position: fixed; 
   left: 0;
   top: 0;
-  background-color: var(--highlight-bg);
+  background-color: var(--surface-ground);
   z-index: 10;
 
   &::after {
     content: '';
     position: absolute;
     top: 0;
-    right: -1px; 
+    right: -0.0625rem; 
     height: 100%;
-    width: 1px; 
-    background: linear-gradient(to bottom, var(--primary-color) 70%, transparent 100%);
+    width: 0.0625rem; 
+    background: linear-gradient(to bottom, var(--primary-color) 50%, transparent 95%);
     z-index: 10;
   }
 

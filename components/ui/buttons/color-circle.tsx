@@ -74,8 +74,8 @@ const ColorCircleContainer = styled.div`
 `;
 
 const ColorCircleItem = styled.div<{ color: string }>`
-  width: 60px;
-  height: 60px;
+  width: 3.75rem;
+  height: 3.75rem;
   background-color: ${({ color }) => color};
   border-radius: 50%;
   cursor: pointer;
@@ -83,13 +83,13 @@ const ColorCircleItem = styled.div<{ color: string }>`
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); // Added shadow for 3D effect
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1), 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.08);
 `;
 
 const ColorName = styled.div`
   font-size: 0.75rem;
   text-align: center;
-  margin-top: 0.5rem; // Added margin-top for spacing
+  margin-top: 0.5rem;
 `;
 
 const WeightLabel = styled.div<{ color: string }>`
@@ -110,8 +110,8 @@ const PercentageLabel = styled.div<{ color: string }>`
 const MinusButton = styled(Button)`
   border: none;
   box-shadow: none;
-  width: 40px;
-  height: 20px;
+  width: 2.5rem;
+  height: 1.25rem;
   padding: 0;
   display: flex;
   align-items: center;
@@ -122,5 +122,5 @@ const MinusButton = styled(Button)`
     cursor: pointer;
   }
 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08); // Added shadow for 3D effect
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1), 0 0.125rem 0.25rem rgba(0, 0, 0, 0.08);
 `;

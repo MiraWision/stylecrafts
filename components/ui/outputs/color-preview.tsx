@@ -14,13 +14,13 @@ const ColorPreview: React.FC<ColorPreviewProps> = ({ color, contrastColor, reset
     <ColorPreviewContainer>
       <ColorPreviewBox color={color}>
         {!color && <DarkOverlay />}
-        {!color && <ResetButtonCenter icon="pi pi-refresh" onClick={resetColor} />}
+        {!color && <ResetButtonCenter icon='pi pi-refresh' onClick={resetColor} />}
         {color && (
           <ColorDetails color={contrastColor}>
             {children}
           </ColorDetails>
         )}
-        {color && <ResetButton icon="pi pi-refresh" onClick={resetColor} />}
+        {color && <ResetButton icon='pi pi-refresh' onClick={resetColor} />}
       </ColorPreviewBox>
     </ColorPreviewContainer>
   );
@@ -33,9 +33,9 @@ const ColorPreviewContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 2px; 
+  padding: 0.125rem; 
   border-radius: 0.8rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
 `;
 
 const ColorPreviewBox = styled.div<{ color: string }>`
@@ -48,8 +48,8 @@ const ColorPreviewBox = styled.div<{ color: string }>`
   justify-content: center;
   align-items: center;
   position: relative;
-  background-image: ${({ color }) => !color ? 'linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 50%, #ccc 50%, #ccc 75%, transparent 75%, transparent)' : 'none'};
-  background-size: 20px 20px;
+  background-imaЯge: ${({ color }) => !color ? 'linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 50%, #ccc 50%, #ccc 75%, transparent 75%, transparent)' : 'none'};
+  background-size: 1.25rem 1.25rem;
 `;
 
 const ColorDetails = styled.div<{ color: string }>`

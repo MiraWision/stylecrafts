@@ -30,26 +30,26 @@ const BlogPage = () => {
 };
 
 const BlogContainer = styled.div`
-  width: 700px;
+  width: 42rem;
   margin: 0 auto;
 `;
 
 const Title = styled.h1`
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 3rem;
   font-weight: 500;
 `;
 
 const PostCard = styled.div`
   &:not(:last-child) {
-    border-bottom: 1px solid var(--surface-border);
-    margin-bottom: 12px;
+    border-bottom: 0.0625rem solid var(--surface-border);
+    margin-bottom: 0.75rem;
   }
 
   h2 {
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 500;
-    margin: 12px 0 12px;
+    margin: 0.75rem 0 0.75rem;
 
     a {
       color: var(--text-color);
@@ -63,13 +63,13 @@ const PostCard = styled.div`
 
   h3 {
     font-weight: 400;
-    font-size: 18px;
-    margin: 6px 0;
+    font-size: 1.625rem;
+    margin: 0.375rem 0;
     font-style: italic;
   }
 
   p {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 `;
 

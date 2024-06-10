@@ -13,8 +13,8 @@ const Logo: React.FC<LogoProps> = ({ onClick }) => {
   return (
     <Container onClick={onClick}>
       <Text>CssCraft</Text>
-      <PinkStar widthw={8} height={8} top={20} left={17} />
-      <PinkStar width={5} height={5} top={7} left={117} />
+      <PinkStar width={0.5} height={0.5} top={1.25} left={1.0625} />
+      <PinkStar width={0.3125} height={0.3125} top={0.4375} left={7.3125} />
     </Container>
   );
 }
@@ -26,17 +26,17 @@ const Container = styled.div`
 
 const Text = styled.span`
   font-family: 'Delius Swash Caps', cursive;
-  font-size: 30px;
+  font-size: 1.875rem;
   color: var(--primary-color);
   user-select: none;
 `;
 
 const PinkStar = styled(StarIcon)<{ top: number, left: number, width: number, height: number }>`
   position: absolute;
-  width: ${({ width }) => `${width}px`};
-  height: ${({ height }) => `${height}px`};
-  top: ${({ top }) => `${top}px`};
-  left: ${({ left }) => `${left}px`};
+  width: ${({ width }) => `${width}rem`};
+  height: ${({ height }) => `${height}rem`};
+  top: ${({ top }) => `${top}rem`};
+  left: ${({ left }) => `${left}rem`};
 
   svg path {
     fill: var(--primary-color);

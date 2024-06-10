@@ -39,14 +39,14 @@ const ColorsConverter = () => {
 
 const Grid = styled.div`
   display: grid;
-  width: 640px;
+  width: 40rem;
   grid-template-columns: 4fr 1fr 1fr;
-  grid-column-gap: 8px;
+  grid-column-gap: 0.5rem;
 `;
 
 const Title = styled.h1`
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 3rem;
 `;
 
 const SubTitle = styled.h2`

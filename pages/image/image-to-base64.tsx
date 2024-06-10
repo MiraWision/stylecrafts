@@ -1,50 +1,62 @@
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
 
-import { BaseLayout } from '@/layouts/base-layout';
-import { ImageInput } from '@/components/ui/inputs/image-input';
+import { copyToClipboard } from '@/utils/copy';
+
+import { content } from '@/content/function-descriptions/image-to-base64';
+
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { BaseLayout } from '@/layouts/base-layout';
+import { ImageInput } from '@/components/ui/inputs/image-input';
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
-import { content } from '@/content/function-descriptions/image-to-base64';
 
 const ImageToBase64 = () => {
   const [image, setImage] = useState<string | null>(null);
-  const [showButtons, setShowButtons] = useState(false);
   const toast = useRef<Toast>(null);
 
-  const copyToClipboard = (content: string, message: string) => {
-    navigator.clipboard.writeText(content)
-      .then(() => toast.current?.show({ severity: 'success', summary: 'Success', detail: message, life: 3000 }))
-      .catch(() => toast.current?.show({ severity: 'error', summary: 'Error', detail: 'Failed to copy', life: 3000 }));
-  };
+  const callback = {
+    onSuccess: (message: string) => toast?.current?.show({ severity: 'success', summary: 'Success', detail: message, life: 3000 }),
+    onFail: () => toast?.current?.show({ severity: 'error', summary: 'Error', detail: 'Failed to copy', life: 3000 }),
+  }
 
-  const copyBase64 = () => copyToClipboard(image || '', 'Base64 copied to clipboard');
-  const copyHTMLImage = () => copyToClipboard(`<img src="${image}" alt="Image"/>`, 'HTML tag copied to clipboard');
-  const copyCSSImage = () => copyToClipboard(`background-image: url('${image}');`, 'CSS copied to clipboard');
+  const copyBase64 = () => copyToClipboard(image || '', {
+    onSuccess: () => callback.onSuccess('Base64 copied to clipboard'),
+    onFail: callback.onFail,
+  });
+  const copyHTMLImage = () => copyToClipboard(`<img src="${image}" alt="Image"/>`, {
+    onSuccess: () => callback.onSuccess('HTML tag copied to clipboard'),
+    onFail: callback.onFail,
+  });
+  const copyCSSImage = () => copyToClipboard(`background-image: url('${image}');`, {
+    onSuccess: () => callback.onSuccess('CSS copied to clipboard'),
+    onFail: callback.onFail,
+  });
 
   return (
     <BaseLayout>
       <Toast ref={toast} />
-      <Title>Image to Base64 Convertor</Title>
+      
       <MainContainer>
+        <Title>Image to Base64 Converter</Title>
+  
         <SingleColumnContainer>
           <ImageInput 
             width='50%'
-            value={image} 
+            value={image}
             onChange={setImage} 
           />
-          <OutputContainer 
-            onMouseEnter={() => setShowButtons(true)}
-            onMouseLeave={() => setShowButtons(false)}
-          >
-            <ButtonsContainer show={showButtons && !!image}>
-              <FormatButton icon="pi pi-copy" onClick={copyBase64} disabled={!image}>Copy base64</FormatButton>
-              <FormatButton icon="pi pi-copy" onClick={copyHTMLImage} disabled={!image}>Copy to HTML</FormatButton>
-              <FormatButton icon="pi pi-copy" onClick={copyCSSImage} disabled={!image}>Copy to CSS</FormatButton>
+          <OutputContainer>
+            <ButtonsContainer show={!!image}>
+              <FormatButton icon='pi pi-copy' onClick={copyBase64}>Copy base64</FormatButton>
+
+              <FormatButton icon='pi pi-copy' onClick={copyHTMLImage}>Copy to HTML</FormatButton>
+              
+              <FormatButton icon='pi pi-copy' onClick={copyCSSImage}>Copy to CSS</FormatButton>
             </ButtonsContainer>
+
             {image}
           </OutputContainer>
         </SingleColumnContainer>
@@ -63,7 +75,7 @@ export default ImageToBase64;
 
 const Title = styled.h1`
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 3rem;
 `;
 
 const ButtonsContainer = styled.div<{ show: boolean }>`
@@ -78,15 +90,19 @@ const ButtonsContainer = styled.div<{ show: boolean }>`
 `;
 
 const OutputContainer = styled.div`
-  padding: 10px;
-  border: 1px solid var(--primary-color);
-  border-radius: 5px;
+  padding: 0.625rem;
+  border: 0.0625rem solid var(--primary-color);
+  border-radius: 0.3125rem;
   width: 50%;
-  max-height: 200px;
+  max-height: 12.5rem;
   overflow-y: auto;
   word-wrap: break-word;
   position: relative;
   z-index: 1;
+
+  &:hover ${ButtonsContainer} {
+    opacity: 1;
+  }
 `;
 
 const FormatButton = styled(Button)`

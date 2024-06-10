@@ -9,7 +9,7 @@ interface Props {
   width?: string;
 }
 
-const ImageInput: React.FC<Props> = ({ value, onChange, width = '240px' }) => {
+const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const setImage = (value: any) => {
@@ -43,7 +43,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, width = '240px' }) => {
       return false;  
     }
 
-    return url.protocol === "http:" || url.protocol === "https:";
+    return url.protocol === 'http:' || url.protocol === 'https:';
   };
 
   const handlePaste = (event: ClipboardEvent) => {
@@ -140,10 +140,10 @@ const ImageInput: React.FC<Props> = ({ value, onChange, width = '240px' }) => {
 
 const Container = styled.div<{ width: string }>`
   width: ${(props) => props.width};
-  min-height: 160px;
+  min-height: 10rem;
   position: relative;
-  border: 1px solid var(--primary-color);
-  border-radius: 8px;
+  border: 0.625rem solid var(--primary-color);
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -162,8 +162,8 @@ const Label = styled.label`
 
 const Text = styled.div`
   text-align: center;
-  font-size: 14px;
-  margin: 8px;
+  font-size: 0.875rem;
+  margin: 0.5rem;
 `;
 
 const Overlay = styled.div`
@@ -172,7 +172,7 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -182,7 +182,7 @@ const Overlay = styled.div`
 const Image = styled.img`
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   /* object-fit: contain; */
 `;
 

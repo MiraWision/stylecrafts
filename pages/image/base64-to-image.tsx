@@ -25,8 +25,8 @@ const Base64ToImage = () => {
 
   const calculateImageSize = (base64Str: string) => {
     let padding, inBytes, base64StringLength;
-    if (base64Str.endsWith("==")) padding = 2;
-    else if (base64Str.endsWith("=")) padding = 1;
+    if (base64Str.endsWith('==')) padding = 2;
+    else if (base64Str.endsWith('=')) padding = 1;
     else padding = 0;
 
     base64StringLength = base64Str.length;
@@ -58,7 +58,7 @@ const Base64ToImage = () => {
         <Title>Base64 to Image Convertor</Title>
   
         <SingleColumnContainer>
-          <StyledInputText placeholder="Paste Base64 here..." value={base64Text} onChange={(e) => handleImageInputChange(e.target.value)} />
+          <StyledInputText placeholder='Paste Base64 here...' value={base64Text} onChange={(e) => handleImageInputChange(e.target.value)} />
           {image && 
             <ImageWithDownload image={image} onDownload={handleDownloadImage} />
           }
@@ -71,14 +71,14 @@ const Base64ToImage = () => {
           markdownText={content}
         />
       </PostContainer>
-      <Toast ref={toast} position="top-right" />
+      <Toast ref={toast} position='top-right' />
     </BaseLayout>
   );
 };
 
 const Title = styled.h1`
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 3rem;
 `;
 
 const SingleColumnContainer = styled.div`
@@ -96,8 +96,8 @@ const ImageSizeText = styled.div`
 
 const StyledInputText = styled(InputTextarea)`
   width: 50%;
-  min-height: 100px;
-  max-height: 300px;
+  min-height: 6rem;
+  max-height: 18rem;
 `;
 
 export default Base64ToImage;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const PostContainer = styled.div`
-  width: 700px;
+  width: 42rem;
   margin: 0 auto;
 `;
 

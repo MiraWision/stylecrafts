@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Button } from 'primereact/button';
+
 import { SparklesIcon } from '../ui/icons/sparcles';
 
 interface Props {}
@@ -81,7 +81,7 @@ const MenuList: React.FC<Props> = ({}) => {
         </React.Fragment>
       ))}
       <BlogContainer>
-        <GroupLink href='/blog' passHref>
+        <GroupLink href='/blog'>
           Blog
         </GroupLink>
       </BlogContainer>
@@ -90,24 +90,24 @@ const MenuList: React.FC<Props> = ({}) => {
 }
 
 const Container = styled.div`
-  margin-top: 24px;
+  margin-top: 1.5rem;
 `;
 
 const GroupName = styled.div`
-  padding: 8px 8px 8px 0;
-  margin: 8px 0;
-  font-size: 14px;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 1px;
+  letter-spacing: 0.0625rem;
   color: var(--surface-900);
 `;
 
 const GroupLink = styled(Link)`
-  padding: 8px 8px 8px 0;
-  margin: 8px 0;
-  font-size: 14px;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 1px;
+  letter-spacing: 0.0625rem;
   color: var(--surface-900);
   text-decoration: none;
 
@@ -117,10 +117,10 @@ const GroupLink = styled(Link)`
 `;
 
 const MenuItem = styled(Link)<{ active: boolean }>`
-  border-left: 1px solid var(--surface-border);
+  border-left: 0.0625rem solid var(--surface-border);
   font-weight: 500;
   display: flex;
-  padding: 8px 8px 8px 16px;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
   color: var(--surface-700);
   transition: all .2s;
   text-decoration: none;
@@ -141,17 +141,17 @@ const MenuItem = styled(Link)<{ active: boolean }>`
   `}
 
   div {
-    margin-left: 4px;
+    margin-left: 0.25rem;
   }
 `;
 
 const BlogContainer = styled.div`
-  margin-top: 16px;
+  margin-top: 1rem;
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 24px;
-  left: 24px;
+  bottom: 1.5rem;
+  left: 1.5rem;
 `;
 
 export { MenuList };

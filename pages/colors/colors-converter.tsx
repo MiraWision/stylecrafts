@@ -70,8 +70,8 @@ const ColorsConverter = () => {
             {Object.values(ColorFormat).map((format) => (
               <ResultColorContainer key={format}>
               
-                <Label fontSize="0.9rem" >{format}</Label>
-                <Label fontSize="0.9rem" color="var(--primary-color)" >{convertedColors[format]}</Label>
+                <Label fontSize='0.9rem' >{format}</Label>
+                <Label fontSize='0.9rem' color='var(--primary-color)' >{convertedColors[format]}</Label>
                 <CopyButton text={convertedColors[format] || ''} />
                   
               </ResultColorContainer>
@@ -162,10 +162,10 @@ const ColorPreviewContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2px; 
+  padding: 0.125rem; 
   border-radius: 0.8rem;
   position: relative;
-  box-shadow: 0 0 5px 0 var(--primary-color);
+  box-shadow: 0 0 0.3125rem 0 var(--primary-color);
   width: fit-content;
   height: fit-content;
   margin-top: 2rem;

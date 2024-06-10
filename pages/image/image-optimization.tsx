@@ -76,7 +76,7 @@ const ImageResizer = () => {
     <BaseLayout>
       <Toast ref={toast} />
       <MainContainer>
-        <Title>Image Resizer</Title>
+        <Title>Image Optimization</Title>
   
         <SingleColumnContainer>
           <ImageInput 
@@ -89,7 +89,7 @@ const ImageResizer = () => {
             <>
               <ImagesContainer>
                 <ImageWrapper>
-                  <img src={image} alt="original" style={{ maxWidth: '100%', height: 'auto' }} />
+                  <img src={image} alt='original' style={{ maxWidth: '100%', height: 'auto' }} />
                   <ImageLabel>
                     Original {originalWidth && originalHeight && `(${originalWidth}x${originalHeight}px)`}
                   </ImageLabel>
@@ -128,7 +128,7 @@ const ImageResizer = () => {
                     </SliderContainer>
                   </FormField>
                 )}
-                <Button label="Download Image" icon="pi pi-download" onClick={handleDownloadImage} />
+                <Button label='Download Image' icon='pi pi-download' onClick={handleDownloadImage} />
               </EditingForm>
             </>
           }
@@ -148,7 +148,7 @@ export default ImageResizer;
 
 const Title = styled.h1`
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 3rem;
 `;
 
 
@@ -162,19 +162,19 @@ const ImagesContainer = styled.div`
 
 const ImageWrapper = styled.div`
   position: relative;
-  border: 2px solid #ccc;
-  padding: 10px;
+  border: 0.125rem solid #ccc;
+  padding: 0.625rem;
   text-align: center;
 `;
 
 const ImageLabel = styled.div`
   position: absolute;
-  bottom: 5px;
+  bottom: 0.3125rem;
   left: 50%;
   transform: translateX(-50%);
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
-  padding: 5px;
+  padding: 0.3125rem;
   font-size: 0.9rem;
 `;
 

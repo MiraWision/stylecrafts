@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
 import TopBarMenu from '@/components/menu/top-menu';
-import LandingLogo from '@/components/common/landing-logo';
+import LandingLogo from '@/components/ui/landing-logo';
 import GlassCard from '@/components/ui/glass-card';
 import { Button } from 'primereact/button';
 
@@ -19,9 +19,9 @@ const Home = () => {
         <TopBarMenu />
         <Grid>
           <LeftColumn>
-          <GlassCard largeText="7+" smallText="SERVICES" index={0} />
-            <GlassCard largeText="100+" smallText="REVIEWS" index={1} />
-            <GlassCard largeText="100k+" smallText="CONVERTATIONS" index={2} />
+          <GlassCard largeText='7+' smallText='SERVICES' index={0} />
+            <GlassCard largeText='100+' smallText='REVIEWS' index={1} />
+            <GlassCard largeText='100k+' smallText='CONVERTATIONS' index={2} />
           </LeftColumn>
 
           <CentralColumn>
@@ -101,7 +101,7 @@ const TextLine = styled.p`
 const StyledButton = styled(Button)`
   background: linear-gradient(to right, var(--pink-400), var(--primary-color));
   border: none;
-  border-radius: 50px;
+  border-radius: 3rem;
   padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: bold;
@@ -109,22 +109,22 @@ const StyledButton = styled(Button)`
   cursor: pointer;
   transition: background 0.5s ease, box-shadow 0.5s ease, color 0.5s ease, filter 0.5s ease, transform 0.5s ease;
 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
 
   &:hover {
     background: linear-gradient(135deg, var(--pink-400), var(--primary-color));
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 0, 150, 0.3), 0 0 30px rgba(0, 204, 255, 0.3);
+    box-shadow: 0 0 0.625rem rgba(255, 255, 255, 0.5), 0 0 1.25rem rgba(255, 0, 150, 0.3), 0 0 1.875rem rgba(0, 204, 255, 0.3);
     transform: scale(1.1);
   }
 
   &:before {
     content: '';
     position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border-radius: 50px;
+    top: -0.3125rem;
+    left: -0.3125rem;
+    right: -0.3125rem;
+    bottom: -0.3125rem;
+    border-radius: 3rem;
     background: linear-gradient(45deg, rgba(255, 0, 150, 0.3), rgba(0, 204, 255, 0.3));
     z-index: -1;
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -146,7 +146,7 @@ const LeftGlow = styled.div`
   left: -40rem;
   background: radial-gradient(circle, var(--primary-color) 0%, rgba(255, 255, 255, 0) 45%);
   z-index: -10;
-  border-radius: 15px;
+  border-radius: 1rem;
   overflow: hidden;
 `;
 
@@ -158,6 +158,6 @@ const RightGlow = styled.div`
   right: -55rem;
   background: radial-gradient(circle, var(--pink-400) 0%, rgba(255, 255, 255, 0) 45%);
   z-index: -1;
-  border-radius: 15px;
+  border-radius: 1rem;
   overflow: hidden;
 `;

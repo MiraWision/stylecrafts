@@ -29,20 +29,20 @@ const Container = styled.div`
 `;
 
 const Text = styled.span`
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--text-color-secondary);
 `;
 
 const Logo = styled.img`
-  height: 24px;
-  margin-bottom: -8px;
-  margin-right: 2px;
+  height: 1.5rem;
+  margin-bottom: -0.5rem;
+  margin-right: 0.125rem;
 `;
 
 const Link = styled.a`
   text-decoration: none;
   color: #cb3837;
-  font-size: 14px;
+  font-size: 0.875rem;
 `;
 
 export { NPMLink };

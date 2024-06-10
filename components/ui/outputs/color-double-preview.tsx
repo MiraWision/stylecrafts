@@ -12,7 +12,7 @@ interface ColorPreviewProps {
 const DoubleColorPreview: React.FC<ColorPreviewProps> = ({ currentColor, targetColor, similarity, resetColor }) => {
   return (
     <ColorPreviewContainer>
-      <ColorSection className="left" color={currentColor}>
+      <ColorSection className='left' color={currentColor}>
         {!currentColor && <CheckeredBackground />}
         <Overlay>
           <SectionTitle>Your Mix</SectionTitle>
@@ -20,13 +20,13 @@ const DoubleColorPreview: React.FC<ColorPreviewProps> = ({ currentColor, targetC
           <Similarity>Match: {currentColor ? similarity.toFixed(2) : 0}%</Similarity>
         </Overlay>
       </ColorSection>
-      <ColorSection className="right" color={targetColor}>
+      <ColorSection className='right' color={targetColor}>
         <Overlay>
           <SectionTitle>Target</SectionTitle>
           <ColorCode>{targetColor}</ColorCode>
         </Overlay>
       </ColorSection>
-      <ResetButton icon="pi pi-refresh" onClick={resetColor} />
+      <ResetButton icon='pi pi-refresh' onClick={resetColor} />
     </ColorPreviewContainer>
   );
 };
@@ -38,9 +38,9 @@ const ColorPreviewContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  padding: 2px; 
+  padding: 0.125rem; 
   border-radius: 0.8rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
   width: 50vw;
   height: 25vw;
   overflow: hidden;
@@ -75,8 +75,8 @@ const CheckeredBackground = styled.div`
   height: 100%;
   background-image: linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 50%, #ccc 50%, #ccc 75%, transparent 75%, transparent),
                     linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 50%, #ccc 50%, #ccc 75%, transparent 75%, transparent);
-  background-size: 20px 20px;
-  background-position: 0 0, 10px 10px;
+  background-size: 1.25rem 1.25rem;
+  background-position: 0 0, 0.625rem 0.625rem;
   border-top-left-radius: 0.8rem;
   border-bottom-left-radius: 0.8rem;
 `;

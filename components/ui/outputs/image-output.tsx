@@ -11,7 +11,7 @@ const ImageWithDownload: React.FC<ImageWithDownloadProps> = ({ image, onDownload
   return (
     <ImageContainer>
       <Overlay />
-      <StyledImage src={image} alt="Uploaded Image" />
+      <StyledImage src={image} alt='Uploaded Image' />
       <DownloadContainer>
         <DownloadButton onClick={onDownload} />
       </DownloadContainer>
@@ -20,7 +20,7 @@ const ImageWithDownload: React.FC<ImageWithDownloadProps> = ({ image, onDownload
 };
 
 const ImageContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 1.25rem;
   width: 50%;
   position: relative;
   display: flex;
@@ -46,14 +46,14 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.3s ease;
-  border-radius: 8px;
+  border-radius: 0.5rem;
 `;
 
 const StyledImage = styled.img`
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   transition: opacity 0.3s ease;
 `;
 

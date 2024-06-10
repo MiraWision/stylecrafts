@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import useLocalStorage from '@/hooks/useLocalStorage/useLocalStorage';
 import themeStorageHandler from '@/hooks/useLocalStorage/theme-handler';
 
-interface DarkModeButtonProps {
+interface Props {
   setTheme: (value: string) => void;
 }
 
-const DarkModeButton: React.FC<DarkModeButtonProps> = ({ setTheme: setGlobalTheme }) => {
+const ThemeButton: React.FC<Props> = ({ setTheme: setGlobalTheme }) => {
   const [theme, { set: setLocalStorageTheme }] = useLocalStorage(themeStorageHandler);
 
   useEffect(() => {
@@ -37,20 +37,22 @@ const DarkModeButton: React.FC<DarkModeButtonProps> = ({ setTheme: setGlobalThem
     }
   };
 
-  const icon = theme?.includes('light') ? 'pi pi-sun' : 'pi pi-moon';
-
   return (
-    <ThemeSwitcherContainer>
-      <Button icon={icon} onClick={toggleTheme} className="p-button-rounded" />
-    </ThemeSwitcherContainer>
+    <Container>
+      <Button 
+        icon={theme === 'light' ? 'pi pi-sun' : 'pi pi-moon'} 
+        onClick={toggleTheme} 
+        className='p-button-rounded'
+      />
+    </Container>
   );
 };
 
-const ThemeSwitcherContainer = styled.div`
+const Container = styled.div`
   position: fixed;
   top: 1.5rem;
   right: 1rem;
   z-index: 1000;
 `;
 
-export { DarkModeButton };
+export { ThemeButton };
