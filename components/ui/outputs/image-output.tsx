@@ -1,17 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { DownloadButton } from '@/components/ui/icons/download';
 
-interface ImageWithDownloadProps {
+interface Props {
   image: string;
   onDownload: () => void;
 }
 
-const ImageWithDownload: React.FC<ImageWithDownloadProps> = ({ image, onDownload }) => {
+const ImageWithDownload: React.FC<Props> = ({ image, onDownload }) => {
   return (
     <ImageContainer>
       <Overlay />
-      <StyledImage src={image} alt="Uploaded Image" />
+
+      <StyledImage src={image} alt='Uploaded Image' />
+
       <DownloadContainer>
         <DownloadButton onClick={onDownload} />
       </DownloadContainer>
@@ -20,7 +23,7 @@ const ImageWithDownload: React.FC<ImageWithDownloadProps> = ({ image, onDownload
 };
 
 const ImageContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 1.25rem;
   width: 50%;
   position: relative;
   display: flex;
@@ -31,6 +34,7 @@ const ImageContainer = styled.div`
     & > div {
       opacity: 1;
     }
+
     & > img {
       opacity: 0.3;
     }
@@ -46,14 +50,14 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.3s ease;
-  border-radius: 8px;
+  border-radius: 0.5rem;
 `;
 
 const StyledImage = styled.img`
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   transition: opacity 0.3s ease;
 `;
 
@@ -72,5 +76,4 @@ const DownloadContainer = styled.div`
   }
 `;
 
-export default ImageWithDownload;
-
+export { ImageWithDownload };

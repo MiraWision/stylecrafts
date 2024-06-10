@@ -1,34 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Label } from '@/components/ui/label';
-import { Toast } from 'primereact/toast';
-import { NPMLink } from '@/components/ui/npm-link';
+
+import { content } from '@/content/function-descriptions/colors-converter';
+
 import { BaseLayout } from '@/layouts/base-layout';
+import { Toast } from 'primereact/toast';
+import { Label } from '@/components/ui/label';
+import { NPMLink } from '@/components/ui/npm-link';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
 import { ColorInput } from '@/components/ui/inputs/color-input';
 import { CopyButton } from '@/components/ui/buttons/copy-button';
 import { MainContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
-import { content } from '@/content/function-descriptions/colors-converter';
+import { Title } from '@/components/ui/typography';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
 }
 
-const ColorsConverter = () => {
+const ColorsConverterPage = () => {
   const [color, setColor] = useState('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
   const toast = useRef<Toast>(null);
 
   const generateRandomColor = () => {
     return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0');
-  };
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      toast.current?.show({ severity: 'success', summary: 'Copied', detail: 'Color copied to clipboard' });
-    }).catch(error => console.error('Clipboard write failed', error));
   };
 
   useEffect(() => {
@@ -54,26 +51,31 @@ const ColorsConverter = () => {
 
       <MainContainer>
         <Title>Color Converter</Title>
+
         <ContentContainer>
           <ColorPickerContainer>
             <SubTitle>Enter color</SubTitle>
+
             <ColorInput
               value={color}
               onChange={(newColor) => setColor(newColor)}
             />
+
             <ColorPreviewContainer>
               <ColorPreview color={color} />
             </ColorPreviewContainer>
           </ColorPickerContainer>
+
           <FormatsContainer>
             <FlexContainer>
+
             {Object.values(ColorFormat).map((format) => (
               <ResultColorContainer key={format}>
-              
-                <Label fontSize="0.9rem" >{format}</Label>
-                <Label fontSize="0.9rem" color="var(--primary-color)" >{convertedColors[format]}</Label>
+                <Label fontSize='0.9rem' >{format}</Label>
+
+                <Label fontSize='0.9rem' color='var(--primary-color)' >{convertedColors[format]}</Label>
+                
                 <CopyButton text={convertedColors[format] || ''} />
-                  
               </ResultColorContainer>
               ))}
             </FlexContainer>
@@ -94,28 +96,6 @@ const ColorsConverter = () => {
     </BaseLayout>
   );
 };
-
-export default ColorsConverter;
-
-const Title = styled.h1`
-  text-align: center;
-
-  @media (max-width: 1200px) { 
-    font-size: 1.8rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 1.6rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 1.4rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 1.2rem;
-  }
-`;
 
 const ColorPickerContainer = styled.div`
   display: flex;
@@ -162,10 +142,10 @@ const ColorPreviewContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2px; 
+  padding: 0.125rem; 
   border-radius: 0.8rem;
   position: relative;
-  box-shadow: 0 0 5px 0 var(--primary-color);
+  box-shadow: 0 0 0.3125rem 0 var(--primary-color);
   width: fit-content;
   height: fit-content;
   margin-top: 2rem;
@@ -216,3 +196,5 @@ const ResultColorContainer = styled.div`
   gap: 1rem;
   padding: 0.5rem;
 `;
+
+export default ColorsConverterPage;

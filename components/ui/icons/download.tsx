@@ -9,7 +9,7 @@ interface Props {
 const DownloadButton: React.FC<Props> = ({ onClick }) => {
   return (
     <Container>
-      <Button icon="pi pi-download" onClick={onClick} className="p-button-rounded p-button-primary" />
+      <Button icon='pi pi-download' onClick={onClick} className='p-button-rounded p-button-primary' />
     </Container>
   );
 }

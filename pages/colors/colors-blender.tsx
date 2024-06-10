@@ -1,35 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Toast } from 'primereact/toast';
+import { convertColor, ColorFormat, blendMultipleColors } from '@mirawision/colorize';
+
+import { content } from '@/content/function-descriptions/colors-blender';
+
 import { BaseLayout } from '@/layouts/base-layout';
-import { convertColor, ColorFormat } from '@mirawision/colorize';
-import { blendMultipleColors } from '@mirawision/colorize';
+import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
-import ColorCircle from '@/components/ui/buttons/color-circle';
+import { ColorCircle } from '@/components/ui/buttons/color-circle';
 import { CopyButton } from '@/components/ui/buttons/copy-button';
-import InfoButton from '@/components/ui/buttons/info-button';
-import ColorPreview from '@/components/ui/outputs/color-preview';
+import { InfoButton } from '@/components/ui/buttons/info-button';
+import { ColorPreview } from '@/components/ui/outputs/color-preview';
 import { MainContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
-import { content } from '@/content/function-descriptions/colors-blender';
+import { Title } from '@/components/ui/typography';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
 };
 
-const availableColors = [
-  { name: 'Yellow', hex: '#FFED00' },
-  { name: 'Red', hex: '#FF0000' },
-  { name: 'Magenta', hex: '#FF00AB' },
-  { name: 'Blue', hex: '#0047AB' },
-  { name: 'Cyan', hex: '#00FFFF' },
-  { name: 'Green', hex: '#00B500' },
-  { name: 'White', hex: '#FFFFFF' },
+const AvailableColors = [
+  { name: 'Yellow', hex: '#ffed00' },
+  { name: 'Red', hex: '#ff0000' },
+  { name: 'Magenta', hex: '#ff00ab' },
+  { name: 'Blue', hex: '#0047ab' },
+  { name: 'Cyan', hex: '#00ffff' },
+  { name: 'Green', hex: '#00b500' },
+  { name: 'White', hex: '#ffffff' },
   { name: 'Black', hex: '#000000' },
 ];
 
-const ColorsBlender = () => {
+const ColorsBlenderPage = () => {
   const [color, setColor] = useState<string>('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
   const [selectedColors, setSelectedColors] = useState<{ color: string, weight: number }[]>([]);
@@ -50,7 +52,7 @@ const ColorsBlender = () => {
   };
 
   const getRandomColors = (count: number) => {
-    const shuffled = [...availableColors].sort(() => 0.5 - Math.random());
+    const shuffled = [...AvailableColors].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
 
@@ -95,6 +97,7 @@ const ColorsBlender = () => {
   };
 
   const totalWeight = selectedColors.reduce((sum, c) => sum + c.weight, 0) || 1;
+
   const colorBar = selectedColors.map((c, index) => (
     <ColorBarSegment key={index} color={c.color} width={(c.weight / totalWeight) * 100 + '%'} />
   ));
@@ -104,21 +107,30 @@ const ColorsBlender = () => {
   return (
     <BaseLayout>
       <Toast ref={toast} />
+
       <MainContainer>
         <Title>Color Blender</Title>
+
         <ColorPreview color={color} contrastColor={contrastColor} resetColor={resetColor}>
-          <CopyButton text={color} border={true} color={contrastColor} />
+          <CopyButton text={color} border color={contrastColor} />
+
           <ColorCode>{color}</ColorCode>
+          
           <InfoButton color={contrastColor}/>
         </ColorPreview>
+
         <ColorBarContainer>
           <ColorBar>{colorBar}</ColorBar>
         </ColorBarContainer>
+
         <ColorCirclesContainer>
-          <SettingsButton icon="pi pi-cog" />
-          {availableColors.map((c, index) => {
-            const selectedColor = selectedColors.find(sc => sc.color === c.hex);
+          <SettingsButton icon='pi pi-cog' />
+
+          {AvailableColors.map((c, index) => {
+            const selectedColor = selectedColors.find((sc) => sc.color === c.hex);
+
             const weight = selectedColor ? selectedColor.weight : 0;
+
             return (
               <ColorCircle
                 key={index}
@@ -140,29 +152,6 @@ const ColorsBlender = () => {
     </BaseLayout>
   );
 };
-
-export default ColorsBlender;
-
-const Title = styled.h1`
-  text-align: center;
-  font-size: 2rem;
-
-  @media (max-width: 1200px) { 
-    font-size: 1.8rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 1.6rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 1.4rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 1.2rem;
-  }
-`;
 
 const ColorCode = styled.div`
   font-size: 1.5rem;
@@ -194,7 +183,7 @@ const ColorBarContainer = styled.div`
 const ColorBar = styled.div`
   display: flex;
   width: 100%;
-  height: 20px;
+  height: 1.25rem;
 `;
 
 const ColorBarSegment = styled.div<{ color: string; width: string }>`
@@ -220,3 +209,5 @@ const SettingsButton = styled(Button)`
     background-color: rgba(0, 0, 0, 0.1);
   }
 `;
+
+export default ColorsBlenderPage;

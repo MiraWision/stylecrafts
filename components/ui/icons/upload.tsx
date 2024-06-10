@@ -25,7 +25,7 @@ const UploadIcon: React.FC<Props> = ({}) => {
 }
 
 const Container = styled.div`
-  width: 64px;
+  width: 4rem;
 
   svg {
     width: 100%;

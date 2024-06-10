@@ -1,15 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { BaseLayout } from '@/layouts/base-layout';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { Toast } from 'primereact/toast';
-import ImageWithDownload from '@/components/ui/outputs/image-output';
-import { Markdown } from '@/components/ui/markdown';
-import { content } from '@/content/function-descriptions/base64-to-image';
-import { PostContainer } from '@/components/ui/post';
-import { MainContainer } from '@/components/ui/containers';
 
-const Base64ToImage = () => {
+import { content } from '@/content/function-descriptions/base64-to-image';
+
+import { BaseLayout } from '@/layouts/base-layout';
+import { Toast } from 'primereact/toast';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { ImageWithDownload } from '@/components/ui/outputs/image-output';
+import { Markdown } from '@/components/ui/markdown';
+import { PostContainer } from '@/components/ui/post';
+import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
+import { Title } from '@/components/ui/typography';
+
+const Base64ToImagePage = () => {
   const [image, setImage] = useState<string | null>(null);
   const [base64Text, setBase64Text] = useState<string>('');
   const [imageSize, setImageSize] = useState<number | null>(null);
@@ -25,8 +28,8 @@ const Base64ToImage = () => {
 
   const calculateImageSize = (base64Str: string) => {
     let padding, inBytes, base64StringLength;
-    if (base64Str.endsWith("==")) padding = 2;
-    else if (base64Str.endsWith("=")) padding = 1;
+    if (base64Str.endsWith('==')) padding = 2;
+    else if (base64Str.endsWith('=')) padding = 1;
     else padding = 0;
 
     base64StringLength = base64Str.length;
@@ -54,11 +57,13 @@ const Base64ToImage = () => {
 
   return (
     <BaseLayout>
+      <Toast ref={toast} position='top-right' />
+
       <MainContainer>
         <Title>Base64 to Image Convertor</Title>
   
         <SingleColumnContainer>
-          <StyledInputText placeholder="Paste Base64 here..." value={base64Text} onChange={(e) => handleImageInputChange(e.target.value)} />
+          <StyledInputText placeholder='Paste Base64 here...' value={base64Text} onChange={(e) => handleImageInputChange(e.target.value)} />
           {image && 
             <ImageWithDownload image={image} onDownload={handleDownloadImage} />
           }
@@ -71,22 +76,9 @@ const Base64ToImage = () => {
           markdownText={content}
         />
       </PostContainer>
-      <Toast ref={toast} position="top-right" />
     </BaseLayout>
   );
 };
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 50px;
-`;
-
-const SingleColumnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-`;
 
 const ImageSizeText = styled.div`
   font-size: 1rem;
@@ -96,8 +88,8 @@ const ImageSizeText = styled.div`
 
 const StyledInputText = styled(InputTextarea)`
   width: 50%;
-  min-height: 100px;
-  max-height: 300px;
+  min-height: 6rem;
+  max-height: 18rem;
 `;
 
-export default Base64ToImage;
+export default Base64ToImagePage;
