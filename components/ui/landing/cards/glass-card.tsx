@@ -9,16 +9,14 @@ interface Props {
 
 const GlassCard: React.FC<Props> = ({ largeText, smallText, index }) => {
   return (
-    <CardContainer index={index}>
+    <Container index={index}>
       <TextContainer>
         <LargeText>{largeText}</LargeText>
         <SmallText>{smallText}</SmallText>
       </TextContainer>
-    </CardContainer>
+    </Container>
   );
 };
-
-export { GlassCard };
 
 const slideIn = keyframes`
   0% {
@@ -31,7 +29,7 @@ const slideIn = keyframes`
   }
 `;
 
-const CardContainer = styled.div<{ index: number }>`
+const Container = styled.div<{ index: number }>`
   width: 15rem;
   height: 7rem;
   background: rgba(255, 255, 255, 0.3);
@@ -68,3 +66,4 @@ const SmallText = styled.div`
   margin-top: 0.5rem;
 `;
 
+export { GlassCard };
