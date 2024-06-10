@@ -1,19 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { content } from '@/content/function-descriptions/image-optimization';
+
 import { BaseLayout } from '@/layouts/base-layout';
-import { ImageInput } from '@/components/ui/inputs/image-input';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 import { Slider } from 'primereact/slider';
+import { ImageInput } from '@/components/ui/inputs/image-input';
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
-import { content } from '@/content/function-descriptions/image-optimization';
+import { Title } from '@/components/ui/typography';
 
-const ImageResizer = () => {
+const ImageOptimizationPage = () => {
   const [image, setImage] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<number | null>(null);
   const [imageType, setImageType] = useState<string>('image/png');
@@ -90,44 +92,60 @@ const ImageResizer = () => {
               <ImagesContainer>
                 <ImageWrapper>
                   <img src={image} alt='original' style={{ maxWidth: '100%', height: 'auto' }} />
+
                   <ImageLabel>
                     Original {originalWidth && originalHeight && `(${originalWidth}x${originalHeight}px)`}
                   </ImageLabel>
                 </ImageWrapper>
+
                 <ImageWrapper>
                   <canvas ref={canvasRef} style={{ maxWidth: '100%', height: 'auto' }} />
+
                   <ImageLabel>
                     Resized {imageWidth && imageHeight && `(${imageWidth}x${imageHeight}px)`}
                   </ImageLabel>
                 </ImageWrapper>
               </ImagesContainer>
+
               {imageSize && <ImageSizeText>Image Size: {(imageSize / 1024).toFixed(2)} KB</ImageSizeText>}
+              
               <EditingForm>
                 <FormField>
                   <label>Image Type:</label>
+
                   <Dropdown value={imageType} options={imageTypes} onChange={(e) => setImageType(e.value)} />
                 </FormField>
+
                 <FormField>
                   <label>Width:</label>
+
                   <InputNumber value={imageWidth} onValueChange={(e) => setImageWidth(e.value || 0)} />
                 </FormField>
+
                 <FormField>
                   <label>Height:</label>
+
                   <InputNumber value={imageHeight} onValueChange={(e) => setImageHeight(e.value || 0)} />
                 </FormField>
+
                 {imageType === 'image/jpeg' && (
                   <FormField>
                     <label>Quality:</label>
+
                     <SliderContainer>
                       <QualityLabels>
                         <span>0</span>
+
                         <StyledSlider value={imageQuality} onChange={(e) => setImageQuality(e.value as number)} />
+                        
                         <span>100</span>
                       </QualityLabels>
+
                       <QualityValue>{imageQuality}</QualityValue>
                     </SliderContainer>
                   </FormField>
                 )}
+                
                 <Button label='Download Image' icon='pi pi-download' onClick={handleDownloadImage} />
               </EditingForm>
             </>
@@ -143,15 +161,6 @@ const ImageResizer = () => {
     </BaseLayout>
   );
 }
-
-export default ImageResizer;
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 3rem;
-`;
-
-
 
 const ImagesContainer = styled.div`
   display: flex;
@@ -231,3 +240,5 @@ const StyledSlider = styled(Slider)`
 const QualityValue = styled.span`
   margin-top: 0.5rem;
 `;
+
+export default ImageOptimizationPage;

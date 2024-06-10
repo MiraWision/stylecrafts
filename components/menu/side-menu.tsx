@@ -58,7 +58,7 @@ const MenuItems = [
   },
 ];
 
-const MenuList: React.FC<Props> = ({}) => {
+const SideMenu: React.FC<Props> = ({}) => {
   const pathname = usePathname();
 
   return (
@@ -66,6 +66,7 @@ const MenuList: React.FC<Props> = ({}) => {
       {MenuItems.map((group) => (
         <React.Fragment key={group.name}>
           <GroupName>{group.name}</GroupName>
+
           {group.items.map((item) => (
             <MenuItem 
               key={item.url} 
@@ -80,6 +81,7 @@ const MenuList: React.FC<Props> = ({}) => {
           ))}
         </React.Fragment>
       ))}
+      
       <BlogContainer>
         <GroupLink href='/blog'>
           Blog
@@ -122,7 +124,7 @@ const MenuItem = styled(Link)<{ active: boolean }>`
   display: flex;
   padding: 0.5rem 0.5rem 0.5rem 1rem;
   color: var(--surface-700);
-  transition: all .2s;
+  transition: all 0.2s;
   text-decoration: none;
 
   &:hover {
@@ -154,4 +156,4 @@ const BlogContainer = styled.div`
   left: 1.5rem;
 `;
 
-export { MenuList };
+export { SideMenu };

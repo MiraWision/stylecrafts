@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
 import { Tooltip } from 'primereact/tooltip';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 
-interface InfoButtonProps {
+interface Props {
   color: string;
 }
 
-const InfoButton: React.FC<InfoButtonProps> = ({ color }) => {
-  const [visible, setVisible] = useState(false);
+const InfoButton: React.FC<Props> = ({ color }) => {
+  const [visible, setVisible] = useState<boolean>(false);
 
   const openDialog = () => {
     setVisible(true);

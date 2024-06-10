@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
+import { copyToClipboard } from '@/utils/copy';
 
 import { content } from '@/content/function-descriptions/colors-gradient';
 
 import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
 import { BaseLayout } from '@/layouts/base-layout';
-import { Header1, Header2 } from '@/components/ui/typography';
+import { Title, Subtitle } from '@/components/ui/typography';
 import { NPMLink } from '@/components/ui/npm-link';
 import { ColorInput } from '@/components/ui/inputs/color-input';
 import { Label } from '@/components/ui/label';
 import { ColorsOutput } from '@/components/ui/outputs/colors-output';
 import { generateMultiSteppedGradient } from '@mirawision/colorize';
-import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
+import { MainContainer, TwoColumnsContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 
 const Colors = [
-  '#FF5733',
-  '#3498DB',
-  '#8E44AD',
-  '#16A085',
-  '#F1C40F',
-  '#E74C3C',
-  '#2ECC71',
-  '#D35400',
-  '#7F8C8D',
-  '#2980B9',
+  '#ff5733',
+  '#3498db',
+  '#8e44ad',
+  '#16a085',
+  '#f1c40f',
+  '#e74c3c',
+  '#2ecc71',
+  '#d35400',
+  '#7f8c8d',
+  '#2980b9',
 ];
 
 const getRandomElements = (arr: string[], count: number) => {
@@ -42,7 +45,9 @@ const getRandomElements = (arr: string[], count: number) => {
 
 const initialColors = getRandomElements(Colors, 2);
 
-const ColorsGradient = () => {
+const ColorsGradientPage = () => {
+  const toast = useRef<Toast>(null);
+  
   const [colorSteps, setColorSteps] = useState<Array<{ color: string; steps: number }>>([
     { color: initialColors[0], steps: 3 },
     { color: initialColors[1], steps: 4 },
@@ -78,27 +83,28 @@ const ColorsGradient = () => {
     setColorSteps(newColorSteps);
   };
 
-  const copyToClipboard = () => {
-    const jsonColors = JSON.stringify(intermediateMultiColors);
-    navigator.clipboard.writeText(jsonColors).then(() => {
-      alert('Colors copied to clipboard');
-    }).catch(err => {
-      console.error('Failed to copy!', err);
+  const copyAll = () => {
+    copyToClipboard(JSON.stringify(intermediateMultiColors), {
+      onSuccess: () => toast.current?.show({ severity: 'success', summary: 'Array copied to clipboard' }),
+      onFail: () => toast.current?.show({ severity: 'error', summary: 'Failed to copy array' }),
     });
   };
 
   return (
     <BaseLayout>
+      <Toast ref={toast} />
+      
       <MainContainer>
-        <Header1 centered>Gradient Mixer</Header1>
+        <Title>Gradient Mixer</Title>
 
-        <Header2 centered>Create a Multi-Stepped Gradient</Header2>
+        <Subtitle>Create a Multi-Stepped Gradient</Subtitle>
 
-        <Grid>
+        <TwoColumnsContainer>
           <div>
             {colorSteps.map((item, index) => (
               <div key={index}>
                 <Label margin='1rem 0 0.5rem 0'>{`Steps to Color ${index + 1}`}</Label>
+
                 <ColorInput
                   value={item.color}
                   onChange={(newColor) => updateColor(index, newColor)}
@@ -107,6 +113,7 @@ const ColorsGradient = () => {
                 {index < colorSteps.length - 1 && (
                   <>
                     <Label margin='1rem 0 0.5rem 0'>{`Steps to Color ${index + 2}`}</Label>
+
                     <InputNumber
                       value={item.steps}
                       onChange={(e) => updateSteps(index, e.value || 0)}
@@ -118,13 +125,16 @@ const ColorsGradient = () => {
                 )}
               </div>
             ))}
+
             <StyledButton icon='pi pi-plus' label='Add Color' onClick={addColorStep} />
           </div>
+
           <div>
-            <StyledCopyButton icon='pi pi-copy' label='Copy All' onClick={copyToClipboard} />
+            <StyledButton icon='pi pi-copy' label='Copy All' onClick={copyAll} />
+
             <ColorsOutput colors={intermediateMultiColors} />
           </div>
-        </Grid>
+        </TwoColumnsContainer>
 
         <NPMLink
           text='Need to have color tools like these in your app? Feel free to use our NPM package'
@@ -141,32 +151,9 @@ const ColorsGradient = () => {
   );
 };
 
-export default ColorsGradient;
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 10rem;
-  width: 40rem;
-  margin: 1.5rem auto;
-  padding-bottom: 3rem;
-`;
-
 const StyledButton = styled(Button)`
   margin-top: 1.4rem;
-  height: 1rem;
-  width: 8rem;
-  cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 400;
-  .pi {
-    font-size: 0.8rem;
-  }
-`;
-
-const StyledCopyButton = styled(Button)`
-  margin-bottom: 1.4rem;
-  height: 1rem;
+  height: 2rem;
   width: 8rem;
   cursor: pointer;
   font-size: 0.8rem;
@@ -176,3 +163,5 @@ const StyledCopyButton = styled(Button)`
     font-size: 0.8rem;
   }
 `;
+
+export default ColorsGradientPage;

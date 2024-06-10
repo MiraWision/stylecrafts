@@ -1,37 +1,44 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { Button } from 'primereact/button';
 
-interface ColorPreviewProps {
+interface Props {
   currentColor: string;
   targetColor: string;
   similarity: number;
   resetColor: () => void;
 }
 
-const DoubleColorPreview: React.FC<ColorPreviewProps> = ({ currentColor, targetColor, similarity, resetColor }) => {
+const DoubleColorPreview: React.FC<Props> = ({ currentColor, targetColor, similarity, resetColor }) => {
   return (
     <ColorPreviewContainer>
       <ColorSection className='left' color={currentColor}>
-        {!currentColor && <CheckeredBackground />}
+        {!currentColor && (
+          <CheckeredBackground />
+        )}
+
         <Overlay>
           <SectionTitle>Your Mix</SectionTitle>
+
           <ColorCode>{currentColor || ''}</ColorCode>
+          
           <Similarity>Match: {currentColor ? similarity.toFixed(2) : 0}%</Similarity>
         </Overlay>
       </ColorSection>
+
       <ColorSection className='right' color={targetColor}>
         <Overlay>
           <SectionTitle>Target</SectionTitle>
+
           <ColorCode>{targetColor}</ColorCode>
         </Overlay>
       </ColorSection>
+      
       <ResetButton icon='pi pi-refresh' onClick={resetColor} />
     </ColorPreviewContainer>
   );
 };
-
-export default DoubleColorPreview;
 
 const ColorPreviewContainer = styled.div`
   display: flex;
@@ -118,7 +125,10 @@ const ResetButton = styled(Button)`
   color: var(--text-color-secondary);
   border: none;
   box-shadow: none;
+
   &:hover {
     background-color: var(--surface-c);
   }
 `;
+
+export { DoubleColorPreview };

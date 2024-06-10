@@ -1,15 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { BaseLayout } from '@/layouts/base-layout';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { Toast } from 'primereact/toast';
-import ImageWithDownload from '@/components/ui/outputs/image-output';
-import { Markdown } from '@/components/ui/markdown';
-import { content } from '@/content/function-descriptions/base64-to-image';
-import { PostContainer } from '@/components/ui/post';
-import { MainContainer } from '@/components/ui/containers';
 
-const Base64ToImage = () => {
+import { content } from '@/content/function-descriptions/base64-to-image';
+
+import { BaseLayout } from '@/layouts/base-layout';
+import { Toast } from 'primereact/toast';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { ImageWithDownload } from '@/components/ui/outputs/image-output';
+import { Markdown } from '@/components/ui/markdown';
+import { PostContainer } from '@/components/ui/post';
+import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
+import { Title } from '@/components/ui/typography';
+
+const Base64ToImagePage = () => {
   const [image, setImage] = useState<string | null>(null);
   const [base64Text, setBase64Text] = useState<string>('');
   const [imageSize, setImageSize] = useState<number | null>(null);
@@ -54,6 +57,8 @@ const Base64ToImage = () => {
 
   return (
     <BaseLayout>
+      <Toast ref={toast} position='top-right' />
+
       <MainContainer>
         <Title>Base64 to Image Convertor</Title>
   
@@ -71,22 +76,9 @@ const Base64ToImage = () => {
           markdownText={content}
         />
       </PostContainer>
-      <Toast ref={toast} position='top-right' />
     </BaseLayout>
   );
 };
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 3rem;
-`;
-
-const SingleColumnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-`;
 
 const ImageSizeText = styled.div`
   font-size: 1rem;
@@ -100,4 +92,4 @@ const StyledInputText = styled(InputTextarea)`
   max-height: 18rem;
 `;
 
-export default Base64ToImage;
+export default Base64ToImagePage;

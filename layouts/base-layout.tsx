@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button } from 'primereact/button';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
 import { useRouter } from 'next/router';
 
-import useLocalStorage from '@/hooks/useLocalStorage/useLocalStorage';
-import themeStorageHandler from '@/hooks/useLocalStorage/theme-handler';
-
+import { Button } from 'primereact/button';
 import { Logo } from '@/components/ui/logo';
-import { MenuList } from '@/components/menu/menu-list';
-
+import { SideMenu } from '@/components/menu/side-menu';
 import { ThemeButton } from '@/components/ui/buttons/theme-button';
+
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 interface Props {
   children: React.ReactNode;
@@ -19,7 +16,6 @@ interface Props {
 
 const BaseLayout: React.FC<Props> = ({ children }) => {
   const router = useRouter();
-  const [theme, themeActions] = useLocalStorage(themeStorageHandler);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -41,13 +37,18 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
           aria-label='Toggle Menu'
         />
       )}
+
       <Sidebar isOpen={isSidebarOpen}>
         <Logo onClick={handleLogoClick} />
-        <MenuList />
+
+        <SideMenu />
       </Sidebar>
+
       <Content isOpen={isSidebarOpen}>
-        <ThemeButton setTheme={themeActions.set} />
+        <ThemeButton />
+        
         <Overlay isOpen={isSidebarOpen} onClick={toggleSidebar} />
+        
         {children}
       </Content>
     </Container>

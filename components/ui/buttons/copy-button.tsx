@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { copyToClipboard } from '@/utils/copy';
+
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 
@@ -15,25 +17,28 @@ const CopyButton: React.FC<Props> = ({ text, color = 'var(--primary-color)', bor
 
   const toast = useRef<Toast>(null);
 
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
+  const copyText = async () => {
+    copyToClipboard(text, {
+      onSuccess: () => {
+        toast.current?.show({ severity: 'success', summary: 'Copied!', detail: 'Text has been copied to clipboard.', life: 3000 });
 
-      setIcon('pi pi-check');
-      toast.current?.show({ severity: 'success', summary: 'Copied!', detail: 'Text has been copied to clipboard.', life: 3000 });
+        setIcon('pi pi-check');
 
-      setTimeout(() => {
-        setIcon('pi pi-copy');
-      }, 3000);
-    } catch (err) {
-      toast.current?.show({ severity: 'error', summary: 'Failed', detail: 'Failed to copy text.', life: 3000 });
-    }
+        setTimeout(() => {
+          setIcon('pi pi-copy');
+        }, 3000);
+      },
+      onFail: () => {
+        toast.current?.show({ severity: 'error', summary: 'Failed', detail: 'Failed to copy text.', life: 3000 });
+      }
+    });
   };
 
   return (
     <div>
       <Toast ref={toast} />
-      <ButtonSmall border={border} color={color} icon={icon} onClick={copyToClipboard} />
+      
+      <ButtonSmall border={border} color={color} icon={icon} onClick={copyText} />
     </div>
   );
 };

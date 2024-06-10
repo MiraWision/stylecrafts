@@ -1,34 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { Button } from 'primereact/button';
 
-interface ColorPreviewProps {
+interface Props {
   color: string;
   contrastColor: string;
   resetColor: () => void;
   children: React.ReactNode;
 }
 
-const ColorPreview: React.FC<ColorPreviewProps> = ({ color, contrastColor, resetColor, children }) => {
+const ColorPreview: React.FC<Props> = ({ color, contrastColor, resetColor, children }) => {
   return (
-    <ColorPreviewContainer>
-      <ColorPreviewBox color={color}>
-        {!color && <DarkOverlay />}
-        {!color && <ResetButtonCenter icon='pi pi-refresh' onClick={resetColor} />}
+    <Container>
+      <Box color={color}>
+        {!color && (
+          <DarkOverlay />
+        )}
+
+        {!color && (
+          <ResetButtonCenter icon='pi pi-refresh' onClick={resetColor} />
+        )}
+
         {color && (
           <ColorDetails color={contrastColor}>
             {children}
           </ColorDetails>
         )}
-        {color && <ResetButton icon='pi pi-refresh' onClick={resetColor} />}
-      </ColorPreviewBox>
-    </ColorPreviewContainer>
+
+        {color && (
+          <ResetButton icon='pi pi-refresh' onClick={resetColor} />
+        )}
+      </Box>
+    </Container>
   );
 };
 
-export default ColorPreview;
-
-const ColorPreviewContainer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,7 +46,7 @@ const ColorPreviewContainer = styled.div`
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
 `;
 
-const ColorPreviewBox = styled.div<{ color: string }>`
+const Box = styled.div<{ color: string }>`
   width: 50vw;
   height: 25vw;
   border-radius: 0.8rem;
@@ -48,7 +56,7 @@ const ColorPreviewBox = styled.div<{ color: string }>`
   justify-content: center;
   align-items: center;
   position: relative;
-  background-imaЯge: ${({ color }) => !color ? 'linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 50%, #ccc 50%, #ccc 75%, transparent 75%, transparent)' : 'none'};
+  background-image: ${({ color }) => !color ? 'linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 50%, #ccc 50%, #ccc 75%, transparent 75%, transparent)' : 'none'};
   background-size: 1.25rem 1.25rem;
 `;
 
@@ -71,6 +79,7 @@ const ResetButton = styled(Button)`
   color: var(--text-color-secondary);
   border: none;
   box-shadow: none;
+
   &:hover {
     background-color: var(--surface-c);
   }
@@ -81,10 +90,11 @@ const ResetButtonCenter = styled(Button)`
   color: var(--text-color-secondary);
   border: none;
   box-shadow: none;
+  position: absolute;
+
   &:hover {
     background-color: var(--surface-c);
   }
-  position: absolute;
 `;
 
 const DarkOverlay = styled.div`
@@ -97,3 +107,5 @@ const DarkOverlay = styled.div`
   border-radius: 0.8rem;
   pointer-events: none;
 `;
+
+export { ColorPreview };

@@ -13,7 +13,9 @@ const Logo: React.FC<LogoProps> = ({ onClick }) => {
   return (
     <Container onClick={onClick}>
       <Text>CssCraft</Text>
+
       <PinkStar width={0.5} height={0.5} top={1.25} left={1.0625} />
+      
       <PinkStar width={0.3125} height={0.3125} top={0.4375} left={7.3125} />
     </Container>
   );

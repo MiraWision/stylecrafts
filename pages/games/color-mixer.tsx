@@ -1,37 +1,40 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { convertColor, blendMultipleColors, ColorFormat } from '@mirawision/colorize';
+
+import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
-import { BaseLayout } from '@/layouts/base-layout';
-import { convertColor, ColorFormat } from '@mirawision/colorize';
-import { blendMultipleColors } from '@mirawision/colorize';
-import ColorCircle from '@/components/ui/buttons/color-circle';
-import DoubleColorPreview from '@/components/ui/outputs/color-double-preview';
-import Timer from '@/components/ui/timer';
+import { ColorCircle } from '@/components/ui/buttons/color-circle';
+import { DoubleColorPreview } from '@/components/ui/outputs/color-double-preview';
+import { Timer } from '@/components/ui/timer';
+import { Title } from '@/components/ui/typography';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
 };
 
 const availableColors = [
-  { name: 'Yellow', hex: '#FFED00' },
-  { name: 'Red', hex: '#FF0000' },
-  { name: 'Magenta', hex: '#FF00AB' },
-  { name: 'Blue', hex: '#0047AB' },
-  { name: 'Cyan', hex: '#00FFFF' },
-  { name: 'Green', hex: '#00B500' },
-  { name: 'White', hex: '#FFFFFF' },
+  { name: 'Yellow', hex: '#ffed00' },
+  { name: 'Red', hex: '#ff0000' },
+  { name: 'Magenta', hex: '#ff00ab' },
+  { name: 'Blue', hex: '#0047ab' },
+  { name: 'Cyan', hex: '#00ffff' },
+  { name: 'Green', hex: '#00b500' },
+  { name: 'White', hex: '#ffffff' },
   { name: 'Black', hex: '#000000' },
 ];
 
 const getRandomColors = (count: number) => {
   const shuffled = [...availableColors].sort(() => 0.5 - Math.random());
+
   return shuffled.slice(0, count);
 };
 
 const getRandomColorFromSelection = (colors: { hex: string }[]) => {
   const randomIndex = Math.floor(Math.random() * colors.length);
+
   return colors[randomIndex].hex;
 };
 
@@ -82,7 +85,7 @@ const ColorMixer = () => {
     setTargetColor(getRandomColorFromSelection(initialColors.map(c => ({ hex: c.color }))));
     setCurrentColor('');
     setConvertedColors({});
-    setTimerKey(prevKey => prevKey + 1); // Reset timer by changing the key
+    setTimerKey(prevKey => prevKey + 1);
   };
 
   const resetColor = () => {
@@ -160,18 +163,22 @@ const ColorMixer = () => {
   return (
     <BaseLayout>
       <Toast ref={toast} />
+      
       <Title>Color Mixer</Title>
+
       <DifficultyButtonsContainer>
         <DifficultyButton
           label='Easy'
           className={difficulty === 'Easy' ? 'selected' : ''}
           onClick={() => handleDifficultyChange('Easy')}
         />
+        
         <DifficultyButton
           label='Medium'
           className={difficulty === 'Medium' ? 'selected' : ''}
           onClick={() => handleDifficultyChange('Medium')}
         />
+        
         <DifficultyButton
           label='Hard'
           className={difficulty === 'Hard' ? 'selected' : ''}
@@ -215,7 +222,7 @@ const ColorMixer = () => {
         <Button label='Close' icon='pi pi-check' onClick={handleWinDialogHide} autoFocus />
       </Dialog>
       <Dialog
-        header='Time's Up!'
+        header={`Time's Up!`}
         visible={isLoseDialogVisible}
         style={{ width: '50vw' }}
         modal
@@ -227,29 +234,6 @@ const ColorMixer = () => {
     </BaseLayout>
   );
 };
-
-export default ColorMixer;
-
-const Title = styled.h1`
-  text-align: center;
-  font-size: 2rem;
-
-  @media (max-width: 1200px) { 
-    font-size: 1.8rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 1.6rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 1.4rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 1.2rem;
-  }
-`;
 
 const DifficultyButtonsContainer = styled.div`
   display: flex;
@@ -333,3 +317,5 @@ const SettingsButton = styled(Button)`
     background-color: rgba(0, 0, 0, 0.1);
   }
 `;
+
+export default ColorMixer;

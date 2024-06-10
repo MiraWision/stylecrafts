@@ -1,15 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { isDark } from '@mirawision/colorize/is-dark';
+
 import { Button } from 'primereact/button';
 
-interface ColorCircleProps {
+interface Props {
   color: { name: string; hex: string };
   weight: number;
   totalWeight: number;
   onWeightChange: (color: string, newWeight: number) => void;
 }
 
-const ColorCircle: React.FC<ColorCircleProps> = ({ color, weight, totalWeight, onWeightChange }) => {
+const ColorCircle: React.FC<Props> = ({ color, weight, totalWeight, onWeightChange }) => {
   const handleIncreaseWeight = () => {
     onWeightChange(color.hex, weight + 1);
   };
@@ -22,30 +24,21 @@ const ColorCircle: React.FC<ColorCircleProps> = ({ color, weight, totalWeight, o
 
   const percentage = totalWeight ? ((weight / totalWeight) * 100).toFixed(0) : 0;
 
-  const isDarkColor = (color: string) => {
-    const rgb = parseInt(color.slice(1), 16); // Convert hex to integer
-    const r = (rgb >> 16) & 0xff; // Extract red
-    const g = (rgb >> 8) & 0xff; // Extract green
-    const b = (rgb >> 0) & 0xff; // Extract blue
-    const luma = 0.299 * r + 0.587 * g + 0.114 * b; // Calculate luma
-    return luma < 128; // A value below 128 indicates a dark color
-  };
-
-  const textColor = isDarkColor(color.hex) ? 'var(--surface-a)' : 'var(--text-color)';
-  const buttonBgColor = isDarkColor(color.hex) ? 'var(--surface-300)' : 'var(--surface-300)';
-  const buttonHoverBgColor = isDarkColor(color.hex) ? 'var(--surface-200)' : 'var(--surface-200)';
-  const buttonTextColor = isDarkColor(color.hex) ? 'var(--text-color-secondary)' : 'var(--text-color)';
+  const textColor = isDark(color.hex) ? 'var(--surface-a)' : 'var(--text-color)';
+  const buttonBgColor = isDark(color.hex) ? 'var(--surface-300)' : 'var(--surface-300)';
+  const buttonHoverBgColor = isDark(color.hex) ? 'var(--surface-200)' : 'var(--surface-200)';
+  const buttonTextColor = isDark(color.hex) ? 'var(--text-color-secondary)' : 'var(--text-color)';
 
   return (
-    <ColorCircleContainer>
-      <ColorCircleItem color={color.hex} onClick={handleIncreaseWeight}>
+    <Container>
+      <Item color={color.hex} onClick={handleIncreaseWeight}>
         {weight > 0 && (
           <>
             <WeightLabel color={textColor}>{weight}</WeightLabel>
             <PercentageLabel color={textColor}>{percentage}%</PercentageLabel>
           </>
         )}
-      </ColorCircleItem>
+      </Item>
       <ColorName>{color.name}</ColorName>
       {weight > 0 && (
         <MinusButton
@@ -60,20 +53,18 @@ const ColorCircle: React.FC<ColorCircleProps> = ({ color, weight, totalWeight, o
           –
         </MinusButton>
       )}
-    </ColorCircleContainer>
+    </Container>
   );
 };
 
-export default ColorCircle;
-
-const ColorCircleContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
 `;
 
-const ColorCircleItem = styled.div<{ color: string }>`
+const Item = styled.div<{ color: string }>`
   width: 3.75rem;
   height: 3.75rem;
   background-color: ${({ color }) => color};
@@ -124,3 +115,5 @@ const MinusButton = styled(Button)`
 
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1), 0 0.125rem 0.25rem rgba(0, 0, 0, 0.08);
 `;
+
+export { ColorCircle };

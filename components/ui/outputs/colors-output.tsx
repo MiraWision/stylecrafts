@@ -13,7 +13,9 @@ const ColorsOutput: React.FC<Props> = ({ colors }) => {
       {colors.map((color, index) => (
         <ColorContainer key={color}>
           <ColorRectangle color={color} />
+
           <ColorText>{color}</ColorText>
+          
           <CopyButton text={color} />
         </ColorContainer>
       ))}

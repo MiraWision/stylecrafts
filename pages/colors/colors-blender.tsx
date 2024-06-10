@@ -4,33 +4,34 @@ import { convertColor, ColorFormat, blendMultipleColors } from '@mirawision/colo
 
 import { content } from '@/content/function-descriptions/colors-blender';
 
+import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
-import { BaseLayout } from '@/layouts/base-layout';
-import ColorCircle from '@/components/ui/buttons/color-circle';
+import { ColorCircle } from '@/components/ui/buttons/color-circle';
 import { CopyButton } from '@/components/ui/buttons/copy-button';
 import { InfoButton } from '@/components/ui/buttons/info-button';
-import ColorPreview from '@/components/ui/outputs/color-preview';
+import { ColorPreview } from '@/components/ui/outputs/color-preview';
 import { MainContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
+import { Title } from '@/components/ui/typography';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
 };
 
-const availableColors = [
-  { name: 'Yellow', hex: '#FFED00' },
-  { name: 'Red', hex: '#FF0000' },
-  { name: 'Magenta', hex: '#FF00AB' },
-  { name: 'Blue', hex: '#0047AB' },
-  { name: 'Cyan', hex: '#00FFFF' },
-  { name: 'Green', hex: '#00B500' },
-  { name: 'White', hex: '#FFFFFF' },
+const AvailableColors = [
+  { name: 'Yellow', hex: '#ffed00' },
+  { name: 'Red', hex: '#ff0000' },
+  { name: 'Magenta', hex: '#ff00ab' },
+  { name: 'Blue', hex: '#0047ab' },
+  { name: 'Cyan', hex: '#00ffff' },
+  { name: 'Green', hex: '#00b500' },
+  { name: 'White', hex: '#ffffff' },
   { name: 'Black', hex: '#000000' },
 ];
 
-const ColorsBlender = () => {
+const ColorsBlenderPage = () => {
   const [color, setColor] = useState<string>('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
   const [selectedColors, setSelectedColors] = useState<{ color: string, weight: number }[]>([]);
@@ -51,7 +52,7 @@ const ColorsBlender = () => {
   };
 
   const getRandomColors = (count: number) => {
-    const shuffled = [...availableColors].sort(() => 0.5 - Math.random());
+    const shuffled = [...AvailableColors].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
 
@@ -96,6 +97,7 @@ const ColorsBlender = () => {
   };
 
   const totalWeight = selectedColors.reduce((sum, c) => sum + c.weight, 0) || 1;
+
   const colorBar = selectedColors.map((c, index) => (
     <ColorBarSegment key={index} color={c.color} width={(c.weight / totalWeight) * 100 + '%'} />
   ));
@@ -124,8 +126,9 @@ const ColorsBlender = () => {
         <ColorCirclesContainer>
           <SettingsButton icon='pi pi-cog' />
 
-          {availableColors.map((c, index) => {
+          {AvailableColors.map((c, index) => {
             const selectedColor = selectedColors.find((sc) => sc.color === c.hex);
+
             const weight = selectedColor ? selectedColor.weight : 0;
 
             return (
@@ -149,27 +152,6 @@ const ColorsBlender = () => {
     </BaseLayout>
   );
 };
-
-const Title = styled.h1`
-  text-align: center;
-  font-size: 2rem;
-
-  @media (max-width: 1200px) { 
-    font-size: 1.8rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 1.6rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 1.4rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 1.2rem;
-  }
-`;
 
 const ColorCode = styled.div`
   font-size: 1.5rem;
@@ -228,4 +210,4 @@ const SettingsButton = styled(Button)`
   }
 `;
 
-export default ColorsBlender;
+export default ColorsBlenderPage;

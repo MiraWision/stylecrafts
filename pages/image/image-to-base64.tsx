@@ -13,7 +13,7 @@ import { MainContainer, SingleColumnContainer } from '@/components/ui/containers
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 
-const ImageToBase64 = () => {
+const ImageToBase64Page = () => {
   const [image, setImage] = useState<string | null>(null);
   const toast = useRef<Toast>(null);
 
@@ -71,8 +71,6 @@ const ImageToBase64 = () => {
   );
 }
 
-export default ImageToBase64;
-
 const Title = styled.h1`
   text-align: center;
   margin-bottom: 3rem;
@@ -119,3 +117,5 @@ const FormatButton = styled(Button)`
     font-size: 0.8rem;
   }
 `;
+
+export default ImageToBase64Page;

@@ -111,7 +111,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
 
 
   return (
-    <Container width={width} >
+    <Container width={width}>
       {isDragging && (
         <Overlay>
           <Text><b>Just drop it anywhere!</b></Text>
@@ -139,7 +139,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
 }
 
 const Container = styled.div<{ width: string }>`
-  width: ${(props) => props.width};
+  width: ${({ width }) => width};
   min-height: 10rem;
   position: relative;
   border: 0.625rem solid var(--primary-color);
