@@ -16,7 +16,7 @@ const useTheme: UseTheme = () => {
     };
   });
 
-  return [theme, ThemeService.setTheme];
+  return [theme, ThemeService.setTheme.bind(ThemeService)];
 };
 
 export { useTheme };

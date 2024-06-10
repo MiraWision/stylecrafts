@@ -44,7 +44,7 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
         <SideMenu />
       </Sidebar>
 
-      <Content isOpen={isSidebarOpen}>
+      <Content>
         <ThemeButton />
         
         <Overlay isOpen={isSidebarOpen} onClick={toggleSidebar} />
@@ -122,7 +122,7 @@ const Overlay = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const Content = styled.div<{ isOpen: boolean }>`
+const Content = styled.div`
   flex-grow: 1;
   padding: 1.5rem;
   margin-left: 15rem;

@@ -2,12 +2,12 @@ import { Observer } from '@/tools/observer';
 import { Theme } from './types';
 
 class ThemeService extends Observer<Theme> {
-  private theme: Theme;
+  private theme: Theme = Theme.Light;
 
   constructor() {
     super();
 
-    this.theme = this.getThemeFromLocalStorage() || this.getDefaultTheme();
+    this.setTheme(this.getThemeFromLocalStorage() || this.getDefaultTheme());
   }
   
   public getTheme(): Theme {
@@ -26,6 +26,10 @@ class ThemeService extends Observer<Theme> {
   }
 
   private updateThemeLink(theme: Theme) {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     const themeLink = document.getElementById('theme-link') as HTMLLinkElement | null;
 
     if (themeLink) {

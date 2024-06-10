@@ -63,7 +63,7 @@ const PostCard = styled.div`
 
   h3 {
     font-weight: 400;
-    font-size: 1.625rem;
+    font-size: 1.125rem;
     margin: 0.375rem 0;
     font-style: italic;
   }
