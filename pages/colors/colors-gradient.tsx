@@ -90,6 +90,12 @@ const ColorsGradientPage = () => {
     });
   };
 
+  const examples = [
+    ['#b40426', 2, '#ffffff', 2, '#3b4cc0'],
+    ['#009244', 2, '#feffb3', 2, '#e90012'],
+    ['#6e2000', 2, '#e75000', 2, '#fff7b9'],
+    ['#08306b', 5, '#f7fbff'],
+  ]
   return (
     <BaseLayout>
       <Toast ref={toast} />
