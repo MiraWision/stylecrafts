@@ -1,3 +1,5 @@
+import { Routes } from "../routes";
+
 const content = `
 In the digital age, images play a crucial role in web design and user engagement. However, they can also be a significant source of performance bottlenecks if not optimized properly. This article delves into the importance of image optimization, exploring various image formats and quality adjustments to ensure fast loading times and high-quality visuals for your web projects.
 
@@ -71,7 +73,7 @@ With our all-in-one Image Optimization tool, enhancing your images for the web h
 ## Conclusion
 Optimizing images for the web is crucial for creating fast, user-friendly websites. By understanding the strengths and use cases of different image formats and learning how to adjust quality settings effectively, you can enhance your site’s performance and visual appeal.
 
-> Ready to optimize your images? Try our [Image Optimization Tool](/image/image-optimization) now to ensure your website loads faster and looks great on any device.
+> Ready to optimize your images? Try our [Image Optimization Tool](${Routes.ImageOptimizationTool}) now to ensure your website loads faster and looks great on any device.
 `;
 
 export { content };

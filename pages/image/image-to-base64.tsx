@@ -14,7 +14,7 @@ import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 import { Title } from '@/components/ui/typography';
 
-const ImageToBase64Page = () => {
+const ImageToBase64ToolPage = () => {
   const [image, setImage] = useState<string | null>(null);
   const toast = useRef<Toast>(null);
 
@@ -114,4 +114,4 @@ const FormatButton = styled(Button)`
   }
 `;
 
-export default ImageToBase64Page;
+export default ImageToBase64ToolPage;

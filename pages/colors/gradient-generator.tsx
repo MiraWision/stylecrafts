@@ -45,7 +45,7 @@ const getRandomElements = (arr: string[], count: number) => {
 
 const initialColors = getRandomElements(Colors, 2);
 
-const ColorsGradientPage = () => {
+const ColorsGradientGeneratorToolPage = () => {
   const toast = useRef<Toast>(null);
   
   const [colorSteps, setColorSteps] = useState<Array<{ color: string; steps: number }>>([
@@ -170,4 +170,4 @@ const StyledButton = styled(Button)`
   }
 `;
 
-export default ColorsGradientPage;
+export default ColorsGradientGeneratorToolPage;

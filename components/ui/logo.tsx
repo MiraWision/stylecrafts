@@ -24,6 +24,7 @@ const Logo: React.FC<LogoProps> = ({ onClick }) => {
 const Container = styled.div`
   position: relative;
   width: fit-content;
+  cursor: pointer;
 `;
 
 const Text = styled.span`

@@ -4,6 +4,7 @@ import { BaseLayout } from '@/layouts/base-layout';
 import { blogPosts } from '@/content/blog-posts';
 import { content } from '../../content/blog-posts/integrating-base64-images-in-your-web-projects';
 import { convertDateToUSFormat } from '@/utils/date';
+import { Routes } from '@/content/routes';
 
 import { PostContainer, PostTitle, PostSubtitle, PostSummary } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
@@ -11,13 +12,13 @@ import { BackLink } from '@/components/ui/back-link';
 
 import 'primeflex/primeflex.css';
 
-const BlogIntegratingBase64ImagesInYourWebProjectsPage = () => {
-  const post = blogPosts.find((post) => post.url === 'integrating-base64-images-in-your-web-projects');
+const BlogIntegratingBase64ImagesBlogInYourWebProjectsPage = () => {
+  const post = blogPosts.find((post) => post.url === Routes.Base64ImagesBlog);
 
   return (
     <BaseLayout>
       <PostContainer>
-        <BackLink href='/blog'>Back to Blog</BackLink>
+        <BackLink href={Routes.Blog}>Back to Blog</BackLink>
 
         <PostTitle>{post?.title}</PostTitle>
 
@@ -33,4 +34,4 @@ const BlogIntegratingBase64ImagesInYourWebProjectsPage = () => {
   );
 };
 
-export default BlogIntegratingBase64ImagesInYourWebProjectsPage;
+export default BlogIntegratingBase64ImagesBlogInYourWebProjectsPage;

@@ -1,3 +1,5 @@
+import { Routes } from "../routes";
+
 const content = `
 Color is a critical aspect of digital design, and understanding various color formats can enhance your ability to create vibrant and effective designs. Whether you're working with web design, graphic design, or digital art, knowing how to convert and use different color formats is essential. In this article, we’ll explore the most common color formats supported by our tools: HEX, HEXA, RGB, RGBA, HSL, HSLA, HSV, and CMYK.
 
@@ -71,7 +73,7 @@ Our Color Converter tool simplifies working with these different formats. Whethe
 ## Conclusion
 Understanding and using different color formats is essential for digital design. Each format has its unique advantages and applications, whether you're designing for the web, print, or digital graphics.
 
-> Explore the versatility of color formats with our [Color Converter](/colors/colors-converter). Convert and apply HEX, RGB, HSL, CMYK, and more to enhance your design projects effortlessly.
+> Explore the versatility of color formats with our [Color Converter](${Routes.ColorsConverterTool}). Convert and apply HEX, RGB, HSL, CMYK, and more to enhance your design projects effortlessly.
 `;
 
 export { content };

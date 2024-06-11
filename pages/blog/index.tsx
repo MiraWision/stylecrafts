@@ -5,7 +5,7 @@ import { BaseLayout } from '@/layouts/base-layout';
 import { blogPosts } from '@/content/blog-posts';
 import { convertDateToUSFormat } from '@/utils/date';
 import Link from 'next/link';
-
+import { Routes } from '@/content/routes';
 
 const BlogPage = () => {
   return (
@@ -16,7 +16,7 @@ const BlogPage = () => {
         {blogPosts.map((post) => (
           <PostCard key={post.url}>
             <h2>
-              <Link href={`/blog/${post.url}`}>
+              <Link href={`${Routes.Blog}/${post.url}`}>
                 {post.title}
               </Link>
             </h2>

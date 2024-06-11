@@ -12,7 +12,7 @@ import { PostContainer } from '@/components/ui/post';
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { Title } from '@/components/ui/typography';
 
-const Base64ToImagePage = () => {
+const Base64ToImageToolPage = () => {
   const [image, setImage] = useState<string | null>(null);
   const [base64Text, setBase64Text] = useState<string>('');
   const [imageSize, setImageSize] = useState<number | null>(null);
@@ -92,4 +92,4 @@ const StyledInputText = styled(InputTextarea)`
   max-height: 18rem;
 `;
 
-export default Base64ToImagePage;
+export default Base64ToImageToolPage;

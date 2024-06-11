@@ -1,3 +1,5 @@
+import { Routes } from "../routes";
+
 const content = `
 Understanding color theory is fundamental for creating visually appealing and effective digital designs. Whether you're designing a website, an app, or any digital content, the right use of color can make your work stand out and resonate with your audience. This article will guide you through the basics of color theory and how to apply these principles using our suite of tools.
 
@@ -39,7 +41,7 @@ Using the right tools can simplify the application of color theory in your proje
 ## Conclusion
 Mastering color theory can elevate your digital designs, making them more appealing and effective. Whether you’re selecting a color palette or tweaking your design’s visual hierarchy, understanding these principles will guide you to better results. Explore our tools to put these principles into practice and create designs that not only look good but also resonate with your audience.
 
-> Start experimenting with colors today! Check out our [Colors Converter](/colors/colors-converter), [Gradient Generator](/colors/colors-gradient), and [Colors Blending Tool](/colors/colors-blender) to bring your digital designs to life.
+> Start experimenting with colors today! Check out our [Colors Converter](${Routes.ColorsConverterTool}), [Gradient Generator](${Routes.ColorsGradientGeneratorTool}), and [Colors Blending Tool](${Routes.ColorsBlenderTool}) to bring your digital designs to life.
 `;
 
 export { content };

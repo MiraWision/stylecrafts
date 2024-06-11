@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Routes } from '@/content/routes';
 
 import { SparklesIcon } from '../ui/icons/sparcles';
 
@@ -13,19 +14,19 @@ const MenuItems = [
     items: [
       {
         name: 'Colors Gradient',
-        url: '/colors/colors-gradient',
+        url: Routes.ColorsGradientGeneratorTool,
       },
       {
         name: 'Colors Blender',
-        url: '/colors/colors-blender',
+        url: Routes.ColorsBlenderTool,
       },
       {
         name: 'Colors Converter',
-        url: '/colors/colors-converter',
+        url: Routes.ColorsConverterTool,
       },
       // {
       //   name: 'Colors Palette',
-      //   url: '/colors-palette',
+      //   url: Routes.ColorsPalette,
       //   isAI: true,
       // },
     ],
@@ -35,15 +36,15 @@ const MenuItems = [
     items: [
       {
         name: 'Image Optimization',
-        url: '/image/image-optimization',
+        url: Routes.ImageOptimizationTool,
       },
       {
         name: 'Image to Base64',
-        url: '/image/image-to-base64',
+        url: Routes.ImageToBase64Tool,
       },
       {
         name: 'Base64 to Image',
-        url: '/image/base64-to-image',
+        url: Routes.Base64ToImageTool,
       },
     ],
   },
@@ -52,7 +53,7 @@ const MenuItems = [
     items: [
       {
         name: 'Guess Color Blend',
-        url: '/games/guess-color-blend',
+        url: Routes.GuessColorBlendGame,
       },
     ],
   },
@@ -86,7 +87,7 @@ const SideMenu: React.FC<Props> = ({}) => {
         {/* <PinkGroupLink href='/support-us'>
           Support Us
         </PinkGroupLink> */}
-        <GroupLink href='/blog'>
+        <GroupLink href={Routes.Blog}>
           Blog
         </GroupLink>
       </BlogContainer>

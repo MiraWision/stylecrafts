@@ -5,6 +5,7 @@ import { blogPosts } from '@/content/blog-posts';
 import { content } from '../../content/blog-posts/the-psychology-of-color-in-web-design';
 
 import { convertDateToUSFormat } from '@/utils/date';
+import { Routes } from '@/content/routes';
 
 import { PostContainer, PostTitle, PostSubtitle, PostSummary } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
@@ -12,13 +13,13 @@ import { BackLink } from '@/components/ui/back-link';
 
 import 'primeflex/primeflex.css';
 
-const BlogThePsycologyOfColorInWebDesignPage = () => {
-  const post = blogPosts.find((post) => post.url === 'the-psychology-of-color-in-web-design');
+const BlogThePsychologyOfColorBlogInWebDesignPage = () => {
+  const post = blogPosts.find((post) => post.url === Routes.PsychologyOfColorBlog);
 
   return (
     <BaseLayout>
       <PostContainer>
-        <BackLink href='/blog'>Back to Blog</BackLink>
+        <BackLink href={Routes.Blog}>Back to Blog</BackLink>
 
         <PostTitle>{post?.title}</PostTitle>
 
@@ -34,4 +35,4 @@ const BlogThePsycologyOfColorInWebDesignPage = () => {
   );
 };
 
-export default BlogThePsycologyOfColorInWebDesignPage;
+export default BlogThePsychologyOfColorBlogInWebDesignPage;

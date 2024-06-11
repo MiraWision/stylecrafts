@@ -1,3 +1,5 @@
+import { Routes } from "../routes";
+
 const content = `
 Creating harmonious and unique color palettes is an essential skill in design. Whether you're working on web design, branding, or digital art, understanding how to blend colors effectively can enhance your creative projects. In this article, we’ll explore how to mix colors to create diverse palettes and how our Color Blending Tool can assist you in this process.
 
@@ -39,7 +41,7 @@ Blended color palettes have versatile applications in design:
 ## Conclusion
 Mastering color blending allows you to create dynamic and harmonious palettes that can transform your design projects.
 
-> Enhance your designs with unique color palettes. Try our [Color Blending Tool](/colors/colors-blender) now and discover the endless possibilities of color blending.
+> Enhance your designs with unique color palettes. Try our [Color Blending Tool](${Routes.ColorsBlenderTool}) now and discover the endless possibilities of color blending.
 `;
 
 export { content };

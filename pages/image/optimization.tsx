@@ -15,7 +15,7 @@ import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 import { Title } from '@/components/ui/typography';
 
-const ImageOptimizationPage = () => {
+const ImageOptimizationToolPage = () => {
   const [image, setImage] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<number | null>(null);
   const [imageType, setImageType] = useState<string>('image/png');
@@ -241,4 +241,4 @@ const QualityValue = styled.span`
   margin-top: 0.5rem;
 `;
 
-export default ImageOptimizationPage;
+export default ImageOptimizationToolPage;

@@ -4,6 +4,7 @@ import { BaseLayout } from '@/layouts/base-layout';
 import { blogPosts } from '@/content/blog-posts';
 import { content } from '../../content/blog-posts/blending-colors-for-unique-palettes';
 import { convertDateToUSFormat } from '@/utils/date';
+import { Routes } from '@/content/routes'; 
 
 import { PostContainer, PostTitle, PostSubtitle, PostSummary } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
@@ -11,13 +12,13 @@ import { BackLink } from '@/components/ui/back-link';
 
 import 'primeflex/primeflex.css';
 
-const BlogBlendingColorsForUniquePalettesPage = () => {
-  const post = blogPosts.find((post) => post.url === 'blending-colors-for-unique-palettes');
+const BlogBlendingColorsBlogForUniquePalettesPage = () => {
+  const post = blogPosts.find((post) => post.url === Routes.BlendingColorsBlog);
 
   return (
     <BaseLayout>
       <PostContainer>
-        <BackLink href='/blog'>Back to Blog</BackLink>
+        <BackLink href={Routes.Blog}>Back to Blog</BackLink>
 
         <PostTitle>{post?.title}</PostTitle>
 
@@ -33,4 +34,4 @@ const BlogBlendingColorsForUniquePalettesPage = () => {
   );
 };
 
-export default BlogBlendingColorsForUniquePalettesPage;
+export default BlogBlendingColorsBlogForUniquePalettesPage;

@@ -31,7 +31,7 @@ const AvailableColors = [
   { name: 'Black', hex: '#000000' },
 ];
 
-const ColorsBlenderPage = () => {
+const ColorsBlenderToolPage = () => {
   const [color, setColor] = useState<string>('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
   const [selectedColors, setSelectedColors] = useState<{ color: string, weight: number }[]>([]);
@@ -210,4 +210,4 @@ const SettingsButton = styled(Button)`
   }
 `;
 
-export default ColorsBlenderPage;
+export default ColorsBlenderToolPage;

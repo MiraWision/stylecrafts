@@ -1,3 +1,5 @@
+import { Routes } from "../routes";
+
 const content = `
 Heatmaps are a powerful tool for visualizing data, showing patterns and trends through color intensity. To effectively convey information, heatmaps often use stepped gradients, where distinct color bands represent different data ranges. This article will guide you through creating color steps for heatmaps and how our Gradient Generator can help you achieve clear and informative visualizations.
 
@@ -38,9 +40,9 @@ Stepped gradients are widely used in various types of heatmaps to illustrate dat
 ![Heatmaps with Different Color Palettes](/blog-images/creating-color-steps-for-heatmaps-4.jpeg "Explore various color palettes to make your heatmaps more informative and accessible.")
 
 ## Conclusion
-Stepped gradients are an excellent choice for creating clear and informative heatmaps. By carefully selecting and applying these gradients, you can enhance the readability and effectiveness of your data visualizations. Use our [Gradient Generator](#) to create custom stepped gradients and elevate your heatmap designs today.
+Stepped gradients are an excellent choice for creating clear and informative heatmaps. By carefully selecting and applying these gradients, you can enhance the readability and effectiveness of your data visualizations. Use our [Gradient Generator](${Routes.ColorsGradientGeneratorTool}) to create custom stepped gradients and elevate your heatmap designs today.
 
-> Start creating effective heatmaps with custom stepped gradients. Try our [Colors Gradient Generator](/colors/colors-gradient) now and transform your data visualizations.
+> Start creating effective heatmaps with custom stepped gradients. Try our [Colors Gradient Generator](${Routes.ColorsGradientGeneratorTool}) now and transform your data visualizations.
 `;
 
 export { content };

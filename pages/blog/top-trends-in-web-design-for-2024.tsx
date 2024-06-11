@@ -4,6 +4,7 @@ import { BaseLayout } from '@/layouts/base-layout';
 import { blogPosts } from '@/content/blog-posts';
 import { content } from '../../content/blog-posts/top-trends-in-web-design-for-2024';
 import { convertDateToUSFormat } from '@/utils/date';
+import { Routes } from '@/content/routes';
 
 import { PostContainer, PostTitle, PostSubtitle, PostSummary } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
@@ -12,12 +13,12 @@ import { BackLink } from '@/components/ui/back-link';
 import 'primeflex/primeflex.css';
 
 const BlogTopTrendsInWebDesignFor2024Page = () => {
-  const post = blogPosts.find((post) => post.url === 'top-trends-in-web-design-for-2024');
+  const post = blogPosts.find((post) => post.url === Routes.WebDesignTrendsBlog);
 
   return (
     <BaseLayout>
       <PostContainer>
-        <BackLink href='/blog'>Back to Blog</BackLink>
+        <BackLink href={Routes.Blog}>Back to Blog</BackLink>
 
         <PostTitle>{post?.title}</PostTitle>
 

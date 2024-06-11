@@ -9,6 +9,7 @@ import { GlassCard } from '@/components/ui/landing/cards/glass-card';
 import { Button } from 'primereact/button';
 import { NeonCard } from '@/components/ui/landing/cards/neon-card';
 import { Footer } from '@/components/ui/footer';
+import { Routes } from '@/content/routes';
 
 const Home = () => {
   const toast = useRef<Toast>(null);
@@ -54,21 +55,21 @@ const Home = () => {
             image='../icons/color-converter.jpg' 
             title='Color Manipulation' 
             description='Convert, blend, and generate gradients or themes.' 
-            link='/colors/color-converter' 
+            link={Routes.ColorsConverterTool} 
           />
           <NeonCard 
             gradient='linear-gradient(135deg, rgba(113, 69, 178, 0.5), rgba(95, 102, 241, 0.5))' 
             image='../icons/image-converter.jpg' 
             title='Photo Manipulation' 
             description='Convert, crop, enhance quality, apply filters, and edit photos.' 
-            link='/image/image-optimization' 
+            link={Routes.ImageOptimizationTool} 
           />
           <NeonCard 
             gradient='linear-gradient(135deg, rgba(113, 69, 178, 0.5), rgba(95, 102, 241, 0.5))' 
             image='../icons/color-converter.jpg' 
             title='Games' 
             description='Games related to color or photo manipulation.' 
-            link='/games/color-mixer' 
+            link={Routes.GuessColorBlendGame} 
           />
         </Grid3Col>
         

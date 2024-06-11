@@ -19,7 +19,7 @@ type ConvertedColors = {
   [key in ColorFormat]?: string;
 }
 
-const ColorsConverterPage = () => {
+const ColorsConverterToolPage = () => {
   const [color, setColor] = useState('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
   const toast = useRef<Toast>(null);
@@ -197,4 +197,4 @@ const ResultColorContainer = styled.div`
   padding: 0.5rem;
 `;
 
-export default ColorsConverterPage;
+export default ColorsConverterToolPage;
