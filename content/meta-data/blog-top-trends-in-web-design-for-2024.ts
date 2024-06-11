@@ -1,0 +1,10 @@
+import { MetaTags } from './types';
+
+const metaTags: MetaTags = {
+  title: 'Top Trends in Web Design for 2024',
+  description: 'Explore the top web design trends for 2024, including bold typography, dark mode, 3D visuals, and AI integration, and learn how to incorporate them into your projects.',
+  keywords: ['Web Design Trends', '2024 Design Trends', 'Typography', '3D Design'],
+  url: '/top-trends-in-web-design-for-2024'
+};
+
+export { metaTags };
