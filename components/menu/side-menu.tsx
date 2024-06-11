@@ -83,6 +83,9 @@ const SideMenu: React.FC<Props> = ({}) => {
       ))}
       
       <BlogContainer>
+        {/* <PinkGroupLink href='/support-us'>
+          Support Us
+        </PinkGroupLink> */}
         <GroupLink href='/blog'>
           Blog
         </GroupLink>
@@ -118,6 +121,10 @@ const GroupLink = styled(Link)`
   }
 `;
 
+const PinkGroupLink = styled(GroupLink)`
+  color: var(--primary-color);
+`;
+
 const MenuItem = styled(Link)<{ active: boolean }>`
   border-left: 0.0625rem solid var(--surface-border);
   font-weight: 500;
@@ -150,6 +157,7 @@ const MenuItem = styled(Link)<{ active: boolean }>`
 const BlogContainer = styled.div`
   margin-top: 1rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   position: absolute;
   bottom: 1.5rem;
