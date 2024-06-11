@@ -5,11 +5,6 @@ interface BlogPost {
   createdAt: string;
   url: string;
   tags: string[];
-  meta: {
-    title: string;
-    description: string;
-    keywords: string[];
-  };
 }
 
 export type { BlogPost };
