@@ -16,7 +16,7 @@ const BlogPage = () => {
         {blogPosts.map((post) => (
           <PostCard key={post.url}>
             <h2>
-              <Link href={`${Routes.Blog}/${post.url}`}>
+              <Link href={post.url}>
                 {post.title}
               </Link>
             </h2>
