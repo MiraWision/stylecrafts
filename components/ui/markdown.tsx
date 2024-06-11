@@ -33,7 +33,7 @@ const Markdown: React.FC<Props> = ({ markdownText }) => {
 
 const Container = styled.div`
   font-family: var(--font-family);
-  color: var(--text-color-secondary);
+  color: var(--text-color);
   line-height: 1.6;
   font-size: 1rem;
 
@@ -95,8 +95,7 @@ const Container = styled.div`
     margin: 1rem 0;
 
     img {
-      max-width: 110%;
-      margin-left: -5%;
+      width: 100%;
       border-radius: 0.5rem;
     }
 
