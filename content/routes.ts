@@ -3,7 +3,7 @@ enum Routes {
   ColorsBlenderTool = '/colors/blender',
   ColorsConverterTool = '/colors/converter',
   ImageOptimizationTool = '/images/optimization',
-  ImageToBase64Tool = '/images/to-base64',
+  ImageToBase64Tool = '/images/image-to-base64',
   Base64ToImageTool = '/images/base64-to-image',
   GuessColorBlendGame = '/games/guess-color-blend',
   Blog = '/blog',

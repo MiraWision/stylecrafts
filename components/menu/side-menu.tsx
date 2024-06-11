@@ -10,28 +10,6 @@ interface Props {}
 
 const MenuItems = [
   {
-    name: 'Colors',
-    items: [
-      {
-        name: 'Colors Gradient',
-        url: Routes.ColorsGradientGeneratorTool,
-      },
-      {
-        name: 'Colors Blender',
-        url: Routes.ColorsBlenderTool,
-      },
-      {
-        name: 'Colors Converter',
-        url: Routes.ColorsConverterTool,
-      },
-      // {
-      //   name: 'Colors Palette',
-      //   url: Routes.ColorsPalette,
-      //   isAI: true,
-      // },
-    ],
-  },
-  {
     name: 'Images',
     items: [
       {
@@ -46,6 +24,28 @@ const MenuItems = [
         name: 'Base64 to Image',
         url: Routes.Base64ToImageTool,
       },
+    ],
+  },
+  {
+    name: 'Colors',
+    items: [
+      {
+        name: 'Colors Gradient',
+        url: Routes.ColorsGradientGeneratorTool,
+      },
+      {
+        name: 'Colors Converter',
+        url: Routes.ColorsConverterTool,
+      },
+      {
+        name: 'Colors Blender',
+        url: Routes.ColorsBlenderTool,
+      },
+      // {
+      //   name: 'Colors Palette',
+      //   url: Routes.ColorsPalette,
+      //   isAI: true,
+      // },
     ],
   },
   {

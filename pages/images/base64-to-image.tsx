@@ -65,7 +65,7 @@ const Base64ToImageToolPage = () => {
         <SingleColumnContainer>
           <StyledInputText placeholder='Paste Base64 here...' value={base64Text} onChange={(e) => handleImageInputChange(e.target.value)} />
           {image && 
-            <ImageWithDownload image={image} onDownload={handleDownloadImage} />
+            <ImageWithDownload image={image} onDownload={handleDownloadImage} showDownload />
           }
           {imageSize && <ImageSizeText>Image Size: {(imageSize / 1024).toFixed(2)} KB</ImageSizeText>}
         </SingleColumnContainer>
