@@ -45,9 +45,16 @@ const getRandomElements = (arr: string[], count: number) => {
 
 const initialColors = getRandomElements(Colors, 2);
 
+const examples = [
+  ['#b40426', 2, '#ffffff', 2, '#3b4cc0'],
+  ['#009244', 2, '#feffb3', 2, '#e90012'],
+  ['#6e2000', 2, '#e75000', 2, '#fff7b9'],
+  ['#08306b', 5, '#f7fbff'],
+];
+
 const ColorsGradientGeneratorToolPage = () => {
   const toast = useRef<Toast>(null);
-  
+
   const [colorSteps, setColorSteps] = useState<Array<{ color: string; steps: number }>>([
     { color: initialColors[0], steps: 3 },
     { color: initialColors[1], steps: 4 },
@@ -71,6 +78,13 @@ const ColorsGradientGeneratorToolPage = () => {
     setColorSteps([...colorSteps, { color: newColor, steps: 2 }]);
   };
 
+  const removeColorStep = (index: number) => {
+    if (colorSteps.length > 2) {
+      const newColorSteps = colorSteps.filter((_, i) => i !== index);
+      setColorSteps(newColorSteps);
+    }
+  };
+
   const updateColor = (index: number, newColor: string) => {
     const newColorSteps = [...colorSteps];
     newColorSteps[index].color = newColor;
@@ -84,37 +98,54 @@ const ColorsGradientGeneratorToolPage = () => {
   };
 
   const copyAll = () => {
-    copyToClipboard(JSON.stringify(intermediateMultiColors), {
+    const formattedColors = JSON.stringify(intermediateMultiColors).replace(/,/g, ', ');
+    copyToClipboard(formattedColors, {
       onSuccess: () => toast.current?.show({ severity: 'success', summary: 'Array copied to clipboard' }),
       onFail: () => toast.current?.show({ severity: 'error', summary: 'Failed to copy array' }),
     });
   };
 
-  const examples = [
-    ['#b40426', 2, '#ffffff', 2, '#3b4cc0'],
-    ['#009244', 2, '#feffb3', 2, '#e90012'],
-    ['#6e2000', 2, '#e75000', 2, '#fff7b9'],
-    ['#08306b', 5, '#f7fbff'],
-  ]
+  const loadExample = (example: (string | number)[]): void => {
+    const newColorSteps: Array<{ color: string; steps: number }> = [];
+
+    for (let i = 0; i < example.length; i += 2) {
+      const color = example[i];
+      const steps = example[i + 1];
+
+      if (typeof color === 'string' && (typeof steps === 'number' || steps === undefined)) {
+        newColorSteps.push({ color, steps: steps !== undefined ? steps : 0 });
+      }
+    }
+
+    setColorSteps(newColorSteps);
+  };
+
   return (
     <BaseLayout>
       <Toast ref={toast} />
-      
+
       <MainContainer>
         <Title>Colors Gradient</Title>
-
         <Subtitle>Generate Multi-Stepped Gradients</Subtitle>
 
         <TwoColumnsContainer>
           <div>
             {colorSteps.map((item, index) => (
-              <div key={index}>
-                <Label margin='1rem 0 0.5rem 0'>{`Steps to Color ${index + 1}`}</Label>
+              <ColorStepContainer key={index}>
+                <Label margin='1rem 0 0.5rem 0'>{`Color ${index + 1}`}</Label>
 
-                <ColorInput
-                  value={item.color}
-                  onChange={(newColor) => updateColor(index, newColor)}
-                />
+                <ColorInputContainer>
+                  <ColorInput
+                    value={item.color}
+                    onChange={(newColor) => updateColor(index, newColor)}
+                  />
+                  <RemoveButton
+                    icon='pi pi-minus'
+                    className='p-button-rounded p-button-danger p-button-sm'
+                    onClick={() => removeColorStep(index)}
+                    disabled={colorSteps.length <= 2}
+                  />
+                </ColorInputContainer>
 
                 {index < colorSteps.length - 1 && (
                   <>
@@ -129,7 +160,7 @@ const ColorsGradientGeneratorToolPage = () => {
                     />
                   </>
                 )}
-              </div>
+              </ColorStepContainer>
             ))}
 
             <StyledButton icon='pi pi-plus' label='Add Color' onClick={addColorStep} />
@@ -142,23 +173,55 @@ const ColorsGradientGeneratorToolPage = () => {
           </div>
         </TwoColumnsContainer>
 
+        <ExamplesContainer>
+          {examples.map((example, index) => (
+            <ExampleRow key={index} onClick={() => loadExample(example)}>
+              {example.map((item, idx) =>
+                typeof item === 'string' ? <ColorBox key={idx} color={item} /> : null
+              )}
+            </ExampleRow>
+          ))}
+        </ExamplesContainer>
+
         <NPMLink
           text='Need to have color tools like these in your app? Feel free to use our NPM package'
           packageName='@mirawision/colorize'
         />
       </MainContainer>
-      
+
       <PostContainer>
-        <Markdown 
-          markdownText={content}
-        />
-      </PostContainer> 
+        <Markdown markdownText={content} />
+      </PostContainer>
     </BaseLayout>
   );
 };
 
+const ColorStepContainer = styled.div`
+  margin-bottom: 1rem;
+`;
+
+const ColorInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const RemoveButton = styled(Button)`
+  margin-left: 0.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0;
+  .pi {
+    font-size: 0.75rem;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
 const StyledButton = styled(Button)`
-  margin-top: 1.4rem;
+  margin: 1.4rem 0;
   height: 2rem;
   width: 8rem;
   cursor: pointer;
@@ -168,6 +231,27 @@ const StyledButton = styled(Button)`
   .pi {
     font-size: 0.8rem;
   }
+`;
+
+const ExamplesContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+`;
+
+const ExampleRow = styled.div`
+  display: flex;
+  cursor: pointer;
+`;
+
+const ColorBox = styled.div<{ color: string }>`
+  width: 20px;
+  height: 20px;
+  background-color: ${({ color }) => color};
+  margin-right: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 export default ColorsGradientGeneratorToolPage;
