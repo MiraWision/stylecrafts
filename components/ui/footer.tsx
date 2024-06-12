@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Routes } from '@/content/routes';
 
 const Footer = () => {
   return (
@@ -8,9 +9,9 @@ const Footer = () => {
         <FooterTitle>mirawision corp</FooterTitle>
       </Column>
       <Column>
-        <FooterLink href="#">Privacy Policy</FooterLink>
-        <FooterLink href="#">Terms of Use</FooterLink>
-        <FooterLink href="#">Cookies Policy</FooterLink>
+        <FooterLink href={Routes.PrivacyPolicy}>Privacy Policy</FooterLink>
+        <FooterLink href={Routes.TermsOfUse}>Terms of Use</FooterLink>
+        <FooterLink href={Routes.CookiePolicy}>Cookies Policy</FooterLink>
       </Column>
       <Column>
         <FooterLink href="#">Links</FooterLink>
@@ -40,7 +41,7 @@ const FooterTitle = styled.h3`
 `;
 
 const FooterLink = styled.a`
-   color: var(--gray-400);
+  color: var(--gray-400);
   text-decoration: none;
   margin-bottom: 0.5rem;
   transition: color 0.3s;

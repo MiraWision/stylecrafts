@@ -16,6 +16,9 @@ enum Routes {
   OptimizingImagesBlog = 'optimizing-images-for-the-web',
   WebDesignTrendsBlog = 'top-trends-in-web-design-for-2024',
   UnderstandingColorFormatsBlog = 'understanding-color-formats',
+  TermsOfUse = '/terms-of-use',
+  PrivacyPolicy = '/privacy-policy',
+  CookiePolicy = '/cookie-policy',
 }
 
 export { Routes };
