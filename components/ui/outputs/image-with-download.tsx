@@ -5,11 +5,13 @@ import { DownloadButton } from '@/components/ui/buttons/download-button';
 interface Props {
   image: string;
   fileName?: string;
+  className?: string;
 }
 
 const ImageWithDownload: React.FC<Props> = ({
   image,
   fileName = 'image.jpeg',
+  className,
 }) => {
   const onDownload = () => {
     const link = document.createElement('a');
@@ -26,7 +28,7 @@ const ImageWithDownload: React.FC<Props> = ({
   };
 
   return (
-    <ImageContainer>
+    <ImageContainer className={className}>
       <StyledImage src={image} alt='Uploaded Image' />
 
       <DownloadContainer>

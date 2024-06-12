@@ -5,7 +5,7 @@ import { content } from '@/content/function-descriptions/image-to-base64';
 
 import { Toast } from 'primereact/toast';
 import { BaseLayout } from '@/layouts/base-layout';
-import { ImageInput } from '@/components/ui/inputs/image-input';
+import { Image, ImageInput } from '@/components/ui/inputs/image-input';
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
@@ -21,6 +21,10 @@ const ImageToBase64ToolPage = () => {
     onFail: () => toast?.current?.show({ severity: 'error', summary: 'Error', detail: 'Failed to copy', life: 3000 }),
   }
 
+  const handleImageChange = (image: Image) => {
+    setImage(image.content);
+  }
+
   return (
     <BaseLayout>
       <Toast ref={toast} />
@@ -31,7 +35,7 @@ const ImageToBase64ToolPage = () => {
         <SingleColumnContainer>
           <ImageInputStyled 
             value={image}
-            onChange={setImage} 
+            onChange={handleImageChange} 
           />
 
           <TextareaWithCopy
