@@ -6,53 +6,21 @@ import { content } from '@/content/function-descriptions/base64-to-image';
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { ImageWithDownload } from '@/components/ui/outputs/image-output';
+import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
 import { Markdown } from '@/components/ui/markdown';
 import { PostContainer } from '@/components/ui/post';
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { Title } from '@/components/ui/typography';
+import { TextareaWithCopy } from '@/components/ui/textarea-with-copy';
+import { ImagePlaceholder } from '@/components/ui/image-placeholder';
 
 const Base64ToImageToolPage = () => {
-  const [image, setImage] = useState<string | null>(null);
   const [base64Text, setBase64Text] = useState<string>('');
-  const [imageSize, setImageSize] = useState<number | null>(null);
 
   const toast = useRef<Toast>(null);
 
-  useEffect(() => {
-    if (image) {
-      const size = calculateImageSize(image);
-      setImageSize(size);
-    }
-  }, [image]);
-
-  const calculateImageSize = (base64Str: string) => {
-    let padding, inBytes, base64StringLength;
-    if (base64Str.endsWith('==')) padding = 2;
-    else if (base64Str.endsWith('=')) padding = 1;
-    else padding = 0;
-
-    base64StringLength = base64Str.length;
-    inBytes = (base64StringLength / 4) * 3 - padding;
-    return inBytes;
-  }
-
-  const handleDownloadImage = () => {
-    if (image) {
-      const link = document.createElement('a');
-      link.href = image;
-      link.download = 'image.jpg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
-
-  const handleImageInputChange = (value: string | null) => {
-    if (value !== null) {
-      setBase64Text(value);
-      setImage(value);
-    }
+  const onChange = (value: string) => {
+    setBase64Text(value);
   };
 
   return (
@@ -63,11 +31,24 @@ const Base64ToImageToolPage = () => {
         <Title>Base64 to Image Convertor</Title>
   
         <SingleColumnContainer>
-          <StyledInputText placeholder='Paste Base64 here...' value={base64Text} onChange={(e) => handleImageInputChange(e.target.value)} />
-          {image && 
-            <ImageWithDownload image={image} onDownload={handleDownloadImage} showDownload />
+          <TextareaWithCopy
+            value={base64Text}
+            // @ts-ignore
+            onChange={onChange}
+            placeholder='Paste Base64 text here...'
+          />
+
+          {base64Text.length > 0 
+            ? (
+              <ImageWithDownload 
+                image={base64Text} 
+                fileName={`image.${base64Text.split(';')[0].split('/')[1]}`}
+              />
+            )
+            : (
+              <ImagePlaceholder />
+            )
           }
-          {imageSize && <ImageSizeText>Image Size: {(imageSize / 1024).toFixed(2)} KB</ImageSizeText>}
         </SingleColumnContainer>
       </MainContainer>
       

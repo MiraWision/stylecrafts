@@ -14,7 +14,8 @@ import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 import { Title } from '@/components/ui/typography';
 import { LinkToggleButton } from '@/components/ui/buttons/link-unlink';
-import { ImageWithDownload } from '@/components/ui/outputs/image-output';
+import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
+import { ImagePlaceholder } from '@/components/ui/image-placeholder';
 
 const ImageOptimizationToolPage = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -130,21 +131,26 @@ const ImageOptimizationToolPage = () => {
   
         <SingleColumnContainer>
           <InputAndImageContainer>
-            <ImageInput 
-              width='50%'
+            <ImageInputStyled 
               value={image} 
               onChange={handleImageChange} 
             />
-            {image && 
-              <ImageWithDownload
-                onDownload={handleDownloadImage}
-                topText="Modified"
-                bottomText={imageWidth && imageHeight ? `${imageWidth}x${imageHeight}px` : ''}
-                showDownload={true}
-                showOptimization={true}
-                isCanvas={true}
-                canvasRef={canvasRef}
-              />
+            
+            {image 
+              ? (
+                <>
+                  <ImageWithDownload
+                    image={image}
+                    fileName={`resized-image.${imageType.split('/')[1]}`}
+                  />
+                  <TextOverlayTop>Modified</TextOverlayTop>
+                  <TextOverlayBottom>{imageWidth && imageHeight ? `${imageWidth}x${imageHeight}px` : ''}</TextOverlayBottom>
+                  <OptimizationTag>x45 Optimize</OptimizationTag>
+                </>
+              )
+              : (
+                <ImagePlaceholder />
+              )
             }
           </InputAndImageContainer>
 
@@ -154,7 +160,6 @@ const ImageOptimizationToolPage = () => {
               
               <EditingForm>
                 <FormFieldsRow>
-
                   <FormField>
                     <label>Width:</label>
                     <InputNumber value={imageWidth} onValueChange={(e) => handleWidthChange(e.value || 0)} />
@@ -207,7 +212,52 @@ const ImageOptimizationToolPage = () => {
       </PostContainer> 
     </BaseLayout>
   );
-}
+};
+
+const ImageInputStyled = styled(ImageInput)`
+  width: 20rem;
+  min-height: 10rem;
+`;
+
+const TextOverlayTop = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gray-900);
+  color: var(--gray-50);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  z-index: 10;
+  font-size: 1rem;
+`;
+
+const TextOverlayBottom = styled.div`
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gray-900);
+  color: var(--gray-50);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  z-index: 10;
+  font-size: 1rem;
+`;
+
+const OptimizationTag = styled.div`
+  position: absolute;
+  top: 4.5rem;
+  left: -1.7rem;
+  background: var(--primary-color);
+  color: var(--gray-50);
+  padding: 0.5rem 2rem;
+  border-radius: 0 0 5px 0;
+  z-index: 10;
+  font-size: 0.9rem;
+  transform: rotate(-40deg);
+  transform-origin: 0 0;
+`;
 
 const InputAndImageContainer = styled.div`
   display: flex;
@@ -254,7 +304,8 @@ const FormField = styled.div`
 
 const ToggleContainer = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-self: flex-end;
+  margin-bottom: 0.5rem;
 `;
 
 const SliderContainer = styled.div`

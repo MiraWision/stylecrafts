@@ -6,10 +6,10 @@ import { UploadIcon } from '../icons/upload';
 interface Props {
   value: string | null;
   onChange: (value: string | null) => void;
-  width?: string;
+  className?: string;
 }
 
-const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
+const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const setImage = (value: any) => {
@@ -111,7 +111,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
 
 
   return (
-    <Container width={width}>
+    <Container className={className}>
       {isDragging && (
         <Overlay>
           <Text><b>Just drop it anywhere!</b></Text>
@@ -126,8 +126,9 @@ const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
 
           {!value && (
             <>
-              <UploadIcon />
-              <Text><b>Simply do anything!</b><br />Click to select a file, or drop it on a page, or copy-paste it here</Text>
+              <Icon className='pi pi-cloud-upload' />
+
+              <Text><b>Upload your image</b><br />Click here to select a file, or drop it on a page, or just copy-paste it!</Text>
             </>
           )}
         
@@ -158,6 +159,11 @@ const Label = styled.label`
   width: 100%;
   height: 100%;
   cursor: pointer;
+`;
+
+const Icon = styled.i`
+  font-size: 3rem;
+  color: var(--primary-color);  
 `;
 
 const Text = styled.div`
