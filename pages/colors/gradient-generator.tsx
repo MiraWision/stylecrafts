@@ -18,6 +18,7 @@ import { generateMultiSteppedGradient } from '@mirawision/colorize';
 import { MainContainer, TwoColumnsContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
+import { GradientExamplesList } from '@/components/pages/colors/gradient-generator/gradient-examples-list';
 
 const Colors = [
   '#ff5733',
@@ -44,13 +45,6 @@ const getRandomElements = (arr: string[], count: number) => {
 };
 
 const initialColors = getRandomElements(Colors, 2);
-
-const examples = [
-  ['#b40426', 2, '#ffffff', 2, '#3b4cc0'],
-  ['#009244', 2, '#feffb3', 2, '#e90012'],
-  ['#6e2000', 2, '#e75000', 2, '#fff7b9'],
-  ['#08306b', 5, '#f7fbff'],
-];
 
 const ColorsGradientGeneratorToolPage = () => {
   const toast = useRef<Toast>(null);
@@ -173,15 +167,9 @@ const ColorsGradientGeneratorToolPage = () => {
           </div>
         </TwoColumnsContainer>
 
-        <ExamplesContainer>
-          {examples.map((example, index) => (
-            <ExampleRow key={index} onClick={() => loadExample(example)}>
-              {example.map((item, idx) =>
-                typeof item === 'string' ? <ColorBox key={idx} color={item} /> : null
-              )}
-            </ExampleRow>
-          ))}
-        </ExamplesContainer>
+        <GradientExamplesList
+          onSelected={loadExample}
+        />
 
         <NPMLink
           text='Need to have color tools like these in your app? Feel free to use our NPM package'
@@ -231,27 +219,6 @@ const StyledButton = styled(Button)`
   .pi {
     font-size: 0.8rem;
   }
-`;
-
-const ExamplesContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 2rem;
-  margin-bottom: 5rem;
-`;
-
-const ExampleRow = styled.div`
-  display: flex;
-  cursor: pointer;
-`;
-
-const ColorBox = styled.div<{ color: string }>`
-  width: 20px;
-  height: 20px;
-  background-color: ${({ color }) => color};
-  margin-right: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 export default ColorsGradientGeneratorToolPage;
