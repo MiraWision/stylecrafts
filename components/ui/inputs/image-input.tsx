@@ -1,26 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { UploadIcon } from '../icons/upload';
+import { ImageType } from '@/types/image-types';
+
+interface ImageData {
+  content: string | null;
+  fileMetaData?: {
+    name: string;
+    type: ImageType;
+    size: number;
+    lastModified: number;
+  }
+}
 
 interface Props {
   value: string | null;
-  onChange: (value: string | null) => void;
-  width?: string;
+  onChange: (image: ImageData) => void;
+  className?: string;
 }
 
-const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
+const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
-  const setImage = (value: any) => {
-    onChange(value?.toString() ?? null);
+  const setImage = (value: string, file?: File) => {
+    onChange({
+      content: value?.toString() ?? null,
+      fileMetaData: file ? {
+        name: file.name,
+        type: file.type as ImageType,
+        size: file.size,
+        lastModified: file.lastModified,
+      } : undefined,
+    });
   };
 
   const handleFileRead = (file: File) => {
     const reader = new FileReader();
 
     reader.onload = (e: ProgressEvent<FileReader>) => {
-      setImage(e.target?.result as string);
+      setImage(e.target?.result as string, file);
     };
 
     reader.readAsDataURL(file);
@@ -59,11 +77,6 @@ const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
           }
 
           break;
-        }
-
-        const text = event.clipboardData.getData('text');
-        if (text && isValidHttpUrl(text)) {
-          setImage(text);
         }
       }
     }
@@ -111,7 +124,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
 
 
   return (
-    <Container width={width}>
+    <Container className={className}>
       {isDragging && (
         <Overlay>
           <Text><b>Just drop it anywhere!</b></Text>
@@ -126,8 +139,9 @@ const ImageInput: React.FC<Props> = ({ value, onChange, width = '15rem' }) => {
 
           {!value && (
             <>
-              <UploadIcon />
-              <Text><b>Simply do anything!</b><br />Click to select a file, or drop it on a page, or copy-paste it here</Text>
+              <Icon className='pi pi-cloud-upload' />
+
+              <Text><b>Upload your image</b><br />Click here to select a file, or drop it on a page, or just copy-paste it!</Text>
             </>
           )}
         
@@ -160,6 +174,11 @@ const Label = styled.label`
   cursor: pointer;
 `;
 
+const Icon = styled.i`
+  font-size: 3rem;
+  color: var(--primary-color);  
+`;
+
 const Text = styled.div`
   text-align: center;
   font-size: 0.875rem;
@@ -187,3 +206,5 @@ const Image = styled.img`
 `;
 
 export { ImageInput };
+
+export type { ImageData };
