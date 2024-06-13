@@ -1,6 +1,9 @@
 import React, { useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/default';
+
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
 import { TopBarMenu } from '@/components/menu/top-menu';
@@ -11,11 +14,14 @@ import { NeonCard } from '@/components/ui/landing/cards/neon-card';
 import { Footer } from '@/components/ui/footer';
 import { Routes } from '@/content/routes';
 
+import { CodeBlock } from '@/components/ui/landing/code-block'; 
+
 const Home = () => {
   const toast = useRef<Toast>(null);
 
   return (
     <>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <SectionContainer>
@@ -79,20 +85,21 @@ const Home = () => {
         <Grid2Col>
 
           <RightColumn>
-            <SectionHeader>Our Libraries</SectionHeader>
-            <SectionSubHeader>You can use our libraries for your own projects</SectionSubHeader>
-            <StyledButton>GET STARTED</StyledButton>
+            <SectionHeader>Our Solutions</SectionHeader>
+            <Paragraph>
+              At MiraWision, we’re passionate about creating tools that enhance web development and design. The same innovative solutions that power our website are available for you to use in your own projects.
+            </Paragraph>
+            <Paragraph>
+              We believe in giving back to the community and are excited to share these tools with you. Explore our resources, join the conversation, and let’s build a better web together.
+            </Paragraph>
           </RightColumn>
 
           <LeftColumn>
             <Container>
-              <CodeContainer>
-              @mirawision/colorize
-              npm install @mirawision/colorize
-              yarn add @mirawision/colorize
-              </CodeContainer>
               <Subtitle>@mirawision</Subtitle>
-              <Paragraph>You can find a lot of libraries on different tastyies</Paragraph>
+              <CodeBlock code="npm install @mirawision/colorize" />
+              <OrText>OR</OrText>
+              <CodeBlock code="yarn add @mirawision/colorize" />
             </Container>
           </LeftColumn>
 
@@ -102,8 +109,6 @@ const Home = () => {
     </>
   );
 }
-
-export default Home;
 
 const SectionContainer = styled.section`
   width: 80%;
@@ -224,7 +229,7 @@ const StyledButton = styled(Button)`
 const Container = styled.div`
   background: var(--blue-600);
   border-radius: 1.5rem;
-  padding: 1.5rem;
+  padding: 0 1.5rem 1.5rem 1.5rem;
 `;
 
 const CodeContainer = styled.div`
@@ -234,7 +239,8 @@ const CodeContainer = styled.div`
   color: var(--surface-color);
   font-family: 'Courier New', Courier, monospace;
   font-size: 1rem;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.8);
 `;
 
 const Subtitle = styled.h2`
@@ -244,9 +250,22 @@ const Subtitle = styled.h2`
 `;
 
 const Paragraph = styled.p`
-  font-size: 1rem;
-  margin: 0.2rem 0;
+  line-height: 1.6;
   color: var(--gray-50);
+  font-size: 1.1rem;
+  padding: 1rem;
+  border-left: 3px solid var(--primary-color);
+  background: var(--gray-800);
+  border-radius: 5px;
+  margin-bottom: 1rem;
+`;
+
+const OrText = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--gray-50);
+  margin: 1.5rem 0;
 `;
 
 const glowAnimation = keyframes`
@@ -276,4 +295,4 @@ const Glow = styled.div`
   animation: ${glowAnimation} 10s ease infinite;
 `;
 
-export { Home };
+export default Home;

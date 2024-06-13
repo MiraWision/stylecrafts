@@ -10,9 +10,10 @@ interface Props {
   text: string;
   color?: string;
   border?: boolean;
+  onCopy?: () => void;
 }
 
-const CopyButton: React.FC<Props> = ({ text, color = 'var(--primary-color)', border = false }) => {
+const CopyButton: React.FC<Props> = ({ text, color = 'var(--primary-color)', border = false, onCopy }) => {
   const [icon, setIcon] = useState('pi pi-copy');
 
   const toast = useRef<Toast>(null);
@@ -27,6 +28,10 @@ const CopyButton: React.FC<Props> = ({ text, color = 'var(--primary-color)', bor
         setTimeout(() => {
           setIcon('pi pi-copy');
         }, 3000);
+
+        if (onCopy) {
+          onCopy();
+        }
       },
       onFail: () => {
         toast.current?.show({ severity: 'error', summary: 'Failed', detail: 'Failed to copy text.', life: 3000 });

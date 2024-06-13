@@ -1,7 +1,9 @@
-import React, { useState, useRef, useEffect, useMemo, use } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { content } from '@/content/function-descriptions/image-optimization';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/function-image-optimization';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
@@ -14,6 +16,9 @@ import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
 import { ImagePlaceholder } from '@/components/ui/image-placeholder';
 import { DefaultQuality, ImageSettings, Settings } from '@/components/pages/optimization/image-settings';
 import { ImageType } from '@/types/image-types';
+
+import { logEvent } from '@/lib/gtag';
+import analyticsEvents from '@/lib/analytics-events';
 
 interface OriginalImage {
   content: string;
@@ -46,6 +51,12 @@ const ImageOptimizationToolPage = () => {
     if (settings !== null) {
       saveSettingsToStorage();
     }
+
+    logEvent(
+      analyticsEvents.imageOptimization.optimizationSettingsChanged.event,
+      analyticsEvents.imageOptimization.optimizationSettingsChanged.action,
+      JSON.stringify(settings)
+    );
 
     if (!originalImage) {
       return;
@@ -101,6 +112,12 @@ const ImageOptimizationToolPage = () => {
         settings?.width ?? imageElement.width, 
         settings?.height ?? imageElement.height,
       );
+
+      logEvent(
+        analyticsEvents.imageOptimization.imageUploadedForOptimization.event,
+        analyticsEvents.imageOptimization.imageUploadedForOptimization.action,
+        `Image Uploaded: ${image.fileMetaData?.name}`
+      );
     };
 
     imageElement.src = image.content;
@@ -136,10 +153,15 @@ const ImageOptimizationToolPage = () => {
     }
 
     const content = canvas.toDataURL(settings?.type, (settings?.quality ?? 100) / 100);
-
     const size = content.length * 0.75;
 
     setOptimizedImage({ content, size });
+
+    logEvent(
+      analyticsEvents.imageOptimization.imageOptimizedAndDownloaded.event,
+      analyticsEvents.imageOptimization.imageOptimizedAndDownloaded.action,
+      `Optimized Image Size: ${(size / 1024).toFixed(2)} KB`
+    );
   }
 
   const getSettingsFromStorage = (): Settings | null => {
@@ -160,6 +182,7 @@ const ImageOptimizationToolPage = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <MainContainer>
@@ -194,7 +217,7 @@ const ImageOptimizationToolPage = () => {
                     />
 
                     <TextOverlayTop>Optimized</TextOverlayTop>
-
+                    
                     <TextOverlayBottom>{`${settings?.width}x${settings?.height}px`}</TextOverlayBottom>
                   </>
                 )
@@ -244,7 +267,7 @@ const ImageContainer = styled.div`
   position: relative;
 `;
 
-const Сanvas = styled.canvas`
+const Canvas = styled.canvas`
   position: absolute;
   z-index: -1;
   border-radius: 0.5rem;

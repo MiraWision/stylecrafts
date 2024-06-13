@@ -1,6 +1,9 @@
 import React from 'react';
 import { BaseLayout } from '@/layouts/base-layout';
 
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/blog-essential-tools-for-designers-in-2024';
+
 import { blogPosts } from '@/content/blog-posts';
 import { content } from '../../content/blog-posts/essential-tools-for-designers-in-2024';
 import { convertDateToUSFormat } from '@/utils/date';
@@ -17,6 +20,7 @@ const BlogEssentialToolsForDesignersBlogIn2024Page = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <PostContainer>
         <BackLink href={Routes.Blog}>Back to Blog</BackLink>
 

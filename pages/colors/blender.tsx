@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { convertColor, ColorFormat, blendMultipleColors } from '@mirawision/colorize';
 
 import { content } from '@/content/function-descriptions/colors-blender';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/function-colors-blender';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
@@ -16,6 +18,9 @@ import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 import { Title } from '@/components/ui/typography';
 import { NPMLink } from '@/components/ui/npm-link';
+
+import { logEvent } from '@/lib/gtag';
+import analyticsEvents from '@/lib/analytics-events';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -50,6 +55,11 @@ const ColorsBlenderToolPage = () => {
   const resetColor = () => {
     const initialColors = getRandomColors(2).map(color => ({ color: color.hex, weight: 1 }));
     setSelectedColors(initialColors);
+    logEvent(
+      analyticsEvents.colorMixer.colorsMixed.event,
+      analyticsEvents.colorMixer.colorsMixed.action,
+      'Color reset'
+    );
   };
 
   const getRandomColors = (count: number) => {
@@ -95,6 +105,11 @@ const ColorsBlenderToolPage = () => {
         return [...prev, { color, weight: newWeight }];
       }
     });
+    logEvent(
+      analyticsEvents.colorMixer.colorsAndWeightsSelected.event,
+      analyticsEvents.colorMixer.colorsAndWeightsSelected.action,
+      `Color: ${color}, Weight: ${newWeight}`
+    );
   };
 
   const totalWeight = selectedColors.reduce((sum, c) => sum + c.weight, 0) || 1;
@@ -105,15 +120,24 @@ const ColorsBlenderToolPage = () => {
 
   const contrastColor = color ? getContrastingColor(color) : 'var(--text-color-secondary)';
 
+  const handleCopy = () => {
+    logEvent(
+      analyticsEvents.copyActions.textCopied.event,
+      analyticsEvents.copyActions.textCopied.action,
+      `Copied hex color: ${color}`
+    );
+  };
+
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <MainContainer>
         <Title>Colors Blender</Title>
 
         <ColorPreview color={color} contrastColor={contrastColor} resetColor={resetColor}>
-          <CopyButton text={color} border color={contrastColor} />
+          <CopyButton text={color} border color={contrastColor} onCopy={handleCopy} />
 
           <ColorCode>{color}</ColorCode>
           

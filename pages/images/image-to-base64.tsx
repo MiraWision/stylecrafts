@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import styled from 'styled-components';
 
 import { content } from '@/content/function-descriptions/image-to-base64';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/function-image-to-base64';
 
 import { Toast } from 'primereact/toast';
 import { BaseLayout } from '@/layouts/base-layout';
@@ -11,6 +13,9 @@ import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 import { Title } from '@/components/ui/typography';
 import { TextareaWithCopy } from '@/components/ui/textarea-with-copy';
+
+import { logEvent } from '@/lib/gtag';
+import analyticsEvents from '@/lib/analytics-events';
 
 const ImageToBase64ToolPage = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -23,10 +28,24 @@ const ImageToBase64ToolPage = () => {
 
   const handleImageChange = (image: Image) => {
     setImage(image.content);
+    logEvent(
+      analyticsEvents.imageConverter.imageUploaded.event,
+      analyticsEvents.imageConverter.imageUploaded.action,
+      'Image Uploaded'
+    );
+  }
+
+  const handleCopyEvent = (label: string) => {
+    logEvent(
+      analyticsEvents.copyActions.textCopied.event,
+      analyticsEvents.copyActions.textCopied.action,
+      label
+    );
   }
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
       
       <MainContainer>
@@ -44,19 +63,28 @@ const ImageToBase64ToolPage = () => {
               { 
                 name: 'Copy base64', 
                 getValue: (text) => text, 
-                onSuccess: () => callback.onSuccess('Base64 Content copied to clipboard'),
+                onSuccess: () => {
+                  callback.onSuccess('Base64 Content copied to clipboard');
+                  handleCopyEvent('Base64 Content');
+                },
                 onFail: callback.onFail,
               },
               { 
                 name: 'Copy to HTML', 
                 getValue: (text) => `<img src="${text}" alt="Image"/>`, 
-                onSuccess: () => callback.onSuccess('HTML Image copied to clipboard'),
+                onSuccess: () => {
+                  callback.onSuccess('HTML Image copied to clipboard');
+                  handleCopyEvent('HTML Image');
+                },
                 onFail: callback.onFail,
               },
               { 
                 name: 'Copy to CSS', 
                 getValue: (text) => `background-image: url('${text}');`, 
-                onSuccess: () => callback.onSuccess('CSS Style copied to clipboard'),
+                onSuccess: () => {
+                  callback.onSuccess('CSS Style copied to clipboard');
+                  handleCopyEvent('CSS Style');
+                },
                 onFail: callback.onFail,
               },
             ]}

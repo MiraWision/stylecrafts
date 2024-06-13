@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { convertColor, blendMultipleColors, ColorFormat } from '@mirawision/colorize';
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/game-guess-color-blend';
 import { Button } from 'primereact/button';
 import { ColorCircle } from '@/components/ui/buttons/color-circle';
 import { DoubleColorPreview } from '@/components/ui/outputs/color-double-preview';
@@ -18,6 +20,9 @@ import {
   resetChallenge,
   increaseDifficulty
 } from './blend-game-logic';
+
+import { logEvent } from '@/lib/gtag';
+import analyticsEvents from '@/lib/analytics-events';
 
 const ColorMixer = () => {
   const [currentColor, setCurrentColor] = useState<string>('');
@@ -104,9 +109,25 @@ const ColorMixer = () => {
           setMessage(null);
           increaseDifficulty(score, setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setInitialDropsCount);
         }, 2000);
+        logEvent(
+          analyticsEvents.game.levelCompleted.event,
+          analyticsEvents.game.levelCompleted.action,
+          `Score: ${score + minDrops}`
+        );
       } else {
         setMessage('Congratulations! You matched the color! Click to start a new game.');
+        logEvent(
+          analyticsEvents.game.levelCompleted.event,
+          analyticsEvents.game.levelCompleted.action,
+          'Color matched in normal mode'
+        );
       }
+    } else {
+      logEvent(
+        analyticsEvents.game.colorGuessAttempted.event,
+        analyticsEvents.game.colorGuessAttempted.action,
+        `Guess similarity: ${similarity}`
+      );
     }
   }, [similarity]);
 
@@ -118,6 +139,11 @@ const ColorMixer = () => {
         setTopScore(score);
         localStorage.setItem('topScore', score.toString());
       }
+      logEvent(
+        analyticsEvents.game.gameStarted.event,
+        analyticsEvents.game.gameStarted.action,
+        `Game over with score: ${score}`
+      );
     }
   }, [timerDuration]);
 
@@ -128,6 +154,11 @@ const ColorMixer = () => {
       setTopScore(score);
       localStorage.setItem('topScore', score.toString());
     }
+    logEvent(
+      analyticsEvents.game.gameStarted.event,
+      analyticsEvents.game.gameStarted.action,
+      `Game over with score: ${score}`
+    );
   };
 
   const handleDifficultyChange = (level: string) => {
@@ -139,6 +170,11 @@ const ColorMixer = () => {
   const startChallenge = () => {
     setIsChallenge(true);
     resetChallenge(setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setScore, setTimerDuration, setInitialDropsCount);
+    logEvent(
+      analyticsEvents.game.challengeModeStarted.event,
+      analyticsEvents.game.challengeModeStarted.action,
+      'Challenge mode started'
+    );
   };
 
   useEffect(() => {
@@ -148,7 +184,15 @@ const ColorMixer = () => {
 
     if (isChallenge && timerDuration > 0) {
       timerRef.current = window.setInterval(() => {
-        setTimerDuration((prevDuration) => prevDuration - 1);
+        setTimerDuration((prevDuration) => {
+          const newDuration = prevDuration - 1;
+          logEvent(
+            analyticsEvents.game.challengeProgressed.event,
+            analyticsEvents.game.challengeProgressed.action,
+            `Remaining time: ${newDuration}`
+          );
+          return newDuration;
+        });
       }, 1000);
     }
 
@@ -161,6 +205,7 @@ const ColorMixer = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <Title>Color Mixer</Title>

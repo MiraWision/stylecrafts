@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { content } from '@/content/function-descriptions/colors-converter';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/function-colors-converter';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
@@ -14,6 +16,9 @@ import { MainContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 import { Title } from '@/components/ui/typography';
+
+import { logEvent } from '@/lib/gtag';
+import analyticsEvents from '@/lib/analytics-events';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -43,10 +48,33 @@ const ColorsConverterToolPage = () => {
       }
     });
     setConvertedColors(newConvertedColors);
+    logEvent(
+      analyticsEvents.colorConverter.conversionDisplayed.event,
+      analyticsEvents.colorConverter.conversionDisplayed.action,
+      'colorFormats'
+    );
   }, [color]);
+
+  const handleColorChange = (newColor: string) => {
+    setColor(newColor);
+    logEvent(
+      analyticsEvents.colorConverter.colorEntered.event,
+      analyticsEvents.colorConverter.colorEntered.action,
+      newColor
+    );
+  };
+
+  const handleCopy = (text: string, format: string) => {
+    logEvent(
+      analyticsEvents.copyActions.textCopied.event,
+      analyticsEvents.copyActions.textCopied.action,
+      `Copied ${format} color: ${text}`
+    );
+  };
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <MainContainer>
@@ -58,7 +86,7 @@ const ColorsConverterToolPage = () => {
 
             <ColorInput
               value={color}
-              onChange={(newColor) => setColor(newColor)}
+              onChange={handleColorChange}
             />
 
             <ColorPreviewContainer>
@@ -69,14 +97,17 @@ const ColorsConverterToolPage = () => {
           <FormatsContainer>
             <FlexContainer>
 
-            {Object.values(ColorFormat).map((format) => (
-              <ResultColorContainer key={format}>
-                <Label fontSize='0.9rem' >{format}</Label>
+              {Object.values(ColorFormat).map((format) => (
+                <ResultColorContainer key={format}>
+                  <Label fontSize='0.9rem'>{format}</Label>
 
-                <Label fontSize='0.9rem' color='var(--primary-color)' >{convertedColors[format]}</Label>
-                
-                <CopyButton text={convertedColors[format] || ''} />
-              </ResultColorContainer>
+                  <Label fontSize='0.9rem' color='var(--primary-color)'>{convertedColors[format]}</Label>
+                  
+                  <CopyButton 
+                    text={convertedColors[format] || ''} 
+                    onCopy={() => handleCopy(convertedColors[format] || '', format)} 
+                  />
+                </ResultColorContainer>
               ))}
             </FlexContainer>
           </FormatsContainer>
