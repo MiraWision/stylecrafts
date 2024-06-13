@@ -15,6 +15,7 @@ import { MainContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 import { Title } from '@/components/ui/typography';
+import { NPMLink } from '@/components/ui/npm-link';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -142,6 +143,11 @@ const ColorsBlenderToolPage = () => {
             );
           })}
         </ColorCirclesContainer>
+
+        <NPMLink 
+          text='Need to have color tools like these in you app? Feel free to use our NPM package'
+          packageName='@mirawision/colorize'
+        />
       </MainContainer>
 
       <PostContainer>

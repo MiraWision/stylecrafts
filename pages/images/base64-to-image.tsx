@@ -61,16 +61,4 @@ const Base64ToImageToolPage = () => {
   );
 };
 
-const ImageSizeText = styled.div`
-  font-size: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-`;
-
-const StyledInputText = styled(InputTextarea)`
-  width: 50%;
-  min-height: 6rem;
-  max-height: 18rem;
-`;
-
 export default Base64ToImageToolPage;
