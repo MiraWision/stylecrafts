@@ -40,19 +40,15 @@ const ColorCircle: React.FC<Props> = ({ color, weight, totalWeight, onWeightChan
         )}
       </Item>
       <ColorName>{color.name}</ColorName>
-      {weight > 0 && (
-        <MinusButton
-          onClick={handleDecreaseWeight}
-          style={{
-            backgroundColor: buttonBgColor,
-            color: buttonTextColor,
-          }}
-          onMouseOver={(e) => (e.currentTarget.style.backgroundColor = buttonHoverBgColor)}
-          onMouseOut={(e) => (e.currentTarget.style.backgroundColor = buttonBgColor)}
-        >
-          –
-        </MinusButton>
-      )}
+      <ButtonContainer>
+        {weight > 0 && (
+          <RemoveButton
+            icon='pi pi-minus'
+            className='p-button-rounded p-button-danger p-button-sm'
+            onClick={handleDecreaseWeight}
+          />
+        )}
+      </ButtonContainer>
     </Container>
   );
 };
@@ -98,22 +94,27 @@ const PercentageLabel = styled.div<{ color: string }>`
   color: ${({ color }) => color};
 `;
 
-const MinusButton = styled(Button)`
-  border: none;
-  box-shadow: none;
-  width: 2.5rem;
-  height: 1.25rem;
-  padding: 0;
+const ButtonContainer = styled.div`
+  height: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 0.5rem;
+`;
 
-  &:hover {
-    cursor: pointer;
+const RemoveButton = styled(Button)`
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0;
+
+  .pi {
+    font-size: 0.75rem;
   }
 
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1), 0 0.125rem 0.25rem rgba(0, 0, 0, 0.08);
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 export { ColorCircle };

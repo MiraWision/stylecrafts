@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { Button } from 'primereact/button';
+import { getLuminance } from '@mirawision/colorize';
 
 interface Props {
   currentColor: string;
@@ -10,7 +10,16 @@ interface Props {
   resetColor: () => void;
 }
 
+const getTextColorBasedOnBackground = (bgColor: string) => {
+  if (!bgColor) return '#000';
+
+  return getLuminance(bgColor) > 0.179 ? '#000' : '#fff';
+};
+
 const DoubleColorPreview: React.FC<Props> = ({ currentColor, targetColor, similarity, resetColor }) => {
+  const currentTextColor = getTextColorBasedOnBackground(currentColor);
+  const targetTextColor = getTextColorBasedOnBackground(targetColor);
+
   return (
     <ColorPreviewContainer>
       <ColorSection className='left' color={currentColor}>
@@ -19,19 +28,19 @@ const DoubleColorPreview: React.FC<Props> = ({ currentColor, targetColor, simila
         )}
 
         <Overlay>
-          <SectionTitle>Your Mix</SectionTitle>
+          <SectionTitle textColor={currentTextColor}>Your Mix</SectionTitle>
 
-          <ColorCode>{currentColor || ''}</ColorCode>
+          <ColorCode textColor={currentTextColor}>{currentColor || ''}</ColorCode>
           
-          <Similarity>Match: {currentColor ? similarity.toFixed(2) : 0}%</Similarity>
+          <Similarity textColor={currentTextColor}>Match: {currentColor ? similarity.toFixed(2) : 0}%</Similarity>
         </Overlay>
       </ColorSection>
 
       <ColorSection className='right' color={targetColor}>
         <Overlay>
-          <SectionTitle>Target</SectionTitle>
+          <SectionTitle textColor={targetTextColor}>Target</SectionTitle>
 
-          <ColorCode>{targetColor}</ColorCode>
+          <ColorCode textColor={targetTextColor}>{targetColor}</ColorCode>
         </Overlay>
       </ColorSection>
       
@@ -98,23 +107,24 @@ const Overlay = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: var(--text-color);
-  background-color: rgba(255, 255, 255, 0.8);
 `;
 
-const SectionTitle = styled.h2`
+const SectionTitle = styled.h2<{ textColor: string }>`
   font-size: 1.5rem;
   margin: 0.5rem;
+  color: ${({ textColor }) => textColor};
 `;
 
-const ColorCode = styled.p`
+const ColorCode = styled.p<{ textColor: string }>`
   font-size: 1rem;
   margin: 0.5rem;
+  color: ${({ textColor }) => textColor};
 `;
 
-const Similarity = styled.p`
+const Similarity = styled.p<{ textColor: string }>`
   font-size: 1rem;
   margin: 0.5rem;
+  color: ${({ textColor }) => textColor};
 `;
 
 const ResetButton = styled(Button)`
