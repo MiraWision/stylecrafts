@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import styled from 'styled-components';
 
 import { content } from '@/content/function-descriptions/image-to-base64';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/function-image-to-base64';
 
 import { Toast } from 'primereact/toast';
 import { BaseLayout } from '@/layouts/base-layout';
@@ -27,6 +29,7 @@ const ImageToBase64ToolPage = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
       
       <MainContainer>

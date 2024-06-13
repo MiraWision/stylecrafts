@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { convertColor, blendMultipleColors, ColorFormat } from '@mirawision/colorize';
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/game-guess-color-blend';
 import { Button } from 'primereact/button';
 import { ColorCircle } from '@/components/ui/buttons/color-circle';
 import { DoubleColorPreview } from '@/components/ui/outputs/color-double-preview';
@@ -161,6 +163,7 @@ const ColorMixer = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <Title>Color Mixer</Title>

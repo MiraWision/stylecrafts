@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/default';
+
 import { BaseLayout } from '@/layouts/base-layout';
 import { blogPosts } from '@/content/blog-posts';
 import { convertDateToUSFormat } from '@/utils/date';
@@ -10,6 +13,7 @@ import { Routes } from '@/content/routes';
 const BlogPage = () => {
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <BlogContainer>
         <Title>Blog</Title>
 

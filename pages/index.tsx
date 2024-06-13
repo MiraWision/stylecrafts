@@ -1,6 +1,9 @@
 import React, { useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/default';
+
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
 import { TopBarMenu } from '@/components/menu/top-menu';
@@ -16,6 +19,7 @@ const Home = () => {
 
   return (
     <>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <SectionContainer>

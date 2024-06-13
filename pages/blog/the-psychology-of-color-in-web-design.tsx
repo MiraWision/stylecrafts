@@ -4,6 +4,9 @@ import { BaseLayout } from '@/layouts/base-layout';
 import { blogPosts } from '@/content/blog-posts';
 import { content } from '../../content/blog-posts/the-psychology-of-color-in-web-design';
 
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/blog-the-psychology-of-color-in-web-design';
+
 import { convertDateToUSFormat } from '@/utils/date';
 import { Routes } from '@/content/routes';
 
@@ -18,6 +21,7 @@ const BlogThePsychologyOfColorBlogInWebDesignPage = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <PostContainer>
         <BackLink href={Routes.Blog}>Back to Blog</BackLink>
 

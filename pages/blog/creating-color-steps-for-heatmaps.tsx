@@ -1,6 +1,9 @@
 import React from 'react';
 import { BaseLayout } from '@/layouts/base-layout';
 
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/blog-creating-color-steps-for-heatmaps';
+
 import { blogPosts } from '@/content/blog-posts';
 import { content } from '../../content/blog-posts/creating-color-steps-for-heatmaps';
 import { convertDateToUSFormat } from '@/utils/date';
@@ -17,6 +20,7 @@ const BlogCreatingColorStepsForHeatmapsBlogPage = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <PostContainer>
         <BackLink href={Routes.Blog}>Back to Blog</BackLink>
 

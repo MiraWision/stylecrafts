@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { convertColor, ColorFormat, blendMultipleColors } from '@mirawision/colorize';
 
 import { content } from '@/content/function-descriptions/colors-blender';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/function-colors-blender';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
@@ -106,6 +108,7 @@ const ColorsBlenderToolPage = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <MainContainer>

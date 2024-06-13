@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { content } from '@/content/function-descriptions/colors-converter';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/function-colors-converter';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
@@ -47,6 +49,7 @@ const ColorsConverterToolPage = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <MainContainer>

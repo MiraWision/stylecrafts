@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/function-colors-gradient';
+
 import { copyToClipboard } from '@/utils/copy';
-
 import { content } from '@/content/function-descriptions/colors-gradient';
-
 import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
@@ -122,6 +123,7 @@ const ColorsGradientGeneratorToolPage = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <MainContainer>

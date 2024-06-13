@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect, useMemo, use } from 'react';
 import styled from 'styled-components';
 
 import { content } from '@/content/function-descriptions/image-optimization';
+import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { metaTags } from '@/content/meta-data/function-image-optimization';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
@@ -100,6 +102,7 @@ const ImageOptimizationToolPage = () => {
 
   return (
     <BaseLayout>
+      <MetaTagsPage {...metaTags} />
       <Toast ref={toast} />
 
       <MainContainer>
