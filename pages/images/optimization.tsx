@@ -146,16 +146,14 @@ const ImageOptimizationToolPage = () => {
             </ImageContainer>
           </InputAndImageContainer>
 
-          {image && (
-            <>
-              {imageSize && <ImageSizeText>Image Size: {(imageSize / 1024).toFixed(2)} KB</ImageSizeText>}
-              
-              <ImageSettings 
-                settings={settings}
-                onChange={setSettings}
-                originalRatio={imageRatio}
-              />
-            </>
+          {/* {imageSize && <ImageSizeText>Image Size: {(imageSize / 1024).toFixed(2)} KB</ImageSizeText>} */}
+
+          {optimizedImage && (
+            <ImageSettings 
+              settings={settings}
+              onChange={setSettings}
+              originalRatio={imageRatio}
+            />
           )}
         </SingleColumnContainer>
       </MainContainer>  
@@ -185,10 +183,10 @@ const TextOverlay = styled.div`
   position: absolute;
   background: var(--gray-900);
   color: var(--gray-50);
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   z-index: 10;
-  font-size: 1rem;
+  font-size: 0.75rem;
 `;
 
 const TextOverlayTop = styled(TextOverlay)`
