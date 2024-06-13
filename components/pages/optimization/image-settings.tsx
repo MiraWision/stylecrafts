@@ -28,15 +28,17 @@ const ImageTypes = [
   { label: 'WEBP', value: ImageType.WEBP },
 ];
 
+const DefaultQuality = 80;
+
 const ImageSettings: React.FC<Props> = ({ settings, onChange, originalRatio }) => {
   const [areLinkedDimensions, setAreLinkedDimensions] = useState<boolean>(true);
 
   useEffect(() => {
-    getSettingsFromStorage();
+    // getSettingsFromStorage();
   }, []);
 
   useEffect(() => {
-    saveSettingsToStorage();
+    // saveSettingsToStorage();
   }, [settings, areLinkedDimensions]);
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const ImageSettings: React.FC<Props> = ({ settings, onChange, originalRatio }) =
   }, [originalRatio]);
 
   useEffect(() => {
-    handleQualityChange(100);
+    handleQualityChange(DefaultQuality);
   }, [settings?.type]);
 
   const getSettingsFromStorage = () => {
@@ -76,6 +78,7 @@ const ImageSettings: React.FC<Props> = ({ settings, onChange, originalRatio }) =
   const handleChange = (updates: Partial<Settings>) => {
     const newSettings = settings ? { ...settings, ...updates } : updates;
 
+    // @ts-ignore
     onChange(newSettings);
   };
   
@@ -220,13 +223,13 @@ const SliderContainer = styled.div`
 const QualityLabels = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 100%;
   align-items: center;
   margin: 0 auto; 
 `;
 
 const StyledSlider = styled(Slider)`
-  width: 80%;
+  width: 80% !important;
   margin: 0 0.5rem;
 `;
 
@@ -234,6 +237,6 @@ const QualityValue = styled.span`
   margin-top: 0.5rem;
 `;
 
-export { ImageSettings };
+export { ImageSettings, DefaultQuality };
 
 export type { Settings };

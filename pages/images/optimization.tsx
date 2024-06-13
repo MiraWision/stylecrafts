@@ -12,7 +12,7 @@ import { Markdown } from '@/components/ui/markdown';
 import { Title } from '@/components/ui/typography';
 import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
 import { ImagePlaceholder } from '@/components/ui/image-placeholder';
-import { ImageSettings, Settings } from '@/components/pages/optimization/image-settings';
+import { DefaultQuality, ImageSettings, Settings } from '@/components/pages/optimization/image-settings';
 import { ImageType } from '@/types/image-types';
 
 interface OriginalImage {
@@ -35,13 +35,34 @@ const ImageOptimizationToolPage = () => {
   const [settings, setSettings] = useState<Settings | null>(null);
 
   const imageRatio = useMemo(() => (originalImage?.width ?? 1) / (originalImage?.height ?? 1), [originalImage]);
-  
+  const optimizationPercentage = useMemo(() => Math.ceil((1 - ((optimizedImage?.size ?? 1) / (originalImage?.size ?? 1))) * 100), [optimizedImage, originalImage]);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const toast = useRef<Toast>(null);
 
   useEffect(() => {
+    if (!originalImage) {
+      return;
+    }
+
+    const imageElement = new Image();
+
+    imageElement.onload = () => {
+      renderCanvas(imageElement, settings?.width ?? 0, settings?.height ?? 0);
+    };
+
+    imageElement.src = originalImage.content;
+
     generateOptimizedImage();
   }, [settings]);
+
+  useEffect(() => {
+    console.log('originalImage', originalImage); 
+  }, [originalImage]);
+
+  useEffect(() => {
+    console.log('optimizedImage', optimizedImage); 
+  }, [optimizedImage]);
 
   const handleImageChange = (image: ImageData) => {
     if (!image || !image.content) {
@@ -49,8 +70,6 @@ const ImageOptimizationToolPage = () => {
     }
 
     const imageElement = new Image();
-
-    imageElement.src = image.content;
 
     imageElement.onload = () => {
       setOriginalImage({
@@ -62,11 +81,26 @@ const ImageOptimizationToolPage = () => {
         height: imageElement.height,
       });
 
-      loadCanvas(imageElement, imageElement.width, imageElement.height);
+      if (!settings) {
+        setSettings({
+          width: imageElement.width,
+          height: imageElement.height,
+          type: image.fileMetaData?.type ?? ImageType.JPEG,
+          quality: DefaultQuality,
+        });
+      }
+
+      renderCanvas(
+        imageElement, 
+        settings?.width ?? imageElement.width, 
+        settings?.height ?? imageElement.height,
+      );
     };
+
+    imageElement.src = image.content;
   };
 
-  const loadCanvas = (imageElement: HTMLImageElement, width: number, height: number) => {
+  const renderCanvas = (imageElement: HTMLImageElement, width: number, height: number) => {
     const canvas = canvasRef.current;
 
     if (!canvas) {
@@ -80,8 +114,12 @@ const ImageOptimizationToolPage = () => {
     }
 
     canvas.width = width;
+    
     canvas.height = height;
+    
     ctx.drawImage(imageElement, 0, 0, width, height);
+
+    generateOptimizedImage();
   }
 
   const generateOptimizedImage = () => {
@@ -116,27 +154,26 @@ const ImageOptimizationToolPage = () => {
               {originalImage && (
                 <>
                   <TextOverlayTop>Original</TextOverlayTop>
+
                   <TextOverlayBottom>{`${originalImage.width}x${originalImage.height}px`}</TextOverlayBottom>
                 </>  
               )}
             </ImageContainer>
             
             <ImageContainer>
-              {optimizedImage 
+              <Сanvas ref={canvasRef} />
+
+              {optimizedImage?.content 
                 ? (
                   <>
-                    <Сanvas ref={canvasRef} />
-
                     <ImageWithDownloadStyled
                       image={optimizedImage?.content ?? ''}
-                      fileName={`${originalImage?.fileName.split('.')[0]}-optimized.${settings?.type.split('/')[1]}`}
+                      fileName={`${originalImage?.fileName?.split('.')[0]}-optimized.${settings?.type?.split('/')[1]}`}
                     />
 
                     <TextOverlayTop>Optimized</TextOverlayTop>
 
                     <TextOverlayBottom>{`${settings?.width}x${settings?.height}px`}</TextOverlayBottom>
-                    
-                    <OptimizationTag>x45 Optimize</OptimizationTag>
                   </>
                 )
                 : (
@@ -146,7 +183,21 @@ const ImageOptimizationToolPage = () => {
             </ImageContainer>
           </InputAndImageContainer>
 
-          {/* {imageSize && <ImageSizeText>Image Size: {(imageSize / 1024).toFixed(2)} KB</ImageSizeText>} */}
+          {originalImage && optimizedImage && (
+            <SizeContainer>
+              <div>
+                <ImageSizeText>Size: {(originalImage.size / 1024).toFixed(2)} KB</ImageSizeText>
+              </div>
+
+              <div>
+                <ImageSizeText>Size: {(optimizedImage.size / 1024).toFixed(2)} KB</ImageSizeText>
+                    
+                {optimizationPercentage > 0 && (
+                  <OptimizationTag>{optimizationPercentage}% Optimized</OptimizationTag>
+                )}
+              </div>
+            </SizeContainer> 
+          )}
 
           {optimizedImage && (
             <ImageSettings 
@@ -169,12 +220,14 @@ const ImageOptimizationToolPage = () => {
 
 const ImageContainer = styled.div`
   position: relative;
-  overflow: hidden;
 `;
 
 const Сanvas = styled.canvas`
   position: absolute;
   z-index: -1;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 100%;
 `;
 
 const TextOverlay = styled.div`
@@ -190,11 +243,11 @@ const TextOverlay = styled.div`
 `;
 
 const TextOverlayTop = styled(TextOverlay)`
-  top: 10px;
+  top: 0.25rem;
 `;
 
 const TextOverlayBottom = styled(TextOverlay)`
-  bottom: 10px;
+  bottom: 0.25rem;
 `;
 
 const ImageInputStyled = styled(ImageInput)`
@@ -209,17 +262,11 @@ const ImageWithDownloadStyled = styled(ImageWithDownload)`
 `;
 
 const OptimizationTag = styled.div`
-  position: absolute;
-  top: 4.5rem;
-  left: -1.7rem;
   background: var(--primary-color);
   color: var(--gray-50);
-  padding: 0.5rem 2rem;
-  border-radius: 0 0 5px 0;
-  z-index: 10;
-  font-size: 0.9rem;
-  transform: rotate(-40deg);
-  transform-origin: 0 0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
 `;
 
 const InputAndImageContainer = styled.div`
@@ -229,10 +276,22 @@ const InputAndImageContainer = styled.div`
   justify-content: center;
 `;
 
+const SizeContainer = styled.div`
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+
+  > div {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
 const ImageSizeText = styled.div`
-  font-size: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  font-size: 0.75rem;
 `;
 
 export default ImageOptimizationToolPage;
