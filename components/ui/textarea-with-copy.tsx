@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import { copyToClipboard } from '@/utils/copy';
 0
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Button } from 'primereact/button';
-import { on } from 'events';
+import { PrimaryButton } from './buttons/primary-button';
 
 interface CopyOption {
   name: string;
@@ -40,13 +39,13 @@ const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyO
       {copyOptions && (
         <ActionsContainer>
           {copyOptions.map((option, index) => (
-            <ButtonStyled
+            <PrimaryButton
               key={index} 
               icon='pi pi-copy'
               onClick={copyValue(option)}
             >
               {option.name}
-            </ButtonStyled>
+            </PrimaryButton>
           ))}
         </ActionsContainer>
       )}
@@ -76,20 +75,6 @@ const ActionsContainer = styled.div`
   justify-content: flex-end;
   gap: 0.5rem;
   padding: 0.5rem;
-`;
-
-const ButtonStyled = styled(Button)`
-  font-size: 0.875rem;
-  padding: 0.5rem 1rem;
-
-  .p-button-label {
-    padding: 0.5rem;
-  }
-
-  .pi {
-    margin-right: 0.5rem;
-    font-size: 1rem;
-  }
 `;
 
 export { TextareaWithCopy };
