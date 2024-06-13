@@ -20,6 +20,9 @@ import { MainContainer, TwoColumnsContainer } from '@/components/ui/containers';
 import { PostContainer } from '@/components/ui/post';
 import { Markdown } from '@/components/ui/markdown';
 
+import { logEvent } from '@/lib/gtag';
+import analyticsEvents from '@/lib/analytics-events';
+
 const Colors = [
   '#ff5733',
   '#3498db',
@@ -77,12 +80,22 @@ const ColorsGradientGeneratorToolPage = () => {
   const addColorStep = () => {
     const newColor = getRandomElements(Colors, 1)[0];
     setColorSteps([...colorSteps, { color: newColor, steps: 2 }]);
+    logEvent(
+      analyticsEvents.gradientGenerator.colorsEntered.event,
+      analyticsEvents.gradientGenerator.colorsEntered.action,
+      `Added color: ${newColor}`
+    );
   };
 
   const removeColorStep = (index: number) => {
     if (colorSteps.length > 2) {
       const newColorSteps = colorSteps.filter((_, i) => i !== index);
       setColorSteps(newColorSteps);
+      logEvent(
+        analyticsEvents.gradientGenerator.colorsEntered.event,
+        analyticsEvents.gradientGenerator.colorsEntered.action,
+        `Removed color at index: ${index}`
+      );
     }
   };
 
@@ -90,18 +103,35 @@ const ColorsGradientGeneratorToolPage = () => {
     const newColorSteps = [...colorSteps];
     newColorSteps[index].color = newColor;
     setColorSteps(newColorSteps);
+    logEvent(
+      analyticsEvents.gradientGenerator.colorsEntered.event,
+      analyticsEvents.gradientGenerator.colorsEntered.action,
+      `Updated color at index: ${index} to ${newColor}`
+    );
   };
 
   const updateSteps = (index: number, newSteps: number) => {
     const newColorSteps = [...colorSteps];
     newColorSteps[index].steps = newSteps;
     setColorSteps(newColorSteps);
+    logEvent(
+      analyticsEvents.gradientGenerator.colorsEntered.event,
+      analyticsEvents.gradientGenerator.colorsEntered.action,
+      `Updated steps at index: ${index} to ${newSteps}`
+    );
   };
 
   const copyAll = () => {
     const formattedColors = JSON.stringify(intermediateMultiColors).replace(/,/g, ', ');
     copyToClipboard(formattedColors, {
-      onSuccess: () => toast.current?.show({ severity: 'success', summary: 'Array copied to clipboard' }),
+      onSuccess: () => {
+        toast.current?.show({ severity: 'success', summary: 'Array copied to clipboard' });
+        logEvent(
+          analyticsEvents.copyActions.textCopied.event,
+          analyticsEvents.copyActions.textCopied.action,
+          'Copied all gradient colors'
+        );
+      },
       onFail: () => toast.current?.show({ severity: 'error', summary: 'Failed to copy array' }),
     });
   };
@@ -119,6 +149,11 @@ const ColorsGradientGeneratorToolPage = () => {
     }
 
     setColorSteps(newColorSteps);
+    logEvent(
+      analyticsEvents.gradientGenerator.gradientGenerated.event,
+      analyticsEvents.gradientGenerator.gradientGenerated.action,
+      `Loaded example: ${JSON.stringify(example)}`
+    );
   };
 
   return (
