@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { MetaTagsPage } from '@/components/pages/meta-tags';
-import { metaTags } from '@/content/meta-data/default';
+import { metaTags } from '@/content/meta-data/blog';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { blogPosts } from '@/content/blog-posts';
