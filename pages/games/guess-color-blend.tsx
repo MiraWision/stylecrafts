@@ -1,100 +1,62 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { convertColor, blendMultipleColors, ColorFormat } from '@mirawision/colorize';
-
 import { BaseLayout } from '@/layouts/base-layout';
 import { Toast } from 'primereact/toast';
-import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { ColorCircle } from '@/components/ui/buttons/color-circle';
 import { DoubleColorPreview } from '@/components/ui/outputs/color-double-preview';
 import { Timer } from '@/components/ui/timer';
 import { Title } from '@/components/ui/typography';
-
-type ConvertedColors = {
-  [key in ColorFormat]?: string;
-};
-
-const availableColors = [
-  { name: 'Yellow', hex: '#ffed00' },
-  { name: 'Red', hex: '#ff0000' },
-  { name: 'Magenta', hex: '#ff00ab' },
-  { name: 'Blue', hex: '#0047ab' },
-  { name: 'Cyan', hex: '#00ffff' },
-  { name: 'Green', hex: '#00b500' },
-  { name: 'White', hex: '#ffffff' },
-  { name: 'Black', hex: '#000000' },
-];
-
-const getRandomColors = (count: number) => {
-  const shuffled = [...availableColors].sort(() => 0.5 - Math.random());
-
-  return shuffled.slice(0, count);
-};
-
-const getRandomColorFromSelection = (colors: { hex: string }[]) => {
-  const randomIndex = Math.floor(Math.random() * colors.length);
-
-  return colors[randomIndex].hex;
-};
+import {
+  availableColors,
+  difficultyLevels,
+  calculateMinDrops,
+  ConvertedColors,
+  calculateSimilarity,
+  resetGame,
+  resetChallenge,
+  increaseDifficulty
+} from './blend-game-logic';
 
 const ColorMixer = () => {
   const [currentColor, setCurrentColor] = useState<string>('');
   const [targetColor, setTargetColor] = useState<string>('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
-  const [selectedColors, setSelectedColors] = useState<{ color: string, weight: number }[]>([]);
-  const [isWinDialogVisible, setIsWinDialogVisible] = useState<boolean>(false);
-  const [isLoseDialogVisible, setIsLoseDialogVisible] = useState<boolean>(false);
+  const [selectedColors, setSelectedColors] = useState<{ color: string; weight: number }[]>([]);
+  const [message, setMessage] = useState<string | null>(null);
   const [difficulty, setDifficulty] = useState<string>('Easy');
-  const [timerKey, setTimerKey] = useState<number>(0); // New state to trigger timer reset
+  const [isChallenge, setIsChallenge] = useState<boolean>(false);
+  const [timerKey, setTimerKey] = useState<number>(0);
+  const [score, setScore] = useState<number>(0);
+  const [topScore, setTopScore] = useState<number>(0);
+  const [timerDuration, setTimerDuration] = useState<number>(60);
+  const [initialDropsCount, setInitialDropsCount] = useState<number>(0);
   const toast = useRef<Toast>(null);
+  const timerRef = useRef<number | null>(null);
 
-  const calculateSimilarity = (color1: string, color2: string): number => {
-    const rgb1 = parseInt(color1.slice(1), 16);
-    const r1 = (rgb1 >> 16) & 0xff;
-    const g1 = (rgb1 >> 8) & 0xff;
-    const b1 = rgb1 & 0xff;
-
-    const rgb2 = parseInt(color2.slice(1), 16);
-    const r2 = (rgb2 >> 16) & 0xff;
-    const g2 = (rgb2 >> 8) & 0xff;
-    const b2 = rgb2 & 0xff;
-
-    const distance = Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
-    const maxDistance = Math.sqrt(255 ** 2 + 255 ** 2 + 255 ** 2);
-
-    return ((maxDistance - distance) / maxDistance) * 100;
-  };
-
-  const getContrastingColor = (color: string): string => {
-    const rgb = parseInt(color.slice(1), 16);
-    const r = (rgb >> 16) & 0xff;
-    const g = (rgb >> 8) & 0xff;
-    const b = (rgb >> 0) & 0xff;
-    const luma = 0.299 * r + 0.587 * g + 0.114 * b;
-    return luma > 186 ? '#000' : '#fff';
-  };
-
-  const resetGame = () => {
-    let colorCount = 3; // Default to Easy
-    if (difficulty === 'Medium') colorCount = 5;
-    if (difficulty === 'Hard') colorCount = 8;
-
-    const initialColors = getRandomColors(colorCount).map(color => ({ color: color.hex, weight: 0 }));
-    setSelectedColors(initialColors);
-    setTargetColor(getRandomColorFromSelection(initialColors.map(c => ({ hex: c.color }))));
-    setCurrentColor('');
-    setConvertedColors({});
-    setTimerKey(prevKey => prevKey + 1);
-  };
+  useEffect(() => {
+    const storedTopScore = localStorage.getItem('topScore');
+    if (storedTopScore) {
+      setTopScore(parseInt(storedTopScore, 10));
+    }
+  }, []);
 
   const resetColor = () => {
-    resetGame();
+    if (isChallenge) {
+      resetChallenge(setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setScore, setTimerDuration, setInitialDropsCount);
+    } else {
+      resetGame(difficulty, setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setInitialDropsCount);
+    }
   };
 
   useEffect(() => {
-    resetGame();
-  }, [difficulty]);
+    if (isChallenge) {
+      resetChallenge(setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setScore, setTimerDuration, setInitialDropsCount);
+    } else {
+      resetGame(difficulty, setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setInitialDropsCount);
+    }
+  }, [difficulty, isChallenge]);
 
   useEffect(() => {
     if (selectedColors.some((color) => color.weight > 0)) {
@@ -117,9 +79,11 @@ const ColorMixer = () => {
   }, [selectedColors]);
 
   const handleWeightChange = (color: string, newWeight: number) => {
-    setSelectedColors((prev) =>
-      prev.map((c) => (c.color === color ? { ...c, weight: newWeight } : c))
-    );
+    setSelectedColors((prev) => prev.map((c) => (c.color === color ? { ...c, weight: newWeight } : c)));
+  };
+
+  const handleResetAllColors = () => {
+    setSelectedColors((prev) => prev.map((c) => ({ ...c, weight: 0 })));
   };
 
   const totalWeight = selectedColors.reduce((sum, c) => sum + c.weight, 0) || 1;
@@ -130,64 +94,97 @@ const ColorMixer = () => {
   const similarity = currentColor ? calculateSimilarity(currentColor, targetColor) : 0;
 
   useEffect(() => {
-    if (similarity > 95) {
-      setIsWinDialogVisible(true);
+    if (similarity > 99.9) {
+      if (isChallenge) {
+        const minDrops = calculateMinDrops(selectedColors, targetColor);
+        setScore((prevScore) => prevScore + minDrops);
+        setTimerDuration((prevDuration) => prevDuration + minDrops * 3);
+        setMessage(`Well done! You earned ${minDrops} points and ${minDrops * 3} extra seconds.`);
+        setTimeout(() => {
+          setMessage(null);
+          increaseDifficulty(score, setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setInitialDropsCount);
+        }, 2000);
+      } else {
+        setMessage('Congratulations! You matched the color! Click to start a new game.');
+      }
     }
   }, [similarity]);
 
-  const handleWinDialogHide = () => {
-    setIsWinDialogVisible(false);
-    resetGame();
-  };
-
-  const handleLoseDialogHide = () => {
-    setIsLoseDialogVisible(false);
-    resetGame();
-  };
+  useEffect(() => {
+    if (timerDuration <= 0) {
+      setMessage("Time's up! Game over.");
+      setIsChallenge(false);
+      if (score > topScore) {
+        setTopScore(score);
+        localStorage.setItem('topScore', score.toString());
+      }
+    }
+  }, [timerDuration]);
 
   const handleTimeUp = () => {
-    setIsLoseDialogVisible(true);
-  };
-
-  const getTimerDuration = (): number | null => {
-    if (difficulty === 'Medium') return 60;
-    if (difficulty === 'Hard') return 30;
-    return null; // No timer for Easy
+    setMessage("Time's up! Game over.");
+    setIsChallenge(false);
+    if (score > topScore) {
+      setTopScore(score);
+      localStorage.setItem('topScore', score.toString());
+    }
   };
 
   const handleDifficultyChange = (level: string) => {
+    setIsChallenge(false);
     setDifficulty(level);
-    resetGame();
+    resetGame(level, setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setInitialDropsCount);
   };
+
+  const startChallenge = () => {
+    setIsChallenge(true);
+    resetChallenge(setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setScore, setTimerDuration, setInitialDropsCount);
+  };
+
+  useEffect(() => {
+    if (timerRef.current !== null) {
+      clearInterval(timerRef.current);
+    }
+
+    if (isChallenge && timerDuration > 0) {
+      timerRef.current = window.setInterval(() => {
+        setTimerDuration((prevDuration) => prevDuration - 1);
+      }, 1000);
+    }
+
+    return () => {
+      if (timerRef.current !== null) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [isChallenge, timerDuration]);
 
   return (
     <BaseLayout>
       <Toast ref={toast} />
-      
+
       <Title>Color Mixer</Title>
 
       <DifficultyButtonsContainer>
-        <DifficultyButton
-          label='Easy'
-          className={difficulty === 'Easy' ? 'selected' : ''}
-          onClick={() => handleDifficultyChange('Easy')}
-        />
-        
-        <DifficultyButton
-          label='Medium'
-          className={difficulty === 'Medium' ? 'selected' : ''}
-          onClick={() => handleDifficultyChange('Medium')}
-        />
-        
-        <DifficultyButton
-          label='Hard'
-          className={difficulty === 'Hard' ? 'selected' : ''}
-          onClick={() => handleDifficultyChange('Hard')}
+        {difficultyLevels.map((level) => (
+          <DifficultyButton
+            key={level.value}
+            label={level.label}
+            className={difficulty === level.value && !isChallenge ? 'selected' : ''}
+            onClick={() => handleDifficultyChange(level.value)}
+          />
+        ))}
+        <ChallengeButton
+          label="Challenge"
+          className={isChallenge ? 'selected' : ''}
+          onClick={startChallenge}
         />
       </DifficultyButtonsContainer>
-      <TimerContainer>
-        {getTimerDuration() !== null && <Timer key={timerKey} duration={getTimerDuration()!} onTimeUp={handleTimeUp} />}
-      </TimerContainer>
+      {isChallenge && (
+        <TimerContainer>
+          <Timer key={timerKey} duration={timerDuration} onTimeUp={handleTimeUp} />
+        </TimerContainer>
+      )}
       <ContentContainer>
         <DoubleColorPreview
           currentColor={currentColor}
@@ -195,11 +192,18 @@ const ColorMixer = () => {
           similarity={similarity}
           resetColor={resetColor}
         />
+        {isChallenge && (
+          <ScoreDisplay>
+            Score: {score} {topScore > 0 && `| Top Score: ${topScore}`}
+          </ScoreDisplay>
+        )}
         <ColorBarContainer>
           <ColorBar>{colorBar}</ColorBar>
         </ColorBarContainer>
         <ColorCirclesContainer>
-          <SettingsButton icon='pi pi-cog' />
+          {selectedColors.some(c => c.weight > 0) && (
+            <ResetAllButton icon="pi pi-undo" onClick={handleResetAllColors} />
+          )}
           {selectedColors.map((c, index) => (
             <ColorCircle
               key={index}
@@ -210,27 +214,13 @@ const ColorMixer = () => {
             />
           ))}
         </ColorCirclesContainer>
+        {message && !isChallenge && (
+          <MessageOverlay onClick={resetColor}>{message}</MessageOverlay>
+        )}
+        {message && isChallenge && (
+          <MessageOverlay>{message}</MessageOverlay>
+        )}
       </ContentContainer>
-      <Dialog
-        header='Congratulations!'
-        visible={isWinDialogVisible}
-        style={{ width: '50vw' }}
-        modal
-        onHide={handleWinDialogHide}
-      >
-        <p>You have successfully matched the color!</p>
-        <Button label='Close' icon='pi pi-check' onClick={handleWinDialogHide} autoFocus />
-      </Dialog>
-      <Dialog
-        header={`Time's Up!`}
-        visible={isLoseDialogVisible}
-        style={{ width: '50vw' }}
-        modal
-        onHide={handleLoseDialogHide}
-      >
-        <p>You ran out of time!</p>
-        <Button label='Close' icon='pi pi-times' onClick={handleLoseDialogHide} autoFocus />
-      </Dialog>
     </BaseLayout>
   );
 };
@@ -243,6 +233,16 @@ const DifficultyButtonsContainer = styled.div`
 `;
 
 const DifficultyButton = styled(Button)`
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 0.0625rem solid var(--primary-color);
+  &.selected {
+    background-color: var(--primary-color);
+    color: var(--primary-color-text);
+  }
+`;
+
+const ChallengeButton = styled(Button)`
   background-color: transparent;
   color: var(--primary-color);
   border: 0.0625rem solid var(--primary-color);
@@ -270,21 +270,21 @@ const ColorBarContainer = styled.div`
   width: 50vw;
   margin-top: 1rem;
 
-  @media (max-width: 1200px) { 
+  @media (max-width: 1200px) {
     width: 100%;
     max-width: 16rem;
   }
 
   @media (max-width: 900px) {
-    max-width: 14rem; 
+    max-width: 14rem;
   }
 
   @media (max-width: 600px) {
-    max-width: 12rem; 
+    max-width: 12rem;
   }
 
   @media (max-width: 400px) {
-    max-width: 10rem; 
+    max-width: 10rem;
   }
 `;
 
@@ -308,14 +308,31 @@ const ColorCirclesContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const SettingsButton = styled(Button)`
-  background-color: transparent;
+const ResetAllButton = styled(Button)`
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
   border: none;
-  color: var(--text-color);
+  margin-right: 1rem;
+`;
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
+const ScoreDisplay = styled.div`
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const MessageOverlay = styled.div`
+  position: fixed;
+  top: 35%;
+  left: 57%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: var(--surface-300);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  z-index: 10;
+  cursor: pointer;
 `;
 
 export default ColorMixer;
