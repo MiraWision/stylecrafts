@@ -29,18 +29,24 @@ interface OptimizedImage {
   size: number;
 }
 
+const Key = 'image-settings';
+
 const ImageOptimizationToolPage = () => {
   const [originalImage, setOriginalImage] = useState<OriginalImage | null>(null);
   const [optimizedImage, setOptimizedImage] = useState<OptimizedImage | null>(null);
   const [settings, setSettings] = useState<Settings | null>(null);
 
   const imageRatio = useMemo(() => (originalImage?.width ?? 1) / (originalImage?.height ?? 1), [originalImage]);
-  const optimizationPercentage = useMemo(() => Math.ceil((1 - ((optimizedImage?.size ?? 1) / (originalImage?.size ?? 1))) * 100), [optimizedImage, originalImage]);
+  const optimizationPercentage = useMemo(() => Math.floor((1 - ((optimizedImage?.size ?? 1) / (originalImage?.size ?? 1))) * 100), [optimizedImage, originalImage]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const toast = useRef<Toast>(null);
 
   useEffect(() => {
+    if (settings !== null) {
+      saveSettingsToStorage();
+    }
+
     if (!originalImage) {
       return;
     }
@@ -55,14 +61,6 @@ const ImageOptimizationToolPage = () => {
 
     generateOptimizedImage();
   }, [settings]);
-
-  useEffect(() => {
-    console.log('originalImage', originalImage); 
-  }, [originalImage]);
-
-  useEffect(() => {
-    console.log('optimizedImage', optimizedImage); 
-  }, [optimizedImage]);
 
   const handleImageChange = (image: ImageData) => {
     if (!image || !image.content) {
@@ -82,12 +80,20 @@ const ImageOptimizationToolPage = () => {
       });
 
       if (!settings) {
-        setSettings({
-          width: imageElement.width,
-          height: imageElement.height,
-          type: image.fileMetaData?.type ?? ImageType.JPEG,
-          quality: DefaultQuality,
-        });
+        let originalSettings = getSettingsFromStorage();
+
+        if (originalSettings) {
+          originalSettings.height = Math.round((imageElement.width / imageElement.height) * originalSettings.width);
+        } else {
+          originalSettings = {
+            width: imageElement.width,
+            height: imageElement.height,
+            type: image.fileMetaData?.type ?? ImageType.JPEG,
+            quality: DefaultQuality,
+          };
+        }
+        
+        setSettings(originalSettings);
       }
 
       renderCanvas(
@@ -134,6 +140,22 @@ const ImageOptimizationToolPage = () => {
     const size = content.length * 0.75;
 
     setOptimizedImage({ content, size });
+  }
+
+  const getSettingsFromStorage = (): Settings | null => {
+    const savedSettings = localStorage.getItem(Key);
+
+    if (!savedSettings) {
+      return null;
+    }
+
+    const settings = JSON.parse(savedSettings);
+
+    return settings as Settings;
+  }
+
+  const saveSettingsToStorage = () => {
+    localStorage.setItem(Key, JSON.stringify(settings));
   }
 
   return (
@@ -281,6 +303,7 @@ const SizeContainer = styled.div`
   gap: 2rem;
   grid-template-columns: 1fr 1fr;
   width: 100%;
+  height: 1.5rem;
 
   > div {
     display: flex;

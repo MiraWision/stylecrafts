@@ -20,8 +20,6 @@ interface Props {
   originalRatio: number;
 }
 
-const Key = 'image-settings';
-
 const ImageTypes = [
   { label: 'PNG', value: ImageType.PNG },
   { label: 'JPEG', value: ImageType.JPEG },
@@ -50,30 +48,6 @@ const ImageSettings: React.FC<Props> = ({ settings, onChange, originalRatio }) =
   useEffect(() => {
     handleQualityChange(DefaultQuality);
   }, [settings?.type]);
-
-  const getSettingsFromStorage = () => {
-    const savedSettings = localStorage.getItem(Key);
-
-    if (!savedSettings) {
-      return;
-    }
-
-    const { areLinkedDimensions, ...settings } = JSON.parse(savedSettings);
-
-    setAreLinkedDimensions(areLinkedDimensions);
-
-    handleChange({
-      ...settings,
-      height: areLinkedDimensions ? Math.round(settings.width / originalRatio) : settings.height,
-    });
-  }
-
-  const saveSettingsToStorage = () => {
-    localStorage.setItem(Key, JSON.stringify({
-      ...settings,
-      areLinkedDimensions,
-    }));
-  }
 
   const handleChange = (updates: Partial<Settings>) => {
     const newSettings = settings ? { ...settings, ...updates } : updates;
