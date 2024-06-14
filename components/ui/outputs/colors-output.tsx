@@ -11,13 +11,13 @@ const ColorsOutput: React.FC<Props> = ({ colors }) => {
   return (
     <ColorsList>
       {colors.map((color, index) => (
-        <ColorContainer key={index}>
+        <React.Fragment key={index}>
           <ColorRectangle color={color} />
 
           <ColorText>{color}</ColorText>
           
           <CopyButton text={color} />
-        </ColorContainer>
+        </React.Fragment>
       ))}
     </ColorsList>
   );
@@ -25,18 +25,14 @@ const ColorsOutput: React.FC<Props> = ({ colors }) => {
 
 const ColorsList = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: auto auto auto;
+  grid-column-gap: 0.5rem;
   grid-row-gap: 0.25rem;
-  height: fit-content;
-`;
-
-const ColorContainer = styled.div`
-  display: flex;
-  align-items: center;
+  width: fit-content;
 `;
 
 const ColorRectangle = styled.div<{ color: string }>`
-  width: 4.5rem;
+  width: 3rem;
   height: 1.5rem;
   border-radius: 0.25rem;
   background-color: ${({ color }) => color};
@@ -46,7 +42,6 @@ const ColorText = styled.div`
   margin: 0.25rem;
   font-size: 0.875rem;
   font-weight: 400;
-  width: 3.75rem;
   color: var(--surface-900);
 `;
 

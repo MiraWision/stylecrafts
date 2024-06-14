@@ -10,7 +10,7 @@ interface Props {
   onChange: (value: string) => void;
 }
 
-const ColorInput: React.FC<Props> = ({ value, onChange }) => {
+const ColorInputPreview: React.FC<Props> = ({ value, onChange }) => {
   const hexValue = useMemo(() => {
     if (!value.length) {
       return '';
@@ -27,7 +27,7 @@ const ColorInput: React.FC<Props> = ({ value, onChange }) => {
       return '';
     }
   }, [value]);
-  
+
   const handleColorPickerChange = (e: any) => {
     let newColor = e.value;
 
@@ -61,33 +61,39 @@ const ColorInput: React.FC<Props> = ({ value, onChange }) => {
 
   return (
     <Container>
-      <ColorPickerStyled value={hexValue} onChange={handleColorPickerChange} />
-
       <InputTextStyled type='text' value={value} onChange={handleInputTextChange} />
+
+      <ColorPickerStyled value={hexValue} onChange={handleColorPickerChange} />
     </Container>
   );
 };
 
 const Container = styled.div<{ margin?: string }>`
   display: flex;
+  flex-direction: column;
   align-items: center;
   width: 14rem;
 `;
 
 const ColorPickerStyled = styled(ColorPicker)`
   input {
-    width: 2rem;
-    height: 2rem;
+    width: 14rem;
+    height: 7rem;
     border-right: 0;
-    border-radius: 0.25rem 0 0 0.25rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+
+    &:hover, &:focus {
+      border: 0.0625rem solid var(--primary-color);
+      border-top: 0;
+    }
   }
 `;
 
 const InputTextStyled = styled(InputText)`
-  border-left: 0;
-  border-radius: 0 0.25rem 0.25rem 0;
-  width: 12rem;
+  border-bottom: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+  width: 14rem;
   height: 2rem;
 `;
 
-export { ColorInput };
+export { ColorInputPreview };

@@ -17,7 +17,7 @@ const ThemeButton: React.FC<Props> = () => {
 
   return (
     <Container>
-      <Button 
+      <ButtonStyled 
         icon={theme === Theme.Light ? 'pi pi-sun' : 'pi pi-moon'} 
         onClick={toggleTheme} 
         className='p-button-rounded'
@@ -31,6 +31,11 @@ const Container = styled.div`
   top: 1.5rem;
   right: 1rem;
   z-index: 1000;
+`;
+
+const ButtonStyled = styled(Button)`
+  color: var(--primary-color);
+  background-color: var(--surface-50);
 `;
 
 export { ThemeButton };
