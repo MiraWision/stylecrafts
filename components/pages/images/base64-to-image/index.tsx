@@ -11,7 +11,7 @@ import { ImagePlaceholder } from '@/components/ui/image-placeholder';
 interface Props {
 }
 
-const Base64ToImageConverter: React.FC<Props> = ({}) => {
+const Base64ToImage: React.FC<Props> = ({}) => {
   const [base64Text, setBase64Text] = useState<string>('');
 
   const onChange = (value: string) => {
@@ -49,4 +49,4 @@ const Base64ToImageConverter: React.FC<Props> = ({}) => {
   );
 }
 
-export { Base64ToImageConverter };
+export { Base64ToImage };

@@ -7,7 +7,7 @@ import { Markdown } from '@/components/ui/texts/markdown';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { MainContainer } from '@/components/ui/containers';
 import { Title } from '@/components/ui/texts/typography';
-import { Base64ToImageConverter } from '@/components/pages/images/base64-to-image/base64-to-image-converter';
+import { Base64ToImage } from '@/components/pages/images/base64-to-image';
 
 const Base64ToImageToolPage = () => {
   return (
@@ -15,9 +15,9 @@ const Base64ToImageToolPage = () => {
       <MetaTags {...metaTags} />
 
       <MainContainer>
-        <Title>Base64 to Image Convertor</Title>
+        <Title>Base64 to Image Converter</Title>
   
-        <Base64ToImageConverter />
+        <Base64ToImage />
       </MainContainer>
       
       <BlogContainer>

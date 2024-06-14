@@ -30,7 +30,7 @@ const Key = 'image-settings';
 interface Props {
 }
 
-const ImageOptimizer: React.FC<Props> = ({}) => {
+const ImageOptimization: React.FC<Props> = ({}) => {
   const [originalImage, setOriginalImage] = useState<OriginalImage | null>(null);
   const [optimizedImage, setOptimizedImage] = useState<OptimizedImage | null>(null);
   const [settings, setSettings] = useState<Settings | null>(null);
@@ -306,4 +306,4 @@ const ImageSizeText = styled.div`
   font-size: 0.75rem;
 `;
 
-export { ImageOptimizer };
+export { ImageOptimization };

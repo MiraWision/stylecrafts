@@ -7,7 +7,7 @@ import { MainContainer } from '@/components/ui/containers';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
 import { Title } from '@/components/ui/texts/typography';
-import { ImageToBase64Converter } from '@/components/pages/images/image-to-base64/image-to-base64-converter';
+import { ImageToBase64 } from '@/components/pages/images/image-to-base64';
 
 const ImageToBase64ToolPage = () => {
   return (
@@ -17,7 +17,7 @@ const ImageToBase64ToolPage = () => {
       <MainContainer>
         <Title>Image to Base64 Converter</Title>
   
-        <ImageToBase64Converter />
+        <ImageToBase64 />
       </MainContainer>   
 
       <BlogContainer>

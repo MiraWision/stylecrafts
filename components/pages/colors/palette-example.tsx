@@ -1,25 +1,25 @@
-import { generateMultiSteppedGradient } from '@mirawision/colorize';
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-interface Gradient {
+import { Label } from '@/components/ui/texts/label';
+
+interface Palette {
   name: string;
-  colors: [string, ...Array<number | string>];
+  colors: string[];
 }
 
 interface Props {
-  example: Gradient;
+  palette: Palette;
   onClick: () => void;
 }
 
-const GradientExample: React.FC<Props> = ({ example, onClick }) => {
-  const gradient = useMemo(() => generateMultiSteppedGradient(...example.colors), [example]);
-
+const PaletteExample: React.FC<Props> = ({ palette, onClick }) => {
   return (
     <Container onClick={onClick}>
-      <Label>{example.name}</Label>
+      <Label>{palette.name}</Label>
+
       <ColorsContainer>
-        {gradient.map((item) => (
+        {palette.colors.map((item) => (
           <ColorBox key={item} color={item} />
         ))}
       </ColorsContainer>
@@ -31,13 +31,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
-`;
-
-const Label = styled.div`
-  margin-bottom: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--surface-900);
 `;
 
 const ColorsContainer = styled.div`
@@ -53,6 +46,6 @@ const ColorBox = styled.div<{ color: string }>`
   background-color: ${({ color }) => color};
 `;
 
-export { GradientExample };
+export { PaletteExample };
 
-export type { Gradient };
+export type { Palette };

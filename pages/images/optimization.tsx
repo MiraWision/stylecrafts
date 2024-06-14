@@ -9,7 +9,7 @@ import { MainContainer } from '@/components/ui/containers';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
 import { Title } from '@/components/ui/texts/typography';
-import { ImageOptimizer } from '@/components/pages/images/optimization/image-optimizer';
+import { ImageOptimization } from '@/components/pages/images/optimization';
 
 const ImageOptimizationToolPage = () => {
   return (
@@ -19,7 +19,7 @@ const ImageOptimizationToolPage = () => {
       <MainContainer>
         <Title>Image Optimization</Title>
   
-        <ImageOptimizer />
+        <ImageOptimization />
       </MainContainer>  
 
       <BlogContainer>

@@ -12,7 +12,7 @@ import { TextareaWithCopy } from '@/components/ui/inputs/textarea-with-copy';
 interface Props {
 }
 
-const ImageToBase64Converter: React.FC<Props> = ({}) => {
+const ImageToBase64: React.FC<Props> = ({}) => {
   const { showToast } = useToast();
 
   const [image, setImage] = useState<string | null>(null);
@@ -80,4 +80,4 @@ const ImageInputStyled = styled(ImageInput)`
   min-height: 10rem;
 `;
 
-export { ImageToBase64Converter };
+export { ImageToBase64 };
