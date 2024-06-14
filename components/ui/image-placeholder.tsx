@@ -15,7 +15,7 @@ const ImagePlaceholder: React.FC<Props> = ({}) => {
 const Container = styled.div`
   width: 20rem;
   height: 10rem;
-  border: 1px dashed var(--primary-color);
+  border: 0.0625rem dashed var(--primary-color);
   border-radius: 0.5rem;
   display: flex;
   justify-content: center;

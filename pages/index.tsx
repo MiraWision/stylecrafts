@@ -1,29 +1,23 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-import { MetaTagsPage } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/default';
-
-import { BaseLayout } from '@/layouts/base-layout';
-import { Toast } from 'primereact/toast';
-import { TopBarMenu } from '@/components/menu/top-menu';
-import { LandingLogo } from '@/components/ui/landing/landing-logo';
-import { GlassCard } from '@/components/ui/landing/cards/glass-card';
-import { Button } from 'primereact/button';
-import { NeonCard } from '@/components/ui/landing/cards/neon-card';
-import { Footer } from '@/components/ui/footer';
 import { Routes } from '@/content/routes';
 
-import { CodeBlock } from '@/components/ui/landing/code-block'; 
+import { Button } from 'primereact/button';
+import { MetaTags } from '@/components/pages/meta-tags';
+import { TopBarMenu } from '@/components/menu/top-menu';
+import { LandingLogo } from '@/components/pages/landing/landing-logo';
+import { GlassCard } from '@/components/pages/landing/cards/glass-card';
+import { NeonCard } from '@/components/pages/landing/cards/neon-card';
+import { Footer } from '@/components/pages/landing/footer';
+import { CodeBlock } from '@/components/pages/landing/code-block'; 
 
 const Home = () => {
-  const toast = useRef<Toast>(null);
-
   return (
     <>
-      <MetaTagsPage {...metaTags} />
-      <Toast ref={toast} />
-
+      <MetaTags {...metaTags} />
+      
       <SectionContainer>
         <TopBarMenu />
         <Grid3Col>

@@ -4,25 +4,25 @@ import { Routes } from '@/content/routes';
 
 const Footer = () => {
   return (
-    <FooterContainer>
+    <Container>
       <Column>
-        <FooterTitle>mirawision corp</FooterTitle>
+        <Title>MiraWision</Title>
       </Column>
       <Column>
-        <FooterLink href={Routes.PrivacyPolicy}>Privacy Policy</FooterLink>
-        <FooterLink href={Routes.TermsOfUse}>Terms of Use</FooterLink>
-        <FooterLink href={Routes.CookiePolicy}>Cookies Policy</FooterLink>
+        <Link href={Routes.PrivacyPolicy}>Privacy Policy</Link>
+        <Link href={Routes.TermsOfUse}>Terms of Use</Link>
+        <Link href={Routes.CookiePolicy}>Cookies Policy</Link>
       </Column>
       <Column>
-        <FooterLink href="#">Links</FooterLink>
-        <FooterLink href="#">Support Us</FooterLink>
-        <FooterLink href="#">Contact</FooterLink>
+        <Link href="#">Links</Link>
+        <Link href="#">Support Us</Link>
+        <Link href="#">Contact</Link>
       </Column>
-    </FooterContainer>
+    </Container>
   );
 };
 
-const FooterContainer = styled.footer`
+const Container = styled.footer`
   display: flex;
   justify-content: space-around;
   background: var(--gray-900);
@@ -35,12 +35,12 @@ const Column = styled.div`
   flex-direction: column;
 `;
 
-const FooterTitle = styled.h3`
+const Title = styled.h3`
   font-size: 1.2rem;
   margin-bottom: 1rem;
 `;
 
-const FooterLink = styled.a`
+const Link = styled.a`
   color: var(--gray-400);
   text-decoration: none;
   margin-bottom: 0.5rem;

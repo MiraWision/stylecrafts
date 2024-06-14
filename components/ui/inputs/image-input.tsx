@@ -52,18 +52,6 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
     }
   };
 
-  const isValidHttpUrl = (string: string) => {
-    let url;
-    
-    try {
-      url = new URL(string);
-    } catch (_) {
-      return false;  
-    }
-
-    return url.protocol === 'http:' || url.protocol === 'https:';
-  };
-
   const handlePaste = (event: ClipboardEvent) => {
     const items = event.clipboardData?.items;
 
@@ -108,6 +96,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
     document.addEventListener('paste', handlePaste);
     // @ts-ignore
     document.addEventListener('dragover', handleDragOver, false);
+    
     document.addEventListener('dragleave', handleDragLeave, false);
     // @ts-ignore
     document.addEventListener('drop', handleDrop, false);
@@ -116,6 +105,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
       document.removeEventListener('paste', handlePaste);
       // @ts-ignore
       document.removeEventListener('dragover', handleDragOver, false);
+    
       document.removeEventListener('dragleave', handleDragLeave, false);
       // @ts-ignore
       document.removeEventListener('drop', handleDrop, false);
@@ -152,8 +142,8 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
   );
 }
 
-const Container = styled.div<{ width: string }>`
-  width: ${({ width }) => width};
+const Container = styled.div`
+  width: 20rem;
   min-height: 10rem;
   position: relative;
   border: 0.0625rem solid var(--primary-color);

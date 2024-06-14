@@ -5,7 +5,7 @@ import { ImageType } from '@/types/image-types';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 import { Slider } from 'primereact/slider';
-import { LinkToggleButton } from '@/components/ui/buttons/link-unlink';
+import { LinkToggleButton } from '@/components/ui/buttons/link-toggle-button';
 
 interface Settings {
   width: number;
@@ -15,7 +15,7 @@ interface Settings {
 }
 
 interface Props {
-  settings: Settings | null;
+  settings: Settings;
   onChange: (settings: Settings) => void;
   originalRatio: number;
 }
@@ -32,28 +32,17 @@ const ImageSettings: React.FC<Props> = ({ settings, onChange, originalRatio }) =
   const [areLinkedDimensions, setAreLinkedDimensions] = useState<boolean>(true);
 
   useEffect(() => {
-    // getSettingsFromStorage();
-  }, []);
-
-  useEffect(() => {
-    // saveSettingsToStorage();
-  }, [settings, areLinkedDimensions]);
-
-  useEffect(() => {
     if (areLinkedDimensions) {
-      handleChange({ height: Math.round((settings?.width ?? 1) / originalRatio) });
+      handleChange({ height: Math.round((settings.width ?? 1) / originalRatio) });
     }
   }, [originalRatio]);
 
   useEffect(() => {
     handleQualityChange(DefaultQuality);
-  }, [settings?.type]);
+  }, [settings.type]);
 
   const handleChange = (updates: Partial<Settings>) => {
-    const newSettings = settings ? { ...settings, ...updates } : updates;
-
-    // @ts-ignore
-    onChange(newSettings);
+    onChange({ ...settings, ...updates });
   };
   
   const handleWidthChange = (width: number) => {
@@ -89,8 +78,9 @@ const ImageSettings: React.FC<Props> = ({ settings, onChange, originalRatio }) =
       <Row>
         <Field>
           <label>Width:</label>
+
           <InputNumber 
-            value={settings?.width} 
+            value={settings.width} 
             onValueChange={(e) => handleWidthChange(e.value || 0)} 
           />
         </Field>
@@ -104,8 +94,9 @@ const ImageSettings: React.FC<Props> = ({ settings, onChange, originalRatio }) =
 
         <Field>
           <label>Height:</label>
+
           <InputNumber 
-            value={settings?.height}
+            value={settings.height}
             onValueChange={(e) => handleHeightChange(e.value || 0)} 
           />
         </Field>
@@ -114,14 +105,15 @@ const ImageSettings: React.FC<Props> = ({ settings, onChange, originalRatio }) =
       <Row>
         <Field>
           <label>Image Type:</label>
+          
           <Dropdown 
-            value={settings?.type} 
+            value={settings.type} 
             options={ImageTypes} 
             onChange={(e) => handleTypeChange(e.value)}
           />
         </Field>
 
-        {(settings?.type === ImageType.JPEG || settings?.type === ImageType.WEBP) && (
+        {(settings.type === ImageType.JPEG || settings.type === ImageType.WEBP) && (
           <>
             <MiddleContainer />
 

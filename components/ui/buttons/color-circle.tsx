@@ -25,9 +25,6 @@ const ColorCircle: React.FC<Props> = ({ color, weight, totalWeight, onWeightChan
   const percentage = totalWeight ? ((weight / totalWeight) * 100).toFixed(0) : 0;
 
   const textColor = isDark(color.hex) ? 'var(--surface-a)' : 'var(--text-color)';
-  const buttonBgColor = isDark(color.hex) ? 'var(--surface-300)' : 'var(--surface-300)';
-  const buttonHoverBgColor = isDark(color.hex) ? 'var(--surface-200)' : 'var(--surface-200)';
-  const buttonTextColor = isDark(color.hex) ? 'var(--text-color-secondary)' : 'var(--text-color)';
 
   return (
     <Container>
@@ -35,11 +32,14 @@ const ColorCircle: React.FC<Props> = ({ color, weight, totalWeight, onWeightChan
         {weight > 0 && (
           <>
             <WeightLabel color={textColor}>{weight}</WeightLabel>
+
             <PercentageLabel color={textColor}>{percentage}%</PercentageLabel>
           </>
         )}
       </Item>
+
       <ColorName>{color.name}</ColorName>
+      
       <ButtonContainer>
         {weight > 0 && (
           <RemoveButton

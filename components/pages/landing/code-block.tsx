@@ -1,17 +1,19 @@
 import React, { useState, FC } from 'react';
 import styled from 'styled-components';
+
+import { copyToClipboard } from '@/utils/copy';
+
 import { Button } from 'primereact/button';
 
-interface CodeBlockProps {
+interface Props {
   code: string;
 }
 
-const CodeBlock: FC<CodeBlockProps> = ({ code }) => {
+const CodeBlock: FC<Props> = ({ code }) => {
   const [showCopyIcon, setShowCopyIcon] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    alert('Code copied to clipboard');
+    copyToClipboard(code);
   };
 
   return (
@@ -19,7 +21,13 @@ const CodeBlock: FC<CodeBlockProps> = ({ code }) => {
       onMouseEnter={() => setShowCopyIcon(true)} 
       onMouseLeave={() => setShowCopyIcon(false)}
     >
-      {showCopyIcon && <CopyButton icon="pi pi-copy" onClick={handleCopy} />}
+      {showCopyIcon && (
+        <CopyButton
+          icon='pi pi-copy'
+          onClick={handleCopy}
+        />
+      )}
+
       <CodeText>{code}</CodeText>
     </CodeContainer>
   );
@@ -27,13 +35,13 @@ const CodeBlock: FC<CodeBlockProps> = ({ code }) => {
 
 const CodeContainer = styled.div`
   background: var(--gray-900);
-  border-radius: 10px;
+  border-radius: 0.5rem;
   padding: 1rem;
   color: var(--surface-color);
   font-family: 'Courier New', Courier, monospace;
   font-size: 1rem;
   margin: 1.5rem 0;
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.8);
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.8);
   position: relative;
 `;
 

@@ -3,24 +3,22 @@ import styled from 'styled-components';
 import { convertColor, ColorFormat, blendMultipleColors } from '@mirawision/colorize';
 
 import { content } from '@/content/function-descriptions/colors-blender';
-import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/function-colors-blender';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { BaseLayout } from '@/layouts/base-layout';
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { ColorCircle } from '@/components/ui/buttons/color-circle';
 import { CopyButton } from '@/components/ui/buttons/copy-button';
-import { InfoButton } from '@/components/ui/buttons/info-button';
 import { ColorPreview } from '@/components/ui/outputs/color-preview';
 import { MainContainer } from '@/components/ui/containers';
-import { PostContainer } from '@/components/ui/post';
-import { Markdown } from '@/components/ui/markdown';
-import { Title } from '@/components/ui/typography';
-import { NPMLink } from '@/components/ui/npm-link';
-
-import { logEvent } from '@/lib/gtag';
-import analyticsEvents from '@/lib/analytics-events';
+import { BlogContainer } from '@/components/pages/blog/blog-container';
+import { Markdown } from '@/components/ui/texts/markdown';
+import { Title } from '@/components/ui/texts/typography';
+import { NPMLink } from '@/components/ui/texts/npm-link';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -41,7 +39,6 @@ const ColorsBlenderToolPage = () => {
   const [color, setColor] = useState<string>('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
   const [selectedColors, setSelectedColors] = useState<{ color: string, weight: number }[]>([]);
-  const toast = useRef<Toast>(null);
 
   const getContrastingColor = (color: string): string => {
     const rgb = parseInt(color.slice(1), 16);
@@ -55,11 +52,7 @@ const ColorsBlenderToolPage = () => {
   const resetColor = () => {
     const initialColors = getRandomColors(2).map(color => ({ color: color.hex, weight: 1 }));
     setSelectedColors(initialColors);
-    logEvent(
-      analyticsEvents.colorMixer.colorsMixed.event,
-      analyticsEvents.colorMixer.colorsMixed.action,
-      'Color reset'
-    );
+    GAService.logEvent(analyticsEvents.colorMixer.colorsMixed('Color reset'));
   };
 
   const getRandomColors = (count: number) => {
@@ -105,11 +98,7 @@ const ColorsBlenderToolPage = () => {
         return [...prev, { color, weight: newWeight }];
       }
     });
-    logEvent(
-      analyticsEvents.colorMixer.colorsAndWeightsSelected.event,
-      analyticsEvents.colorMixer.colorsAndWeightsSelected.action,
-      `Color: ${color}, Weight: ${newWeight}`
-    );
+    GAService.logEvent(analyticsEvents.colorMixer.colorsAndWeightsSelected(`Color: ${color}, Weight: ${newWeight}`));
   };
 
   const totalWeight = selectedColors.reduce((sum, c) => sum + c.weight, 0) || 1;
@@ -121,17 +110,12 @@ const ColorsBlenderToolPage = () => {
   const contrastColor = color ? getContrastingColor(color) : 'var(--text-color-secondary)';
 
   const handleCopy = () => {
-    logEvent(
-      analyticsEvents.copyActions.textCopied.event,
-      analyticsEvents.copyActions.textCopied.action,
-      `Copied hex color: ${color}`
-    );
+    GAService.logEvent(analyticsEvents.copyActions.textCopied(`Copied hex color: ${color}`));
   };
 
   return (
     <BaseLayout>
-      <MetaTagsPage {...metaTags} />
-      <Toast ref={toast} />
+      <MetaTags {...metaTags} />
 
       <MainContainer>
         <Title>Colors Blender</Title>
@@ -140,8 +124,6 @@ const ColorsBlenderToolPage = () => {
           <CopyButton text={color} border color={contrastColor} onCopy={handleCopy} />
 
           <ColorCode>{color}</ColorCode>
-          
-          <InfoButton color={contrastColor}/>
         </ColorPreview>
 
         <ColorBarContainer>
@@ -174,11 +156,11 @@ const ColorsBlenderToolPage = () => {
         />
       </MainContainer>
 
-      <PostContainer>
+      <BlogContainer>
         <Markdown 
           markdownText={content}
         />
-      </PostContainer> 
+      </BlogContainer> 
     </BaseLayout>
   );
 };

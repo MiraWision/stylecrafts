@@ -2,14 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { convertColor, blendMultipleColors, ColorFormat } from '@mirawision/colorize';
 import { BaseLayout } from '@/layouts/base-layout';
-import { Toast } from 'primereact/toast';
-import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/game-guess-color-blend';
 import { Button } from 'primereact/button';
 import { ColorCircle } from '@/components/ui/buttons/color-circle';
 import { DoubleColorPreview } from '@/components/ui/outputs/color-double-preview';
 import { Timer } from '@/components/ui/timer';
-import { Title } from '@/components/ui/typography';
+import { Title } from '@/components/ui/texts/typography';
 import {
   availableColors,
   difficultyLevels,
@@ -19,10 +18,10 @@ import {
   resetGame,
   resetChallenge,
   increaseDifficulty
-} from './blend-game-logic';
+} from '../../components/pages/games/guess-color-blend.ts/blend-game-logic';
 
-import { logEvent } from '@/lib/gtag';
-import analyticsEvents from '@/lib/analytics-events';
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
 const ColorMixer = () => {
   const [currentColor, setCurrentColor] = useState<string>('');
@@ -37,7 +36,7 @@ const ColorMixer = () => {
   const [topScore, setTopScore] = useState<number>(0);
   const [timerDuration, setTimerDuration] = useState<number>(60);
   const [initialDropsCount, setInitialDropsCount] = useState<number>(0);
-  const toast = useRef<Toast>(null);
+
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -109,56 +108,40 @@ const ColorMixer = () => {
           setMessage(null);
           increaseDifficulty(score, setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setInitialDropsCount);
         }, 2000);
-        logEvent(
-          analyticsEvents.game.levelCompleted.event,
-          analyticsEvents.game.levelCompleted.action,
-          `Score: ${score + minDrops}`
-        );
+
+        GAService.logEvent(analyticsEvents.game.levelCompleted(`Score: ${score + minDrops}`));
       } else {
         setMessage('Congratulations! You matched the color! Click to start a new game.');
-        logEvent(
-          analyticsEvents.game.levelCompleted.event,
-          analyticsEvents.game.levelCompleted.action,
-          'Color matched in normal mode'
-        );
+
+        GAService.logEvent(analyticsEvents.game.levelCompleted('Color matched in normal mode'));
       }
     } else {
-      logEvent(
-        analyticsEvents.game.colorGuessAttempted.event,
-        analyticsEvents.game.colorGuessAttempted.action,
-        `Guess similarity: ${similarity}`
-      );
+      GAService.logEvent(analyticsEvents.game.colorGuessAttempted(`Guess similarity: ${similarity}`));
     }
   }, [similarity]);
 
   useEffect(() => {
     if (timerDuration <= 0) {
-      setMessage("Time's up! Game over.");
+      setMessage(`Time's up! Game over.`);
       setIsChallenge(false);
       if (score > topScore) {
         setTopScore(score);
         localStorage.setItem('topScore', score.toString());
       }
-      logEvent(
-        analyticsEvents.game.gameStarted.event,
-        analyticsEvents.game.gameStarted.action,
-        `Game over with score: ${score}`
-      );
+      
+      GAService.logEvent(analyticsEvents.game.gameStarted(`Game over with score: ${score}`));
     }
   }, [timerDuration]);
 
   const handleTimeUp = () => {
-    setMessage("Time's up! Game over.");
+    setMessage(`Time's up! Game over.`);
     setIsChallenge(false);
     if (score > topScore) {
       setTopScore(score);
       localStorage.setItem('topScore', score.toString());
     }
-    logEvent(
-      analyticsEvents.game.gameStarted.event,
-      analyticsEvents.game.gameStarted.action,
-      `Game over with score: ${score}`
-    );
+
+    GAService.logEvent(analyticsEvents.game.gameStarted(`Game over with score: ${score}`));
   };
 
   const handleDifficultyChange = (level: string) => {
@@ -170,11 +153,8 @@ const ColorMixer = () => {
   const startChallenge = () => {
     setIsChallenge(true);
     resetChallenge(setSelectedColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setScore, setTimerDuration, setInitialDropsCount);
-    logEvent(
-      analyticsEvents.game.challengeModeStarted.event,
-      analyticsEvents.game.challengeModeStarted.action,
-      'Challenge mode started'
-    );
+    
+    GAService.logEvent(analyticsEvents.game.challengeModeStarted('Challenge mode started'));
   };
 
   useEffect(() => {
@@ -186,11 +166,9 @@ const ColorMixer = () => {
       timerRef.current = window.setInterval(() => {
         setTimerDuration((prevDuration) => {
           const newDuration = prevDuration - 1;
-          logEvent(
-            analyticsEvents.game.challengeProgressed.event,
-            analyticsEvents.game.challengeProgressed.action,
-            `Remaining time: ${newDuration}`
-          );
+
+          GAService.logEvent(analyticsEvents.game.challengeProgressed(`Remaining time: ${newDuration}`));
+          
           return newDuration;
         });
       }, 1000);
@@ -205,8 +183,7 @@ const ColorMixer = () => {
 
   return (
     <BaseLayout>
-      <MetaTagsPage {...metaTags} />
-      <Toast ref={toast} />
+      <MetaTags {...metaTags} />
 
       <Title>Color Mixer</Title>
 
@@ -220,7 +197,7 @@ const ColorMixer = () => {
           />
         ))}
         <ChallengeButton
-          label="Challenge"
+          label='Challenge'
           className={isChallenge ? 'selected' : ''}
           onClick={startChallenge}
         />
@@ -247,7 +224,7 @@ const ColorMixer = () => {
         </ColorBarContainer>
         <ColorCirclesContainer>
           {selectedColors.some(c => c.weight > 0) && (
-            <ResetAllButton icon="pi pi-undo" onClick={handleResetAllColors} />
+            <ResetAllButton icon='pi pi-undo' onClick={handleResetAllColors} />
           )}
           {selectedColors.map((c, index) => (
             <ColorCircle

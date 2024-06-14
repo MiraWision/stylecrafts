@@ -1,28 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { generateMultiSteppedGradient } from '@mirawision/colorize';
 
-import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { content } from '@/content/function-descriptions/colors-gradient';
+import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/function-colors-gradient';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 import { copyToClipboard } from '@/utils/copy';
-import { content } from '@/content/function-descriptions/colors-gradient';
+import { useToast } from '@/components/ui/toast';
+
 import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
-import { Toast } from 'primereact/toast';
 import { BaseLayout } from '@/layouts/base-layout';
-import { Title, Subtitle } from '@/components/ui/typography';
-import { NPMLink } from '@/components/ui/npm-link';
+import { Title, Subtitle } from '@/components/ui/texts/typography';
+import { NPMLink } from '@/components/ui/texts/npm-link';
 import { ColorInput } from '@/components/ui/inputs/color-input';
-import { Label } from '@/components/ui/label';
+import { Label } from '@/components/ui/texts/label';
 import { ColorsOutput } from '@/components/ui/outputs/colors-output';
-import { generateMultiSteppedGradient } from '@mirawision/colorize';
 import { MainContainer, TwoColumnsContainer } from '@/components/ui/containers';
-import { PostContainer } from '@/components/ui/post';
-import { Markdown } from '@/components/ui/markdown';
+import { BlogContainer } from '@/components/pages/blog/blog-container';
+import { Markdown } from '@/components/ui/texts/markdown';
 import { GradientExamplesList } from '@/components/pages/colors/gradient-generator/gradient-examples-list';
-
-import { logEvent } from '@/lib/gtag';
-import analyticsEvents from '@/lib/analytics-events';
 
 const Colors = [
   '#ff5733',
@@ -51,7 +51,7 @@ const getRandomElements = (arr: string[], count: number) => {
 const initialColors = getRandomElements(Colors, 2);
 
 const ColorsGradientGeneratorToolPage = () => {
-  const toast = useRef<Toast>(null);
+  const { showToast } = useToast();
 
   const [colorSteps, setColorSteps] = useState<Array<{ color: string; steps: number }>>([
     { color: initialColors[0], steps: 3 },
@@ -74,22 +74,14 @@ const ColorsGradientGeneratorToolPage = () => {
   const addColorStep = () => {
     const newColor = getRandomElements(Colors, 1)[0];
     setColorSteps([...colorSteps, { color: newColor, steps: 2 }]);
-    logEvent(
-      analyticsEvents.gradientGenerator.colorsEntered.event,
-      analyticsEvents.gradientGenerator.colorsEntered.action,
-      `Added color: ${newColor}`
-    );
+    GAService.logEvent(analyticsEvents.gradientGenerator.colorsEntered(`Added color: ${newColor}`));
   };
 
   const removeColorStep = (index: number) => {
     if (colorSteps.length > 2) {
       const newColorSteps = colorSteps.filter((_, i) => i !== index);
       setColorSteps(newColorSteps);
-      logEvent(
-        analyticsEvents.gradientGenerator.colorsEntered.event,
-        analyticsEvents.gradientGenerator.colorsEntered.action,
-        `Removed color at index: ${index}`
-      );
+      GAService.logEvent(analyticsEvents.gradientGenerator.colorsEntered(`Removed color at index: ${index}`));
     }
   };
 
@@ -97,36 +89,25 @@ const ColorsGradientGeneratorToolPage = () => {
     const newColorSteps = [...colorSteps];
     newColorSteps[index].color = newColor;
     setColorSteps(newColorSteps);
-    logEvent(
-      analyticsEvents.gradientGenerator.colorsEntered.event,
-      analyticsEvents.gradientGenerator.colorsEntered.action,
-      `Updated color at index: ${index} to ${newColor}`
-    );
+    GAService.logEvent(analyticsEvents.gradientGenerator.colorsEntered(`Updated color at index: ${index} to ${newColor}`));
   };
 
   const updateSteps = (index: number, newSteps: number) => {
     const newColorSteps = [...colorSteps];
     newColorSteps[index].steps = newSteps;
     setColorSteps(newColorSteps);
-    logEvent(
-      analyticsEvents.gradientGenerator.colorsEntered.event,
-      analyticsEvents.gradientGenerator.colorsEntered.action,
-      `Updated steps at index: ${index} to ${newSteps}`
-    );
+    GAService.logEvent(analyticsEvents.gradientGenerator.colorsEntered(`Updated steps at index: ${index} to ${newSteps}`));
   };
 
   const copyAll = () => {
     const formattedColors = JSON.stringify(intermediateMultiColors).replace(/,/g, ', ');
     copyToClipboard(formattedColors, {
       onSuccess: () => {
-        toast.current?.show({ severity: 'success', summary: 'Array copied to clipboard' });
-        logEvent(
-          analyticsEvents.copyActions.textCopied.event,
-          analyticsEvents.copyActions.textCopied.action,
-          'Copied all gradient colors'
-        );
+        showToast({ severity: 'success', summary: 'Array copied to clipboard' });
+
+        GAService.logEvent(analyticsEvents.copyActions.textCopied('Copied all gradient colors'));
       },
-      onFail: () => toast.current?.show({ severity: 'error', summary: 'Failed to copy array' }),
+      onFail: () => showToast({ severity: 'error', summary: 'Failed to copy array' }),
     });
   };
 
@@ -143,17 +124,13 @@ const ColorsGradientGeneratorToolPage = () => {
     }
 
     setColorSteps(newColorSteps);
-    logEvent(
-      analyticsEvents.gradientGenerator.gradientGenerated.event,
-      analyticsEvents.gradientGenerator.gradientGenerated.action,
-      `Loaded example: ${JSON.stringify(example)}`
-    );
+    
+    GAService.logEvent(analyticsEvents.gradientGenerator.gradientGenerated(`Loaded example: ${JSON.stringify(example)}`));
   };
 
   return (
     <BaseLayout>
-      <MetaTagsPage {...metaTags} />
-      <Toast ref={toast} />
+      <MetaTags {...metaTags} />
 
       <MainContainer>
         <Title>Colors Gradient</Title>
@@ -214,9 +191,9 @@ const ColorsGradientGeneratorToolPage = () => {
         />
       </MainContainer>
 
-      <PostContainer>
+      <BlogContainer>
         <Markdown markdownText={content} />
-      </PostContainer>
+      </BlogContainer>
     </BaseLayout>
   );
 };

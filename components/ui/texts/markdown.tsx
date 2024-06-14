@@ -4,10 +4,6 @@ import * as marked from 'marked';
 
 const renderer = new marked.Renderer();
 
-// renderer.code = (code, language) => {
-//   return `<div class="code-block" data-language="${language}" data-code="${encodeURIComponent(code)}"></div>`;
-// };
-
 renderer.image = (href: string, title: string, text: string): string => {
   return `
     <figure>

@@ -1,24 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { content } from '@/content/function-descriptions/colors-converter';
-import { MetaTagsPage } from '@/components/pages/meta-tags';
+import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/function-colors-converter';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { BaseLayout } from '@/layouts/base-layout';
-import { Toast } from 'primereact/toast';
-import { Label } from '@/components/ui/label';
-import { NPMLink } from '@/components/ui/npm-link';
+import { Label } from '@/components/ui/texts/label';
+import { NPMLink } from '@/components/ui/texts/npm-link';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
 import { ColorInput } from '@/components/ui/inputs/color-input';
 import { CopyButton } from '@/components/ui/buttons/copy-button';
 import { MainContainer } from '@/components/ui/containers';
-import { PostContainer } from '@/components/ui/post';
-import { Markdown } from '@/components/ui/markdown';
-import { Title } from '@/components/ui/typography';
-
-import { logEvent } from '@/lib/gtag';
-import analyticsEvents from '@/lib/analytics-events';
+import { BlogContainer } from '@/components/pages/blog/blog-container';
+import { Markdown } from '@/components/ui/texts/markdown';
+import { Title } from '@/components/ui/texts/typography';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -27,7 +26,6 @@ type ConvertedColors = {
 const ColorsConverterToolPage = () => {
   const [color, setColor] = useState('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
-  const toast = useRef<Toast>(null);
 
   const generateRandomColor = () => {
     return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0');
@@ -47,35 +45,25 @@ const ColorsConverterToolPage = () => {
         newConvertedColors[format] = '';
       }
     });
+    
     setConvertedColors(newConvertedColors);
-    logEvent(
-      analyticsEvents.colorConverter.conversionDisplayed.event,
-      analyticsEvents.colorConverter.conversionDisplayed.action,
-      'colorFormats'
-    );
+    
+    GAService.logEvent(analyticsEvents.colorConverter.conversionDisplayed('colorFormats'));
   }, [color]);
 
   const handleColorChange = (newColor: string) => {
     setColor(newColor);
-    logEvent(
-      analyticsEvents.colorConverter.colorEntered.event,
-      analyticsEvents.colorConverter.colorEntered.action,
-      newColor
-    );
+
+    GAService.logEvent(analyticsEvents.colorConverter.colorEntered(newColor));
   };
 
   const handleCopy = (text: string, format: string) => {
-    logEvent(
-      analyticsEvents.copyActions.textCopied.event,
-      analyticsEvents.copyActions.textCopied.action,
-      `Copied ${format} color: ${text}`
-    );
+    GAService.logEvent(analyticsEvents.copyActions.textCopied(`Copied ${format} color: ${text}`));
   };
 
   return (
     <BaseLayout>
-      <MetaTagsPage {...metaTags} />
-      <Toast ref={toast} />
+      <MetaTags {...metaTags} />
 
       <MainContainer>
         <Title>Colors Converter</Title>
@@ -119,11 +107,11 @@ const ColorsConverterToolPage = () => {
         />
       </MainContainer>
 
-      <PostContainer>
+      <BlogContainer>
         <Markdown 
           markdownText={content}
         />
-      </PostContainer> 
+      </BlogContainer> 
     </BaseLayout>
   );
 };

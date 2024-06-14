@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { copyToClipboard } from '@/utils/copy';
 0
 import { InputTextarea } from 'primereact/inputtextarea';
-import { PrimaryButton } from './buttons/primary-button';
+import { PrimaryButton } from '../buttons/primary-button';
 
 interface CopyOption {
   name: string;
