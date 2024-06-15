@@ -1,4 +1,4 @@
-import { Routes } from "../routes";
+import { Routes } from '../routes';
 
 const content = `
 Heatmaps are a powerful tool for visualizing data, showing patterns and trends through color intensity. To effectively convey information, heatmaps often use stepped gradients, where distinct color bands represent different data ranges. This article will guide you through creating color steps for heatmaps and how our Gradient Generator can help you achieve clear and informative visualizations.

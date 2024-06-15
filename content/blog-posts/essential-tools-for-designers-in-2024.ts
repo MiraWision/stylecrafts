@@ -1,5 +1,3 @@
-import { Routes } from "../routes";
-
 const content = `
 As the design landscape continues to evolve, staying equipped with the right tools is crucial for delivering top-notch projects efficiently. Whether you're a web designer, graphic designer, or digital artist, the right software and resources can significantly enhance your creativity and workflow. This article highlights the essential tools for designers in 2024, covering everything from design software to productivity enhancers.
 

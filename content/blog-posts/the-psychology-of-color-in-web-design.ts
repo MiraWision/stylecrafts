@@ -1,4 +1,4 @@
-import { Routes } from "../routes";
+import { Routes } from '../routes';
 
 const content = `
 Color is more than just a visual element in web design; it plays a crucial role in shaping user perceptions and influencing their behaviors. Understanding the psychology of color can help you create more effective and engaging web designs. This article delves into how different colors impact emotions and actions, and offers tips on selecting the right colors for your website.

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
 import { styled } from 'styled-components';
 import * as marked from 'marked';
+import { CodeBlock } from './code-block';
 
 const renderer = new marked.Renderer();
 
@@ -13,11 +15,37 @@ renderer.image = (href: string, title: string, text: string): string => {
   `;
 };
 
+renderer.code = (code, language) => {
+  return `<div class="code-block" data-language="${language}" data-code="${encodeURIComponent(code)}"></div>`;
+};
+
+renderer.listitem = (text) => {
+  const hexRegex = /#([0-9a-fA-F]{6})/g;
+  
+  const textWithColorBox = text.replace(hexRegex, (match) => {
+    return `<span class="color-box" style="background-color: ${match};"></span>${match}`;
+  });
+
+  return `<li>${textWithColorBox}</li>`;
+};
+
 interface Props {
   markdownText: string;
 }
 
 const Markdown: React.FC<Props> = ({ markdownText }) => {
+  useEffect(() => {
+    document.querySelectorAll('.code-block').forEach((block) => {
+      const code = decodeURIComponent(block.getAttribute('data-code') ?? '');
+
+      const root = createRoot(block);
+
+      root.render(
+        <CodeBlock code={code} />
+      );
+    });
+  }, [markdownText]);
+  
   const html = marked.parse(markdownText, { renderer });
 
   return (
@@ -100,6 +128,16 @@ const Container = styled.div`
       color: var(--text-color-secondary);
       text-align: center;
     }
+  }
+
+  .color-box {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.25rem;
+    border: 0.0625rem solid var(--text-color);
+    border-radius: 0.25rem;
+    transform: translateY(2px);
   }
 `;
 
