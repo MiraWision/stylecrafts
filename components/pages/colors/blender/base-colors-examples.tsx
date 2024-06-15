@@ -21,7 +21,7 @@ const palletes: Palette[] = [
     colors: ['#ff0000', '#0000ff', '#ffff00']
   },
   {
-    name: 'Monochrome Black and White',
+    name: 'Monochrome',
     colors: ['#000000', '#555555', '#aaaaaa', '#ffffff']
   },
   {
@@ -94,7 +94,7 @@ const palletes: Palette[] = [
   },
   {
     name: 'Desert Sands',
-    colors: ['#e4c16f', '#c89b3c', '#9c5a3c', '#724242', '#e1e3e3']
+    colors: ['#e3b778', '#c99b50', '#a67c4b', '#8c6239', '#71431e']
   },
   {
     name: 'Winter Frost',
@@ -114,12 +114,12 @@ const palletes: Palette[] = [
   },
   {
     name: 'Ocean Breeze',
-    colors: ['#0077b6', '#90e0ef', '#caf0f8', '#023e8a', '#48cae4']
-  },
+    colors: ['#0096c7', '#00b4d8', '#48cae4', '#90e0ef', '#caf0f8']
+  },  
   {
     name: 'Autumn Ember',
-    colors: ['#d7263d', '#ff7f11', '#f1e189', '#d5bf86', '#4a0d67']
-  },
+    colors: ['#d1495b', '#ff6f59', '#edc4b3', '#ffa600', '#6b4226']
+  },  
   {
     name: 'Candy Floss',
     colors: ['#ffafcc', '#ffcad4', '#bde0fe', '#a2d2ff', '#cdb4db']
@@ -142,8 +142,8 @@ const palletes: Palette[] = [
   },
   {
     name: 'Garden Party',
-    colors: ['#9bc995', '#f4e7d4', '#fa7268', '#8ed4d8', '#bfcba8']
-  },
+    colors: ['#9bc995', '#ffcccb', '#ffe4e1', '#f7b7a3', '#ffb6b9']
+  },  
   {
     name: 'Steel and Stone',
     colors: ['#5d5c61', '#6b6b70', '#8d8d92', '#b2b2b6', '#d1d1d4']
@@ -163,7 +163,11 @@ const palletes: Palette[] = [
   {
     name: 'Galactic Glow',
     colors: ['#ff007f', '#ff0099', '#00ffcc', '#00b3ff', '#ffff66']
-  },    
+  },
+  {
+    name: 'Radiant Red',
+    colors: ['#ff0000', '#ff4500', '#ff6347', '#ff7f50', '#b22222']
+  },  
 ];
 
 const BaseColorsExamples: React.FC<Props> = ({ onSelected }) => {
@@ -182,7 +186,7 @@ const BaseColorsExamples: React.FC<Props> = ({ onSelected }) => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 1rem;
   margin: 2rem 0;
 `;

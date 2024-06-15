@@ -9,6 +9,7 @@ const PrimaryButton = styled(Button)`
   height: 2rem;
   color: var(--primary-color);
   background-color: var(--surface-50);
+  border-radius: 0.25rem;
 
   .p-button-label {
     padding: 0;

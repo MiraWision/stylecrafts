@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { CurrentColor } from './current-color';
 import { Palette } from './palette';
@@ -13,13 +13,21 @@ interface BaseColor {
   weight: number;
 }
 
+const randomNumber = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 const ColorBlender: React.FC = () => {
   const [palette, setPalette] = useState<string[]>([]);
-  const [baseColors, setBaseColors] = useState<BaseColor[]>([
-    { color: '#ff0000', weight: 0 },
-    { color: '#00ff00', weight: 0 },
-    { color: '#0000ff', weight: 0 },
-  ]);
+  const [baseColors, setBaseColors] = useState<BaseColor[]>([]);
+
+  useEffect(() => {
+    setBaseColors([
+      { color: '#ff0000', weight: randomNumber(0, 3) },
+      { color: '#00ff00', weight: randomNumber(0, 3) },
+      { color: '#0000ff', weight: randomNumber(0, 3) },
+    ]);
+  }, []);
 
   const currentColor = useMemo(() => {
     try {
@@ -42,26 +50,40 @@ const ColorBlender: React.FC = () => {
   };
 
   const selectBaseColorsExample = (example: string[]) => {
-    const newBaseColorsWeights = example.map(color => ({ color, weight: 0 }));
+    const newBaseColors = example.map(color => ({ color, weight: 0 }));
     
-    setBaseColors(newBaseColorsWeights);
+    setBaseColors(newBaseColors);
   };
 
   const addBaseColor = (color: string) => {
     setBaseColors([...baseColors, { color, weight: 0 }]);
   };
 
-  const changeWeight = (index: number, weight: number) => {
-    const newBaseColorsWeights = [...baseColors];
-
-    newBaseColorsWeights[index].weight = weight;
+  const deleteBaseColor = (index: number) => {
+    const newBaseColors = baseColors.filter((_, i) => i !== index);
     
-    setBaseColors(newBaseColorsWeights);
+    setBaseColors(newBaseColors);
+  };
+
+  const updateColor = (index: number, color: string) => {
+    const newBaseColors = [...baseColors];
+
+    newBaseColors[index].color = color;
+    
+    setBaseColors(newBaseColors);
+  };
+
+  const updateWeight = (index: number, weight: number) => {
+    const newBaseColors = [...baseColors];
+
+    newBaseColors[index].weight = weight;
+    
+    setBaseColors(newBaseColors);
   };
 
   return (
     <>
-      <TwoColumnsContainer>
+      <Container>
         <Column>
           <CurrentColor 
             color={currentColor} 
@@ -77,12 +99,14 @@ const ColorBlender: React.FC = () => {
         
         <Column>
           <ColorsList 
-            baseColorsWeights={baseColors} 
-            onWeightChange={changeWeight} 
-            onAddBaseColor={addBaseColor} 
+            baseColorsWeights={baseColors}
+            onColorChange={updateColor} 
+            onWeightChange={updateWeight} 
+            onAddBaseColor={addBaseColor}
+            onDeleteBaseColor={deleteBaseColor}
           />
         </Column>
-      </TwoColumnsContainer>
+      </Container>
 
       <BaseColorsExamples 
         onSelected={selectBaseColorsExample} 
@@ -90,6 +114,10 @@ const ColorBlender: React.FC = () => {
     </>
   );
 };
+
+const Container = styled(TwoColumnsContainer)`
+  grid-template-columns: 4fr 5fr;
+`;
 
 const Column = styled.div`
   display: flex;

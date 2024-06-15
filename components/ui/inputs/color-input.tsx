@@ -8,9 +8,10 @@ import { InputText } from 'primereact/inputtext';
 interface Props {
   value: string;
   onChange: (value: string) => void;
+  className?: string;
 }
 
-const ColorInput: React.FC<Props> = ({ value, onChange }) => {
+const ColorInput: React.FC<Props> = ({ value, onChange, className }) => {
   const hexValue = useMemo(() => {
     if (!value.length) {
       return '';
@@ -60,7 +61,7 @@ const ColorInput: React.FC<Props> = ({ value, onChange }) => {
   };
 
   return (
-    <Container>
+    <Container className={className}>
       <ColorPickerStyled value={hexValue} onChange={handleColorPickerChange} />
 
       <InputTextStyled type='text' value={value} onChange={handleInputTextChange} />

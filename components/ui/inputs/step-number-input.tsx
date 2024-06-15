@@ -10,6 +10,7 @@ interface Props {
   max?: number;
   step?: number;
   showButtons?: boolean;
+  className?: string;
 }
 
 const StepNumberInput: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const StepNumberInput: React.FC<Props> = ({
   max,
   step,
   showButtons,
+  className,
 }) => {
   return (
     <InputNumberStyled
@@ -28,6 +30,7 @@ const StepNumberInput: React.FC<Props> = ({
       min={min}
       max={max}
       step={step}
+      className={className}
     />
   );
 }
@@ -49,6 +52,7 @@ const InputNumberStyled = styled(InputNumber)`
 
     &:first-child {
       border-bottom: 0;
+    }
   }
 `;
 

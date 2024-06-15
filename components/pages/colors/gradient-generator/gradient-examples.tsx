@@ -109,7 +109,7 @@ const GradientExamplesList: React.FC<Props> = ({ onSelected }) => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 2rem 1rem;
   margin-top: 2rem;
   margin-bottom: 5rem;

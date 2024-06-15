@@ -41,8 +41,8 @@ const ColorsContainer = styled.div`
 `;
 
 const ColorBox = styled.div<{ color: string }>`
-  width: 2rem;
-  height: 1rem;
+  width: 1rem;
+  height: 2rem;
   background-color: ${({ color }) => color};
 `;
 
