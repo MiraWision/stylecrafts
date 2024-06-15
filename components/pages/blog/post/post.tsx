@@ -2,11 +2,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BlogPost } from '@/content/blog-posts/types';
-import { BlogContainer } from '../blog-container';
-import { BackLink } from '@/components/ui/texts/back-link';
 import { Routes } from '@/content/routes';
+import { BlogPost } from '@/content/blog-posts/types';
+import { generateSlug } from '@/utils/text';
+
+import { BlogContainer } from '../blog-container';
 import { PostSummary } from '../post-summary';
+import { BackLink } from '@/components/ui/texts/back-link';
 import { Markdown } from '@/components/ui/texts/markdown';
 
 interface Props {
@@ -23,9 +25,9 @@ const Post: React.FC<Props> = ({ post, content }) => {
         </header>
 
         <article>
-          <PostTitle>{post?.title}</PostTitle>
+          <PostTitle id={generateSlug(post?.title)}>{post?.title}</PostTitle>
 
-          <PostSubtitle>{post?.subtitle}</PostSubtitle>
+          <PostSubtitle id={generateSlug(post?.subtitle)}>{post?.subtitle}</PostSubtitle>
 
           <PostSummary post={post} />
 

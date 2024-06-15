@@ -3,8 +3,17 @@ import { createRoot } from 'react-dom/client';
 import { styled } from 'styled-components';
 import * as marked from 'marked';
 import { CodeBlock } from './code-block';
+import { generateSlug } from '@/utils/text';
 
 const renderer = new marked.Renderer();
+
+renderer.heading = (text: string, level: number) => {
+  return `<h${level} id="${generateSlug(text)}">${text}</h${level}>`;
+};
+
+renderer.link = (href: string, title: string, text: string) => {
+  return `<a href="${href}" title="${title}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+};
 
 renderer.image = (href: string, title: string, text: string): string => {
   return `
@@ -15,11 +24,11 @@ renderer.image = (href: string, title: string, text: string): string => {
   `;
 };
 
-renderer.code = (code, language) => {
+renderer.code = (code: string, language: string) => {
   return `<div class="code-block" data-language="${language}" data-code="${encodeURIComponent(code)}"></div>`;
 };
 
-renderer.listitem = (text) => {
+renderer.listitem = (text: string) => {
   const hexRegex = /#([0-9a-fA-F]{6})/g;
   
   const textWithColorBox = text.replace(hexRegex, (match) => {
