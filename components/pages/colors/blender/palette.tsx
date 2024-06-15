@@ -61,11 +61,11 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
               onClick={() => copyColor(color)}
               onDoubleClick={() => onRemoveColor(index)}
             >
-              {color && (
-                <TooltipContent>
-                  {color}
-                </TooltipContent>
-              )}
+              <Overlay>
+                <ColorTooltip>{color}</ColorTooltip>
+
+                <i className='pi pi-copy' />
+              </Overlay>
             </ColorSquare>
           );
         })}
@@ -97,24 +97,47 @@ const ColorSquare = styled.div<{ color: string }>`
   background-color: ${({ color }) => color};
   position: relative;
   border-radius: 0.25rem;
+  cursor: pointer;
 `;
 
 const EmptyColorSquare = styled(ColorSquare)`
   border: 1px solid var(--surface-300);
   background-color: transparent;
+  cursor: default;
 `;
 
-const TooltipContent = styled.div`
-  display: none;
+const Overlay = styled.div`
+  width: 100%;
+  height: 100%;
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
   padding: 0.5rem;
+  background: var(--maskbg);
   border-radius: 0.25rem;
-  white-space: nowrap;
+
+  i {
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin-top: 0.25rem;
+  }
+
+  ${ColorSquare}:hover & {
+    opacity: 1;
+  }
+`;
+
+const ColorTooltip = styled.div`
+  color: var(--gray-50);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
 `;
 
 const RefreshButton = styled.button`
@@ -136,21 +159,6 @@ const RefreshButton = styled.button`
     > i {
       color: var(--primary-color);
     }
-  }
-`;
-
-const CopyAllButton = styled.button`
-  width: 100%;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 0.25rem;
-
-  &:hover {
-    background-color: #45a049;
   }
 `;
 
