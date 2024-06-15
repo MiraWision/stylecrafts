@@ -2,6 +2,8 @@ import React, { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { generateMultiSteppedGradient } from '@mirawision/colorize/generate-multi-stepped-gradient';
 
+import { generateSlug } from '@/utils/text';
+
 import { PaletteExample, Palette } from '../palette-example';
 
 interface Gradient {
@@ -89,10 +91,24 @@ const GradientExamplesList: React.FC<Props> = ({ onSelected }) => {
   }, []);
 
   useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * GradientExamples.length);
+    const hash = window.location.hash.slice(1);
 
-    onSelected(GradientExamples[randomIndex].colors);
+    const gradient = GradientExamples.find((gradient) => generateSlug(gradient.name) === hash);
+
+    if (gradient) {
+      onSelected(gradient.colors);
+    } else {
+      const randomIndex = Math.floor(Math.random() * GradientExamples.length);
+
+      onSelected(GradientExamples[randomIndex].colors);
+    }
   }, []);
+
+  const handleSelected = (gradient: Gradient) => {
+    window.location.hash = generateSlug(gradient.name);
+
+    onSelected(gradient.colors);
+  };
 
   return (
     <Container>
@@ -100,7 +116,7 @@ const GradientExamplesList: React.FC<Props> = ({ onSelected }) => {
         <PaletteExample
           key={index}
           palette={palette}
-          onClick={() => onSelected(GradientExamples[index].colors)}
+          onClick={() => handleSelected(GradientExamples[index])}
         />
       ))}
     </Container>

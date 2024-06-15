@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { Palette, PaletteExample } from '../palette-example';
 import { generateSlug } from '@/utils/text';
+
+import { Palette, PaletteExample } from '../palette-example';
 
 interface Props {
   onSelected: (example: string[]) => void;
 }
 
-const palletes: Palette[] = [
+const palettes: Palette[] = [
   {
     name: 'RGB Basics',
     colors: ['#ff0000', '#00ff00', '#0000ff']
@@ -42,7 +43,7 @@ const palletes: Palette[] = [
     colors: ['#1b263b', '#415a77', '#778da9', '#e0e1dd', '#14213d']
   },
   {
-    name: 'Queen’s Court',
+    name: 'Queen Court',
     colors: ['#d4af37', '#b76e79', '#7d3c98', '#5b2c6f', '#1c2833']
   },
   {
@@ -195,12 +196,12 @@ const BaseColorsExamples: React.FC<Props> = ({ onSelected }) => {
   useEffect(() => {
     const hash = window.location.hash.slice(1);
 
-    const palette = palletes.find((palette) => generateSlug(palette.name) === hash);
+    const palette = palettes.find((palette) => generateSlug(palette.name) === hash);
 
     if (palette) {
       onSelected(palette.colors);
     } else {
-      onSelected(palletes[0].colors);
+      onSelected(palettes[0].colors);
     }
   }, []);
 
@@ -212,11 +213,11 @@ const BaseColorsExamples: React.FC<Props> = ({ onSelected }) => {
 
   return (
     <Container>
-      {palletes.map((palette, index) => (
+      {palettes.map((palette, index) => (
         <PaletteExample
           key={index}
           palette={palette}
-          onClick={() => handleSelected(palletes[index])}
+          onClick={() => handleSelected(palettes[index])}
         />
       ))}
     </Container>

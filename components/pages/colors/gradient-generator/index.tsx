@@ -22,7 +22,7 @@ interface Props {
 const GradientGenerator: React.FC<Props> = ({}) => {
   const { showToast } = useToast();
 
-  const [gradientSettings, setGradientSettings] = useState<Gradient['colors']>(['#ffffff', 3, '#808080', 3, '#000000']);
+  const [gradientSettings, setGradientSettings] = useState<Gradient['colors']>(['#ffffff00', 3, '#ffffff00', 3, '#ffffff00']);
 
   const gradient = useMemo<string[] | null>(() => {
     if (gradientSettings) {

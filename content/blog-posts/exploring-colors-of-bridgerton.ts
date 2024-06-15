@@ -43,7 +43,7 @@ Bold, vibrant, and unafraid to stand out, the Featheringtons are a burst of colo
 - **#ff6f61**: A playful pink, showcasing their penchant for vivid colors.
 - **#ffcccb**: A soft pink, providing a gentle, contrasting touch.
 
-Want to create something just as bold? [Explore this vibrant palette with our color blender tool](${Routes.ColorsBlenderTool}#fatherington-flair)!
+Want to create something just as bold? [Explore this vibrant palette with our color blender tool](${Routes.ColorsBlenderTool}#featherington-flair)!
 
 ## Sharma Opulence
 
@@ -106,7 +106,7 @@ Queen Charlotte’s court is the epitome of grandeur and opulence. The palette o
 - **#5b2c6f**: A deep violet, enhancing the palette’s elegance.
 - **#1c2833**: A dark midnight blue, reflecting authority and mystery.
 
-Step into the royal court! [Create majestic designs with these colors](${Routes.ColorsBlenderTool}#queen-s-court).
+Step into the royal court! [Create majestic designs with these colors](${Routes.ColorsBlenderTool}#queen-court).
 
 ## Lady Danbury
 

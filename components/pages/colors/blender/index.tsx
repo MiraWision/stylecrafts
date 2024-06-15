@@ -13,21 +13,9 @@ interface BaseColor {
   weight: number;
 }
 
-const randomNumber = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 const ColorBlender: React.FC = () => {
   const [palette, setPalette] = useState<string[]>([]);
   const [baseColors, setBaseColors] = useState<BaseColor[]>([]);
-
-  useEffect(() => {
-    // setBaseColors([
-    //   { color: '#ff0000', weight: randomNumber(0, 3) },
-    //   { color: '#00ff00', weight: randomNumber(0, 3) },
-    //   { color: '#0000ff', weight: randomNumber(0, 3) },
-    // ]);
-  }, []);
 
   const currentColor = useMemo(() => {
     try {
