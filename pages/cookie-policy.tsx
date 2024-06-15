@@ -1,25 +1,23 @@
 import React from 'react';
-import { BaseLayout } from '@/layouts/base-layout';
 
 import { content } from '../content/legal-documents/cookie-policy';
-import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/legal-cookie-policy';
 
-import { PostContainer } from '@/components/ui/post';
+import { BaseLayout } from '@/layouts/base-layout';
+import { MetaTags } from '@/components/pages/meta-tags';
+import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
 
-import 'primeflex/primeflex.css';
-
 const CookiePolicy = () => {
-
   return (
     <BaseLayout>
       <MetaTags {...metaTags} />
-      <PostContainer>
+
+      <BlogContainer>
         <Markdown 
           markdownText={content}
         />
-      </PostContainer>
+      </BlogContainer>
     </BaseLayout>
   );
 };

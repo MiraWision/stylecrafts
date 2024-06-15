@@ -25,6 +25,30 @@ const palletes: Palette[] = [
     colors: ['#000000', '#555555', '#aaaaaa', '#ffffff']
   },
   {
+    name: 'Bridgerton Elegance',
+    colors: ['#c6dbee', '#9bbad1', '#6f8fa5', '#f5f5f5', '#e6e6e6']
+  },
+  {
+    name: 'Featherington Flair',
+    colors: ['#ffeb3b', '#f5a623', '#e4572e', '#ff6f61', '#ffcccb']
+  },
+  {
+    name: 'Sharma Opulence',
+    colors: ['#7f3b6b', '#d4af37', '#e0a899', '#4a274f', '#a68a5b']
+  },
+  {
+    name: 'Duke of Hastings',
+    colors: ['#1b263b', '#415a77', '#778da9', '#e0e1dd', '#14213d']
+  },
+  {
+    name: 'Queen’s Court',
+    colors: ['#d4af37', '#b76e79', '#7d3c98', '#5b2c6f', '#1c2833']
+  },
+  {
+    name: 'Lady Danbury',
+    colors: ['#5a189a', '#7b2cbf', '#9d4edd', '#c77dff', '#6a0572']
+  },
+  {
     name: 'Pastel Shades',
     colors: ['#ffb3ba', '#ffdfba', '#ffffba', '#bae1ff', '#baffc9']
   },
@@ -157,16 +181,12 @@ const palletes: Palette[] = [
     colors: ['#ffcc80', '#ffb74d', '#ffa726', '#ff7043', '#ff5252']
   },
   {
-    name: 'Neon Nights',
-    colors: ['#ff4d4d', '#ff66b2', '#ffdd57', '#33ccff', '#9900cc']
-  },
-  {
-    name: 'Galactic Glow',
-    colors: ['#ff007f', '#ff0099', '#00ffcc', '#00b3ff', '#ffff66']
-  },
-  {
     name: 'Radiant Red',
     colors: ['#ff0000', '#ff4500', '#ff6347', '#ff7f50', '#b22222']
+  },
+  {
+    name: 'Neon Nights',
+    colors: ['#ff4d4d', '#ff66b2', '#ffdd57', '#33ccff', '#9900cc']
   },  
 ];
 

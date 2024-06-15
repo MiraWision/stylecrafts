@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CopyButton } from '../buttons/copy-button';
+import { CopyButton } from '../../../ui/buttons/copy-button';
 
 interface Props {
   colors: string[];
@@ -29,6 +29,7 @@ const ColorsList = styled.div`
   grid-column-gap: 0.5rem;
   grid-row-gap: 0.25rem;
   width: fit-content;
+  align-items: center;
 `;
 
 const ColorRectangle = styled.div<{ color: string }>`

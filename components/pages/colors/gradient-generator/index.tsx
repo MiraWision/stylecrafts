@@ -7,10 +7,9 @@ import { analyticsEvents } from '@/services/google-analytics-service/analytics-e
 import { copyToClipboard } from '@/utils/copy';
 import { useToast } from '@/components/ui/toast';
 
-import { InputNumber } from 'primereact/inputnumber';
 import { ColorInput } from '@/components/ui/inputs/color-input';
 import { Label } from '@/components/ui/texts/label';
-import { ColorsOutput } from '@/components/ui/outputs/colors-output';
+import { ColorsOutput } from '@/components/pages/colors/gradient-generator/colors-output';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { Gradient, GradientExamplesList } from '@/components/pages/colors/gradient-generator/gradient-examples';
 import { PrimaryButton } from '@/components/ui/buttons/primary-button';

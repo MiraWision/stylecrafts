@@ -6,7 +6,7 @@ import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/game-guess-color-blend';
 import { Button } from 'primereact/button';
 import { ColorCircle } from '@/components/ui/buttons/color-circle';
-import { DoubleColorPreview } from '@/components/ui/outputs/color-double-preview';
+import { DoubleColorPreview } from '@/components/pages/games/guess-color-blend.ts/color-double-preview';
 import { Timer } from '@/components/ui/timer';
 import { Title } from '@/components/ui/texts/typography';
 import {
