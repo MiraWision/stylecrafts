@@ -8,15 +8,20 @@ const Footer = () => {
       <Column>
         <Title>MiraWision</Title>
       </Column>
+      
       <Column>
         <Link href={Routes.PrivacyPolicy}>Privacy Policy</Link>
+
         <Link href={Routes.TermsOfUse}>Terms of Use</Link>
+        
         <Link href={Routes.CookiePolicy}>Cookies Policy</Link>
       </Column>
       <Column>
-        <Link href="#">Links</Link>
-        <Link href="#">Support Us</Link>
-        <Link href="#">Contact</Link>
+        <Link href='#'>Links</Link>
+        
+        <Link href='#'>Support Us</Link>
+        
+        <Link href='#'>Contact</Link>
       </Column>
     </Container>
   );
