@@ -22,11 +22,11 @@ const ColorBlender: React.FC = () => {
   const [baseColors, setBaseColors] = useState<BaseColor[]>([]);
 
   useEffect(() => {
-    setBaseColors([
-      { color: '#ff0000', weight: randomNumber(0, 3) },
-      { color: '#00ff00', weight: randomNumber(0, 3) },
-      { color: '#0000ff', weight: randomNumber(0, 3) },
-    ]);
+    // setBaseColors([
+    //   { color: '#ff0000', weight: randomNumber(0, 3) },
+    //   { color: '#00ff00', weight: randomNumber(0, 3) },
+    //   { color: '#0000ff', weight: randomNumber(0, 3) },
+    // ]);
   }, []);
 
   const currentColor = useMemo(() => {

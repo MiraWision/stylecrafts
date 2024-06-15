@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { Palette, PaletteExample } from '../palette-example';
+import { generateSlug } from '@/utils/text';
 
 interface Props {
   onSelected: (example: string[]) => void;
@@ -191,13 +192,31 @@ const palletes: Palette[] = [
 ];
 
 const BaseColorsExamples: React.FC<Props> = ({ onSelected }) => {
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+
+    const palette = palletes.find((palette) => generateSlug(palette.name) === hash);
+
+    if (palette) {
+      onSelected(palette.colors);
+    } else {
+      onSelected(palletes[0].colors);
+    }
+  }, []);
+
+  const handleSelected = (palette: Palette) => {
+    window.location.hash = generateSlug(palette.name);
+
+    onSelected(palette.colors);
+  };
+
   return (
     <Container>
       {palletes.map((palette, index) => (
         <PaletteExample
           key={index}
           palette={palette}
-          onClick={() => onSelected(palletes[index].colors)}
+          onClick={() => handleSelected(palletes[index])}
         />
       ))}
     </Container>
