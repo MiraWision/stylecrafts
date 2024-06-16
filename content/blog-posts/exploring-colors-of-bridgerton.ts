@@ -9,18 +9,18 @@ The Bridgerton family embodies grace, nobility, and a timeless sophistication. T
 
 ![Bridgerton Elegance](/blog-images/exploring-colors-of-bridgerton-1.jpeg "The serene and sophisticated Bridgerton family, epitomizing timeless elegance with their soft blues and whites")
 
+- **#c6dbee**: A light, airy blue, reflecting the family's gentle and dignified demeanor.
+- **#9bbad1**: A muted blue, symbolizing their calm and composed nature.
+- **#6f8fa5**: A deeper blue, providing a classic touch of elegance.
+- **#f5f5f5**: A pristine white, representing purity and high status.
+- **#e6e6e6**: A soft grey, adding a neutral, sophisticated balance.
+
 \`\`\`json
 {
   "name": "Bridgerton Elegance",
   "colors": ["#c6dbee", "#9bbad1", "#6f8fa5", "#f5f5f5", "#e6e6e6"]
 }
 \`\`\`
-
-- **#c6dbee**: A light, airy blue, reflecting the family's gentle and dignified demeanor.
-- **#9bbad1**: A muted blue, symbolizing their calm and composed nature.
-- **#6f8fa5**: A deeper blue, providing a classic touch of elegance.
-- **#f5f5f5**: A pristine white, representing purity and high status.
-- **#e6e6e6**: A soft grey, adding a neutral, sophisticated balance.
 
 Feeling inspired? [Mix and match these elegant colors with our color blender tool](${Routes.ColorsBlenderTool}#bridgerton-elegance)!
 
@@ -30,18 +30,18 @@ Bold, vibrant, and unafraid to stand out, the Featheringtons are a burst of colo
 
 ![Featherington Flair](/blog-images/exploring-colors-of-bridgerton-2.jpeg "The bold and flamboyant Featheringtons stand out with their vibrant yellows, oranges, and pinks")
 
+- **#ffeb3b**: A bright yellow, symbolizing their flashy and bold nature.
+- **#f5a623**: A warm orange, reflecting their energetic and lively character.
+- **#e4572e**: A vivid coral, adding a dramatic flair.
+- **#ff6f61**: A playful pink, showcasing their penchant for vivid colors.
+- **#ffcccb**: A soft pink, providing a gentle, contrasting touch.
+
 \`\`\`json
 {
   "name": "Featherington Flair",
   "colors": ["#ffeb3b", "#f5a623", "#e4572e", "#ff6f61", "#ffcccb"]
 }
 \`\`\`
-
-- **#ffeb3b**: A bright yellow, symbolizing their flashy and bold nature.
-- **#f5a623**: A warm orange, reflecting their energetic and lively character.
-- **#e4572e**: A vivid coral, adding a dramatic flair.
-- **#ff6f61**: A playful pink, showcasing their penchant for vivid colors.
-- **#ffcccb**: A soft pink, providing a gentle, contrasting touch.
 
 Want to create something just as bold? [Explore this vibrant palette with our color blender tool](${Routes.ColorsBlenderTool}#featherington-flair)!
 
@@ -51,18 +51,18 @@ Bringing an air of exotic luxury, the Sharma family’s palette is rich with dee
 
 ![Sharma Opulence](/blog-images/exploring-colors-of-bridgerton-3.jpeg "The Sharmas bring a touch of exotic luxury to Bridgerton, with their rich purples and golds")
 
+- **#7f3b6b**: A deep plum, symbolizing their regal and sophisticated aura.
+- **#d4af37**: A luxurious gold, adding a touch of opulence.
+- **#e0a899**: A warm rose, reflecting their elegant style.
+- **#4a274f**: A dark purple, enhancing their mysterious charm.
+- **#a68a5b**: A muted brown, providing an earthy, grounding balance.
+
 \`\`\`json
 {
   "name": "Sharma Opulence",
   "colors": ["#7f3b6b", "#d4af37", "#e0a899", "#4a274f", "#a68a5b"]
 }
 \`\`\`
-
-- **#7f3b6b**: A deep plum, symbolizing their regal and sophisticated aura.
-- **#d4af37**: A luxurious gold, adding a touch of opulence.
-- **#e0a899**: A warm rose, reflecting their elegant style.
-- **#4a274f**: A dark purple, enhancing their mysterious charm.
-- **#a68a5b**: A muted brown, providing an earthy, grounding balance.
 
 Dive into opulence! [Blend these luxurious colors with our tool](${Routes.ColorsBlenderTool}#sharma-opulence).
 
@@ -72,18 +72,18 @@ Simon Basset, the Duke of Hastings, exudes a refined and enigmatic style. His pa
 
 ![Duke of Hastings](/blog-images/exploring-colors-of-bridgerton-4.jpeg "Simon Basset, the Duke of Hastings, exudes mystery and power with his deep blues and greys")
 
+- **#1b263b**: A deep, navy blue, representing his brooding and powerful presence.
+- **#415a77**: A muted steel blue, adding a touch of cool elegance and formality.
+- **#778da9**: A soft, dusty blue, balancing the darker tones with a more approachable feel.
+- **#e0e1dd**: A light, off-white grey, symbolizing moments of vulnerability and introspection.
+- **#14213d**: A dark, almost black blue, reflecting the depth and mystery of his character.
+
 \`\`\`json
 {
   "name": "Duke of Hastings",
   "colors": ["#1b263b", "#415a77", "#778da9", "#e0e1dd", "#14213d"]
 }
 \`\`\`
-
-- **#1b263b**: A deep, navy blue, representing his brooding and powerful presence.
-- **#415a77**: A muted steel blue, adding a touch of cool elegance and formality.
-- **#778da9**: A soft, dusty blue, balancing the darker tones with a more approachable feel.
-- **#e0e1dd**: A light, off-white grey, symbolizing moments of vulnerability and introspection.
-- **#14213d**: A dark, almost black blue, reflecting the depth and mystery of his character.
 
 Ready to channel your inner Duke? [Experiment with these sophisticated hues using our blender tool](${Routes.ColorsBlenderTool}#duke-of-hastings).
 
@@ -93,18 +93,18 @@ Queen Charlotte’s court is the epitome of grandeur and opulence. The palette o
 
 ![Queen’s Court](/blog-images/exploring-colors-of-bridgerton-5.jpeg "Queen Charlotte’s court dazzles with opulence, featuring luxurious golds and royal purples")
 
+- **#d4af37**: A luxurious gold, representing royal opulence.
+- **#b76e79**: A rich mauve, adding a regal warmth.
+- **#7d3c98**: A royal purple, symbolizing power and dignity.
+- **#5b2c6f**: A deep violet, enhancing the palette’s elegance.
+- **#1c2833**: A dark midnight blue, reflecting authority and mystery.
+
 \`\`\`json
 {
   "name": "Queen’s Court",
   "colors": ["#d4af37", "#b76e79", "#7d3c98", "#5b2c6f", "#1c2833"]
 }
 \`\`\`
-
-- **#d4af37**: A luxurious gold, representing royal opulence.
-- **#b76e79**: A rich mauve, adding a regal warmth.
-- **#7d3c98**: A royal purple, symbolizing power and dignity.
-- **#5b2c6f**: A deep violet, enhancing the palette’s elegance.
-- **#1c2833**: A dark midnight blue, reflecting authority and mystery.
 
 Step into the royal court! [Create majestic designs with these colors](${Routes.ColorsBlenderTool}#queen-court).
 
@@ -114,18 +114,18 @@ Lady Danbury’s bold and sophisticated style is captured through a palette of v
 
 ![Lady Danbury](/blog-images/exploring-colors-of-bridgerton-6.jpeg "Lady Danbury commands attention with her vibrant purples and bold blues, symbolizing wisdom and authority")
 
+- **#5a189a**: A bold, royal purple, representing her vibrant and commanding personality.
+- **#7b2cbf**: A rich, deep violet, adding depth and intensity to the palette.
+- **#9d4edd**: A striking amethyst, showcasing her regal and sophisticated style.
+- **#c77dff**: A soft, lavender purple, providing a touch of elegance and refinement.
+- **#6a0572**: A dark, intense plum, reflecting her wisdom and authoritative presence.
+
 \`\`\`json
 {
   "name": "Lady Danbury",
   "colors": ["#5a189a", "#7b2cbf", "#9d4edd", "#c77dff", "#6a0572"]
 }
 \`\`\`
-
-- **#5a189a**: A bold, royal purple, representing her vibrant and commanding personality.
-- **#7b2cbf**: A rich, deep violet, adding depth and intensity to the palette.
-- **#9d4edd**: A striking amethyst, showcasing her regal and sophisticated style.
-- **#c77dff**: A soft, lavender purple, providing a touch of elegance and refinement.
-- **#6a0572**: A dark, intense plum, reflecting her wisdom and authoritative presence.
 
 Capture Lady Danbury’s elegance! [Blend these powerful hues with our tool](${Routes.ColorsBlenderTool}#lady-danbury).
 

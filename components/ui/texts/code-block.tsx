@@ -59,8 +59,8 @@ const CopyButton = styled(Button)`
 const Container = styled.div`
   position: relative;
   margin: 1rem 0;
-  background: #2d2d2d;
-  color: #f8f8f2;
+  background: #f8f8f2;
+  color: #2d2d2d;
   padding: 1rem;
   border-radius: 0.25rem;
   overflow: auto;
