@@ -1,16 +1,19 @@
 // components/HeroSection.tsx
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import Link from 'next/link';
 
-import { Button } from 'primereact/button';
+import { Routes } from '@/content/routes';
 
 const HeroSection: React.FC = () => (
   <Container>
     <Headline>Empower Your Projects<br />with Our Cutting-Edge Solutions</Headline>
 
-    <Subheadline>Optimize images, create vibrant palettes, generate heatmaps, and many more with our free tools and libraries</Subheadline>
+    <Subheadline>Optimize images, create vibrant palettes,<br />generate heatmaps, and many more<br />with our free tools and libraries</Subheadline>
     
-    <ButtonStyled label='Explore Our Tools' className='p-button-outlined p-button-lg' />
+    <LinkStyled href={Routes.ImageOptimizationTool}>
+      Explore Our Tools
+    </LinkStyled>
   </Container>
 );
 
@@ -33,35 +36,51 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #ffffff;
   text-align: center;
 `;
 
 const Headline = styled.h1`
-  width: 50vw;
   font-size: 2.5rem;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
   animation: ${fadeInSlideUp} 0.8s ease-out;
   margin: 0.5rem 0;
 `;
 
 const Subheadline = styled.h2`
-  width: 50vw;
   font-size: 1.5rem;
   font-weight: 400;
   margin: 0.5rem 0 1rem;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
   animation: ${fadeInSlideUp} 0.8s ease-out;
   animation-delay: 0.2s;
   animation-fill-mode: both;
 `;
 
-const ButtonStyled = styled(Button)`
-  color: white;
-  border-color: white;
+const LinkStyled = styled(Link)`
   animation: ${fadeInSlideUp} 0.8s ease-out;
   animation-delay: 0.4s;
   animation-fill-mode: both;
+  padding: 1rem 2rem;
+  border: 0.0625rem solid #ffffff;
+  border-radius: 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: background-color 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.3);
+  }
+
+  &:active, &:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.5);
+  }
 `;
 
 export { HeroSection };

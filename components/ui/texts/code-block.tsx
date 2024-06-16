@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { copyToClipboard } from '@/utils/copy';
+import { useTheme } from '@/services/theme-service/use-theme';
+import { Theme } from '@/services/theme-service/types';
 
 import { Button } from 'primereact/button';
 
@@ -11,6 +13,8 @@ interface Props {
 
 const CodeBlock: React.FC<Props> = ({ code }) => {
   const [icon, setIcon] = useState('pi pi-copy');
+
+  const [theme] = useTheme();
 
   const copyText = async () => {
     copyToClipboard(code, {
@@ -25,7 +29,7 @@ const CodeBlock: React.FC<Props> = ({ code }) => {
   };
 
   return (
-    <Container>
+    <Container isDark={theme === Theme.Dark}>
       <Text>
         {code}
       </Text>
@@ -56,11 +60,11 @@ const CopyButton = styled(Button)`
   }
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ isDark: boolean }>`
   position: relative;
   margin: 1rem 0;
-  background: #f8f8f2;
-  color: #2d2d2d;
+  background: ${({ isDark }) => isDark ? '#2d2d2d' : '#f8f8f2'};
+  color: ${({ isDark }) => isDark ? '#f8f8f2' : '#2d2d2d'};
   padding: 1rem;
   border-radius: 0.25rem;
   overflow: auto;
