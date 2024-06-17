@@ -1,34 +1,35 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { isDark } from '@mirawision/colorize/is-dark';
 
 import { Button } from 'primereact/button';
+import { AvailableColor } from './types';
 
 interface Props {
-  color: { name: string; hex: string };
+  color: AvailableColor;
   weight: number;
   totalWeight: number;
-  onWeightChange: (color: string, newWeight: number) => void;
+  onWeightChange: (color: string, increment: number) => void;
 }
 
 const ColorCircle: React.FC<Props> = ({ color, weight, totalWeight, onWeightChange }) => {
+  const percentage = useMemo(() => totalWeight ? ((weight / totalWeight) * 100).toFixed(0) : 0, [weight, totalWeight]);
+
   const handleIncreaseWeight = () => {
-    onWeightChange(color.hex, weight + 1);
+    onWeightChange(color?.hex, 1);
   };
 
   const handleDecreaseWeight = () => {
     if (weight > 0) {
-      onWeightChange(color.hex, weight - 1);
+      onWeightChange(color?.hex, -1);
     }
   };
 
-  const percentage = totalWeight ? ((weight / totalWeight) * 100).toFixed(0) : 0;
-
-  const textColor = isDark(color.hex) ? 'var(--surface-a)' : 'var(--text-color)';
+  const textColor = color ? isDark(color?.hex) ? 'var(--surface-a)' : 'var(--text-color)' : '';
 
   return (
     <Container>
-      <Item color={color.hex} onClick={handleIncreaseWeight}>
+      <Item color={color?.hex} onClick={handleIncreaseWeight}>
         {weight > 0 && (
           <>
             <WeightLabel color={textColor}>{weight}</WeightLabel>
@@ -38,7 +39,7 @@ const ColorCircle: React.FC<Props> = ({ color, weight, totalWeight, onWeightChan
         )}
       </Item>
 
-      <ColorName>{color.name}</ColorName>
+      <ColorName>{color?.name}</ColorName>
       
       <ButtonContainer>
         {weight > 0 && (
