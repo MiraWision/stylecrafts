@@ -29,8 +29,11 @@ const Container = styled.div`
 const Text = styled.span`
   font-family: 'Delius Swash Caps', cursive;
   font-size: 1.875rem;
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
   user-select: none;
+  background: linear-gradient(70deg, var(--primary-color), #ff4e50);
+  -webkit-background-clip: text;
+  color: transparent;
 `;
 
 const scaleUpDown = keyframes`

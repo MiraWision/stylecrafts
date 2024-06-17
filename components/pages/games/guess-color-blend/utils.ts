@@ -21,12 +21,6 @@ const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const getRandomAvailableColors = (colorsCount: Difficulty['colorsCount']) => {
-  const count = getRandomNumber(...colorsCount);
-
-  return [...AvailableColors].sort(() => 0.5 - Math.random()).slice(0, count);
-};
-
 const getRandomColor = (colors: string[], dropsCount: Difficulty['dropsCount']): string => {
   const drops: Record<string, number> = {};
 
@@ -58,7 +52,6 @@ const getDifficulty = (level: Level, score: number): Difficulty => {
 
 export {
   calculateSimilarity,
-  getRandomAvailableColors,
   getRandomColor,
   getDifficulty,
 };

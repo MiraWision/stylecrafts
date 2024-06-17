@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getLuminance } from '@mirawision/colorize';
 
 interface Props {
   currentColor: string;
@@ -10,17 +9,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const getTextColorBasedOnBackground = (bgColor: string) => {
-  if (!bgColor) return '#000000';
-
-  return getLuminance(bgColor) > 0.179 ? '#000000' : '#fff';
-};
-
 const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercentage, isMatched, onClick }) => {
-  const currentTextColor = getTextColorBasedOnBackground(currentColor);
-
-  const targetTextColor = getTextColorBasedOnBackground(targetColor);
-
   return (
     <Container>
       <ColorSection color={currentColor}>
@@ -29,19 +18,9 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
         )}
 
         <Overlay>
-          <SectionTitle textColor={currentTextColor}>Your Mix</SectionTitle>
+          <SectionTitle>Your Mix</SectionTitle>
 
-          <ColorCode textColor={currentTextColor}>{currentColor || '–'}</ColorCode>
-          
-          {/* <Similarity textColor={currentTextColor}>Match: {currentColor ? matchPercentage.toFixed(2) : 0}%</Similarity> */}
-        </Overlay>
-      </ColorSection>
-
-      <ColorSection color={targetColor}>
-        <Overlay>
-          <SectionTitle textColor={targetTextColor}>Target</SectionTitle>
-
-          <ColorCode textColor={targetTextColor}>{targetColor}</ColorCode>
+          <ColorCode>{currentColor || '–'}</ColorCode>
         </Overlay>
       </ColorSection>
 
@@ -51,10 +30,16 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
       >
         <MatchText>{matchPercentage.toFixed(2)}%</MatchText>
 
-        {isMatched && (
-          <MatchText>Next!</MatchText>
-        )}
+        <MatchText>{!isMatched ? 'Match' : 'Next!'}</MatchText>
       </Match>
+
+      <ColorSection color={targetColor}>
+        <Overlay>
+          <SectionTitle>Target</SectionTitle>
+
+          <ColorCode>{targetColor}</ColorCode>
+        </Overlay>
+      </ColorSection>
     </Container>
   );
 };
@@ -66,21 +51,33 @@ const Container = styled.div`
   position: relative;
   border-radius: 0.8rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
-  width: 40vw;
-  height: 20vw;
-  border-radius: 0.5rem;
+  width: 30rem;
+  height: 15rem;
+  border-radius: 1rem;
   overflow: hidden;
 `;
 
 const ColorSection = styled.div<{ color: string }>`
   flex: 1;
   height: 100%;
-  background-color: ${({ color }) => color || 'transparent'};
+  background-color: ${({ color }) => color || 'white'};
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   overflow: hidden;
+  border: 0.0625rem solid var(--surface-border);
+
+  &:first-child {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    border-right: none;
+  }
+
+  &:last-child {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }
 `;
 
 const EmptyBackground = styled.div`
@@ -109,19 +106,22 @@ const Overlay = styled.div`
   align-items: center;
 `;
 
-const SectionTitle = styled.h2<{ textColor: string }>`
+const SectionTitle = styled.h2`
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
-  color: ${({ textColor }) => textColor};
+  color: #ffffff;
+  text-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.8);
 `;
 
-const ColorCode = styled.p<{ textColor: string }>`
+const ColorCode = styled.p`
   font-size: 0.875rem;
-  color: ${({ textColor }) => textColor};
+  color: #ffffff;
+  text-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.8);
 `;
 
 const Match = styled.div<{ isMatched: boolean }>`
   position: absolute;
+  z-index: 1;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -132,18 +132,18 @@ const Match = styled.div<{ isMatched: boolean }>`
   gap: 0.5rem;
   background-color: var(--surface-100);
   padding: 0.5rem 1rem;
-  border: 0.0625rem solid var(--primary-color);
+  border: 0.0625rem solid ${({ isMatched }) => isMatched ? 'var(--primary-color)' : 'var(--surface-border)'};
   border-radius: 1rem;
   width: 5rem;
   height: 5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
   cursor: ${({ isMatched }) => (isMatched ? 'pointer' : 'default')};
+  color: ${({ isMatched }) => (isMatched ? 'var(--primary-color)' : 'var(--text-color)')};
 `;
 
 const MatchText = styled.div`
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--primary-color);
 `;
 
 export { ColorsPreview };

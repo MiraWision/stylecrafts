@@ -8,20 +8,18 @@ enum Level {
 type LevelType = keyof typeof Level;
 
 interface Difficulty {
-  colorsCount: [number, number];
   dropsCount: [number, number];
 }
 
-interface AvailableColor {
+interface PaletteColor {
   name: string;
   hex: string;
 }
 
-interface SelectedColor {
-  color: string;
+interface SelectedColor extends PaletteColor {
   weight: number;
 }
 
 export { Level };
 
-export type { LevelType, Difficulty, AvailableColor, SelectedColor };
+export type { LevelType, Difficulty, PaletteColor, SelectedColor };

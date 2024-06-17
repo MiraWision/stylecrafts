@@ -2,37 +2,37 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { isDark } from '@mirawision/colorize/is-dark';
 
-import { Button } from 'primereact/button';
-import { AvailableColor } from './types';
+import { SelectedColor } from './types';
+
+import { RemoveButton } from '@/components/ui/buttons/remove-button';
 
 interface Props {
-  color: AvailableColor;
-  weight: number;
+  color: SelectedColor;
   totalWeight: number;
   onWeightChange: (color: string, increment: number) => void;
 }
 
-const ColorCircle: React.FC<Props> = ({ color, weight, totalWeight, onWeightChange }) => {
-  const percentage = useMemo(() => totalWeight ? ((weight / totalWeight) * 100).toFixed(0) : 0, [weight, totalWeight]);
+const ColorCircle: React.FC<Props> = ({ color, totalWeight, onWeightChange }) => {
+  const percentage = useMemo(() => totalWeight ? ((color.weight / totalWeight) * 100).toFixed(0) : 0, [color.weight, totalWeight]);
 
   const handleIncreaseWeight = () => {
-    onWeightChange(color?.hex, 1);
+    onWeightChange(color.hex, 1);
   };
 
   const handleDecreaseWeight = () => {
-    if (weight > 0) {
-      onWeightChange(color?.hex, -1);
+    if (color.weight > 0) {
+      onWeightChange(color.hex, -1);
     }
   };
 
-  const textColor = color ? isDark(color?.hex) ? 'var(--surface-a)' : 'var(--text-color)' : '';
+  const textColor = isDark(color.hex) ? 'var(--surface-a)' : 'var(--text-color)';
 
   return (
     <Container>
-      <Item color={color?.hex} onClick={handleIncreaseWeight}>
-        {weight > 0 && (
+      <Item color={color.hex} onClick={handleIncreaseWeight}>
+        {color.weight > 0 && (
           <>
-            <WeightLabel color={textColor}>{weight}</WeightLabel>
+            <WeightLabel color={textColor}>{color.weight}</WeightLabel>
 
             <PercentageLabel color={textColor}>{percentage}%</PercentageLabel>
           </>
@@ -42,10 +42,8 @@ const ColorCircle: React.FC<Props> = ({ color, weight, totalWeight, onWeightChan
       <ColorName>{color?.name}</ColorName>
       
       <ButtonContainer>
-        {weight > 0 && (
+        {color.weight > 0 && (
           <RemoveButton
-            icon='pi pi-minus'
-            className='p-button-rounded p-button-danger p-button-sm'
             onClick={handleDecreaseWeight}
           />
         )}
@@ -101,21 +99,6 @@ const ButtonContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 0.5rem;
-`;
-
-const RemoveButton = styled(Button)`
-  height: 1.5rem;
-  width: 1.5rem;
-  padding: 0;
-
-  .pi {
-    font-size: 0.75rem;
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 `;
 
 export { ColorCircle };

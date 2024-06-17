@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import styled from 'styled-components';
+import { blendMultipleColors } from '@mirawision/colorize';
 
 import { CurrentColor } from './current-color';
 import { Palette } from './palette';
 import { ColorsList } from './colors-list';
 import { BaseColorsExamples } from './base-colors-examples';
-import { blendMultipleColors } from '@mirawision/colorize';
 import { TwoColumnsContainer } from '@/components/ui/containers';
-import styled from 'styled-components';
 
 interface BaseColor {
   color: string;

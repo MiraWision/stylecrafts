@@ -10,24 +10,23 @@ import {
 } from './utils';
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
-import { Level, Difficulty, AvailableColor, SelectedColor } from './types';
+import { Level, Difficulty, SelectedColor } from './types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { LevelOptions } from './data';
+import { PaletteColors, LevelOptions } from './data';
 
 import { Button } from 'primereact/button';
 import { ColorCircle } from '@/components/pages/games/guess-color-blend/color-circle';
 import { ColorsPreview } from '@/components/pages/games/guess-color-blend/colors-preview';
 import { Timer } from '@/components/ui/timer';
 import { PrimaryButton } from '@/components/ui/buttons/primary-button';
-import css from 'styled-jsx/css';
+import { Label } from '@/components/ui/texts/label';
+import { ColorSelection } from './color-selection';
 
 interface Props {
 }
 
 const GuessColorBlendMain: React.FC<Props> = ({}) => {
-  const [availableColors, setAvailableColors] = useState<AvailableColor[]>([]);
-  
-  const [selectedColors, setSelectedColors] = useState<SelectedColor[]>([]);
+  const [selectedColors, setSelectedColors] = useState<SelectedColor[]>(PaletteColors.map((color) => ({ ...color, weight: 0 })));
   
   const [level, setLevel] = useState<Level>(Level.Easy);
   
@@ -40,19 +39,15 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   }, [level, score]);
 
   const targetColor = useMemo<string>(() => {
-    if (!availableColors.length) {
-      return '';
-    }
-
-    return getRandomColor(availableColors.map(({ hex }) => hex), difficulty.dropsCount);
-  }, [availableColors, difficulty]);
+    return getRandomColor(selectedColors.map(({ hex }) => hex), difficulty.dropsCount);
+  }, [difficulty]);
 
   const currentColor = useMemo<string>(() => {
     if (!selectedColors.some((color) => color.weight > 0)) {
       return '';
     }
 
-    return blendMultipleColors(selectedColors);
+    return blendMultipleColors(selectedColors.map((color) => ({ color: color.hex, weight: color.weight })));
   }, [selectedColors]);
 
   const matchPercentage = useMemo<number>(() => {
@@ -67,19 +62,16 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
   const isChallenge = useMemo<boolean>(() => level === Level.Challenge, [level]);
 
-  useEffect(() => {
-    setAvailableColors(getRandomAvailableColors(difficulty.colorsCount));
-  }, [level, score]);
+  const totalWeight = useMemo<number>(() => selectedColors.reduce((acc, color) => acc + color.weight, 0), [selectedColors]);
 
-  useEffect(() => {
-    setSelectedColors(availableColors.map((color) => ({ color: color.hex, weight: 0 })));
-  }, [availableColors]);
-
-  const handleWeightChange = (color: string, increment: number) => {
-    setSelectedColors((prev) => prev.map((c) => (c.color === color ? { ...c, weight: c.weight + increment } : c)));
+  const changeWeight = (hex: string, increment: number) => {
+    setSelectedColors((prev) => prev.map((color) => ({ 
+      ...color, 
+      weight: color.hex === hex ? color.weight + increment : color.weight,
+    })));
   };
 
-  const handleResetAllColors = () => {
+  const resetWeights = () => {
     setSelectedColors((prev) => prev.map((color) => ({ ...color, weight: 0 })));
   };
 
@@ -139,7 +131,6 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
   const handleDifficultyChange = (level: Level) => {
     setLevel(level);
-    // resetGame(level, setAvailableColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setInitialDropsCount);
   };
 
   // const startChallenge = () => {
@@ -176,14 +167,18 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   return (
     <>
       <DifficultyButtonsContainer>
-        {LevelOptions.map((item) => (
-          <LevelButton
-            key={item.value}
-            label={item.label}
-            className={level === item.value ? 'selected' : ''}
-            onClick={() => handleDifficultyChange(item.value)}
-          />
-        ))}
+        <Label>Select Difficulty</Label>
+
+        <ButtonsContainer>
+          {LevelOptions.map((item) => (
+            <LevelButton
+              key={item.value}
+              label={item.label}
+              className={level === item.value ? 'selected' : ''}
+              onClick={() => handleDifficultyChange(item.value)}
+            />
+          ))}
+        </ButtonsContainer>
       </DifficultyButtonsContainer>
 
       {/* {isChallenge && (
@@ -199,57 +194,53 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
           matchPercentage={matchPercentage}
           isMatched={isMatched}
         />
-
-        {isChallenge && (
-          <ScoreDisplay>
-            Score: {score} {topScore > 0 && `| Top Score: ${topScore}`}
-          </ScoreDisplay>
-        )}
-
-        {/* <ColorBarContainer>
-          <ColorBar>{colorBar}</ColorBar>
-        </ColorBarContainer> */}
-
-        <ColorCirclesContainer>
-          {selectedColors.map((c, index) => (
-            <ColorCircle
-              key={index}
-              color={availableColors[index]}
-              weight={c.weight}
-              totalWeight={100}
-              onWeightChange={handleWeightChange}
-            />
-          ))}
-        </ColorCirclesContainer>
-        {/* {message && !isChallenge && (
-          <MessageOverlay onClick={resetColor}>{message}</MessageOverlay>
-        )}
-        {message && isChallenge && (
-          <MessageOverlay>{message}</MessageOverlay>
-        )} */}
       </ContentContainer>
+
+      {isChallenge && (
+        <ScoreDisplay>
+          Score: {score} {topScore > 0 && `| Top Score: ${topScore}`}
+        </ScoreDisplay>
+      )}
+
+      <ColorSelection
+        selectedColors={selectedColors}
+        totalWeight={totalWeight}
+        onWeightChange={changeWeight}
+        onResetAll={resetWeights}
+      />
     </>
   );
 }
 
 const DifficultyButtonsContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 1rem;
 `;
 
 const LevelButton = styled(PrimaryButton)`
-  &.selected {
-    background-color: var(--primary-color);
-    color: var(--primary-color-text);
-  }
-`;
+  border-color: var(--surface-border);
 
-const TimerContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
+  span {
+    color: var(--text-color);
+    font-weight: 400;
+  }
+
+  &.selected {
+    border-color: var(--primary-color);
+
+    span {
+      color: var(--primary-color);
+    }
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -260,73 +251,16 @@ const ContentContainer = styled.div`
   width: 100%;
 `;
 
-const ColorBarContainer = styled.div`
-  width: 50vw;
-  margin-top: 1rem;
-
-  @media (max-width: 1200px) {
-    width: 100%;
-    max-width: 16rem;
-  }
-
-  @media (max-width: 900px) {
-    max-width: 14rem;
-  }
-
-  @media (max-width: 600px) {
-    max-width: 12rem;
-  }
-
-  @media (max-width: 400px) {
-    max-width: 10rem;
-  }
-`;
-
-const ColorBar = styled.div`
-  display: flex;
-  width: 100%;
-  height: 1.25rem;
-`;
-
-const ColorBarSegment = styled.div<{ color: string; width: string }>`
-  background-color: ${({ color }) => color};
-  width: ${({ width }) => width};
-  height: 100%;
-`;
-
-const ColorCirclesContainer = styled.div`
+const TimerContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-`;
-
-const ResetAllButton = styled(Button)`
-  background-color: var(--primary-color);
-  color: var(--primary-color-text);
-  border: none;
-  margin-right: 1rem;
+  margin-bottom: 1rem;
 `;
 
 const ScoreDisplay = styled.div`
   margin-top: 1rem;
   font-size: 1.5rem;
   font-weight: bold;
-`;
-
-const MessageOverlay = styled.div`
-  position: fixed;
-  top: 35%;
-  left: 57%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.75);
-  color: var(--surface-300);
-  padding: 2rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  z-index: 10;
-  cursor: pointer;
 `;
 
 export { GuessColorBlendMain };
