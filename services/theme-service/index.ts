@@ -15,7 +15,6 @@ class ThemeService extends Observer<Theme> {
   }
 
   public setTheme(theme: Theme): void {
-    console.log('theme', this);
     this.theme = theme;
 
     this.updateThemeLink(theme);

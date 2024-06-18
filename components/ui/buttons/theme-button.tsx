@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { use, useEffect, useMemo, useState } from 'react';
 import { Button } from 'primereact/button';
 import styled from 'styled-components';
 
@@ -11,14 +11,24 @@ interface Props {
 const ThemeButton: React.FC<Props> = () => {
   const [theme, setTheme] = useTheme();
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const icon = useMemo(() => {
+    return theme === Theme.Light ? 'pi pi-sun' : 'pi pi-moon';
+  }, [theme]);
+
   const toggleTheme = () => {
     setTheme(theme === Theme.Light ? Theme.Dark : Theme.Light);
   }
 
-  return (
+  return isClient && (
     <Container>
       <ButtonStyled 
-        icon={theme === Theme.Light ? 'pi pi-sun' : 'pi pi-moon'} 
+        icon={icon} 
         onClick={toggleTheme} 
         className='p-button-rounded'
       />
