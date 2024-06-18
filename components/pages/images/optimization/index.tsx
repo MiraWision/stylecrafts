@@ -83,7 +83,7 @@ const ImageOptimization: React.FC<Props> = ({}) => {
         let originalSettings = getSettingsFromStorage();
 
         if (originalSettings) {
-          originalSettings.height = Math.round((imageElement.width / imageElement.height) * originalSettings.width);
+          originalSettings.height = Math.round((imageElement.height / imageElement.width) * originalSettings.width);
         } else {
           originalSettings = {
             width: imageElement.width,
