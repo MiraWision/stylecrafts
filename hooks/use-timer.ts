@@ -1,10 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 
-interface UseTimerProps {
-  initialSeconds: number;
-  onTimeUp: () => void;
-}
-
 interface TimerControls {
   play: (startSeconds?: number) => void;
   pause: (pauseTime?: number) => void;
@@ -14,7 +9,7 @@ interface TimerControls {
   setTime: (seconds: number) => void;
 }
 
-const useTimer = ({ initialSeconds, onTimeUp }: UseTimerProps): [number, number, TimerControls] => {
+const useTimer = (initialSeconds: number, onTimeUp: () => void): [number, number, TimerControls] => {
   const [remainingSeconds, setRemainingSeconds] = useState(initialSeconds);
   
   const [elapsedSeconds, setElapsedSeconds] = useState(0);

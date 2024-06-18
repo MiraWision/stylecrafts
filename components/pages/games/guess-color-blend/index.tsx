@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, use, useRef } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -17,6 +17,7 @@ import { PrimaryButton } from '@/components/ui/buttons/primary-button';
 import { Label } from '@/components/ui/texts/label';
 import { ColorSelection } from './color-selection';
 import { blendColorsRealistic } from './blend-colors-realistic';
+import { useTimer } from '@/hooks/use-timer';
 
 interface Props {
 }
@@ -33,6 +34,8 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   const [topScore, setTopScore] = useLocalStorage<number>('top-score', 0);
 
   const [targetColor, setTargetColor] = useState<string>('');
+
+  const currentDropsCount = useRef<number>(0);
 
   const difficulty = useMemo<Difficulty>(() => {
     return getDifficulty(level, score);
@@ -60,18 +63,54 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
   const isChallenge = useMemo<boolean>(() => level === Level.Challenge, [level]);
 
+  const [gameOver, setGameOver] = useState<boolean>(false);
+
+  const [remainingTime, ellapsedTime, handleTime] = useTimer(6, () => {
+    setGameOver(true);
+  });
+
   useEffect(() => {
     resetSelectedColors();
 
     generateTargetColor();
+
+    if (isChallenge) {
+      setScore(0);
+
+      handleTime.reset();
+
+      handleTime.play();
+    } else {
+      handleTime.pause();
+    }
   }, [level]);
+
+  useEffect(() => {
+    if (isMatched && isChallenge) {
+      setScore((prev) => prev + currentDropsCount.current);
+
+      handleTime.pause();
+
+      handleTime.adjustTime(currentDropsCount.current);
+    }
+  }, [isMatched]);
+
+  useEffect(() => {
+    if (score > topScore) {
+      setTopScore(score);
+    }
+  }, [score]);
 
   const resetSelectedColors = () => {
     setSelectedColors(DefaultSelectedColors);
   };
 
   const generateTargetColor = () => {
-    setTargetColor(getRandomColor(selectedColors.map(({ hex }) => hex), difficulty.dropsCount));
+    const { color, dropsCount } = getRandomColor(PaletteColors.map((color) => color.hex), difficulty);
+
+    setTargetColor(color);
+
+    currentDropsCount.current = dropsCount;
   };
 
   const changeWeight = (hex: string, increment: number) => {
@@ -93,92 +132,29 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
     resetSelectedColors();
 
     generateTargetColor();
+
+    if (isChallenge) {
+      handleTime.play();
+
+      if (gameOver) {
+        setGameOver(false);
+
+        setScore(0);
+
+        handleTime.reset();
+
+        handleTime.play();
+      }
+    }
   };
 
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
 
-  // --------------------------------------------------
-  
-   // const [timerDuration, setTimerDuration] = useState<number>(60);
+    const remainingSeconds = seconds % 60;
 
-  // const timerRef = useRef<number | null>(null);
-
-  // useEffect(() => {
-  //   if (similarity > 99.9) {
-  //     if (isChallenge) {
-  //       const minDrops = calculateMinDrops(availableColors, targetColor);
-  //       setScore((prevScore) => prevScore + minDrops);
-  //       setTimerDuration((prevDuration) => prevDuration + minDrops * 3);
-  //       setMessage(`Well done! You earned ${minDrops} points and ${minDrops * 3} extra seconds.`);
-  //       setTimeout(() => {
-  //         setMessage(null);
-  //         increaseDifficulty(score, setAvailableColors, setTargetColor, setCurrentColor, setConvertedColors, setInitialDropsCount);
-  //       }, 2000);
-
-  //       GAService.logEvent(analyticsEvents.game.levelCompleted(`Score: ${score + minDrops}`));
-  //     } else {
-  //       setMessage('Congratulations! You matched the color! Click to start a new game.');
-
-  //       GAService.logEvent(analyticsEvents.game.levelCompleted('Color matched in normal mode'));
-  //     }
-  //   } else {
-  //     GAService.logEvent(analyticsEvents.game.colorGuessAttempted(`Guess similarity: ${similarity}`));
-  //   }
-  // }, [similarity]);
-
-  // useEffect(() => {
-  //   if (timerDuration <= 0) {
-  //     setMessage(`Time's up! Game over.`);
-  //     setIsChallenge(false);
-  //     if (score > topScore) {
-  //       setTopScore(score);
-  //       localStorage.setItem('topScore', score.toString());
-  //     }
-      
-  //     GAService.logEvent(analyticsEvents.game.gameStarted(`Game over with score: ${score}`));
-  //   }
-  // }, [timerDuration]);
-
-  // const handleTimeUp = () => {
-  //   setMessage(`Time's up! Game over.`);
-  //   setIsChallenge(false);
-  //   if (score > topScore) {
-  //     setTopScore(score);
-  //     localStorage.setItem('topScore', score.toString());
-  //   }
-
-  //   GAService.logEvent(analyticsEvents.game.gameStarted(`Game over with score: ${score}`));
-  // };
-
-  // const startChallenge = () => {
-  //   setIsChallenge(true);
-  //   resetChallenge(setAvailableColors, setTargetColor, setCurrentColor, setConvertedColors, setTimerKey, setMessage, setScore, setTimerDuration, setInitialDropsCount);
-    
-  //   GAService.logEvent(analyticsEvents.game.challengeModeStarted('Challenge mode started'));
-  // };
-
-  // useEffect(() => {
-  //   if (timerRef.current !== null) {
-  //     clearInterval(timerRef.current);
-  //   }
-
-  //   if (isChallenge && timerDuration > 0) {
-  //     timerRef.current = window.setInterval(() => {
-  //       setTimerDuration((prevDuration) => {
-  //         const newDuration = prevDuration - 1;
-
-  //         GAService.logEvent(analyticsEvents.game.challengeProgressed(`Remaining time: ${newDuration}`));
-          
-  //         return newDuration;
-  //       });
-  //     }, 1000);
-  //   }
-
-  //   return () => {
-  //     if (timerRef.current !== null) {
-  //       clearInterval(timerRef.current);
-  //     }
-  //   };
-  // }, [isChallenge, timerDuration]);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   return (
     <>
@@ -197,11 +173,19 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
         </ButtonsContainer>
       </DifficultyButtonsContainer>
 
-      {/* {isChallenge && (
-        <TimerContainer>
-          <Timer duration={timerDuration} onTimeUp={handleTimeUp} />
-        </TimerContainer>
-      )} */}
+      {isChallenge && (
+        <ChallengeContainer>
+          <ScoreContainer>
+            Score: {score}
+            
+            {topScore > 0 && (
+              <TopScore>Top Score: {topScore}</TopScore> 
+            )}
+          </ScoreContainer>
+
+          <Time>{formatTime(remainingTime)}</Time>
+        </ChallengeContainer>
+      )}
 
       <ContentContainer>
         <ColorsPreview
@@ -209,19 +193,17 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
           targetColor={targetColor}
           matchPercentage={matchPercentage}
           isMatched={isMatched}
+          isChallenge={isChallenge}
+          gameOver={gameOver}
           onClick={nextGame}
         />
       </ContentContainer>
 
-      {isChallenge && (
-        <ScoreDisplay>
-          Score: {score} {topScore > 0 && `| Top Score: ${topScore}`}
-        </ScoreDisplay>
-      )}
-
       <ColorSelection
         selectedColors={selectedColors}
         totalWeight={totalWeight}
+        isMatched={isMatched}
+        gameOver={gameOver}
         onWeightChange={changeWeight}
         onResetAll={resetWeights}
       />
@@ -268,16 +250,34 @@ const ContentContainer = styled.div`
   width: 100%;
 `;
 
-const TimerContainer = styled.div`
+const ChallengeContainer = styled.div`
   display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 30rem;
+  margin: 1.5rem auto 1rem;
 `;
 
-const ScoreDisplay = styled.div`
-  margin-top: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
+const Time = styled.div`
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--primary-color);
+`;
+
+const ScoreContainer = styled.div`
+  position: relative;
+  font-size: 1.25rem;
+  font-weight: 500;
+`;
+
+const TopScore = styled.div`
+  position: absolute;
+  top: -1rem;
+  left: 0;
+  width: 10rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-color);
 `;
 
 export { GuessColorBlendMain };

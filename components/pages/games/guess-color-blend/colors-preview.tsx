@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -6,10 +6,46 @@ interface Props {
   targetColor: string;
   matchPercentage: number;
   isMatched: boolean;
+  isChallenge: boolean;
+  gameOver: boolean;
   onClick?: () => void;
 }
 
-const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercentage, isMatched, onClick }) => {
+const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercentage, isMatched, isChallenge, gameOver, onClick }) => {
+  const text = useMemo(() => {
+    if (gameOver) {
+      return 'Game Over';
+    }
+
+    return `${matchPercentage.toFixed(2)}% Match`;
+  }, [gameOver, matchPercentage]);
+
+  const hoverText = useMemo(() => {
+    if (isChallenge) {
+      if (gameOver) {
+        return 'New Challenge';
+      }
+
+      if (isMatched) {
+        return 'Next Game';
+      }
+
+      return 'Keep Going!';
+    }
+
+    return 'New Game';
+  }, [isChallenge, gameOver, isMatched]);
+  
+  const handleOnClick = () => {
+    if (isChallenge) {
+      if (gameOver || isMatched) {
+        onClick?.();
+      }
+    } else {
+      onClick?.();
+    }
+  };
+
   return (
     <Container>
       <ColorSection color={currentColor}>
@@ -26,11 +62,11 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
 
       <Match
         isMatched={isMatched}
-        onClick={onClick}  
+        onClick={handleOnClick}  
       >
-        <MatchText>{matchPercentage.toFixed(2)}% Match</MatchText>
+        <MatchText>{text}</MatchText>
 
-        <HoverText>New Game</HoverText>
+        <HoverText>{hoverText}</HoverText>
       </Match>
 
       <ColorSection color={targetColor}>
@@ -121,7 +157,7 @@ const ColorCode = styled.p`
 `;
 
 const MatchText = styled.div`
-  display: flex;
+  display: block;
   font-size: 0.875rem;
   font-weight: 500;
   text-align: center;
@@ -162,7 +198,7 @@ const Match = styled.div<{ isMatched: boolean }>`
     background-color: var(--surface-200);
 
     ${HoverText} {
-      display: flex;
+      display: block;
     }
 
     ${MatchText} {

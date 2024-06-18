@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { MetaTags as IMetaTags } from '@/content/meta-data/types';
 
-const defaultImage = '/meta-data/image-1.jpeg';
+const defaultImage = '/meta-data/default.jpg';
 
 const MetaTags: React.FC<IMetaTags> = ({ title, description, keywords, image, url }) => {
   const router = useRouter();

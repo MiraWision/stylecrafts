@@ -67,7 +67,7 @@ const blendColorsRealistic = (colors: Color[]): string => {
 
   const hsl = `hsl(${Math.round(h)}, ${Math.round(s)}%, ${Math.round(l)}%)`;
 
-  console.log([...colors.map(({ color, weight }) => `${convertColor(color, ColorFormat.HSL)} - ${weight}}`), '------', hsl].join('\n'));
+  // console.log([...colors.map(({ color, weight }) => `${convertColor(color, ColorFormat.HSL)} - ${weight}}`), '------', hsl].join('\n'));
 
   return convertColor(hsl, ColorFormat.HEX);
 };

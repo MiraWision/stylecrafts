@@ -16,20 +16,80 @@ const PaletteColors: PaletteColor[] = [
 ];
 
 const LevelDifficulty: Partial<Record<Level, Difficulty>> = {
-  [Level.Easy]: { dropsCount: [2, 3] },
-  [Level.Medium]: { dropsCount: [4, 5] },
-  [Level.Hard]: { dropsCount: [6, 8] },
+  [Level.Easy]: { 
+    basicColorsCount: [1, 2],
+    shadeColorsCount: [1, 1],
+    dropsCount: [3, 3],
+  },
+  [Level.Medium]: { 
+    basicColorsCount: [2, 2],
+    shadeColorsCount: [1, 2],
+    dropsCount: [4, 5],
+  },
+  [Level.Hard]: {
+    basicColorsCount: [2, 2],
+    shadeColorsCount: [2, 2],
+    dropsCount: [6, 7],
+  },
 };
 
 const ChallengeDifficulty: (Difficulty & { from: number, to: number})[] = [
-  { from: 0, to: 10, dropsCount: [2, 3] },
-  { from: 10, to: 25, dropsCount: [3, 4] },
-  { from: 25, to: 45, dropsCount: [4, 5] },
-  { from: 45, to: 70, dropsCount: [5, 6] },
-  { from: 70, to: 100, dropsCount: [6, 7] },
-  { from: 100, to: 135, dropsCount: [7, 8] },
-  { from: 135, to: 175, dropsCount: [8, 9] },
-  { from: 175, to: Infinity, dropsCount: [9, 10] },
+  { 
+    from: 0,
+    to: 10,
+    basicColorsCount: [1, 2],
+    shadeColorsCount: [1, 1],
+    dropsCount: [2, 2],
+  },
+  { 
+    from: 10,
+    to: 20,
+    basicColorsCount: [1, 2],
+    shadeColorsCount: [1, 1],
+    dropsCount: [2, 3],
+  },
+  {
+    from: 20,
+    to: 35,
+    basicColorsCount: [2, 2],
+    shadeColorsCount: [1, 2],
+    dropsCount: [3, 4],
+  },
+  {
+    from: 35,
+    to: 55,
+    basicColorsCount: [2, 2],
+    shadeColorsCount: [1, 2],
+    dropsCount: [4, 5],
+  },
+  {
+    from: 55,
+    to: 80,
+    basicColorsCount: [2, 2],
+    shadeColorsCount: [2, 2],
+    dropsCount: [5, 6],
+  },
+  {
+    from: 80,
+    to: 110,
+    basicColorsCount: [2, 2],
+    shadeColorsCount: [2, 2],
+    dropsCount: [6, 7],
+  },
+  {
+    from: 110,
+    to: 145,
+    basicColorsCount: [2, 2],
+    shadeColorsCount: [2, 2],
+    dropsCount: [7, 8],
+  },
+  { 
+    from: 145,
+    to: Infinity,
+    basicColorsCount: [2, 3],
+    shadeColorsCount: [2, 2],
+    dropsCount: [8, 10],
+  },
 ];
 
 export { 

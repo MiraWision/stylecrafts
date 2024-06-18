@@ -10,11 +10,13 @@ import { Label } from '@/components/ui/texts/label';
 interface Props {
   selectedColors: SelectedColor[];
   totalWeight: number; 
+  isMatched: boolean;
+  gameOver: boolean;
   onWeightChange: (color: string, increment: number) => void;
   onResetAll: () => void; 
 }
 
-const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, onWeightChange, onResetAll }) => {
+const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatched, gameOver, onWeightChange, onResetAll }) => {
   return (
     <Container>
       <Label>Mix Basic Colors to Match Target Color</Label>
@@ -37,7 +39,7 @@ const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, onWeight
             key={color.hex}
             color={color}
             totalWeight={totalWeight}
-            onWeightChange={onWeightChange}
+            onWeightChange={(!isMatched && !gameOver) ? onWeightChange : undefined}
           />
         ))}
       </ColorCirclesContainer>
@@ -78,7 +80,7 @@ const ColorCirclesContainer = styled.div`
 `;
 
 const RefreshButtonStyled = styled(RefreshButton)`
-  margin-top: -3.3rem;
+  margin-top: -2rem;
 `;
 
 export { ColorSelection };

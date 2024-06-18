@@ -22,13 +22,20 @@ const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const getRandomColor = (colors: string[], dropsCount: Difficulty['dropsCount']): string => {
+const getRandomColor = (colors: string[], difficulty: Difficulty): { color: string, dropsCount: number } => {
+  const { basicColorsCount, shadeColorsCount, dropsCount } = difficulty;
+
+  const randomColors = [
+    ...(colors.slice(0, 3).sort(() => Math.random() - 0.5).slice(0, getRandomNumber(...basicColorsCount))),
+    ...(colors.slice(3).sort(() => Math.random() - 0.5).slice(0, getRandomNumber(...shadeColorsCount))),
+  ];
+
   const drops: Record<string, number> = {};
 
   const count = getRandomNumber(...dropsCount);
 
   for (let i = 0; i < count; i++) {
-    const color = colors[getRandomNumber(0, colors.length - 1)];
+    const color = randomColors[getRandomNumber(0, randomColors.length - 1)];
 
     if (drops[color]) {
       drops[color]++;
@@ -37,7 +44,10 @@ const getRandomColor = (colors: string[], dropsCount: Difficulty['dropsCount']):
     }
   }
 
-  return blendColorsRealistic(Object.entries(drops).map(([color, weight]) => ({ color, weight })));
+  return {
+    color: blendColorsRealistic(Object.entries(drops).map(([color, weight]) => ({ color, weight }))),
+    dropsCount: count,
+  };
 };
 
 const getDifficulty = (level: Level, score: number): Difficulty => {

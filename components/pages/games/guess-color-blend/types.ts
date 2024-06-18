@@ -8,6 +8,8 @@ enum Level {
 type LevelType = keyof typeof Level;
 
 interface Difficulty {
+  basicColorsCount: [number, number];
+  shadeColorsCount: [number, number];
   dropsCount: [number, number];
 }
 

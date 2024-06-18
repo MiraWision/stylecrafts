@@ -9,19 +9,19 @@ import { RemoveButton } from '@/components/ui/buttons/remove-button';
 interface Props {
   color: SelectedColor;
   totalWeight: number;
-  onWeightChange: (color: string, increment: number) => void;
+  onWeightChange?: (color: string, increment: number) => void;
 }
 
 const ColorCircle: React.FC<Props> = ({ color, totalWeight, onWeightChange }) => {
   const percentage = useMemo(() => totalWeight ? ((color.weight / totalWeight) * 100).toFixed(0) : 0, [color.weight, totalWeight]);
 
   const handleIncreaseWeight = () => {
-    onWeightChange(color.hex, 1);
+    onWeightChange?.(color.hex, 1);
   };
 
   const handleDecreaseWeight = () => {
     if (color.weight > 0) {
-      onWeightChange(color.hex, -1);
+      onWeightChange?.(color.hex, -1);
     }
   };
 
@@ -39,8 +39,6 @@ const ColorCircle: React.FC<Props> = ({ color, totalWeight, onWeightChange }) =>
         )}
       </Item>
 
-      <ColorName>{color?.name}</ColorName>
-      
       <ButtonContainer>
         {color.weight > 0 && (
           <RemoveButton
@@ -69,7 +67,7 @@ const Item = styled.div<{ color: string }>`
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1), 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 0.125rem rgba(255, 255, 255, 0.2), 0 0 0 0.125rem rgba(0, 0, 0, 0.2);
 `;
 
 const ColorName = styled.div`
