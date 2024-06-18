@@ -5,13 +5,14 @@ import styled from 'styled-components';
 interface Props {
   onClick: () => void;
   disabled?: boolean;
+  className?: string;
 }
 
-const RefreshButton: React.FC<Props> = ({ onClick, disabled }) => {
+const RefreshButton: React.FC<Props> = ({ onClick, disabled, className }) => {
   return (
     <ButtonStyled
       icon='pi pi-refresh'
-      className='p-button-sm'
+      className={`p-button-sm ${className}`}
       onClick={onClick}
       disabled={disabled}
     />

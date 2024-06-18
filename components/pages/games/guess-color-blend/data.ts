@@ -10,10 +10,9 @@ const LevelOptions = [
 const PaletteColors: PaletteColor[] = [
   { name: 'Red', hex: '#e63946' },
   { name: 'Yellow', hex: '#ffbf00' },
-  { name: 'Green', hex: '#2a9d8f' },
   { name: 'Blue', hex: '#457b9d' },
-  { name: 'White', hex: '#f1faee' },
-  { name: 'Black', hex: '#1b1b1e' },
+  { name: 'White', hex: '#fafafa' },
+  { name: 'Black', hex: '#1b1b1b' },
 ];
 
 const LevelDifficulty: Partial<Record<Level, Difficulty>> = {

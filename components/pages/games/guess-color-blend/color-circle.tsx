@@ -25,7 +25,7 @@ const ColorCircle: React.FC<Props> = ({ color, totalWeight, onWeightChange }) =>
     }
   };
 
-  const textColor = isDark(color.hex) ? 'var(--surface-a)' : 'var(--text-color)';
+  const textColor = isDark(color.hex) ? 'var(--gray-200)' : 'var(--gray-700)';
 
   return (
     <Container>

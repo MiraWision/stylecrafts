@@ -26,11 +26,11 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
 
       <Match
         isMatched={isMatched}
-        onClick={isMatched ? onClick : undefined}  
+        onClick={onClick}  
       >
-        <MatchText>{matchPercentage.toFixed(2)}%</MatchText>
+        <MatchText>{matchPercentage.toFixed(2)}% Match</MatchText>
 
-        <MatchText>{!isMatched ? 'Match' : 'Next!'}</MatchText>
+        <HoverText>New Game</HoverText>
       </Match>
 
       <ColorSection color={targetColor}>
@@ -67,6 +67,7 @@ const ColorSection = styled.div<{ color: string }>`
   position: relative;
   overflow: hidden;
   border: 0.0625rem solid var(--surface-border);
+  transition: background-color 0.5s;
 
   &:first-child {
     border-top-left-radius: 1rem;
@@ -119,6 +120,23 @@ const ColorCode = styled.p`
   text-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.8);
 `;
 
+const MatchText = styled.div`
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.5;
+`;
+
+const HoverText = styled.div`
+  display: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.5;
+  color: var(--primary-color);
+`;
+
 const Match = styled.div<{ isMatched: boolean }>`
   position: absolute;
   z-index: 1;
@@ -137,13 +155,20 @@ const Match = styled.div<{ isMatched: boolean }>`
   width: 5rem;
   height: 5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
-  cursor: ${({ isMatched }) => (isMatched ? 'pointer' : 'default')};
+  cursor: pointer;
   color: ${({ isMatched }) => (isMatched ? 'var(--primary-color)' : 'var(--text-color)')};
-`;
 
-const MatchText = styled.div`
-  font-size: 0.875rem;
-  font-weight: 500;
+  &:hover {
+    background-color: var(--surface-200);
+
+    ${HoverText} {
+      display: flex;
+    }
+
+    ${MatchText} {
+      display: none;
+    }
+  }
 `;
 
 export { ColorsPreview };

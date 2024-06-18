@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import styled from 'styled-components';
-import { blendMultipleColors } from '@mirawision/colorize';
 
 import {
   calculateSimilarity,
   getDifficulty,
-  getRandomAvailableColors,
   getRandomColor
 } from './utils';
 import { GAService } from '@/services/google-analytics-service';
@@ -14,19 +12,19 @@ import { Level, Difficulty, SelectedColor } from './types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { PaletteColors, LevelOptions } from './data';
 
-import { Button } from 'primereact/button';
-import { ColorCircle } from '@/components/pages/games/guess-color-blend/color-circle';
 import { ColorsPreview } from '@/components/pages/games/guess-color-blend/colors-preview';
-import { Timer } from '@/components/ui/timer';
 import { PrimaryButton } from '@/components/ui/buttons/primary-button';
 import { Label } from '@/components/ui/texts/label';
 import { ColorSelection } from './color-selection';
+import { blendColorsRealistic } from './blend-colors-realistic';
 
 interface Props {
 }
 
+const DefaultSelectedColors = PaletteColors.map((color) => ({ ...color, weight: 0 }));
+
 const GuessColorBlendMain: React.FC<Props> = ({}) => {
-  const [selectedColors, setSelectedColors] = useState<SelectedColor[]>(PaletteColors.map((color) => ({ ...color, weight: 0 })));
+  const [selectedColors, setSelectedColors] = useState<SelectedColor[]>(DefaultSelectedColors);
   
   const [level, setLevel] = useState<Level>(Level.Easy);
   
@@ -34,20 +32,20 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   
   const [topScore, setTopScore] = useLocalStorage<number>('top-score', 0);
 
+  const [targetColor, setTargetColor] = useState<string>('');
+
   const difficulty = useMemo<Difficulty>(() => {
     return getDifficulty(level, score);
   }, [level, score]);
 
-  const targetColor = useMemo<string>(() => {
-    return getRandomColor(selectedColors.map(({ hex }) => hex), difficulty.dropsCount);
-  }, [difficulty]);
+  const totalWeight = useMemo<number>(() => selectedColors.reduce((acc, color) => acc + color.weight, 0), [selectedColors]);
 
   const currentColor = useMemo<string>(() => {
     if (!selectedColors.some((color) => color.weight > 0)) {
       return '';
     }
 
-    return blendMultipleColors(selectedColors.map((color) => ({ color: color.hex, weight: color.weight })));
+    return blendColorsRealistic(selectedColors.filter((color) => color.weight > 0).map((color) => ({ color: color.hex, weight: color.weight })));
   }, [selectedColors]);
 
   const matchPercentage = useMemo<number>(() => {
@@ -62,7 +60,19 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
   const isChallenge = useMemo<boolean>(() => level === Level.Challenge, [level]);
 
-  const totalWeight = useMemo<number>(() => selectedColors.reduce((acc, color) => acc + color.weight, 0), [selectedColors]);
+  useEffect(() => {
+    resetSelectedColors();
+
+    generateTargetColor();
+  }, [level]);
+
+  const resetSelectedColors = () => {
+    setSelectedColors(DefaultSelectedColors);
+  };
+
+  const generateTargetColor = () => {
+    setTargetColor(getRandomColor(selectedColors.map(({ hex }) => hex), difficulty.dropsCount));
+  };
 
   const changeWeight = (hex: string, increment: number) => {
     setSelectedColors((prev) => prev.map((color) => ({ 
@@ -72,7 +82,17 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   };
 
   const resetWeights = () => {
-    setSelectedColors((prev) => prev.map((color) => ({ ...color, weight: 0 })));
+    resetSelectedColors();
+  };
+
+  const handleDifficultyChange = (level: Level) => {
+    setLevel(level);
+  };
+
+  const nextGame = () => {
+    resetSelectedColors();
+
+    generateTargetColor();
   };
 
 
@@ -128,10 +148,6 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
   //   GAService.logEvent(analyticsEvents.game.gameStarted(`Game over with score: ${score}`));
   // };
-
-  const handleDifficultyChange = (level: Level) => {
-    setLevel(level);
-  };
 
   // const startChallenge = () => {
   //   setIsChallenge(true);
@@ -193,6 +209,7 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
           targetColor={targetColor}
           matchPercentage={matchPercentage}
           isMatched={isMatched}
+          onClick={nextGame}
         />
       </ContentContainer>
 

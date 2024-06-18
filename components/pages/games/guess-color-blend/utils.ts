@@ -1,7 +1,8 @@
 import { ColorFormat, RGB, blendMultipleColors, convertColor, parseColorNumbers } from '@mirawision/colorize';
 
-import { AvailableColors, LevelDifficulty, ChallengeDifficulty } from './data';
+import { LevelDifficulty, ChallengeDifficulty } from './data';
 import { Difficulty, Level } from './types';
+import { blendColorsRealistic } from './blend-colors-realistic';
 
 // TODO add method to colorize library
 const calculateSimilarity = (color1: string, color2: string): number => {
@@ -36,7 +37,7 @@ const getRandomColor = (colors: string[], dropsCount: Difficulty['dropsCount']):
     }
   }
 
-  return blendMultipleColors(Object.entries(drops).map(([color, weight]) => ({ color, weight })));
+  return blendColorsRealistic(Object.entries(drops).map(([color, weight]) => ({ color, weight })));
 };
 
 const getDifficulty = (level: Level, score: number): Difficulty => {
@@ -48,7 +49,6 @@ const getDifficulty = (level: Level, score: number): Difficulty => {
 
   return LevelDifficulty[level]!;
 };
-
 
 export {
   calculateSimilarity,

@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 import { SelectedColor } from './types';
 
-import { Button } from 'primereact/button';
 import { ColorCircle } from './color-circle';
 import { RefreshButton } from '@/components/ui/buttons/refresh-button';
+import { Label } from '@/components/ui/texts/label';
 
 interface Props {
   selectedColors: SelectedColor[];
@@ -17,6 +17,8 @@ interface Props {
 const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, onWeightChange, onResetAll }) => {
   return (
     <Container>
+      <Label>Mix Basic Colors to Match Target Color</Label>
+
       <ColorBar>
         {selectedColors.map((color) => (
           <ColorBarSegment
@@ -47,19 +49,24 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
+  margin-top: 1rem;
 `;
 
 const ColorBar = styled.div`
   display: flex;
-  width: 100%;
-  height: 1.25rem;
+  width: 30rem;
+  height: 1rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
 `;
 
 const ColorBarSegment = styled.div<{ color: string; width: string }>`
-  background-color: ${({ color }) => color};
   width: ${({ width }) => width};
   height: 100%;
+  transition: width 0.5s;
+  background-color: ${({ color }) => color};
 `;
 
 const ColorCirclesContainer = styled.div`
