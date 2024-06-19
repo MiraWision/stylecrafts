@@ -15,11 +15,17 @@ const ImagePlaceholder: React.FC<Props> = ({}) => {
 const Container = styled.div`
   width: 20rem;
   height: 10rem;
-  border: 1px dashed var(--primary-color);
+  border: 0.0625rem dashed var(--primary-color);
   border-radius: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    min-height: 8rem;
+  }
 `;
 
 const Icon = styled.i`

@@ -9,7 +9,11 @@ interface Props {
 const DownloadButton: React.FC<Props> = ({ onClick }) => {
   return (
     <Container>
-      <Button icon='pi pi-download' onClick={onClick} className='p-button-rounded p-button-primary' />
+      <Button 
+        icon='pi pi-download' 
+        onClick={onClick} 
+        className='p-button-rounded p-button-primary' 
+      />
     </Container>
   );
 }
@@ -29,6 +33,17 @@ const Container = styled.div`
 
   .pi {
     font-size: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .p-button {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .pi {
+      font-size: 1rem;
+    }
   }
 `;
 

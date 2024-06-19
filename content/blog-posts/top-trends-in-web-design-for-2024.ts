@@ -1,5 +1,3 @@
-import { Routes } from "../routes";
-
 const content = `
 The landscape of web design is constantly evolving, driven by technological advancements and changing user expectations. As we step into 2024, several key trends are shaping how websites are designed and experienced. From bold typography to immersive user interfaces, staying updated with these trends can help you create modern and engaging websites. This article explores the top web design trends for 2024 and how you can incorporate them into your projects.
 

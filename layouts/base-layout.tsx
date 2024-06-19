@@ -87,6 +87,10 @@ const Sidebar = styled.div<{ isOpen: boolean }>`
     transition: transform 0.3s ease-in-out;
     transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
     z-index: 20;
+
+    &::after {
+      background: none;
+    }
   }
 `;
 
@@ -96,8 +100,10 @@ const StyledButton = styled(Button)<{ isOpen: boolean }>`
     border: none !important;
     color: inherit;
     position: fixed;
-    top: 1.75rem;
-    left: 1.75rem;
+    top: 1rem;
+    left: 1rem;
+    width: 2rem;
+    height: 2rem;
     z-index: 30;
     display: none; 
 
@@ -126,11 +132,10 @@ const Content = styled.div`
   flex-grow: 1;
   padding: 1.5rem;
   margin-left: 15rem;
-  transition: margin-left 0.3s ease-in-out;
 
   @media (max-width: 768px) {
     margin-left: 0;
-    transition: filter 0.3s; 
+    padding: 1rem;
   }
 `;
 

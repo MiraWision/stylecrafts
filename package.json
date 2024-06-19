@@ -6,18 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "sitemap": "next-sitemap",
+    "postbuild": "npm run sitemap"
   },
   "dependencies": {
     "@mirawision/colorize": "1.2.1",
     "marked": "12.0.2",
     "next": "14.2.3",
+    "next-sitemap": "4.2.3",
     "primeflex": "3.3.1",
     "primeicons": "7.0.0",
     "primereact": "10.6.6",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-ga4": "^2.1.0",
+    "react-ga4": "2.1.0",
     "styled-components": "6.1.11"
   },
   "devDependencies": {

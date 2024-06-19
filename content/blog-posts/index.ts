@@ -3,6 +3,14 @@ import { Routes } from '@/content/routes';
 
 const blogPosts: BlogPost[] = [
   {
+    title: 'Dive into the World of Bridgerton: Palettes Inspired by Iconic Families and Characters',
+    subtitle: 'Discover color palettes inspired by the families and characters of Bridgerton. Bring a touch of Regency-era elegance and drama to your designs with these rich and diverse color schemes.',
+    minutesToRead: 5,
+    createdAt: '2024-06-15',
+    url: Routes.ExploringColorsOfBridgertonBlog,
+    tags: ['Bridgerton', 'Colors', 'Design Inspiration', 'Web Design'],
+  },
+  {
     title: 'The Psychology of Color in Web Design',
     subtitle: 'Explore how different colors influence user behavior and emotions, and learn how to choose the right colors to create engaging and effective web designs.',
     minutesToRead: 4,

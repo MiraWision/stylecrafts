@@ -1,27 +1,26 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { copyToClipboard } from '@/utils/copy';
+import { useToast } from '../toast';
 
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 
 interface Props {
   text: string;
-  color?: string;
-  border?: boolean;
+  label?: string;
   onCopy?: () => void;
 }
 
-const CopyButton: React.FC<Props> = ({ text, color = 'var(--primary-color)', border = false, onCopy }) => {
+const CopyButton: React.FC<Props> = ({ text, label, onCopy }) => {
   const [icon, setIcon] = useState('pi pi-copy');
 
-  const toast = useRef<Toast>(null);
+  const { toast } = useToast();
 
   const copyText = async () => {
     copyToClipboard(text, {
       onSuccess: () => {
-        toast.current?.show({ severity: 'success', summary: 'Copied!', detail: 'Text has been copied to clipboard.', life: 3000 });
+        toast.success(label? `${label} copied to clipboard` : 'Copied to clipboard', text);
 
         setIcon('pi pi-check');
 
@@ -33,27 +32,22 @@ const CopyButton: React.FC<Props> = ({ text, color = 'var(--primary-color)', bor
           onCopy();
         }
       },
-      onFail: () => {
-        toast.current?.show({ severity: 'error', summary: 'Failed', detail: 'Failed to copy text.', life: 3000 });
-      }
     });
   };
 
   return (
     <div>
-      <Toast ref={toast} />
-      
-      <ButtonSmall border={border} color={color} icon={icon} onClick={copyText} />
+      <ButtonSmall icon={icon} onClick={copyText} />
     </div>
   );
 };
 
-const ButtonSmall = styled(Button)<{ border: boolean; color: string }>`
+const ButtonSmall = styled(Button)`
   border-radius: 0.4rem;
   height: 2rem;
   width: 2rem;
-  border: ${({ border, color }) => (border ? `0.0625rem solid ${color}` : 'none')};
-  color: ${({ color }) => color};
+  color: var(--primary-color);
+  border: none;
   background: none;
 
   &:focus {
@@ -61,7 +55,7 @@ const ButtonSmall = styled(Button)<{ border: boolean; color: string }>`
   }
 
   .pi {
-    color: ${({ color }) => color};
+    color: var(--primary-color);
   }
 `;
 

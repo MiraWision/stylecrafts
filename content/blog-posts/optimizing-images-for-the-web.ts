@@ -1,4 +1,4 @@
-import { Routes } from "../routes";
+import { Routes } from '../routes';
 
 const content = `
 In the digital age, images play a crucial role in web design and user engagement. However, they can also be a significant source of performance bottlenecks if not optimized properly. This article delves into the importance of image optimization, exploring various image formats and quality adjustments to ensure fast loading times and high-quality visuals for your web projects.

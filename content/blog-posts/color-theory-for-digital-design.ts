@@ -1,4 +1,4 @@
-import { Routes } from "../routes";
+import { Routes } from '../routes';
 
 const content = `
 Understanding color theory is fundamental for creating visually appealing and effective digital designs. Whether you're designing a website, an app, or any digital content, the right use of color can make your work stand out and resonate with your audience. This article will guide you through the basics of color theory and how to apply these principles using our suite of tools.

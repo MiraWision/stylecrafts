@@ -1,29 +1,40 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { AppProps } from 'next/app';
-import { initGA, logPageView } from '../lib/gtag';
 
-import '../styles/global.css';
+import { GAService } from '../services/google-analytics-service';
+
+import { ToastProvider } from '@/components/ui/toast';
+
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
+import '../styles/global.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
 
   useEffect(() => {
     if (!(window as any).GA_INITIALIZED) {
-      initGA('G-XXXXXXXXXX'); // ID GA4
+      GAService.init('G-PX4Y8BRFHB');
+      
       (window as any).GA_INITIALIZED = true;
     }
-    logPageView();
-    router.events.on('routeChangeComplete', logPageView);
+
+    GAService.logPageView();
+
+    router.events.on('routeChangeComplete', GAService.logPageView);
+
     return () => {
-      router.events.off('routeChangeComplete', logPageView);
+      router.events.off('routeChangeComplete', GAService.logPageView);
     };
   }, [router.events]);
 
-  return <Component {...pageProps} />;
+  return (
+    <ToastProvider>
+      <Component {...pageProps} />
+    </ToastProvider>
+  );
 };
 
 export default MyApp;

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { StarIcon } from './icons/star';
 
@@ -7,7 +7,6 @@ import { StarIcon } from './icons/star';
 interface LogoProps {
   onClick?: () => void;
 }
-
 
 const Logo: React.FC<LogoProps> = ({ onClick }) => {
   return (
@@ -30,8 +29,26 @@ const Container = styled.div`
 const Text = styled.span`
   font-family: 'Delius Swash Caps', cursive;
   font-size: 1.875rem;
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
   user-select: none;
+  background: linear-gradient(70deg, var(--primary-color), #ff4e50);
+  -webkit-background-clip: text;
+  color: transparent;
+`;
+
+const scaleUpDown = keyframes`
+  0% {
+    transform: scale(0);
+  }
+  80% {
+    transform: scale(0);
+  }
+  95% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 `;
 
 const PinkStar = styled(StarIcon)<{ top: number, left: number, width: number, height: number }>`
@@ -40,6 +57,7 @@ const PinkStar = styled(StarIcon)<{ top: number, left: number, width: number, he
   height: ${({ height }) => `${height}rem`};
   top: ${({ top }) => `${top}rem`};
   left: ${({ left }) => `${left}rem`};
+  animation: ${scaleUpDown} 4s ease-in-out;
 
   svg path {
     fill: var(--primary-color);

@@ -1,4 +1,4 @@
-import { Routes } from "../routes";
+import { Routes } from '../routes';
 
 const content = `
 Base64 encoding is a powerful technique in web development that allows you to embed images directly within your HTML or CSS files. This method can simplify your projects, reduce HTTP requests, and improve loading times under certain conditions. In this article, we’ll explore the benefits and practical applications of using Base64 images and how our tools can help you seamlessly convert and integrate them into your projects.

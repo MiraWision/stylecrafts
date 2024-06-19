@@ -1,5 +1,5 @@
 const content = `
-## Image Optimization: Resize, Change Quality, and Change Format
+## Image Optimization: Resize, Change Quality and Format
 
 Optimizing images is a crucial step in enhancing web performance and ensuring a smooth user experience. This involves resizing images to appropriate dimensions, adjusting their quality to balance clarity and file size, and converting them to suitable formats for various platforms.
 

@@ -4,8 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Routes } from '@/content/routes';
 
-import { SparklesIcon } from '../ui/icons/sparcles';
-
 interface Props {}
 
 const MenuItems = [
@@ -41,11 +39,6 @@ const MenuItems = [
         name: 'Colors Blender',
         url: Routes.ColorsBlenderTool,
       },
-      // {
-      //   name: 'Colors Palette',
-      //   url: Routes.ColorsPalette,
-      //   isAI: true,
-      // },
     ],
   },
   {
@@ -57,6 +50,19 @@ const MenuItems = [
       },
     ],
   },
+  {
+    name: 'Cheatsheets',
+    items: [
+      {
+        name: 'Characters',
+        url: Routes.CharactersCheatSheet,
+      },
+      {
+        name: 'Emojis',
+        url: Routes.EmojisCheatSheet,
+      },
+    ],
+  }
 ];
 
 const SideMenu: React.FC<Props> = ({}) => {
@@ -75,9 +81,6 @@ const SideMenu: React.FC<Props> = ({}) => {
               active={item.url === pathname}
             >
               {item.name}
-              {/* {item.isAI && (
-                <SparklesIcon />
-              )} */}
             </MenuItem>
           ))}
         </React.Fragment>
@@ -119,6 +122,10 @@ const GroupLink = styled(Link)`
 
   &:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 3rem;
   }
 `;
 

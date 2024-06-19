@@ -16,9 +16,12 @@ enum Routes {
   OptimizingImagesBlog = '/blog/optimizing-images-for-the-web',
   WebDesignTrendsBlog = '/blog/top-trends-in-web-design-for-2024',
   UnderstandingColorFormatsBlog = '/blog/understanding-color-formats',
+  ExploringColorsOfBridgertonBlog = '/blog/exploring-colors-of-bridgerton',
   TermsOfUse = '/terms-of-use',
   PrivacyPolicy = '/privacy-policy',
   CookiePolicy = '/cookie-policy',
+  CharactersCheatSheet = '/cheatsheets/characters',
+  EmojisCheatSheet = '/cheatsheets/emojis',
 }
 
 export { Routes };
