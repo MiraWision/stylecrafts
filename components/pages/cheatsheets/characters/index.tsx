@@ -3,15 +3,35 @@ import styled from 'styled-components';
 
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { characterEntities } from './data';
+import { copyToClipboard } from '@/utils/copy';
+import { useToast } from '@/components/ui/toast';
 
 interface Props {
 }
 
 const CharactersCheatSheetMain: React.FC<Props> = ({}) => {
+  const { showToast } = useToast();
+
+  const onCopy = (text: string) => {
+    copyToClipboard(text, {
+      onSuccess: () => {
+        showToast({ severity: 'success', content: 'Copied to clipboard' });
+      }
+    });
+  };
+
   const renderField = (field: string, isHighlighted: boolean, canCopy: boolean) => {
     return (
-      <Field isHighlighted={isHighlighted}>
+      <Field 
+        isHighlighted={isHighlighted}
+        canCopy={canCopy}
+        onClick={canCopy ? () => onCopy(field) : undefined}
+      >
         {field}
+
+        {canCopy && 
+          <i className='pi pi-copy' />
+        }
       </Field>
     );
   };
@@ -79,11 +99,24 @@ const HeaderField = styled.div`
   color: var(--text-color);
 `;
 
-const Field = styled.div<{ isHighlighted: boolean }>`
+const Field = styled.div<{ isHighlighted: boolean, canCopy: boolean }>`
   padding: 0.5rem;
   background-color: ${({ isHighlighted }) => isHighlighted ? 'var(--surface-100)' : 'transparent'};
   font-size: 0.875rem;
   color: var(--text-color);
+  cursor: ${({ canCopy }) => canCopy ? 'pointer' : 'default'};
+
+  > i {
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &:hover > i {
+    opacity: 1;
+  }
 `;
 
 export { CharactersCheatSheetMain };
