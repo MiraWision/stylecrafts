@@ -24,6 +24,10 @@ const TwoColumnsContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 2rem;
   margin: 2rem auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export {

@@ -171,6 +171,10 @@ const GradientGenerator: React.FC<Props> = ({}) => {
 
 const Container = styled(TwoColumnsContainer)`
   min-height: 25rem;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
 `;
 
 const Field = styled.div`

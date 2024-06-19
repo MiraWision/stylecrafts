@@ -17,7 +17,7 @@ const CharactersCheatSheetMain: React.FC<Props> = ({}) => {
             <CheatSheetTable
               title={group.groupName}
               columns={[
-                { header: 'Character', isLarge: true, canCopy: true },
+                { header: 'Symbol', isLarge: true, canCopy: true },
                 { header: 'Entity Name', isLarge: false, canCopy: true },
                 { header: 'Entity Number', isLarge: false, canCopy: true },
                 { header: 'Description', isLarge: false, canCopy: false, width: 2 }

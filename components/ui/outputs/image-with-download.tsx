@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { DownloadButton } from '@/components/ui/buttons/download-button';
 
 interface Props {
@@ -54,6 +55,11 @@ const StyledImage = styled.img`
   border-radius: 0.5rem;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   transition: opacity 0.3s ease;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    width: 100%;
+  }
 `;
 
 const DownloadContainer = styled.div`

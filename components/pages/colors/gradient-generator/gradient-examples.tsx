@@ -129,6 +129,11 @@ const Container = styled.div`
   gap: 2rem 1rem;
   margin-top: 2rem;
   margin-bottom: 5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
 `;
 
 export { GradientExamplesList };

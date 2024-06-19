@@ -93,6 +93,10 @@ const ColorPickerContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
 `;
 
 const FlexContainer = styled.div`

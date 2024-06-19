@@ -105,6 +105,11 @@ const ColorBlender: React.FC = () => {
 
 const Container = styled(TwoColumnsContainer)`
   grid-template-columns: 4fr 5fr;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 `;
 
 const Column = styled.div`
@@ -112,6 +117,10 @@ const Column = styled.div`
   flex-direction: column;
   align-items: center;
   row-gap: 2rem;
+
+  @media (max-width: 768px) {
+    row-gap: 1rem;
+  }
 `;
 
 export { ColorBlender };

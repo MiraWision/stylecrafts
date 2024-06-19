@@ -34,6 +34,17 @@ const Container = styled.div`
   .pi {
     font-size: 1.5rem;
   }
+
+  @media (max-width: 768px) {
+    .p-button {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .pi {
+      font-size: 1rem;
+    }
+  }
 `;
 
 export { DownloadButton };

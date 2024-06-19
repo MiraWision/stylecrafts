@@ -229,6 +229,10 @@ const Container = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 1rem;
   margin: 2rem 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 export { BaseColorsExamples };

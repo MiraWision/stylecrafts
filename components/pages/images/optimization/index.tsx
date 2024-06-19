@@ -229,6 +229,19 @@ const ImageOptimization: React.FC<Props> = ({}) => {
   );
 }
 
+const InputAndImageContainer = styled.div`
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
 const ImageContainer = styled.div`
   position: relative;
 `;
@@ -264,6 +277,11 @@ const TextOverlayBottom = styled(TextOverlay)`
 const ImageInputStyled = styled(ImageInput)`
   width: 20rem;
   min-height: 10rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    min-height: auto;
+  }
 `;
 
 const ImageWithDownloadStyled = styled(ImageWithDownload)`
@@ -280,13 +298,6 @@ const OptimizationTag = styled.div`
   font-size: 0.75rem;
 `;
 
-const InputAndImageContainer = styled.div`
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  justify-content: center;
-`;
-
 const SizeContainer = styled.div`
   display: grid;
   gap: 2rem;
@@ -299,6 +310,11 @@ const SizeContainer = styled.div`
     gap: 0.25rem;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 768px) {
+      justify-content: flex-start;
+      flex-direction: column;
+    }
   }
 `;
 

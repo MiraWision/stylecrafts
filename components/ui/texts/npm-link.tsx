@@ -31,6 +31,7 @@ const Container = styled.div`
 const Text = styled.span`
   font-size: 0.875rem;
   color: var(--text-color-secondary);
+  text-align: right;
 `;
 
 const Logo = styled.img`

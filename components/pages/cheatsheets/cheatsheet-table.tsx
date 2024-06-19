@@ -65,6 +65,10 @@ const CheatSheetTable: React.FC<Props> = ({ title, columns, data }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    max-width: calc(100vw - 2rem);
+  }
 `;
 
 const GroupTitle = styled.h2`
@@ -75,6 +79,11 @@ const GroupTitle = styled.h2`
   color: var(--text-color);
   width: 100%;
   text-align: left;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    margin-left: 1rem;
+  }
 `;
 
 const CharactersList = styled.div<{ columns: string }>`
@@ -111,6 +120,12 @@ const Field = styled.div<{ isHighlighted: boolean, canCopy: boolean, isLarge: bo
 
   &:hover > i {
     opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.25rem 0.25rem;
+    
+    font-size: ${({ isLarge }) => isLarge ? '1rem' : '0.75rem'};
   }
 `;
 
