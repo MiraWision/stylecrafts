@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { content } from '@/content/function-descriptions/colors-blender';
-import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/function-colors-blender';
 
-
 import { BaseLayout } from '@/layouts/base-layout';
+import { MetaTags } from '@/components/pages/meta-tags';
 import { MainContainer } from '@/components/ui/containers';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
