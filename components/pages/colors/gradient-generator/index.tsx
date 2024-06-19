@@ -20,7 +20,7 @@ interface Props {
 }
 
 const GradientGenerator: React.FC<Props> = ({}) => {
-  const { showToast } = useToast();
+  const { toast } = useToast();
 
   const [gradientSettings, setGradientSettings] = useState<Gradient['colors']>(['#ffffff00', 3, '#ffffff00', 3, '#ffffff00']);
 
@@ -88,15 +88,14 @@ const GradientGenerator: React.FC<Props> = ({}) => {
   };
 
   const copyAll = () => {
-    const formattedColors = JSON.stringify(gradient).replace(/,/g, ', ');
+    const text = JSON.stringify(gradient).replace(/,/g, ', ');
 
-    copyToClipboard(formattedColors, {
+    copyToClipboard(text, {
       onSuccess: () => {
-        showToast({ severity: 'success', summary: 'Array copied to clipboard' });
+        toast.success('Colors copied to clipboard', text);
 
         GAService.logEvent(analyticsEvents.copyActions.textCopied('Copied all gradient colors'));
       },
-      onFail: () => showToast({ severity: 'error', summary: 'Failed to copy array' }),
     });
   };
 

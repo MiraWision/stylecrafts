@@ -16,7 +16,10 @@ const ColorsOutput: React.FC<Props> = ({ colors }) => {
 
           <ColorText>{color}</ColorText>
           
-          <CopyButton text={color} />
+          <CopyButton 
+            text={color}
+            label='Color'
+          />
         </React.Fragment>
       ))}
     </ColorsList>

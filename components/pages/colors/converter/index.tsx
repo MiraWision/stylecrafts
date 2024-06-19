@@ -76,7 +76,8 @@ const ColorConverter: React.FC<Props> = ({}) => {
               <ColorValue>{convertedColors[format]}</ColorValue>
               
               <CopyButton 
-                text={convertedColors[format] || ''} 
+                text={convertedColors[format] || ''}
+                label='Color'
                 onCopy={() => handleCopy(convertedColors[format] || '', format)} 
               />
             </ResultColorContainer>

@@ -18,12 +18,12 @@ interface Props {
 }
 
 const CheatSheetTable: React.FC<Props> = ({ title, columns, data }) => {
-  const { showToast } = useToast();
+  const { toast } = useToast();
 
   const onCopy = (text: string) => {
     copyToClipboard(text, {
       onSuccess: () => {
-        showToast({ severity: 'success', content: 'Copied to clipboard' });
+        toast.success('Character copied to clipboard', text);
       }
     });
   };

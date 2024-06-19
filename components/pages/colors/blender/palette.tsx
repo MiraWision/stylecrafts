@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) => {
-  const { showToast } = useToast();
+  const { toast } = useToast();
   
   const rowsCount = useMemo(() => {
     const count = Math.ceil((palette.length + 1) / 4);
@@ -22,13 +22,15 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
   const copyColor = (color: string) => {
     navigator.clipboard.writeText(color);
 
-    showToast({ severity: 'success', summary: 'Color copied to clipboard' });
+    toast.success('Color copied to clipboard', color);
   };
 
   const copyAllColors = () => {
-    navigator.clipboard.writeText(JSON.stringify(palette));
+    const text = JSON.stringify(palette).replace(/,/g, ', ');
 
-    showToast({ severity: 'success', summary: 'Colors array copied to clipboard' });
+    navigator.clipboard.writeText(text);
+
+    toast.success('Colors copied to clipboard', text);
   };
 
   return (

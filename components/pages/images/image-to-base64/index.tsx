@@ -13,13 +13,13 @@ interface Props {
 }
 
 const ImageToBase64: React.FC<Props> = ({}) => {
-  const { showToast } = useToast();
+  const { toast } = useToast();
 
   const [image, setImage] = useState<string | null>(null);
 
   const callback = {
-    onSuccess: (message: string) => showToast({ severity: 'success', summary: 'Success', detail: message }),
-    onFail: () => showToast({ severity: 'error', summary: 'Error', detail: 'Failed to copy' }),
+    onSuccess: (message: string) => toast.success(message, ''),
+    onFail: undefined,
   }
 
   const handleImageChange = (image: ImageData) => {
