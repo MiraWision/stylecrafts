@@ -2,24 +2,20 @@ import { GAEvent } from './types';
 
 type EventFunction = (...args: any[]) => GAEvent;
 
-interface AnalyticsEvents {
-  [category: string]: {
-    [eventName: string]: EventFunction;
-  };
-}
-
-const analyticsEvents: AnalyticsEvents = {
-  colorConverter: {
-    colorEntered: (colorCode: string) => ({
-      category: 'ColorConverter',
-      action: 'ColorEntered',
-      label: colorCode
-    }),
-    conversionDisplayed: (colorFormats: string) => ({
-      category: 'ColorConverter',
-      action: 'ConversionDisplayed',
-      label: colorFormats
-    })
+const analyticsEvents = {
+  colors: {
+    converter: {
+      colorConverted: (color: string) => ({
+        category: 'ColorsConverter',
+        action: 'ColorConverted',
+        label: color
+      }),
+      colorCopied: (color: string) => ({
+        category: 'ColorsConverter',
+        action: 'ColorCopied',
+        label: color
+      }),
+    },
   },
   gradientGenerator: {
     colorsEntered: (colorCodes: string) => ({

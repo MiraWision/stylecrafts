@@ -35,6 +35,8 @@ const ColorConverter: React.FC<Props> = ({}) => {
     Object.values(ColorFormat).forEach((format) => {
       try {
         newConvertedColors[format] = convertColor(color, format);
+
+        GAService.logEvent(analyticsEvents.colors.converter.colorConverted(color));
       } catch (error) {
         console.error('Error converting color:', error);
         newConvertedColors[format] = '';
@@ -42,18 +44,14 @@ const ColorConverter: React.FC<Props> = ({}) => {
     });
     
     setConvertedColors(newConvertedColors);
-    
-    GAService.logEvent(analyticsEvents.colorConverter.conversionDisplayed('colorFormats'));
   }, [color]);
 
   const handleColorChange = (newColor: string) => {
     setColor(newColor);
-
-    GAService.logEvent(analyticsEvents.colorConverter.colorEntered(newColor));
   };
 
-  const handleCopy = (text: string, format: string) => {
-    GAService.logEvent(analyticsEvents.copyActions.textCopied(`Copied ${format} color: ${text}`));
+  const handleCopy = (text: string) => {
+    GAService.logEvent(analyticsEvents.colors.converter.colorCopied(text));
   };
 
   return (
@@ -78,7 +76,7 @@ const ColorConverter: React.FC<Props> = ({}) => {
               <CopyButton 
                 text={convertedColors[format] || ''}
                 label='Color'
-                onCopy={() => handleCopy(convertedColors[format] || '', format)} 
+                onCopy={() => handleCopy(convertedColors[format] ?? '')} 
               />
             </ResultColorContainer>
           ))}
