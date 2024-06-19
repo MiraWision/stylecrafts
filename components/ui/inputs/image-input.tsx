@@ -152,6 +152,10 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
 `;
 
 const Label = styled.label`
@@ -167,12 +171,17 @@ const Label = styled.label`
 const Icon = styled.i`
   font-size: 3rem;
   color: var(--primary-color);  
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 const Text = styled.div`
   text-align: center;
   font-size: 0.875rem;
   margin: 0.5rem;
+  line-height: 1.5;
 `;
 
 const Overlay = styled.div`

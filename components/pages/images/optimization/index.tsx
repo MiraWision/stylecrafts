@@ -244,6 +244,10 @@ const InputAndImageContainer = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
+  
+  @media (max-width: 768px) {
+    height: 100%;
+  }
 `;
 
 const Canvas = styled.canvas`

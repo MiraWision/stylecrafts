@@ -173,6 +173,7 @@ const Container = styled(TwoColumnsContainer)`
   min-height: 25rem;
 
   @media (max-width: 768px) {
+    width: fit-content;
     gap: 1rem;
   }
 `;
