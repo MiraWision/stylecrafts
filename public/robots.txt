@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://csscraft.dev
+
+# Sitemaps
+Sitemap: https://csscraft.dev/sitemap.xml
