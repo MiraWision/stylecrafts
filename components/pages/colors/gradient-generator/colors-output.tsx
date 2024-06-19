@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { CopyButton } from '../../../ui/buttons/copy-button';
 
 interface Props {
@@ -8,6 +11,10 @@ interface Props {
 }
 
 const ColorsOutput: React.FC<Props> = ({ colors }) => {
+  const handleCopy = (color: string) => {
+    GAService.logEvent(analyticsEvents.colors.gradient.colorCopied(color));
+  }
+
   return (
     <ColorsList>
       {colors.map((color, index) => (
@@ -19,6 +26,7 @@ const ColorsOutput: React.FC<Props> = ({ colors }) => {
           <CopyButton 
             text={color}
             label='Color'
+            onCopyCallback={() => handleCopy(color)}
           />
         </React.Fragment>
       ))}

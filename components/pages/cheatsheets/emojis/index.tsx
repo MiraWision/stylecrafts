@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { emojiEntities } from './data';
 import { CheatSheetTable } from '../cheatsheet-table';
@@ -9,6 +12,10 @@ interface Props {
 }
 
 const EmojisCheatSheetMain: React.FC<Props> = ({}) => {
+  const onCopy = (text: string) => {
+    GAService.logEvent(analyticsEvents.cheatsheets.emojis.emojiCopied(text));
+  };
+  
   return (
     <MainContainer>
       <SingleColumnContainer>
@@ -26,6 +33,7 @@ const EmojisCheatSheetMain: React.FC<Props> = ({}) => {
                 character.code,
                 character.description
               ])}
+              onCopyCallback={onCopy}
             />
           </EmojisGroup>
         ))}

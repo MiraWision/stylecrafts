@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, use, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -32,6 +32,8 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   const [score, setScore] = useState<number>(0);
   
   const [topScore, setTopScore] = useLocalStorage<number>('top-score', 0);
+
+  const topScoreUpdated = useRef<boolean>(false);
 
   const [targetColor, setTargetColor] = useState<string>('');
 
@@ -68,7 +70,15 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   const [remainingTime, ellapsedTime, handleTime] = useTimer(6, () => {
     setGameOver(true);
 
-    console.log('ellapsedTime', ellapsedTime);
+    GAService.logEvent(analyticsEvents.games.challengeEnded(ellapsedTime.toString()));
+
+    GAService.logEvent(analyticsEvents.games.challengeScored(score.toString()));
+
+    if (topScoreUpdated.current === true) {
+      GAService.logEvent(analyticsEvents.games.challengeTopScored(topScore.toString()));
+
+      topScoreUpdated.current = false;
+    }
   });
 
   useEffect(() => {
@@ -95,11 +105,17 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
       handleTime.adjustTime(currentDropsCount.current);
     }
+
+    if (isMatched) {
+      GAService.logEvent(analyticsEvents.games.colorMatched(level));
+    }
   }, [isMatched]);
 
   useEffect(() => {
     if (score > topScore) {
       setTopScore(score);
+
+      topScoreUpdated.current = true;
     }
   }, [score]);
 
@@ -147,6 +163,8 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
         handleTime.play();
       }
+
+      GAService.logEvent(analyticsEvents.games.challengeStarted());
     }
   };
 

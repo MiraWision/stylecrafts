@@ -45,7 +45,7 @@ const ImageOptimization: React.FC<Props> = ({}) => {
       saveSettingsToStorage();
     }
 
-    GAService.logEvent(analyticsEvents.imageOptimization.optimizationSettingsChanged(JSON.stringify(settings)));
+    GAService.logEvent(analyticsEvents.images.optimization.optimizationSettingsChanged(JSON.stringify(settings)));
 
     if (!originalImage) {
       return;
@@ -102,7 +102,7 @@ const ImageOptimization: React.FC<Props> = ({}) => {
         settings?.height ?? imageElement.height,
       );
 
-      GAService.logEvent(analyticsEvents.imageOptimization.imageUploadedForOptimization(`Image Uploaded: ${image.fileMetaData?.name}`));
+      GAService.logEvent(analyticsEvents.images.optimization.imageUploaded(`${image.fileMetaData?.size} bytes`));
     };
 
     imageElement.src = image.content;
@@ -128,7 +128,7 @@ const ImageOptimization: React.FC<Props> = ({}) => {
     ctx.drawImage(imageElement, 0, 0, width, height);
 
     generateOptimizedImage();
-  }
+  };
 
   const generateOptimizedImage = () => {
     const canvas = canvasRef.current;
@@ -138,12 +138,11 @@ const ImageOptimization: React.FC<Props> = ({}) => {
     }
 
     const content = canvas.toDataURL(settings?.type, (settings?.quality ?? 100) / 100);
+    
     const size = content.length * 0.75;
 
     setOptimizedImage({ content, size });
-
-    GAService.logEvent(analyticsEvents.imageOptimization.imageOptimizedAndDownloaded(`Optimized Image Size: ${(size / 1024).toFixed(2)} KB`));
-  }
+  };
 
   const getSettingsFromStorage = (): Settings | null => {
     const savedSettings = localStorage.getItem(Key);
@@ -155,12 +154,16 @@ const ImageOptimization: React.FC<Props> = ({}) => {
     const settings = JSON.parse(savedSettings);
 
     return settings as Settings;
-  }
+  };
 
   const saveSettingsToStorage = () => {
     localStorage.setItem(Key, JSON.stringify(settings));
-  }
+  };
 
+  const onDownload = () => {
+    GAService.logEvent(analyticsEvents.images.optimization.imageOptimized(optimizationPercentage.toString()));
+  };
+  
   return (
     <SingleColumnContainer>
       <InputAndImageContainer>
@@ -188,6 +191,7 @@ const ImageOptimization: React.FC<Props> = ({}) => {
                 <ImageWithDownloadStyled
                   image={optimizedImage?.content ?? ''}
                   fileName={`${originalImage?.fileName?.split('.')[0]}-optimized.${settings?.type?.split('/')[1]}`}
+                  onDownloadCallback={onDownload}
                 />
 
                 <TextOverlayTop>Optimized</TextOverlayTop>

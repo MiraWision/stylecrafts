@@ -7,12 +7,14 @@ interface Props {
   image: string;
   fileName?: string;
   className?: string;
+  onDownloadCallback?: () => void;
 }
 
 const ImageWithDownload: React.FC<Props> = ({
   image,
   fileName = 'image.jpeg',
   className,
+  onDownloadCallback,
 }) => {
   const onDownload = () => {
     const link = document.createElement('a');
@@ -26,6 +28,10 @@ const ImageWithDownload: React.FC<Props> = ({
     link.click();
     
     document.body.removeChild(link);
+
+    if (onDownloadCallback) {
+      onDownloadCallback();
+    }
   };
 
   return (

@@ -15,15 +15,20 @@ interface Props {
   title: string;
   columns: Column[];
   data: string[][];
+  onCopyCallback?: (text: string) => void;
 }
 
-const CheatSheetTable: React.FC<Props> = ({ title, columns, data }) => {
+const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback }) => {
   const { toast } = useToast();
 
   const onCopy = (text: string) => {
     copyToClipboard(text, {
       onSuccess: () => {
         toast.success('Character copied to clipboard', text);
+
+        if (onCopyCallback) {
+          onCopyCallback(text);
+        }
       }
     });
   };

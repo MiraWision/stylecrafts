@@ -1,7 +1,3 @@
-import { GAEvent } from './types';
-
-type EventFunction = (...args: any[]) => GAEvent;
-
 const analyticsEvents = {
   colors: {
     converter: {
@@ -16,105 +12,160 @@ const analyticsEvents = {
         label: color
       }),
     },
+    blender: {
+      colorAddedToPalette: (color: string) => ({
+        category: 'ColorsBlender',
+        action: 'ColorAddedToPalette',
+        label: color
+      }),
+      colorRemovedFromPalette: (color: string) => ({
+        category: 'ColorsBlender',
+        action: 'ColorRemovedFromPalette',
+        label: color
+      }),
+      paletteRefreshed: () => ({
+        category: 'ColorsBlender',
+        action: 'PaletteRefreshed'
+      }),
+      colorCopied: (color: string) => ({
+        category: 'ColorsBlender',
+        action: 'ColorCopied',
+        label: color
+      }),
+      colorsCopied: (colors: string) => ({
+        category: 'ColorsBlender',
+        action: 'ColorsCopied',
+        label: colors
+      }),
+      examplePaletteSelected: (paletteName: string) => ({
+        category: 'ColorsBlender',
+        action: 'ExamplePaletteSelected',
+        label: paletteName
+      }),
+    },
+    gradient: {
+      colorAddedToGradient: (color: string) => ({
+        category: 'ColorsGradient',
+        action: 'ColorAddedToGradient',
+        label: color
+      }),
+      colorRemovedFromGradient: (color: string) => ({
+        category: 'ColorsGradient',
+        action: 'ColorRemovedFromGradient',
+        label: color
+      }),
+      exampleGradientSelected: (gradientName: string) => ({
+        category: 'ColorsGradient',
+        action: 'ExampleGradientSelected',
+        label: gradientName
+      }),
+      gradientCopied: (gradient: string) => ({
+        category: 'ColorsGradient',
+        action: 'GradientCopied',
+        label: gradient
+      }),
+      colorCopied: (color: string) => ({
+        category: 'ColorsGradient',
+        action: 'ColorCopied',
+        label: color
+      }),
+    },
   },
-  gradientGenerator: {
-    colorsEntered: (colorCodes: string) => ({
-      category: 'GradientGenerator',
-      action: 'ColorsEntered',
-      label: colorCodes
-    }),
-    gradientGenerated: (gradientDetails: string) => ({
-      category: 'GradientGenerator',
-      action: 'GradientGenerated',
-      label: gradientDetails
-    })
+  images: {
+    base64ToImage: {
+      imageConverted: (size: string) => ({
+        category: 'ImagesBase64ToImage',
+        action: 'ImageConverted',
+        label: size,
+      }),
+      imageDownloaded: (size: string) => ({
+        category: 'ImagesBase64ToImage',
+        action: 'ImageDownloaded',
+        label: size,
+      }),
+    },
+    imageToBase64: {
+      imageConverted: (size: string) => ({
+        category: 'ImagesImageToBase64',
+        action: 'ImageConverted',
+        label: size,
+      }),
+      imageCopied: (size: string) => ({
+        category: 'ImagesImageToBase64',
+        action: 'ImageCopied',
+        label: size,
+      }),
+      imageCopiedToCSS: (size: string) => ({
+        category: 'ImagesImageToBase64',
+        action: 'ImageCopiedToCSS',
+        label: size,
+      }),
+      imageCopiedToHTML: (size: string) => ({
+        category: 'ImagesImageToBase64',
+        action: 'ImageCopiedToHTML',
+        label: size,
+      }),
+    },
+    optimization: {
+      imageUploaded: (size: string) => ({
+        category: 'ImagesOptimization',
+        action: 'ImageUploaded',
+        label: size,
+      }),
+      optimizationSettingsChanged: (settings: string) => ({
+        category: 'ImagesOptimization',
+        action: 'OptimizationSettingsChanged',
+        label: settings,
+      }),
+      imageOptimized: (oprimizationPercentage: string) => ({
+        category: 'ImagesOptimization',
+        action: 'ImageOptimized',
+        label: oprimizationPercentage,
+      }),
+    },
   },
-  colorMixer: {
-    colorsAndWeightsSelected: (colorWeights: string) => ({
-      category: 'ColorMixer',
-      action: 'ColorsAndWeightsSelected',
-      label: colorWeights
+  games: {
+    colorMatched: (level: string) => ({
+      category: 'Games',
+      action: 'ColorMatched',
+      label: level,
     }),
-    colorsMixed: (mixedColor: string) => ({
-      category: 'ColorMixer',
-      action: 'ColorsMixed',
-      label: mixedColor
-    })
+    challengeStarted: () => ({
+      category: 'Games',
+      action: 'ChallengeStarted',
+    }),
+    challengeEnded: (time: string) => ({
+      category: 'Games',
+      action: 'ChallengeEnded',
+      label: time,
+    }),
+    challengeScored: (score: string) => ({
+      category: 'Games',
+      action: 'ChallengeScored',
+      label: score,
+    }),
+    challengeTopScored: (score: string) => ({
+      category: 'Games',
+      action: 'ChallengeTopScored',
+      label: score,
+    }),
   },
-  imageConverter: {
-    imageUploaded: (imageDetails: string) => ({
-      category: 'ImageConverter',
-      action: 'ImageUploaded',
-      label: imageDetails
-    }),
-    base64Converted: (conversionType: string) => ({
-      category: 'ImageConverter',
-      action: 'Base64Converted',
-      label: conversionType
-    })
+  cheatsheets: {
+    characters: {
+      characterCopied: (character: string) => ({
+        category: 'CheatsheetsCharacters',
+        action: 'CharacterCopied',
+        label: character
+      }),
+    },
+    emojis: {
+      emojiCopied: (emoji: string) => ({
+        category: 'CheatsheetsEmojis',
+        action: 'EmojiCopied',
+        label: emoji
+      }),
+    },
   },
-  imageOptimization: {
-    imageUploadedForOptimization: (imageDetails: string) => ({
-      category: 'ImageOptimization',
-      action: 'ImageUploaded',
-      label: imageDetails
-    }),
-    optimizationSettingsChanged: (settingsDetails: string) => ({
-      category: 'ImageOptimization',
-      action: 'SettingsChanged',
-      label: settingsDetails
-    }),
-    imageOptimizedAndDownloaded: (downloadDetails: string) => ({
-      category: 'ImageOptimization',
-      action: 'ImageDownloaded',
-      label: downloadDetails
-    })
-  },
-  copyActions: {
-    textCopied: (contentType: string) => ({
-      category: 'CopyAction',
-      action: 'TextCopied',
-      label: contentType
-    })
-  },
-  game: {
-    gameStarted: (gameLevel: string) => ({
-      category: 'Game',
-      action: 'GameStarted',
-      label: gameLevel
-    }),
-    colorGuessAttempted: (guessDetails: string) => ({
-      category: 'Game',
-      action: 'GuessAttempted',
-      label: guessDetails
-    }),
-    levelCompleted: (levelDetails: string) => ({
-      category: 'Game',
-      action: 'LevelCompleted',
-      label: levelDetails
-    }),
-    challengeModeStarted: () => ({
-      category: 'Game',
-      action: 'ChallengeStarted'
-    }),
-    challengeProgressed: (currentLevel: string) => ({
-      category: 'Game',
-      action: 'ChallengeProgressed',
-      label: currentLevel
-    })
-  },
-  generalInteractions: {
-    pageView: (pageName: string) => ({
-      category: 'PageView',
-      action: 'PageVisited',
-      label: pageName
-    }),
-    toolUsage: (toolName: string) => ({
-      category: 'ToolUsage',
-      action: 'ToolAccessed',
-      label: toolName
-    })
-  }
 };
 
 export { analyticsEvents };

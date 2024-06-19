@@ -24,12 +24,10 @@ const ImageToBase64: React.FC<Props> = ({}) => {
 
   const handleImageChange = (image: ImageData) => {
     setImage(image.content);
-    
-    GAService.logEvent(analyticsEvents.imageConverter.imageUploaded('Image Uploaded'));
-  }
-
-  const handleCopyEvent = (label: string) => {
-    GAService.logEvent(analyticsEvents.copyActions.textCopied(label));
+  
+    if (image.content?.length) {
+      GAService.logEvent(analyticsEvents.images.imageToBase64.imageConverted(image.content.length.toString()));
+    }
   }
 
   return (
@@ -47,7 +45,8 @@ const ImageToBase64: React.FC<Props> = ({}) => {
             getValue: (text) => text, 
             onSuccess: () => {
               callback.onSuccess('Base64 Content copied to clipboard');
-              handleCopyEvent('Base64 Content');
+
+              GAService.logEvent(analyticsEvents.images.imageToBase64.imageCopied(image?.length?.toString() ?? '0'));
             },
             onFail: callback.onFail,
           },
@@ -56,7 +55,8 @@ const ImageToBase64: React.FC<Props> = ({}) => {
             getValue: (text) => `<img src="${text}" alt="Image"/>`, 
             onSuccess: () => {
               callback.onSuccess('HTML Image copied to clipboard');
-              handleCopyEvent('HTML Image');
+
+              GAService.logEvent(analyticsEvents.images.imageToBase64.imageCopiedToHTML(image?.length?.toString() ?? '0'));
             },
             onFail: callback.onFail,
           },
@@ -65,7 +65,8 @@ const ImageToBase64: React.FC<Props> = ({}) => {
             getValue: (text) => `background-image: url('${text}');`, 
             onSuccess: () => {
               callback.onSuccess('CSS Style copied to clipboard');
-              handleCopyEvent('CSS Style');
+
+              GAService.logEvent(analyticsEvents.images.imageToBase64.imageCopiedToCSS(image?.length?.toString() ?? '0'));
             },
             onFail: callback.onFail,
           },

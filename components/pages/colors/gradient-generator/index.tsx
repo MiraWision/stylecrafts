@@ -39,14 +39,14 @@ const GradientGenerator: React.FC<Props> = ({}) => {
 
   const handleColorsSelected = (colors: Gradient['colors']) => {
     setGradientSettings(colors);
-  
-    GAService.logEvent(analyticsEvents.gradientGenerator.gradientGenerated(`Loaded example: ${JSON.stringify(colors)}`));
+
+    GAService.logEvent(analyticsEvents.colors.gradient.exampleGradientSelected(colors.join(', ')));
   };
 
   const addColorStep = () => {
     setGradientSettings([...gradientSettings, 2, '#ffffff' ]);
 
-    GAService.logEvent(analyticsEvents.gradientGenerator.colorsEntered(`Added color`));
+    GAService.logEvent(analyticsEvents.colors.gradient.colorAddedToGradient('#ffffff'));
   };
 
   const removeColorStep = (index: number) => {
@@ -63,8 +63,8 @@ const GradientGenerator: React.FC<Props> = ({}) => {
     const updatedGradientSettings = gradientSettings.filter(condition) as Gradient['colors'];
 
     setGradientSettings(updatedGradientSettings);
-    
-    GAService.logEvent(analyticsEvents.gradientGenerator.colorsEntered(`Removed color at index: ${index}`));
+
+    GAService.logEvent(analyticsEvents.colors.gradient.colorRemovedFromGradient(`Removed color at index: ${index}`));
   };
 
   const updateColor = (index: number, newColor: string) => {
@@ -73,8 +73,6 @@ const GradientGenerator: React.FC<Props> = ({}) => {
     updatedGradientSettings[index * 2] = newColor;
 
     setGradientSettings(updatedGradientSettings as Gradient['colors']);
-    
-    GAService.logEvent(analyticsEvents.gradientGenerator.colorsEntered(`Updated color at index: ${index} to ${newColor}`));
   };
 
   const updateSteps = (index: number, newSteps: number) => {
@@ -83,8 +81,6 @@ const GradientGenerator: React.FC<Props> = ({}) => {
     updatedGradientSettings[index * 2 + 1] = newSteps;
 
     setGradientSettings(updatedGradientSettings as Gradient['colors']);
-
-    GAService.logEvent(analyticsEvents.gradientGenerator.colorsEntered(`Updated steps at index: ${index} to ${newSteps}`));
   };
 
   const copyAll = () => {
@@ -94,7 +90,7 @@ const GradientGenerator: React.FC<Props> = ({}) => {
       onSuccess: () => {
         toast.success('Colors copied to clipboard', text);
 
-        GAService.logEvent(analyticsEvents.copyActions.textCopied('Copied all gradient colors'));
+        GAService.logEvent(analyticsEvents.colors.gradient.gradientCopied(text));
       },
     });
   };

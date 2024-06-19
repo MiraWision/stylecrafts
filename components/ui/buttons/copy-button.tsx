@@ -9,10 +9,10 @@ import { Button } from 'primereact/button';
 interface Props {
   text: string;
   label?: string;
-  onCopy?: () => void;
+  onCopyCallback?: () => void;
 }
 
-const CopyButton: React.FC<Props> = ({ text, label, onCopy }) => {
+const CopyButton: React.FC<Props> = ({ text, label, onCopyCallback }) => {
   const [icon, setIcon] = useState('pi pi-copy');
 
   const { toast } = useToast();
@@ -28,8 +28,8 @@ const CopyButton: React.FC<Props> = ({ text, label, onCopy }) => {
           setIcon('pi pi-copy');
         }, 3000);
 
-        if (onCopy) {
-          onCopy();
+        if (onCopyCallback) {
+          onCopyCallback();
         }
       },
     });

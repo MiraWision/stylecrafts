@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { characterEntities } from './data';
 import { CheatSheetTable } from '../cheatsheet-table';
@@ -9,6 +12,10 @@ interface Props {
 }
 
 const CharactersCheatSheetMain: React.FC<Props> = ({}) => {
+  const onCopy = (text: string) => {
+    GAService.logEvent(analyticsEvents.cheatsheets.characters.characterCopied(text));
+  }
+
   return (
     <MainContainer>
       <SingleColumnContainer>
@@ -28,6 +35,7 @@ const CharactersCheatSheetMain: React.FC<Props> = ({}) => {
                 character.entityNumber,
                 character.description
               ])}
+              onCopyCallback={onCopy}
             />
           </CharactersGroup>
         ))}

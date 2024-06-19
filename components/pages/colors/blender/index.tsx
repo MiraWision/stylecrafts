@@ -2,6 +2,9 @@ import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { blendMultipleColors } from '@mirawision/colorize';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { CurrentColor } from './current-color';
 import { Palette } from './palette';
 import { ColorsList } from './colors-list';
@@ -27,20 +30,28 @@ const ColorBlender: React.FC = () => {
 
   const addColorToPalette = () => {
     setPalette([currentColor, ...palette]);
+
+    GAService.logEvent(analyticsEvents.colors.blender.colorAddedToPalette(currentColor));
   };
 
   const removeColorFromPalette = (index: number) => {
     setPalette(palette.filter((_, i) => i !== index));
+
+    GAService.logEvent(analyticsEvents.colors.blender.colorRemovedFromPalette(palette[index]));
   };
 
   const refreshPalette = () => {
     setPalette([]);
+
+    GAService.logEvent(analyticsEvents.colors.blender.paletteRefreshed());
   };
 
   const selectBaseColorsExample = (example: string[]) => {
     const newBaseColors = example.map(color => ({ color, weight: 0 }));
     
     setBaseColors(newBaseColors);
+
+    GAService.logEvent(analyticsEvents.colors.blender.examplePaletteSelected(example.join(',')));
   };
 
   const addBaseColor = (color: string) => {

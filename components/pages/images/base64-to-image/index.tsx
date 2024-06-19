@@ -17,14 +17,14 @@ const Base64ToImage: React.FC<Props> = ({}) => {
   const onChange = (value: string) => {
     setBase64Text(value);
     
-    GAService.logEvent(analyticsEvents.imageConverter.base64Converted('Base64 Text Entered'));
+    if (value.length > 0) {
+      GAService.logEvent(analyticsEvents.images.base64ToImage.imageConverted(value.length.toString()));
+    }
   };
 
-  useEffect(() => {
-    if (base64Text.length > 0) {
-      GAService.logEvent(analyticsEvents.imageConverter.imageUploaded('Image Displayed'));
-    }
-  }, [base64Text]);
+  const onDownload = () => {
+    GAService.logEvent(analyticsEvents.images.base64ToImage.imageDownloaded(base64Text.length.toString()));
+  };
 
   return (
     <SingleColumnContainer>
@@ -39,6 +39,7 @@ const Base64ToImage: React.FC<Props> = ({}) => {
           <ImageWithDownload 
             image={base64Text} 
             fileName={`image.${base64Text.split(';')[0].split('/')[1]}`}
+            onDownloadCallback={onDownload}
           />
         )
         : (

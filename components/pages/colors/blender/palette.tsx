@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { PrimaryButton } from '@/components/ui/buttons/primary-button';
 import { useToast } from '@/components/ui/toast';
 
@@ -23,6 +26,8 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
     navigator.clipboard.writeText(color);
 
     toast.success('Color copied to clipboard', color);
+
+    GAService.logEvent(analyticsEvents.colors.blender.colorCopied(color));
   };
 
   const copyAllColors = () => {
@@ -31,6 +36,8 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
     navigator.clipboard.writeText(text);
 
     toast.success('Colors copied to clipboard', text);
+
+    GAService.logEvent(analyticsEvents.colors.blender.colorsCopied(text));
   };
 
   return (
