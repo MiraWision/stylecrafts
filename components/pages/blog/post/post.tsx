@@ -19,10 +19,10 @@ interface Props {
 const Post: React.FC<Props> = ({ post, content }) => {
   return (
     <BlogContainer>
-      <main>
-        <header>
+      <Main>
+        <Header>
           <BackLink href={Routes.Blog}>Back to Blog</BackLink>
-        </header>
+        </Header>
 
         <article>
           <PostTitle id={generateSlug(post?.title)}>{post?.title}</PostTitle>
@@ -45,10 +45,21 @@ const Post: React.FC<Props> = ({ post, content }) => {
             </PostTags>
           )}
         </footer>
-      </main>
+      </Main>
     </BlogContainer>
   );
 }
+
+const Header = styled.header`
+  padding-left: 2.5rem;
+  margin-top: 0.375rem;
+`;
+
+const Main = styled.main`
+  @media (max-width: 768px) {
+    max-width: calc(100vw - 2rem);
+  }
+`;
 
 const PostTitle = styled.h1`
   font-family: var(--font-family);
@@ -57,6 +68,11 @@ const PostTitle = styled.h1`
   color: var(--text-color);
   margin: 1rem 0;
   font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    margin: 1rem auto 1.5rem;
+  }
 `;
 
 const PostSubtitle = styled.h2`
@@ -67,6 +83,10 @@ const PostSubtitle = styled.h2`
   line-height: 1.5;
   color: var(--text-color-secondary);
   margin: -0.5rem 0 0;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const PostTags = styled.div`

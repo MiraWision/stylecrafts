@@ -8,20 +8,10 @@ const Title = styled.h1`
   color: var(--surface-900);
   text-align: center;
 
-  @media (max-width: 1200px) { 
-    font-size: 1.8rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 1.6rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 1.4rem;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 1.2rem;
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    max-width: 80vw;
+    margin: 0.25rem auto 1.5rem;
   }
 `;
 
@@ -33,19 +23,7 @@ const Subtitle = styled.h2`
   color: var(--surface-900);
   text-align: center;
 
-  @media (max-width: 1200px) { 
-    font-size: 1.4rem;
-  }
-
-  @media (max-width: 900px) {
-    font-size: 1.3rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 1.2rem;
-  }
-
-  @media (max-width: 400px) {
+  @media (max-width: 768px) { 
     font-size: 1rem;
   }
 `;

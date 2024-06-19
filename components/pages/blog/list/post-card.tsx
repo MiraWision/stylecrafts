@@ -45,6 +45,10 @@ const Container = styled.div`
         text-decoration: underline;
       }
     }
+
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
   }
 
   h3 {
@@ -52,6 +56,10 @@ const Container = styled.div`
     font-size: 1.125rem;
     margin: 0.375rem 0;
     font-style: italic;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
   }
 `;
 

@@ -4,6 +4,10 @@ const MainContainer = styled.div`
   width: 42rem;
   margin: 0 auto 10vh;
   min-height: 50vh;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const SingleColumnContainer = styled.div`

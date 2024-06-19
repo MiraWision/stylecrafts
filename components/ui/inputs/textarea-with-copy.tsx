@@ -53,13 +53,16 @@ const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyO
   );
 }
 
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 30rem;
   border: 0.0625rem solid var(--surface-border);
   border-radius: 0.5rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const InputTextareaStyled = styled(InputTextarea)`

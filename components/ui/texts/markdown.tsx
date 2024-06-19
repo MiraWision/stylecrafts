@@ -70,6 +70,10 @@ const Container = styled.div`
   line-height: 1.6;
   font-size: 1rem;
 
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
     font-weight: 500;
@@ -78,16 +82,28 @@ const Container = styled.div`
   h1 {
     font-size: 1.75rem;
     margin: 1rem 0;
+
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
   }
 
   h2 {
     font-size: 1.5rem;
     margin: 1rem 0;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
   }
 
   h3 {
     font-size: 1.25rem;
     margin: 1rem 0;
+
+    @media (max-width: 768px) {
+      font-size: 0.875rem;
+    }
   }
 
   p {

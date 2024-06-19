@@ -78,6 +78,10 @@ const ImageToBase64: React.FC<Props> = ({}) => {
 const ImageInputStyled = styled(ImageInput)`
   width: 20rem;
   min-height: 10rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export { ImageToBase64 };

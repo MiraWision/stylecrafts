@@ -41,11 +41,25 @@ const Container = styled.div`
   top: 1.5rem;
   right: 1rem;
   z-index: 1000;
+
+  @media (max-width: 768px) {
+    top: 1rem;
+    right: 1rem;
+  }
 `;
 
 const ButtonStyled = styled(Button)`
   color: var(--primary-color);
   background-color: var(--surface-50);
+
+  @media (max-width: 768px) {
+    width: 2rem;
+    height: 2rem;
+
+    > .p-button-icon {
+      font-size: 0.75rem;
+    }
+  }
 `;
 
 export { ThemeButton };
