@@ -15,20 +15,22 @@ Using character entities ensures that your content is displayed consistently acr
 
 Our cheatsheet is organized into several categories for ease of use:
 
-- **Mathematical Symbols**: Essential for displaying equations and mathematical operations.
-- **Arrows**: Useful for navigation and indicating directions.
-- **Currency Symbols**: Covers symbols for various currencies around the world.
-- **Bullet and List Symbols**: Great for creating lists and bullet points.
-- **Punctuation Marks**: Includes unique punctuation marks not found on a standard keyboard.
-- **Miscellaneous Symbols**: A collection of various other useful symbols.
+* **Punctuation Marks**: Includes unique punctuation marks not found on a standard keyboard, such as the ellipsis, en dash, and em dash, which are often used for clarity and stylistic purposes in text.
+* **Bullets and Lists**: Great for creating lists and bullet points. This category includes various bullet symbols and middle dots to help structure content and enhance readability.
+* **Currencies**: Covers symbols for various currencies around the world, such as the euro, pound sterling, and yen, essential for financial documents and e-commerce sites.
+* **Math, Logic, and Science**: Essential for displaying equations, mathematical operations, and scientific notations. This includes fractions, the micro symbol, and operators used in logic and set theory.
+* **Greek Letters**: Frequently used in scientific, mathematical, and engineering contexts, this category includes symbols like alpha, beta, and pi, which are vital for equations and expressions.
+* **Arrows**: Useful for navigation and indicating directions, this category includes a variety of arrows, from basic left, right, up, and down arrows to complex arrows pointing in multiple directions.
+* **Miscellaneous Symbols**: A collection of various other useful symbols, including stars, section signs, and pilcrow marks, which are used in a wide range of contexts.
+* **Diacritic Symbols**: Common in European languages, these symbols include accented letters like é, ü, and ñ, which are crucial for accurate representation of text in languages like French, German, and Spanish.
+
+Each category is designed to help you quickly find the character entities you need for your projects, enhancing both the visual appeal and functionality of your web content.
 
 ### How to Use This Cheatsheet
 
 To use a character entity from this cheatsheet, simply copy the entity name or number and paste it into your HTML code where you want the character to appear. For example, to display the copyright symbol (\`©\`), you can use \`&copy;\` or \`&#169;\` in your HTML document.
 
 Whether you’re a seasoned developer or just starting out, this cheatsheet is a valuable resource for managing HTML character entities. Bookmark this page and refer back to it whenever you need to add a special character to your project.
-
-For more insights and a deeper understanding of HTML character entities, visit our [detailed blog post on using HTML entities effectively](/blog/html-character-entities-guide).
 `;
 
 export { content };

@@ -57,6 +57,10 @@ const MenuItems = [
         name: 'Characters',
         url: Routes.CharactersCheatSheet,
       },
+      {
+        name: 'Emojis',
+        url: Routes.EmojisCheatSheet,
+      },
     ],
   }
 ];

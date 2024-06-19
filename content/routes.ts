@@ -21,6 +21,7 @@ enum Routes {
   PrivacyPolicy = '/privacy-policy',
   CookiePolicy = '/cookie-policy',
   CharactersCheatSheet = '/cheatsheets/characters',
+  EmojisCheatSheet = '/cheatsheets/emojis',
 }
 
 export { Routes };

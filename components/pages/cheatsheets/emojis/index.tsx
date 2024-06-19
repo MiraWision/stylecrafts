@@ -2,43 +2,41 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
-import { characterEntities } from './data';
+import { emojiEntities } from './data';
 import { CheatSheetTable } from '../cheatsheet-table';
 
 interface Props {
 }
 
-const CharactersCheatSheetMain: React.FC<Props> = ({}) => {
+const EmojisCheatSheetMain: React.FC<Props> = ({}) => {
   return (
     <MainContainer>
       <SingleColumnContainer>
-        {characterEntities.map((group, index) => (
-          <CharactersGroup key={index}>
+        {emojiEntities.map((group, index) => (
+          <EmojisGroup key={index}>
             <CheatSheetTable
               title={group.groupName}
               columns={[
-                { header: 'Character', isLarge: true, canCopy: true },
-                { header: 'Entity Name', isLarge: false, canCopy: true },
-                { header: 'Entity Number', isLarge: false, canCopy: true },
+                { header: 'Emoji', isLarge: true, canCopy: true },
+                { header: 'Code', isLarge: false, canCopy: true },
                 { header: 'Description', isLarge: false, canCopy: false, width: 2 }
               ]}
               data={group.characters.map((character) => [
-                character.character,
-                character.entityName,
-                character.entityNumber,
+                character.emoji,
+                character.code,
                 character.description
               ])}
             />
-          </CharactersGroup>
+          </EmojisGroup>
         ))}
       </SingleColumnContainer>
     </MainContainer>
   );
 }
 
-const CharactersGroup = styled.div`
+const EmojisGroup = styled.div`
   width: 100%;
   margin-bottom: 1rem;
 `;
 
-export { CharactersCheatSheetMain };
+export { EmojisCheatSheetMain };
