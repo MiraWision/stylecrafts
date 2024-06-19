@@ -1,0 +1,50 @@
+import React from 'react';
+import styled from 'styled-components';
+import { Button } from 'primereact/button';
+
+interface Props {
+  onClick: () => void;
+}
+
+const DownloadButton: React.FC<Props> = ({ onClick }) => {
+  return (
+    <Container>
+      <Button 
+        icon='pi pi-download' 
+        onClick={onClick} 
+        className='p-button-rounded p-button-primary' 
+      />
+    </Container>
+  );
+}
+
+const Container = styled.div`
+  cursor: pointer;
+
+  .p-button {
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-color);
+    border: none;
+  }
+
+  .pi {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .p-button {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .pi {
+      font-size: 1rem;
+    }
+  }
+`;
+
+export { DownloadButton };

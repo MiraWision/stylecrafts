@@ -1,0 +1,27 @@
+enum Routes {
+  ColorsGradientGeneratorTool = '/colors/gradient-generator',
+  ColorsBlenderTool = '/colors/blender',
+  ColorsConverterTool = '/colors/converter',
+  ImageOptimizationTool = '/images/optimization',
+  ImageToBase64Tool = '/images/image-to-base64',
+  Base64ToImageTool = '/images/base64-to-image',
+  GuessColorBlendGame = '/games/guess-color-blend',
+  Blog = '/blog',
+  PsychologyOfColorBlog = '/blog/the-psychology-of-color-in-web-design',
+  ColorStepsForHeatmapsBlog = '/blog/creating-color-steps-for-heatmaps',
+  ColorTheoryForDigitalDesignBlog = '/blog/color-theory-for-digital-design',
+  Base64ImagesBlog = '/blog/integrating-base64-images-in-your-web-projects',
+  ToolsForDesignersBlog = '/blog/essential-tools-for-designers-in-2024',
+  BlendingColorsBlog = '/blog/blending-colors-for-unique-palettes',
+  OptimizingImagesBlog = '/blog/optimizing-images-for-the-web',
+  WebDesignTrendsBlog = '/blog/top-trends-in-web-design-for-2024',
+  UnderstandingColorFormatsBlog = '/blog/understanding-color-formats',
+  ExploringColorsOfBridgertonBlog = '/blog/exploring-colors-of-bridgerton',
+  TermsOfUse = '/terms-of-use',
+  PrivacyPolicy = '/privacy-policy',
+  CookiePolicy = '/cookie-policy',
+  CharactersCheatSheet = '/cheatsheets/characters',
+  EmojisCheatSheet = '/cheatsheets/emojis',
+}
+
+export { Routes };

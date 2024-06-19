@@ -5,6 +5,7 @@ import { ServerStyleSheet } from 'styled-components';
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const sheet = new ServerStyleSheet();
+
     const originalRenderPage = ctx.renderPage;
 
     try {
@@ -14,6 +15,7 @@ class MyDocument extends Document {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
+
       return {
         ...initialProps,
         styles: (
@@ -31,7 +33,14 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <link rel='preconnect' href='https://fonts.googleapis.com' />
+          <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
+          <link href='https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap' rel='stylesheet' />
+          <link id='theme-link' rel='stylesheet' href='/themes/lara-dark-pink/theme.css' />
+          <link rel='icon' type='image/x-icon' href='/logo/favicon.ico' />
+          <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        </Head>
         <body>
           <Main />
           <NextScript />

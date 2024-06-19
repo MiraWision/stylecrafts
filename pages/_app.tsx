@@ -1,16 +1,40 @@
-import '../styles/global.css';
-import 'primereact/resources/themes/lara-dark-pink/theme.css';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { AppProps } from 'next/app';
+
+import { GAService } from '../services/google-analytics-service';
+
+import { ToastProvider } from '@/components/ui/toast';
+
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
+import '../styles/global.css';
 
-interface Props {
-  Component: any;
-  pageProps: any;
-}
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
 
-const MyApp: React.FC<Props> = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />
-}
+  useEffect(() => {
+    if (!(window as any).GA_INITIALIZED) {
+      GAService.init('G-PX4Y8BRFHB');
+      
+      (window as any).GA_INITIALIZED = true;
+    }
 
-export default MyApp
+    GAService.logPageView();
+
+    router.events.on('routeChangeComplete', GAService.logPageView);
+
+    return () => {
+      router.events.off('routeChangeComplete', GAService.logPageView);
+    };
+  }, [router.events]);
+
+  return (
+    <ToastProvider>
+      <Component {...pageProps} />
+    </ToastProvider>
+  );
+};
+
+export default MyApp;
