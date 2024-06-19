@@ -67,6 +67,8 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
   const [remainingTime, ellapsedTime, handleTime] = useTimer(6, () => {
     setGameOver(true);
+
+    console.log('ellapsedTime', ellapsedTime);
   });
 
   useEffect(() => {
@@ -217,6 +219,10 @@ const DifficultyButtonsContainer = styled.div`
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 15vh;
+  }
 `;
 
 const ButtonsContainer = styled.div`
@@ -256,6 +262,10 @@ const ChallengeContainer = styled.div`
   justify-content: space-between;
   width: 30rem;
   margin: 1.5rem auto 1rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Time = styled.div`

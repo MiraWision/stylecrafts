@@ -68,12 +68,11 @@ const Item = styled.div<{ color: string }>`
   justify-content: center;
   position: relative;
   box-shadow: 0 0 0 0.125rem rgba(255, 255, 255, 0.2), 0 0 0 0.125rem rgba(0, 0, 0, 0.2);
-`;
 
-const ColorName = styled.div`
-  font-size: 0.75rem;
-  text-align: center;
-  margin-top: 0.5rem;
+  @media (max-width: 768px) {
+    width: 3rem;
+    height: 3rem;
+  }
 `;
 
 const WeightLabel = styled.div<{ color: string }>`

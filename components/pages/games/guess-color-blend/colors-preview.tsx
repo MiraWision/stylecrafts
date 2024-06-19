@@ -91,6 +91,10 @@ const Container = styled.div`
   height: 15rem;
   border-radius: 1rem;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ColorSection = styled.div<{ color: string }>`

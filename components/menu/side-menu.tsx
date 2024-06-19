@@ -123,6 +123,10 @@ const GroupLink = styled(Link)`
   &:hover {
     text-decoration: underline;
   }
+
+  @media (max-width: 768px) {
+    margin-bottom: 3rem;
+  }
 `;
 
 const PinkGroupLink = styled(GroupLink)`

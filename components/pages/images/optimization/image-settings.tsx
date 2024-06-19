@@ -164,7 +164,8 @@ const Field = styled.div`
   width: 100%;
 
   label {
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.75rem;
   }
 
   input, select, .p-dropdown, .p-inputnumber, .p-slider {

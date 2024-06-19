@@ -53,6 +53,10 @@ const Container = styled.div`
   align-items: center;
   gap: 0.5rem;
   margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    margin-top: 10vh;
+  }
 `;
 
 const ColorBar = styled.div`
@@ -62,6 +66,10 @@ const ColorBar = styled.div`
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ColorBarSegment = styled.div<{ color: string; width: string }>`
@@ -75,7 +83,7 @@ const ColorCirclesContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-top: 1rem;
 `;
 
