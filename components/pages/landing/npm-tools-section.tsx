@@ -74,6 +74,13 @@ const Container = styled.div`
   grid-gap: 2rem;
   align-items: center;
   background-color: var(--surface-50);
+
+  @media (max-width: 768px) {
+    padding: 1rem 0.5rem;
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+    justify-content: center;
+  }
 `;
 
 const Column = styled.div<{ isVisible: boolean }>`
@@ -85,12 +92,24 @@ const Column = styled.div<{ isVisible: boolean }>`
     opacity: 1;
     transform: translateY(0);
   `}
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const TextColumn = styled(Column)`
   h2 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
   }
 
   p {
@@ -101,6 +120,10 @@ const TextColumn = styled(Column)`
     border-right: 0.25rem solid var(--primary-color);
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
+
+    @media (max-width: 768px) {
+      width: 90%;
+    }
   }
 `;
 
@@ -113,6 +136,11 @@ const CardColumn = styled(Column)`
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    width: 95%;
+    margin: 0 auto;
+  }
 `;
 
 const LibraryList = styled.ul`

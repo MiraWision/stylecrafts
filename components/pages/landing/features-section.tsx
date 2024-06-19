@@ -68,12 +68,21 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: var(--surface-0);
+
+  @media (max-width: 768px) {
+    padding: 1rem 0.5rem;
+  }
 `;
 
 const Headline = styled.h2`
   font-size: 2.5rem;
   margin-bottom: 2rem;
   animation: ${fadeInSlideUp} 1s ease-out;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 const FeaturesGrid = styled.div`
@@ -83,6 +92,10 @@ const FeaturesGrid = styled.div`
   gap: 1.5rem;
   width: 80%;
   height: 80%;
+
+  @media (max-width: 768px) {
+    width: 90vw;
+  }
 `;
 
 const Card = styled(Link)<{ isVisible: boolean }>`
@@ -106,12 +119,23 @@ const Card = styled(Link)<{ isVisible: boolean }>`
     opacity: 1;
     transform: translateY(0);
   `}
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
 `;
 
 const Logo = styled.img`
   width: 8rem;
   height: 8rem;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    width: 5rem;
+    height: 5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const Title = styled.h2`
@@ -119,11 +143,20 @@ const Title = styled.h2`
   font-weight: 600;
   margin-bottom: 1rem;
   text-decoration: none;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const Description = styled.p`
   font-size: 1.125rem;
   text-decoration: none;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 export { FeaturesSection };

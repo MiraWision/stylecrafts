@@ -66,11 +66,21 @@ const Container = styled.footer`
   background-color: var(--surface-100);
   color: var(--text-color);
   padding: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Links = styled.div`
   display: flex;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 const Column = styled.div`
