@@ -74,7 +74,7 @@ const Container = styled.div`
   grid-gap: 2rem;
   align-items: center;
   /* background-color: var(--surface-50); */
-  background: url('/landing/background6.jpeg') no-repeat center center/cover;
+  /* background: url('/landing/background6.jpeg') no-repeat center center/cover; */
 
   @media (max-width: 768px) {
     padding: 1rem 0.5rem;

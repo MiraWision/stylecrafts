@@ -67,7 +67,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: url('/landing/background5.jpeg') no-repeat center center/cover;
+  /* background: url('/landing/background5.jpeg') no-repeat center center/cover; */
 
   @media (max-width: 768px) {
     padding: 1rem 0.5rem;

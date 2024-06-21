@@ -9,8 +9,6 @@ import { Logo } from '@/components/ui/logo';
 
 const HeroSection: React.FC = () => (
   <Container>
-    <LogoStyled />
-
     <Headline>Empower Your Projects<br />with Our Cutting-Edge Solutions</Headline>
 
     <Subheadline>Optimize images, create vibrant palettes,<br />generate heatmaps, and many more<br />with our free tools and libraries</Subheadline>
@@ -33,9 +31,9 @@ const fadeInSlideUp = keyframes`
 `;
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: url('/landing/background4.jpeg') no-repeat left center/cover;
+  width: 100%;
+  height: 100%;
+  background: url('/landing/background6.jpeg') no-repeat left center/cover;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -43,20 +41,6 @@ const Container = styled.div`
   padding-left: 5vw;
   color: #ffffff;
   text-align: center;
-`;
-
-const LogoStyled = styled(Logo)`
-  span {
-    font-size: 3rem;
-    color: #ffffff;
-    text-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3);
-  }
-
-  svg {
-    top: 3.35rem;
-    left: 4.55rem;
-    color: #ffffff;
-  }
 `;
 
 const Headline = styled.h1`

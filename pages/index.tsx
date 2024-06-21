@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 import { metaTags } from '@/content/meta-data/default';
 
+import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';
 import { HeroSection } from '@/components/pages/landing/hero-section';
 import { FeaturesSection } from '@/components/pages/landing/features-section';
 import { NpmToolsSection } from '@/components/pages/landing/npm-tools-section';
 import { Footer } from '@/components/pages/landing/footer';
-import { ThemeButton } from '@/components/ui/buttons/theme-button';
 
 const Sections = [
   {
@@ -148,17 +148,15 @@ const HomePage: React.FC = () => {
     <>
       <MetaTags {...metaTags} />
 
-      <ThemeButtonContainer>
-        <ThemeButton />
-      </ThemeButtonContainer>
-
-      <MainContainer ref={containerRef}>
-        {Sections.map((section) => (
-          <Section key={section.title} id={section.title} isFullHeight={section.isFullHeight}>
-            {section.renderComponent()}
-          </Section>
-        ))}
-      </MainContainer>
+      <BaseLayout>
+        <MainContainer ref={containerRef}>
+          {Sections.map((section) => (
+            <Section key={section.title} id={section.title} isFullHeight={section.isFullHeight}>
+              {section.renderComponent()}
+            </Section>
+          ))}
+        </MainContainer>
+      </BaseLayout>
     </> 
   );
 };
@@ -167,9 +165,11 @@ const MainContainer = styled.div`
   scroll-behavior: smooth;
   overflow-y: hidden;
   height: 100vh;
+  margin: -1.5rem;
 `;
 
 const Section = styled.section<{ isFullHeight?: boolean }>`
+  width: 100%;
   height: ${({ isFullHeight = true }) => isFullHeight ? '100vh' : 'auto'};
   display: flex;
   align-items: center;
