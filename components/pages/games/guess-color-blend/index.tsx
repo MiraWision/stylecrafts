@@ -67,7 +67,7 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
   const [gameOver, setGameOver] = useState<boolean>(false);
 
-  const [remainingTime, ellapsedTime, handleTime] = useTimer(6, () => {
+  const [remainingTime, ellapsedTime, handleTime] = useTimer(60, () => {
     setGameOver(true);
 
     GAService.logEvent(analyticsEvents.games.challengeEnded(ellapsedTime.toString()));
