@@ -16,7 +16,7 @@ const BlogPage = () => {
     <BaseLayout>
       <MetaTags {...metaTags} />
 
-      <FullSizeContainer>
+      <Container>
         <Title>News & Articles</Title>
 
         <MainPostCard 
@@ -31,17 +31,21 @@ const BlogPage = () => {
             />
           ))}
         </PostsGrid>
-      </FullSizeContainer>
+      </Container>
     </BaseLayout>
   );
 };
 
+const Container = styled(FullSizeContainer)`
+  padding: 0 2rem;
+`;
+
 const PostsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: 2rem;
+  gap: 4rem;
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 4rem;
 `;
 
 export default BlogPage;

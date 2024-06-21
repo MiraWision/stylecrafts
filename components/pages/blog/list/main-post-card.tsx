@@ -32,21 +32,21 @@ const Container = styled(Link)`
   text-decoration: none;
   color: var(--text-color);
   display: grid;
-  grid-template-columns: 4fr 3fr;
-  gap: 1rem;
+  grid-template-columns: 5fr 3fr;
+  gap: 4rem;
+  margin-top: 2rem;
 `;
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 `;
 
 const Title = styled.h2`
   margin: 0;
   font-size: 1.5rem;
   font-weight: 500;
-  line-height: 1.5;
 
   @media (max-width: 768px) {
     font-size: 1.25rem;

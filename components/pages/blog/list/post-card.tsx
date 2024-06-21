@@ -32,7 +32,7 @@ const PostCard: React.FC<Props> = ({ post }) => {
 const Container = styled(Link)`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
   text-decoration: none;
   color: var(--text-color);
 `;
@@ -41,7 +41,6 @@ const Title = styled.h2`
   margin: 0;
   font-size: 1.5rem;
   font-weight: 500;
-  line-height: 1.5;
 
   @media (max-width: 768px) {
     font-size: 1.25rem;
