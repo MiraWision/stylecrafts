@@ -30,7 +30,7 @@ const Text = styled.span`
   font-family: 'Delius Swash Caps', cursive;
   font-size: 2rem;
   user-select: none;
-  background: linear-gradient(70deg, var(--primary-color), #ff4e50);
+  background: linear-gradient(90deg, #ff1493, #ff69b4, #87cefa, #4682b4);
   -webkit-background-clip: text;
   color: transparent;
 `;
@@ -41,7 +41,7 @@ const StarIcon = styled(FontAwesomeIcon)`
   left: 2.9625rem;
   font-size: 0.375rem;
   transform: rotate(180deg);
-  color: var(--primary-color);
+  color: #FF69B4;
 `;
 
 export { Logo };
