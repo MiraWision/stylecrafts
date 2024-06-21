@@ -148,7 +148,9 @@ const HomePage: React.FC = () => {
     <>
       <MetaTags {...metaTags} />
 
-      <ThemeButton />
+      <ThemeButtonContainer>
+        <ThemeButton />
+      </ThemeButtonContainer>
 
       <MainContainer ref={containerRef}>
         {Sections.map((section) => (
@@ -172,6 +174,11 @@ const Section = styled.section<{ isFullHeight?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+`;
+
+const ThemeButtonContainer = styled.div`
+  visibility: hidden;
 `;
 
 export default HomePage;

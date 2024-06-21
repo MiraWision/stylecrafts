@@ -1,21 +1,21 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
-import { StarIcon } from './icons/star';
-
-
-interface LogoProps {
+interface Props {
   onClick?: () => void;
+  className?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({ onClick }) => {
+const Logo: React.FC<Props> = ({ onClick, className }) => {
   return (
-    <Container onClick={onClick}>
-      <Text>CssCraft</Text>
+    <Container onClick={onClick} className={className}>
+      <Text>StyleCrafts</Text>
 
-      <PinkStar width={0.5} height={0.5} top={1.25} left={1.0625} />
-      
-      <PinkStar width={0.3125} height={0.3125} top={0.4375} left={7.3125} />
+      <StarIcon
+        icon={faStar}
+      />
     </Container>
   );
 }
@@ -28,40 +28,20 @@ const Container = styled.div`
 
 const Text = styled.span`
   font-family: 'Delius Swash Caps', cursive;
-  font-size: 1.875rem;
-  /* color: var(--primary-color); */
+  font-size: 2rem;
   user-select: none;
   background: linear-gradient(70deg, var(--primary-color), #ff4e50);
   -webkit-background-clip: text;
   color: transparent;
 `;
 
-const scaleUpDown = keyframes`
-  0% {
-    transform: scale(0);
-  }
-  80% {
-    transform: scale(0);
-  }
-  95% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
-
-const PinkStar = styled(StarIcon)<{ top: number, left: number, width: number, height: number }>`
+const StarIcon = styled(FontAwesomeIcon)`
   position: absolute;
-  width: ${({ width }) => `${width}rem`};
-  height: ${({ height }) => `${height}rem`};
-  top: ${({ top }) => `${top}rem`};
-  left: ${({ left }) => `${left}rem`};
-  animation: ${scaleUpDown} 4s ease-in-out;
-
-  svg path {
-    fill: var(--primary-color);
-  }
+  top: 2.125rem;
+  left: 2.9625rem;
+  font-size: 0.375rem;
+  transform: rotate(180deg);
+  color: var(--primary-color);
 `;
 
 export { Logo };

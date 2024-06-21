@@ -67,7 +67,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--surface-0);
+  background: url('/landing/background5.jpeg') no-repeat center center/cover;
 
   @media (max-width: 768px) {
     padding: 1rem 0.5rem;
@@ -106,11 +106,24 @@ const Card = styled(Link)<{ isVisible: boolean }>`
   text-decoration: none;
   color: var(--text-primary);
   border-radius: 1rem;
-  background-color: var(--surface-50);
+  /* background-color: var(--surface-50); */
   transition: all 0.3s ease-out;
 
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  text-shadow: 0 0 0.25rem rgba(0,0,0,0.3);
+
   &:hover {
-    background-color: var(--surface-100);
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:hover {
+    /* background-color: var(--surface-100); */
     transform: scale(1.05);
   }
 

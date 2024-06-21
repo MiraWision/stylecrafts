@@ -38,8 +38,8 @@ const ThemeButton: React.FC<Props> = () => {
 
 const Container = styled.div`
   position: fixed;
-  top: 1.5rem;
-  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
   z-index: 1000;
 
   @media (max-width: 768px) {

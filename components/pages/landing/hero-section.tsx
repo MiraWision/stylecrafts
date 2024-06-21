@@ -5,8 +5,12 @@ import Link from 'next/link';
 
 import { Routes } from '@/content/routes';
 
+import { Logo } from '@/components/ui/logo';
+
 const HeroSection: React.FC = () => (
   <Container>
+    <LogoStyled />
+
     <Headline>Empower Your Projects<br />with Our Cutting-Edge Solutions</Headline>
 
     <Subheadline>Optimize images, create vibrant palettes,<br />generate heatmaps, and many more<br />with our free tools and libraries</Subheadline>
@@ -31,27 +35,44 @@ const fadeInSlideUp = keyframes`
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background: url('/landing/background.jpeg') no-repeat center center/cover;
+  background: url('/landing/background4.jpeg') no-repeat left center/cover;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding-left: 5vw;
   color: #ffffff;
   text-align: center;
 `;
 
+const LogoStyled = styled(Logo)`
+  span {
+    font-size: 3rem;
+    color: #ffffff;
+    text-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3);
+  }
+
+  svg {
+    top: 3.35rem;
+    left: 4.55rem;
+    color: #ffffff;
+  }
+`;
+
 const Headline = styled.h1`
   font-size: 2.5rem;
-  text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
+  text-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3);
   animation: ${fadeInSlideUp} 0.8s ease-out;
   margin: 0.5rem 0;
+  text-align: left;
 `;
 
 const Subheadline = styled.h2`
   font-size: 1.5rem;
   font-weight: 400;
   margin: 0.5rem 0 1rem;
-  text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
+  text-align: left;
+  text-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.4);
   animation: ${fadeInSlideUp} 0.8s ease-out;
   animation-delay: 0.2s;
   animation-fill-mode: both;
@@ -61,25 +82,26 @@ const LinkStyled = styled(Link)`
   animation: ${fadeInSlideUp} 0.8s ease-out;
   animation-delay: 0.4s;
   animation-fill-mode: both;
-  padding: 1rem 2rem;
-  border: 0.0625rem solid #ffffff;
-  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  font-weight: 500;
   color: #ffffff;
+  border: none;
+  cursor: pointer;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 1.125rem;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  text-shadow: 0 0 1rem rgba(0,0,0,0.5);
+  transition: background 0.3s, box-shadow 0.3s;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.3);
-  }
-
-  &:active, &:focus {
-    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
   }
 `;
 

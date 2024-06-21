@@ -73,7 +73,8 @@ const Container = styled.div`
   grid-template-columns: 2fr 2fr;
   grid-gap: 2rem;
   align-items: center;
-  background-color: var(--surface-50);
+  /* background-color: var(--surface-50); */
+  background: url('/landing/background6.jpeg') no-repeat center center/cover;
 
   @media (max-width: 768px) {
     padding: 1rem 0.5rem;
@@ -120,6 +121,11 @@ const TextColumn = styled(Column)`
     border-right: 0.25rem solid var(--primary-color);
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
+
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
     @media (max-width: 768px) {
       width: 90%;
