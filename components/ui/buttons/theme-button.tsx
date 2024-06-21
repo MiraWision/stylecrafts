@@ -18,7 +18,7 @@ const ThemeButton: React.FC<Props> = () => {
   }, []);
 
   const icon = useMemo(() => {
-    return theme === Theme.Light ? 'pi pi-sun' : 'pi pi-moon';
+    return theme === Theme.Light ? 'pi pi-moon' : 'pi pi-sun';
   }, [theme]);
 
   const toggleTheme = () => {
