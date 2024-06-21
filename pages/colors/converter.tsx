@@ -18,7 +18,7 @@ const ColorsConverterToolPage = () => {
       <MetaTags {...metaTags} />
 
       <MainContainer>
-        <Title>Colors Converter</Title>
+        <Title>Color Converter</Title>
 
         <Subtitle>Convert Between Different Color Formats</Subtitle>
 

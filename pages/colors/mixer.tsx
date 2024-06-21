@@ -18,7 +18,7 @@ const ColorsMixerToolPage = () => {
       <MetaTags {...metaTags} />
 
       <MainContainer>
-        <Title>Colors Mixer</Title>
+        <Title>Color Mixer</Title>
 
         <Subtitle>Mix Different Colors to Create New Shades</Subtitle>
 

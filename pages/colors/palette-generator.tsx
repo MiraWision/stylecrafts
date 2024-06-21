@@ -20,7 +20,7 @@ const ColorsMixerToolPage = () => {
       <MainContainer>
         <Title>Colors Palette Generator </Title>
 
-        <Subtitle>Design Custom Color Palettes or Find Inpiration</Subtitle>
+        <Subtitle>Design Custom Color Palettes or Find Inspiration</Subtitle>
 
         <ColorBlender />
 
