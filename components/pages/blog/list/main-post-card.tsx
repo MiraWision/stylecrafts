@@ -39,7 +39,7 @@ const Container = styled(Link)`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 
 const Title = styled.h2`

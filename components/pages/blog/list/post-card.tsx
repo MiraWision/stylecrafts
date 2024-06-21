@@ -32,7 +32,7 @@ const PostCard: React.FC<Props> = ({ post }) => {
 const Container = styled(Link)`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   text-decoration: none;
   color: var(--text-color);
 `;
