@@ -9,6 +9,8 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-06-15',
     url: Routes.ExploringColorsOfBridgertonBlog,
     tags: ['Bridgerton', 'Colors', 'Design Inspiration', 'Web Design'],
+    thumbnail: '/blog-images/exploring-colors-of-bridgerton-1.jpeg',
+    
   },
   {
     title: 'The Psychology of Color in Web Design',
@@ -17,6 +19,7 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-06-03',
     url: Routes.PsychologyOfColorBlog,
     tags: ['Colors', 'User Experience', 'Web Design'],
+    thumbnail: '/blog-images/the-psychology-of-color-in-web-design-1.jpeg',
   },
   {
     title: 'Creating Color Steps for Heatmaps',
@@ -25,6 +28,7 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-05-30',
     url: Routes.ColorStepsForHeatmapsBlog,
     tags: ['Data Visualization', 'Colors', 'Design Techniques'],
+    thumbnail: '/blog-images/creating-color-steps-for-heatmaps-1.jpeg',
   },
   {
     title: 'Color Theory for Digital Design: Basics and Beyond',
@@ -33,6 +37,7 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-05-27',
     url: Routes.ColorTheoryForDigitalDesignBlog,
     tags: ['Colors', 'Design Principles', 'Digital Design'],
+    thumbnail: '/blog-images/color-theory-for-digital-design-1.jpeg',
   },
   {
     title: 'Integrating Base64 Images in Your Web Projects',
@@ -41,6 +46,7 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-05-18',
     url: Routes.Base64ImagesBlog,
     tags: ['Images', 'Web Development', 'Optimization'],
+    thumbnail: '/blog-images/integrating-base64-images-in-your-web-projects-1.jpeg',
   },
   {
     title: 'Essential Tools for Designers in 2024',
@@ -49,6 +55,7 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-05-11',
     url: Routes.ToolsForDesignersBlog,
     tags: ['Tools', 'Design Resources', 'Productivity'],
+    thumbnail: '/blog-images/essential-tools-for-designers-in-2024-1.jpeg',
   },
   {
     title: 'Blending Colors for Unique Palettes',
@@ -57,6 +64,7 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-05-07',
     url: Routes.BlendingColorsBlog,
     tags: ['Colors', 'Design Techniques', 'Digital Design'],
+    thumbnail: '/blog-images/blending-colors-for-unique-palettes-1.jpeg',
   },
   {
     title: 'Optimizing Images for the Web: Formats and Quality',
@@ -65,6 +73,7 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-04-28',
     url: Routes.OptimizingImagesBlog,
     tags: ['Images', 'Optimization', 'Web Performance'],
+    thumbnail: '/blog-images/optimizing-images-for-the-web-1.jpeg',
   },
   {
     title: 'Top Trends in Web Design for 2024',
@@ -73,6 +82,7 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-04-20',
     url: Routes.WebDesignTrendsBlog,
     tags: ['Trends', 'Web Design', 'Innovation'],
+    thumbnail: '/blog-images/top-trends-in-web-design-for-2024-1.jpeg',
   },
   {
     title: 'Understanding Color Formats: From Hex to CMYK',
@@ -81,6 +91,7 @@ const blogPosts: BlogPost[] = [
     createdAt: '2024-04-15',
     url: Routes.UnderstandingColorFormatsBlog,
     tags: ['Colors', 'Digital Design', 'Technical'],
+    thumbnail: '/blog-images/understanding-color-formats-1.jpeg',
   }
 ];
 

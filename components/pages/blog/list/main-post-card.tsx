@@ -10,31 +10,36 @@ interface Props {
   post: BlogPost;
 }
 
-const PostCard: React.FC<Props> = ({ post }) => {
+const MainPostCard: React.FC<Props> = ({ post }) => {
   return (
     <Container href={post.url}>
-      <Image
-        src={post.thumbnail}
-        alt={post.title}
-      />
+      <Column>
+        <Image src={post.thumbnail} alt={post.title} />
+      </Column>
+      
+      <Column>
+        <Title>{post.title}</Title>
 
-      <Title>
-        {post.title}
-      </Title>
+        <SubTitle>{post.subtitle}</SubTitle>
 
-      <SubTitle>{post.subtitle}</SubTitle>
-
-      <PostSummaryStyled post={post} />
+        <PostSummaryStyled post={post} />
+      </Column>
     </Container>
   );
 }
 
 const Container = styled(Link)`
+  text-decoration: none;
+  color: var(--text-color);
+  display: grid;
+  grid-template-columns: 4fr 3fr;
+  gap: 1rem;
+`;
+
+const Column = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  text-decoration: none;
-  color: var(--text-color);
 `;
 
 const Title = styled.h2`
@@ -62,7 +67,7 @@ const SubTitle = styled.h3`
 
 const Image = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   border-radius: 0.5rem;
 `;
@@ -71,4 +76,4 @@ const PostSummaryStyled = styled(PostSummary)`
   margin: 0;
 `;
 
-export { PostCard };
+export { MainPostCard };

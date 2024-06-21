@@ -51,8 +51,10 @@ const Post: React.FC<Props> = ({ post, content }) => {
 }
 
 const Header = styled.header`
-  padding-left: 2.5rem;
-  margin-top: 0.375rem;
+  @media (max-width: 768px) {
+    padding-left: 2.5rem;
+    margin-top: 0.375rem;
+  }
 `;
 
 const Main = styled.main`

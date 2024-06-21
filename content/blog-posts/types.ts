@@ -5,6 +5,7 @@ interface BlogPost {
   createdAt: string;
   url: string;
   tags: string[];
+  thumbnail: string;
 }
 
 export type { BlogPost };

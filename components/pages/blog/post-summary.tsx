@@ -7,11 +7,12 @@ import { convertDateToUSFormat } from '@/utils/date';
 
 interface Props {
   post: BlogPost;
+  className?: string;
 }
 
-const PostSummary: React.FC<Props> = ({ post }) => {
+const PostSummary: React.FC<Props> = ({ post, className }) => {
   return (
-    <Text>
+    <Text className={className}>
       {post.minutesToRead} min read · {convertDateToUSFormat(post.createdAt)}
     </Text>
   );

@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+const FullSizeContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const MainContainer = styled.div`
   width: 42rem;
   margin: 0 auto 10vh;
@@ -31,6 +38,7 @@ const TwoColumnsContainer = styled.div`
 `;
 
 export {
+  FullSizeContainer,
   MainContainer,
   SingleColumnContainer,
   TwoColumnsContainer,
