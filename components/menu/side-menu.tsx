@@ -14,6 +14,7 @@ import {
   faQuoteRight,
   faPuzzlePiece,
   faBlog,
+  faPalette,
 } from '@fortawesome/free-solid-svg-icons';
 import { 
   faFileCode,
@@ -30,7 +31,7 @@ const MenuItems = [
     items: [
       {
         icon: faImages,
-        name: 'Image Optimization',
+        name: 'Optimization',
         url: Routes.ImageOptimizationTool,
       },
       {
@@ -50,18 +51,23 @@ const MenuItems = [
     items: [
       {
         icon: faCubes,
-        name: 'Colors Gradient',
+        name: 'Gradient Generation',
         url: Routes.ColorsGradientGeneratorTool,
       },
       {
+        icon: faPalette,
+        name: 'Palette Generation',
+        url: Routes.ColorsPaletteGeneratorTool,
+      },
+      {
         icon: faRetweet,
-        name: 'Colors Converter',
+        name: 'Color Conversion',
         url: Routes.ColorsConverterTool,
       },
       {
         icon: faFillDrip,
-        name: 'Colors Blender',
-        url: Routes.ColorsBlenderTool,
+        name: 'Color Mixing',
+        url: Routes.ColorsMixerTool,
       },
     ],
   },

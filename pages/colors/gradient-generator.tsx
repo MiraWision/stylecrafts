@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { content } from '@/content/function-descriptions/colors-gradient';
-import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/function-colors-gradient';
 
 import { BaseLayout } from '@/layouts/base-layout';
-import { Title } from '@/components/ui/texts/typography';
+import { Subtitle, Title } from '@/components/ui/texts/typography';
+import { MetaTags } from '@/components/pages/meta-tags';
 import { NPMLink } from '@/components/ui/texts/npm-link';
 import { MainContainer } from '@/components/ui/containers';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
@@ -18,7 +18,9 @@ const ColorsGradientGeneratorToolPage = () => {
       <MetaTags {...metaTags} />
 
       <MainContainer>
-        <Title>Stepped Gradients Generator</Title>
+        <Title>Stepped Gradient Generator</Title>
+
+        <Subtitle>Create Gradients for Heatmap, Charts, and Data Visualization</Subtitle>
 
         <GradientGenerator />
 

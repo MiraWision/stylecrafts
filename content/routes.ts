@@ -1,6 +1,7 @@
 enum Routes {
   ColorsGradientGeneratorTool = '/colors/gradient-generator',
-  ColorsBlenderTool = '/colors/blender',
+  ColorsPaletteGeneratorTool = '/colors/palette-generator',
+  ColorsMixerTool = '/colors/mixer',
   ColorsConverterTool = '/colors/converter',
   ImageOptimizationTool = '/images/optimization',
   ImageToBase64Tool = '/images/image-to-base64',
