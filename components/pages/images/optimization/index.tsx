@@ -243,6 +243,7 @@ const InputAndImageContainer = styled.div`
     display: grid;
     gap: 1rem;
     grid-template-columns: 1fr 1fr;
+    height: 100%;
   }
 `;
 
