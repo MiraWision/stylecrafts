@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Title = styled.h1`
-  margin: 1rem 0 1.5rem;
+  margin: 1rem 0 2rem;
   font-size: 2rem;
   font-weight: 500;
   line-height: 1.2;
@@ -16,8 +16,8 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.h2`
-  margin: 0.5rem 0;
-  font-size: 1.5rem;
+  margin: -1rem 0 2rem;
+  font-size: 1.25rem;
   font-weight: 500;
   line-height: 1.2;
   color: var(--surface-900);

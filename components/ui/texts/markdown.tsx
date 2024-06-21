@@ -81,7 +81,7 @@ const Container = styled.div`
 
   h1 {
     font-size: 1.75rem;
-    margin: 1rem 0;
+    margin: 2rem 0 0.5rem;
 
     @media (max-width: 768px) {
       font-size: 1.25rem;
@@ -90,7 +90,7 @@ const Container = styled.div`
 
   h2 {
     font-size: 1.5rem;
-    margin: 1rem 0;
+    margin: 2.5rem 0 0.5rem;
 
     @media (max-width: 768px) {
       font-size: 1rem;
@@ -99,7 +99,7 @@ const Container = styled.div`
 
   h3 {
     font-size: 1.25rem;
-    margin: 1rem 0;
+    margin: 2.5rem 0 0.5rem;
 
     @media (max-width: 768px) {
       font-size: 0.875rem;
