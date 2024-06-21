@@ -23,7 +23,7 @@ const footerData = [
   {
     groupName: 'Colors Tools',
     items: [
-      { name: 'Color Blender', href: Routes.ColorsBlenderTool },
+      { name: 'Color Blender', href: Routes.ColorsMixerTool },
       { name: 'Gradient Generator', href: Routes.ColorsGradientGeneratorTool },
       { name: 'Color Converter', href: Routes.ColorsConverterTool },
     ],

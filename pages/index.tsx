@@ -6,7 +6,8 @@ import { metaTags } from '@/content/meta-data/default';
 import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';
 import { HeroSection } from '@/components/pages/landing/hero-section';
-import { FeaturesSection } from '@/components/pages/landing/features-section';
+import { ImagesSection } from '@/components/pages/landing/images-section';
+import { ColorsSection } from '@/components/pages/landing/colors-section';
 import { NpmToolsSection } from '@/components/pages/landing/npm-tools-section';
 import { Footer } from '@/components/pages/landing/footer';
 
@@ -16,8 +17,12 @@ const Sections = [
     renderComponent: () => (<HeroSection />),
   },
   {
-    title: 'Features',
-    renderComponent: () => (<FeaturesSection />),
+    title: 'Colors',
+    renderComponent: () => (<ColorsSection />),
+  },
+  {
+    title: 'Images',
+    renderComponent: () => (<ImagesSection />),
   },
   {
     title: 'Npm Tools',
@@ -38,6 +43,7 @@ const HomePage: React.FC = () => {
   const touchEndY = useRef<number | null>(null);
 
   const scrollToSection = (index: number) => {
+    console.log('scrollToSection', index);
     if (index >= 0 && index < Sections.length) {
       const targetSection = containerRef.current?.children?.[index];
 
@@ -163,7 +169,8 @@ const HomePage: React.FC = () => {
 
 const MainContainer = styled.div`
   scroll-behavior: smooth;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
+  width: calc(100% + 3rem);
   height: 100vh;
   margin: -1.5rem;
 `;
@@ -175,10 +182,6 @@ const Section = styled.section<{ isFullHeight?: boolean }>`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-`;
-
-const ThemeButtonContainer = styled.div`
-  visibility: hidden;
 `;
 
 export default HomePage;
