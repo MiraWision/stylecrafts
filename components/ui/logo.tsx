@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
@@ -19,6 +19,21 @@ const Logo: React.FC<Props> = ({ onClick, className }) => {
     </Container>
   );
 }
+
+const scaleUpDown = keyframes`
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(0);
+  }
+  80% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
 const Container = styled.div`
   position: relative;
@@ -42,6 +57,7 @@ const StarIcon = styled(FontAwesomeIcon)`
   font-size: 0.375rem;
   transform: rotate(180deg);
   color: #FF69B4;
+  animation: ${scaleUpDown} 2s ease-out;
 `;
 
 export { Logo };
