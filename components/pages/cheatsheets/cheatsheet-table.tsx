@@ -80,7 +80,6 @@ const Container = styled.div`
 const GroupTitle = styled.h2`
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
-  margin-left: 2rem;
   font-weight: 500;
   color: var(--text-color);
   width: 100%;
