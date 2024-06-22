@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { generateSlug } from '@/utils/text';
 import { copyToClipboard } from '@/utils/copy';
 import { useToast } from '@/components/ui/toast';
 
@@ -35,7 +36,7 @@ const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback
 
   return (
     <Container>
-      <GroupTitle>{title}</GroupTitle>
+      <GroupTitle id={generateSlug(title)}>{title}</GroupTitle>
 
       <CharactersList columns={columns.map(({ width }) => `${width ?? 1}fr`).join(' ')}>
         {columns.map((column, index) => (
