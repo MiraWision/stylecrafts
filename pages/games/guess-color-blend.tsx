@@ -9,7 +9,7 @@ import { GuessColorBlendMain } from '@/components/pages/games/guess-color-blend'
 
 const GuessColorBlendPage = () => {
   return (
-    <BaseLayout>
+    <BaseLayout includeFooter={false}>
       <MetaTags {...metaTags} />
 
       <Title>Guess Color Blend</Title>

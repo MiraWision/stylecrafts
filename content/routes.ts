@@ -6,6 +6,8 @@ enum Routes {
   ImageOptimizationTool = '/images/optimization',
   ImageToBase64Tool = '/images/image-to-base64',
   Base64ToImageTool = '/images/base64-to-image',
+  CharactersCheatSheet = '/cheatsheets/characters',
+  EmojisCheatSheet = '/cheatsheets/emojis',
   GuessColorBlendGame = '/games/guess-color-blend',
   Blog = '/blog',
   PsychologyOfColorBlog = '/blog/the-psychology-of-color-in-web-design',
@@ -21,8 +23,9 @@ enum Routes {
   TermsOfUse = '/terms-of-use',
   PrivacyPolicy = '/privacy-policy',
   CookiePolicy = '/cookie-policy',
-  CharactersCheatSheet = '/cheatsheets/characters',
-  EmojisCheatSheet = '/cheatsheets/emojis',
+  AboutUs = '/about-us',
+  ContactUs = '/contact-us',
+  SupportUs = '/support-us',
 }
 
 export { Routes };

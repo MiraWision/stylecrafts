@@ -164,7 +164,7 @@ const HomePage: React.FC = () => {
     <>
       <MetaTags {...metaTags} />
 
-      <BaseLayout>
+      <BaseLayout includeFooter={false}>
         <MainContainer ref={containerRef}>
           {Sections.map((section) => (
             <Section key={section.title} id={section.title} isFullHeight={section.isFullHeight}>

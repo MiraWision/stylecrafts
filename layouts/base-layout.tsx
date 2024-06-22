@@ -9,12 +9,14 @@ import { ThemeButton } from '@/components/ui/buttons/theme-button';
 
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import { Footer } from '@/components/pages/landing/footer';
 
 interface Props {
+  includeFooter?: boolean;
   children: React.ReactNode;
 }
 
-const BaseLayout: React.FC<Props> = ({ children }) => {
+const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -50,6 +52,8 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
         <Overlay isOpen={isSidebarOpen} onClick={toggleSidebar} />
         
         {children}
+
+        {includeFooter && <BaseFooter />}
       </Content>
     </Container>
   );
@@ -137,6 +141,11 @@ const Content = styled.div`
     margin-left: 0;
     padding: 1rem;
   }
+`;
+
+const BaseFooter = styled(Footer)`
+  margin: 4rem -1.5rem -1.5rem;
+  width: calc(100% + 3rem);
 `;
 
 export { BaseLayout };
