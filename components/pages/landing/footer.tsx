@@ -126,7 +126,7 @@ const Company = styled.div`
 const Title = styled.h2`
   font-size: 1.25rem;
   font-weight: 600;
-  margin: 0 0 1rem 0;
+  margin: 0 0 2rem 0;
   display: flex;
   align-items: center;
 
@@ -138,7 +138,7 @@ const Title = styled.h2`
 
 const Logo = styled.img`
   width: 1.75rem;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
 `;
 
 const Description = styled.p`
