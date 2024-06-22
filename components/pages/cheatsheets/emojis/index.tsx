@@ -20,6 +20,10 @@ const EmojisCheatSheetMain: React.FC<Props> = ({}) => {
   
   return (
     <MainContainer>
+      <FloatingMenu 
+        sections={emojiEntities.map((group) => ({ id: generateSlug(group.groupName), title: group.groupName }))} 
+      />
+      
       <SingleColumnContainer>
         {emojiEntities.map((group, index) => (
           <EmojisGroup key={index}>
@@ -40,10 +44,6 @@ const EmojisCheatSheetMain: React.FC<Props> = ({}) => {
           </EmojisGroup>
         ))}
       </SingleColumnContainer>
-
-      <FloatingMenu 
-        sections={emojiEntities.map((group) => ({ id: generateSlug(group.groupName), title: group.groupName }))} 
-      />
     </MainContainer>
   );
 }

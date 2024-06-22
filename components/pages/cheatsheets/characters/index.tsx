@@ -20,6 +20,10 @@ const CharactersCheatSheetMain: React.FC<Props> = ({}) => {
 
   return (
     <MainContainer>
+      <FloatingMenu 
+        sections={characterEntities.map((group) => ({ id: generateSlug(group.groupName), title: group.groupName }))} 
+      />
+
       <SingleColumnContainer>
         {characterEntities.map((group, index) => (
           <CharactersGroup key={index}>
@@ -41,10 +45,6 @@ const CharactersCheatSheetMain: React.FC<Props> = ({}) => {
             />
           </CharactersGroup>
         ))}
-
-        <FloatingMenu 
-          sections={characterEntities.map((group) => ({ id: generateSlug(group.groupName), title: group.groupName }))} 
-        />
       </SingleColumnContainer>
     </MainContainer>
   );

@@ -54,8 +54,9 @@ const MenuContainer = styled.div`
   position: fixed;
   z-index: 100;
   top: 10rem;
-  left: calc(50vw - 24rem);
-  width: 10rem;
+  right: calc(50vw + 13.75rem);
+  width: fit-content;
+  max-width: calc(50vw - 29rem);
   background: var(--surface-50);
   border: 1px solid (--surface-border);
   padding: 0.25rem;
@@ -63,6 +64,14 @@ const MenuContainer = styled.div`
   box-shadow: 0 0 0.125rem rgba(0, 0, 0, 0.1);
   font-size: 0.875rem;
   border-radius: 0.25rem;
+
+  @media (max-width: 67rem) {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: fit-content;
+    max-width: 100%;
+  }
 `;
 
 const MenuItem = styled.div<{ isActive: boolean }>`
