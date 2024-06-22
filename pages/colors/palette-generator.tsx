@@ -10,7 +10,7 @@ import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
 import { Subtitle, Title } from '@/components/ui/texts/typography';
 import { NPMLink } from '@/components/ui/texts/npm-link';
-import { ColorBlender } from '@/components/pages/colors/blender';
+import { ColorBlender } from '@/components/pages/colors/mixer';
 
 const ColorsMixerToolPage = () => {
   return (

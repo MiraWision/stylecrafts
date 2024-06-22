@@ -10,7 +10,7 @@ import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
 import { Subtitle, Title } from '@/components/ui/texts/typography';
 import { NPMLink } from '@/components/ui/texts/npm-link';
-import { ColorBlender } from '@/components/pages/colors/blender';
+import { ColorMixerMain } from '@/components/pages/colors/mixer';
 
 const ColorsMixerToolPage = () => {
   return (
@@ -22,7 +22,7 @@ const ColorsMixerToolPage = () => {
 
         <Subtitle>Mix Different Colors to Create New Shades</Subtitle>
 
-        <ColorBlender />
+        <ColorMixerMain />
 
         <NPMLink 
           text='Need to have color tools like these in you app? Feel free to use our NPM package'

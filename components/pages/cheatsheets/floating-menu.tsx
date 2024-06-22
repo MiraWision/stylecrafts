@@ -6,7 +6,7 @@ interface Props {
 }
 
 const FloatingMenu: React.FC<Props> = ({ sections }) => {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<string | null>(sections[0]?.id);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,14 +58,12 @@ const MenuContainer = styled.div`
   width: fit-content;
   max-width: calc(50vw - 29rem);
   background: var(--surface-50);
-  border: 1px solid (--surface-border);
   padding: 0.25rem;
   overflow-y: auto;
-  box-shadow: 0 0 0.125rem rgba(0, 0, 0, 0.1);
   font-size: 0.875rem;
   border-radius: 0.25rem;
 
-  @media (max-width: 67rem) {
+  @media (max-width: 167rem) {
     position: relative;
     top: auto;
     right: auto;
@@ -78,7 +76,7 @@ const MenuItem = styled.div<{ isActive: boolean }>`
   padding: 0.25rem 0.5rem;
   cursor: pointer;
   color: var(--text-color);
-  font-weight: 400;
+  font-weight: 300;
 
   &:hover {
     font-weight: 500;  
@@ -86,7 +84,6 @@ const MenuItem = styled.div<{ isActive: boolean }>`
 
   ${({ isActive }) => isActive && css`
     font-weight: 500;  
-    color: var(--primary-color);
   `}
 `;
 
