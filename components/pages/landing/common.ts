@@ -26,7 +26,7 @@ const Container = styled.div`
 
 const Headline = styled.h2`
   font-size: 2.5rem;
-  font-weight: 500;
+  font-weight: 400;
   margin-bottom: 2rem;
   animation: ${fadeInSlideUp} 1s ease-out;
 

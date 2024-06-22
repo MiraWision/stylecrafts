@@ -11,7 +11,7 @@ const ImagesSection: React.FC = () => {
 
   return (
     <Container ref={observerRef}>
-      <Headline>Image Features</Headline>
+      <Headline>Images Features</Headline>
 
       <FeaturesRow>
         <FeatureCard

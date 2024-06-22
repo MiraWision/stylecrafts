@@ -10,6 +10,7 @@ import { ImagesSection } from '@/components/pages/landing/images-section';
 import { ColorsSection } from '@/components/pages/landing/colors-section';
 import { NpmToolsSection } from '@/components/pages/landing/npm-tools-section';
 import { Footer } from '@/components/pages/landing/footer';
+import { CheatsheetsSection } from '@/components/pages/landing/cheatsheets-section';
 
 const Sections = [
   {
@@ -23,6 +24,10 @@ const Sections = [
   {
     title: 'Images',
     renderComponent: () => (<ImagesSection />),
+  },
+  {
+    title: 'Cheatsheets',
+    renderComponent: () => (<CheatsheetsSection />),
   },
   {
     title: 'Npm Tools',

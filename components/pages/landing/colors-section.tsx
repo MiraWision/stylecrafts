@@ -27,25 +27,25 @@ const ColorsSection: React.FC = () => {
           isVisible={isVisible}
           imageSrc='/landing/palette-generator.png'
           title='Palette Generator'
-          description='Generate beautiful color palettes for your projects with our intuitive Palette Generator'
+          description='Generate beautiful color palettes for your projects or simply find inspiration'
         />
       </FeaturesRow>
 
       <FeaturesRow>
         <FeatureCard
-          href={Routes.ColorsPaletteGeneratorTool}
+          href={Routes.ColorsMixerTool}
           isVisible={isVisible}
-          imageSrc='/landing/palette-generator.png'
-          title='Palette Generator'
-          description='Generate beautiful color palettes for your projects with our intuitive Palette Generator'
+          imageSrc='/landing/color-mixer.png'
+          title='Color Mixer'
+          description='Mix colors to create beautiful colors combinations for your projects'
         />
         
         <FeatureCard
-          href={Routes.ColorsPaletteGeneratorTool}
+          href={Routes.ColorsConverterTool}
           isVisible={isVisible}
-          imageSrc='/landing/palette-generator.png'
-          title='Palette Generator'
-          description='Generate beautiful color palettes for your projects with our intuitive Palette Generator'
+          imageSrc='/landing/color-converter.png'
+          title='Color Converter'
+          description='Convert colors between HEX, RGB, HSL, and CMYK formats with ease'
         />
       </FeaturesRow>
     </Container>
