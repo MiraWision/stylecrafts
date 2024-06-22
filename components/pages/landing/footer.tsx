@@ -5,23 +5,6 @@ import { Routes } from '@/content/routes';
 
 const footerData = [
   {
-    groupName: 'MiraWision',
-    items: [
-      { name: 'About Us', href: Routes.AboutUs },
-      { name: 'Contact Us', href: Routes.ContactUs },
-      { name: 'Support Us', href: Routes.SupportUs },
-    ],
-    isPrimary: true,
-  },
-  {
-    groupName: 'Legal',
-    items: [
-      { name: 'Privacy Policy', href: Routes.PrivacyPolicy },
-      { name: 'Terms of Use', href: Routes.TermsOfUse },
-      { name: 'Cookie Policy', href: Routes.CookiePolicy },
-    ],
-  },
-  {
     groupName: 'Images Tools',
     items: [
       { name: 'Image Optimization', href: Routes.ImageOptimizationTool },
@@ -47,6 +30,22 @@ const footerData = [
       { name: 'Blog', href: Routes.Blog },
     ],
   },
+  {
+    groupName: 'Company',
+    items: [
+      { name: 'About Us', href: Routes.AboutUs },
+      { name: 'Contact Us', href: Routes.ContactUs },
+      { name: 'Support Us', href: Routes.SupportUs },
+    ],
+  },
+  {
+    groupName: 'Legal',
+    items: [
+      { name: 'Privacy Policy', href: Routes.PrivacyPolicy },
+      { name: 'Terms of Use', href: Routes.TermsOfUse },
+      { name: 'Cookie Policy', href: Routes.CookiePolicy },
+    ],
+  },
 ];
 
 interface Props {
@@ -56,23 +55,44 @@ interface Props {
 const Footer: React.FC<Props> = ({ className }) => {
   return (
     <Container className={className}>
-      <Links>
-        {footerData.map((group, index) => (
-          <Column key={index}>
-            {group.isPrimary ? (
-              <Title>MiraWision</Title>
-            ) : (
-              <FooterHeading>{group.groupName}</FooterHeading>
-            )}
+      <Row>
+        <Company>
+          <Title>
+            <span>
+              <Logo src='/logo/mwicon.png' alt='MiraWision Logo' />
+            </span>
 
-            {group.items.map((item, itemIndex) => (
-              <FooterLink key={itemIndex} href={item.href} rel='noopener noreferrer'>
-                {item.name}
-              </FooterLink>
-            ))}
-          </Column>
-        ))}
-      </Links>
+            MiraWision
+          </Title>
+
+          <Description>
+            Our vision is to bridge creativity and technology, delivering versatile tools that support 
+            designers and developers in crafting extraordinary digital experiences.
+          </Description>
+        </Company>
+
+        <Links>
+          {footerData.map((group, index) => (
+            <Column key={index}>
+              <FooterHeading>{group.groupName}</FooterHeading>
+              
+              {group.items.map((item, itemIndex) => (
+                <FooterLink key={itemIndex} href={item.href} rel='noopener noreferrer'>
+                  {item.name}
+                </FooterLink>
+              ))}
+            </Column>
+          ))}
+        </Links>
+      </Row>
+
+      <Separator />
+
+      <Row>
+        <Description>
+          © 2024 MiraWision. All rights reserved.
+        </Description>
+      </Row>
     </Container>
   );
 };
@@ -80,21 +100,57 @@ const Footer: React.FC<Props> = ({ className }) => {
 const Container = styled.footer`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   background-color: var(--surface-100);
   color: var(--text-color);
-  padding: 4rem;
+  padding: 4rem 4rem 2rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
   }
 `;
 
-const Links = styled.div`
+const Row = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   gap: 2rem;
-  width: 100%;
+`;
+
+const Company = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 15rem;
+`;
+
+const Title = styled.h2`
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const Logo = styled.img`
+  width: 1.75rem;
+  margin-right: 0.5rem;
+`;
+
+const Description = styled.p`
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.5;
+`;
+
+const Links = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
 
   @media (max-width: 768px) {
     display: grid;
@@ -106,12 +162,6 @@ const Links = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Title = styled.h2`
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem 0;
 `;
 
 const FooterHeading = styled.h3`
@@ -130,6 +180,13 @@ const FooterLink = styled.a`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+const Separator = styled.div`
+  width: 100%;
+  height: 0.0625rem;
+  background: linear-gradient(to right, transparent 0%, var(--surface-border) 20%, var(--surface-border) 80%, transparent 100%);
+  margin: 2rem 0;
 `;
 
 export { Footer };
