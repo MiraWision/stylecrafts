@@ -11,7 +11,7 @@ const CheatsheetsSection: React.FC = () => {
 
   return (
     <Container ref={observerRef}>
-      <Headline>Colors Features</Headline>
+      <Headline>Cheatsheets</Headline>
 
       <FeaturesRow>
         <FeatureCard
@@ -19,7 +19,7 @@ const CheatsheetsSection: React.FC = () => {
           isVisible={isVisible}
           imageSrc='/landing/characters.png'
           title='Characters Cheatsheet'
-          description='Quickly find the characters you need for your projects'
+          description='Access a quick reference for special punctuation marks, math symbols, and many more'
         />
 
         <FeatureCard
@@ -27,7 +27,7 @@ const CheatsheetsSection: React.FC = () => {
           isVisible={isVisible}
           imageSrc='/landing/emojis.png'
           title='Emojis Cheatsheet'
-          description='Find and copy emojis to your clipboard with a single click'
+          description='Browse a comprehensive list of emojis to add personality and fun to your content'
         />
       </FeaturesRow>
     </Container>

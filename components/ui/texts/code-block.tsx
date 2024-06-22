@@ -50,6 +50,7 @@ const CopyButton = styled(Button)`
   color: var(--primary-color);
   background: none;
   transition: opacity 0.3s;
+  opacity: 0;
 
   &:focus {
     box-shadow: none;

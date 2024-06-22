@@ -32,6 +32,7 @@ const FeatureCard: React.FC<Props> = ({
 
 const Card = styled(Link)<{ isVisible: boolean }>`
   width: 20rem;
+  height: 100%;
   padding: 1rem;
   text-align: center;
   opacity: 0;
@@ -42,7 +43,7 @@ const Card = styled(Link)<{ isVisible: boolean }>`
   transition: all 0.3s ease-out;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--surface-100);
     box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
     transform: scale(1.05);
   }

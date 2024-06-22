@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 const fadeInSlideUp = keyframes`
   from {
@@ -49,9 +49,64 @@ const FeaturesRow = styled.div`
   }
 `;
 
+const Column = styled.div<{ isVisible: boolean }>`
+  opacity: 0;
+  animation-fill-mode: both;
+  max-width: 25rem;
+
+  ${({ isVisible }) => isVisible && css`
+    animation: ${fadeInSlideUp} 1s ease-out;
+    opacity: 1;
+    transform: translateY(0);
+  `}
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const TextColumn = styled(Column)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+
+  p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    border-left: 0.125rem solid var(--surface-border);
+    border-right: 0.125rem solid var(--surface-border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--surface-100);
+
+    @media (max-width: 768px) {
+      width: 90%;
+    }
+
+    &.accent {
+      border-color: var(--primary-color);
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+`;
+
 export { 
   Container,
   Headline, 
   FeaturesRow, 
+  Column,
+  TextColumn,
   fadeInSlideUp,
 };

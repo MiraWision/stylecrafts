@@ -11,6 +11,7 @@ import { ColorsSection } from '@/components/pages/landing/colors-section';
 import { NpmToolsSection } from '@/components/pages/landing/npm-tools-section';
 import { Footer } from '@/components/pages/landing/footer';
 import { CheatsheetsSection } from '@/components/pages/landing/cheatsheets-section';
+import { ColorMixingSection } from '@/components/pages/landing/color-mixing-section';
 
 const Sections = [
   {
@@ -32,6 +33,10 @@ const Sections = [
   {
     title: 'Npm Tools',
     renderComponent: () => (<NpmToolsSection />),
+  },
+  {
+    title: 'Color Mixing',
+    renderComponent: () => (<ColorMixingSection />),
   },
   {
     title: 'Footer',

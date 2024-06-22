@@ -27,7 +27,7 @@ const ColorsSection: React.FC = () => {
           isVisible={isVisible}
           imageSrc='/landing/palette-generator.png'
           title='Palette Generator'
-          description='Generate beautiful color palettes for your projects or simply find inspiration'
+          description='Instantly create beautiful and harmonious color palettes or simply find inspiration'
         />
       </FeaturesRow>
 
@@ -37,7 +37,7 @@ const ColorsSection: React.FC = () => {
           isVisible={isVisible}
           imageSrc='/landing/color-mixer.png'
           title='Color Mixer'
-          description='Mix colors to create beautiful colors combinations for your projects'
+          description='Blend colors seamlessly to find the perfect shade for your designs'
         />
         
         <FeatureCard

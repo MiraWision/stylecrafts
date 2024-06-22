@@ -29,7 +29,7 @@ const ImagesSection: React.FC = () => {
           isVisible={isVisible}
           imageSrc='/landing/image-to-base64.png'
           title='Image to Base64 Converter'
-          description='Create stunning gradients for heatmaps, charts, and visual designs'
+          description='Convert images to Base64 format for easy embedding in your code'
         />
 
         <FeatureCard
@@ -37,7 +37,7 @@ const ImagesSection: React.FC = () => {
           isVisible={isVisible}
           imageSrc='/landing/base64-to-image.png'
           title='Base64 to Image Converter'
-          description='Convert images to base64 and vice versa, switch between multiple color formats and many other useful tools'
+          description='Decode Base64 strings to view and download the original images'
         />
       </FeaturesRow>
     </Container>
