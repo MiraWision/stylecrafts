@@ -193,19 +193,21 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
         </ButtonsContainer>
       </DifficultyButtonsContainer>
 
-      {isChallenge && (
-        <ChallengeContainer>
-          <ScoreContainer>
-            Score: {score}
-            
-            {topScore > 0 && (
-              <TopScore>Top Score: {topScore}</TopScore> 
-            )}
-          </ScoreContainer>
+      <ChallengeContainer>
+        {isChallenge && (
+          <>
+            <ScoreContainer>
+              Score: {score}
+              
+              {topScore > 0 && (
+                <TopScore>Top Score: {topScore}</TopScore> 
+              )}
+            </ScoreContainer>
 
-          <Time>{formatTime(remainingTime)}</Time>
-        </ChallengeContainer>
-      )}
+            <Time>{formatTime(remainingTime)}</Time>
+          </>
+        )}
+      </ChallengeContainer>
 
       <ContentContainer>
         <ColorsPreview
@@ -239,7 +241,7 @@ const DifficultyButtonsContainer = styled.div`
   margin-bottom: 1rem;
 
   @media (max-width: 768px) {
-    margin-bottom: 15vh;
+    margin-bottom: 12vh;
   }
 `;
 
@@ -279,6 +281,7 @@ const ChallengeContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 30rem;
+  height: 1.5rem;
   margin: 1.5rem auto 1rem;
 
   @media (max-width: 768px) {

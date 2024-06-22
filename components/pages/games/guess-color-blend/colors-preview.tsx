@@ -94,6 +94,7 @@ const Container = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
+    overflow: visible;
   }
 `;
 
@@ -208,6 +209,13 @@ const Match = styled.div<{ isMatched: boolean }>`
     ${MatchText} {
       display: none;
     }
+  }
+
+  @media (max-width: 768px) {
+    top: calc(100% + 0.5rem);
+    transform: translate(-50%, 0);
+    width: 6rem;
+    height: 4rem;
   }
 `;
 
