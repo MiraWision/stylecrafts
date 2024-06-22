@@ -15,10 +15,6 @@ import { ColorMixingSection } from '@/components/pages/landing/color-mixing-sect
 
 const Sections = [
   {
-    title: 'Hero',
-    renderComponent: () => (<HeroSection />),
-  },
-  {
     title: 'Colors',
     renderComponent: () => (<ColorsSection />),
   },
@@ -54,7 +50,7 @@ const HomePage: React.FC = () => {
 
   const scrollToSection = (index: number) => {
     console.log('scrollToSection', index);
-    if (index >= 0 && index < Sections.length) {
+    if (index >= 0 && index < Sections.length + 1) {
       const targetSection = containerRef.current?.children?.[index];
 
       if (targetSection) {
@@ -166,6 +162,10 @@ const HomePage: React.FC = () => {
 
       <BaseLayout includeFooter={false}>
         <MainContainer ref={containerRef}>
+          <Section id='Hero' isFullHeight>
+            <HeroSection onScrollToNextSection={() => scrollToSection(1)} />
+          </Section>
+
           {Sections.map((section) => (
             <Section key={section.title} id={section.title} isFullHeight={section.isFullHeight}>
               {section.renderComponent()}
