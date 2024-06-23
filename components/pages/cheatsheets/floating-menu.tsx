@@ -121,6 +121,7 @@ const MenuDash = styled.div<{ isActive: boolean }>`
   height: 0.125rem;
   background: var(--surface-300);
   margin: 0.6875rem 0;
+  border-radius: 0.125rem;
 
   ${({ isActive }) => isActive && css`
     height: 0.125rem;

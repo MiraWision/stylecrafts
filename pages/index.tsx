@@ -12,6 +12,7 @@ import { NpmToolsSection } from '@/components/pages/landing/npm-tools-section';
 import { Footer } from '@/components/pages/landing/footer';
 import { CheatsheetsSection } from '@/components/pages/landing/cheatsheets-section';
 import { ColorMixingSection } from '@/components/pages/landing/color-mixing-section';
+import { SlidesMenu } from '@/components/pages/landing/slides-menu';
 
 const Sections = [
   {
@@ -161,7 +162,7 @@ const HomePage: React.FC = () => {
       <MetaTags {...metaTags} />
 
       <BaseLayout includeFooter={false}>
-        <MainContainer ref={containerRef}>
+        <MainContainer ref={containerRef}>      
           <Section id='Hero' isFullHeight>
             <HeroSection onScrollToNextSection={() => scrollToSection(1)} />
           </Section>
@@ -172,6 +173,12 @@ const HomePage: React.FC = () => {
             </Section>
           ))}
         </MainContainer>
+
+        <SlidesMenu 
+          slidesCount={Sections.length + 1}
+          currentSlideIndex={currentSection}
+          onSlideChange={scrollToSection}
+        />
       </BaseLayout>
     </> 
   );
