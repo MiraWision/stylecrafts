@@ -6,6 +6,8 @@ interface Props {
 }
 
 const FloatingMenu: React.FC<Props> = ({ sections }) => {
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  
   const [activeSection, setActiveSection] = useState<string | null>(sections[0]?.id);
 
   useEffect(() => {
@@ -36,8 +38,12 @@ const FloatingMenu: React.FC<Props> = ({ sections }) => {
   };
 
   return (
-    <MenuContainer>
-      {sections.map(section => (
+    <MenuContainer
+      isMenuVisible={isMenuVisible}
+      onMouseEnter={() => setIsMenuVisible(true)}
+      onMouseLeave={() => setIsMenuVisible(false)}
+    >
+      {isMenuVisible && sections.map((section) => (
         <MenuItem
           key={section.id}
           isActive={section.id === activeSection}
@@ -46,30 +52,49 @@ const FloatingMenu: React.FC<Props> = ({ sections }) => {
           {section.title}
         </MenuItem>
       ))}
+
+      {!isMenuVisible && sections.map((section) => (
+        <MenuDash
+          key={section.id} 
+          isActive={section.id === activeSection}
+        />
+      ))}
     </MenuContainer>
   );
 };
 
-const MenuContainer = styled.div`
+const MenuContainer = styled.div<{ isMenuVisible: boolean }>`
   position: fixed;
   z-index: 100;
   top: 10rem;
   right: calc(50vw + 13.75rem);
-  width: fit-content;
-  max-width: calc(50vw - 29rem);
+  width: 12rem;
+  max-width: 12rem;
   background: var(--surface-50);
   padding: 0.25rem;
   overflow-y: auto;
   font-size: 0.875rem;
   border-radius: 0.25rem;
+  border: 0.0625rem solid var(--surface-border);
+  transition: all 0.3s;
 
-  @media (max-width: 167rem) {
+  @media (max-width: 768px) {
     position: relative;
     top: auto;
     right: auto;
     width: fit-content;
     max-width: 100%;
   }
+
+  ${({ isMenuVisible }) => !isMenuVisible && css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    border-color: transparent;
+    max-width: 2rem;
+  `}
 `;
 
 const MenuItem = styled.div<{ isActive: boolean }>`
@@ -77,6 +102,7 @@ const MenuItem = styled.div<{ isActive: boolean }>`
   cursor: pointer;
   color: var(--text-color);
   font-weight: 300;
+  min-width: 12rem;
 
   &:hover {
     font-weight: 500;  
@@ -84,6 +110,18 @@ const MenuItem = styled.div<{ isActive: boolean }>`
 
   ${({ isActive }) => isActive && css`
     font-weight: 500;  
+  `}
+`;
+
+const MenuDash = styled.div<{ isActive: boolean }>`
+  width: 1.25rem;
+  height: 0.125rem;
+  background: var(--surface-300);
+  margin: 0.25rem 0;
+
+  ${({ isActive }) => isActive && css`
+    height: 0.125rem;
+    background: var(--primary-color);
   `}
 `;
 
