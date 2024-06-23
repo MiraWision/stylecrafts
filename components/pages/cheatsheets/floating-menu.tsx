@@ -76,7 +76,7 @@ const MenuContainer = styled.div<{ isMenuVisible: boolean }>`
   font-size: 0.875rem;
   border-radius: 0.25rem;
   border: 0.0625rem solid var(--surface-border);
-  transition: all 0.3s;
+  transition: all 0.5s;
 
   @media (max-width: 768px) {
     position: relative;
@@ -89,20 +89,23 @@ const MenuContainer = styled.div<{ isMenuVisible: boolean }>`
   ${({ isMenuVisible }) => !isMenuVisible && css`
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
+    align-items: flex-start;
     width: fit-content;
     border-color: transparent;
+    width: 2rem;
     max-width: 2rem;
   `}
 `;
 
 const MenuItem = styled.div<{ isActive: boolean }>`
-  padding: 0.25rem 0.5rem;
+  padding: 0rem 0.5rem;
   cursor: pointer;
   color: var(--text-color);
   font-weight: 300;
   min-width: 12rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
 
   &:hover {
     font-weight: 500;  
@@ -117,7 +120,7 @@ const MenuDash = styled.div<{ isActive: boolean }>`
   width: 1.25rem;
   height: 0.125rem;
   background: var(--surface-300);
-  margin: 0.25rem 0;
+  margin: 0.6875rem 0;
 
   ${({ isActive }) => isActive && css`
     height: 0.125rem;
