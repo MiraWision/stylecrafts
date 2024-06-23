@@ -1,4 +1,6 @@
 enum Routes {
+  ColorsPaletteFromImageTool = '/colors/palette-from-image',
+  ColorsContrastCheckerTool = '/colors/contrast-checker',
   ColorsGradientGeneratorTool = '/colors/gradient-generator',
   ColorsPaletteGeneratorTool = '/colors/palette-generator',
   ColorsMixerTool = '/colors/mixer',
@@ -6,6 +8,7 @@ enum Routes {
   ImageOptimizationTool = '/images/optimization',
   ImageToBase64Tool = '/images/image-to-base64',
   Base64ToImageTool = '/images/base64-to-image',
+  ImageCroppingTool = '/images/image-cropping',
   GuessColorBlendGame = '/games/guess-color-blend',
   Blog = '/blog',
   PsychologyOfColorBlog = '/blog/the-psychology-of-color-in-web-design',
