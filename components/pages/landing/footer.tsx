@@ -39,7 +39,7 @@ const footerData = [
     ],
   },
   {
-    groupName: 'Legal',
+    groupName: 'Terms & Policies',
     items: [
       { name: 'Privacy Policy', href: Routes.PrivacyPolicy },
       { name: 'Terms of Use', href: Routes.TermsOfUse },
