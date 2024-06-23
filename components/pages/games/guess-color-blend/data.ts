@@ -12,6 +12,7 @@ const PaletteColors: PaletteColor[] = [
   { name: 'Yellow', hex: '#ffbf00' },
   { name: 'Blue', hex: '#457b9d' },
   { name: 'White', hex: '#fafafa' },
+  { name: 'Grey', hex: '#a9a9a9' },
   { name: 'Black', hex: '#1b1b1b' },
 ];
 
@@ -80,14 +81,14 @@ const ChallengeDifficulty: (Difficulty & { from: number, to: number})[] = [
     from: 110,
     to: 145,
     basicColorsCount: [2, 2],
-    shadeColorsCount: [2, 2],
+    shadeColorsCount: [2, 3],
     dropsCount: [7, 8],
   },
   { 
     from: 145,
     to: Infinity,
     basicColorsCount: [2, 3],
-    shadeColorsCount: [2, 2],
+    shadeColorsCount: [2, 3],
     dropsCount: [8, 10],
   },
 ];

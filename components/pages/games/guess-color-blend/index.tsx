@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components';
+import { calculateSimilarity } from '@mirawision/colorize/calculate-similarity';
 
 import {
-  calculateSimilarity,
   getDifficulty,
   getRandomColor
 } from './utils';
