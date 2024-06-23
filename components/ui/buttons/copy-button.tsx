@@ -10,9 +10,10 @@ interface Props {
   text: string;
   label?: string;
   onCopyCallback?: () => void;
+  className?: string;
 }
 
-const CopyButton: React.FC<Props> = ({ text, label, onCopyCallback }) => {
+const CopyButton: React.FC<Props> = ({ text, label, onCopyCallback, className }) => {
   const [icon, setIcon] = useState('pi pi-copy');
 
   const { toast } = useToast();
@@ -36,7 +37,7 @@ const CopyButton: React.FC<Props> = ({ text, label, onCopyCallback }) => {
   };
 
   return (
-    <div>
+    <div className={className}>
       <ButtonSmall icon={icon} onClick={copyText} />
     </div>
   );
