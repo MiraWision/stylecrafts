@@ -168,14 +168,15 @@ const FooterHeading = styled.h3`
   font-size: 1rem;
   margin: 0 0 0.5rem 0;
   font-weight: 500;
+  color: var(--text-color-secondary);
 `;
 
 const FooterLink = styled.a`
   display: block;
   font-size: 0.875rem;
   text-decoration: none;
-  margin-bottom: 0.5rem;
-  color: var(--text-color);
+  margin-bottom: 0.25rem;
+  color: var(--text-color-secondary);
 
   &:hover {
     text-decoration: underline;
