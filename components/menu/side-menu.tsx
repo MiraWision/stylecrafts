@@ -44,6 +44,11 @@ const MenuItems = [
         name: 'Base64 to Image',
         url: Routes.Base64ToImageTool,
       },
+      {
+        icon: faImages,
+        name: 'Cropping',
+        url: Routes.ImageCroppingTool,
+      },
     ],
   },
   {
@@ -58,6 +63,16 @@ const MenuItems = [
         icon: faPalette,
         name: 'Palette Generation',
         url: Routes.ColorsPaletteGeneratorTool,
+      },
+      {
+        icon: faPalette,
+        name: 'Palette from Image',
+        url: Routes.ColorsPaletteFromImageTool,
+      },
+      {
+        icon: faPalette,
+        name: 'Contrast Checker',
+        url: Routes.ColorsContrastCheckerTool,
       },
       {
         icon: faRetweet,
