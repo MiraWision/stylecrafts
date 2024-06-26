@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ImageColorPicker } from '@/components/pages/colors/palette-from-image/image-picker';
-import { Palette } from '@/components/pages/colors/blender/palette';
+
+import { ImageColorPicker } from './image-picker';
+import { Palette } from './palette';
 
 interface PaletteFromImageProps {
   autoPalette: string[];

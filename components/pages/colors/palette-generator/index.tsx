@@ -1,137 +1,106 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { blendMultipleColors } from '@mirawision/colorize';
 
-import { GAService } from '@/services/google-analytics-service';
-import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+import { PaletteColor, Shade } from './types';
 
-import { CurrentColor } from './current-color';
+import { ColorSelector } from './color-selector';
+import { ShadesList } from './shades-list';
 import { Palette } from './palette';
-import { ColorsList } from './colors-list';
-import { BaseColorsExamples } from './base-colors-examples';
-import { TwoColumnsContainer } from '@/components/ui/containers';
+import { Examples } from './examples';
+import { Preview } from './preview';
+import { ContrastChecker } from './contrast-checker';
 
-interface BaseColor {
-  color: string;
-  weight: number;
-}
+const initialColors: PaletteColor[] = [
+  { baseColor: '#ffffff', title: 'Background', shades: [] },
+  { baseColor: '#000000', title: 'Text', shades: [] },
+  { baseColor: '#ff0000', title: 'Primary', shades: [] },
+  { baseColor: '#00ff00', title: 'Additional', shades: [] },
+];
 
-const ColorBlender: React.FC = () => {
-  const [palette, setPalette] = useState<string[]>([]);
-  const [baseColors, setBaseColors] = useState<BaseColor[]>([]);
+const PaletteGeneratorMain: React.FC = () => {
+  const [selectedColors, setSelectedColors] = useState<PaletteColor[]>(initialColors);
 
-  const currentColor = useMemo(() => {
-    try {
-      return blendMultipleColors(baseColors);
-    } catch {
-      return '#ffffff';
+  const handleColorChange = (index: number, newBaseColor: string) => {
+    const updatedColors = [...selectedColors];
+    updatedColors[index].baseColor = newBaseColor;
+    setSelectedColors(updatedColors);
+  };
+
+  const handleAddColor = () => {
+    const additionalCount = selectedColors.filter(color => color.title.startsWith('Additional')).length;
+    setSelectedColors([
+      ...selectedColors,
+      { baseColor: '#000000', title: `Additional ${additionalCount + 1}`, shades: [] },
+    ]);
+  };
+
+  const handleRemoveColor = (index: number) => {
+    const updatedColors = [...selectedColors];
+    updatedColors.splice(index, 1);
+    setSelectedColors(updatedColors);
+  };
+
+  const handleAddShade = (colorIndex: number, shade: Shade) => {
+    const updatedColors = [...selectedColors];
+    updatedColors[colorIndex].shades.push(shade);
+    setSelectedColors(updatedColors);
+  };
+
+  const handleRemoveColorFromPalette = (colorIndex: number, shadeIndex?: number) => {
+    const updatedColors = [...selectedColors];
+    if (shadeIndex === undefined) {
+      updatedColors.splice(colorIndex, 1);
+    } else {
+      updatedColors[colorIndex].shades.splice(shadeIndex, 1);
     }
-  }, [baseColors]);
-
-  const addColorToPalette = () => {
-    setPalette([currentColor, ...palette]);
-
-    GAService.logEvent(analyticsEvents.colors.blender.colorAddedToPalette(currentColor));
+    setSelectedColors(updatedColors);
   };
 
-  const removeColorFromPalette = (index: number) => {
-    setPalette(palette.filter((_, i) => i !== index));
-
-    GAService.logEvent(analyticsEvents.colors.blender.colorRemovedFromPalette(palette[index]));
-  };
-
-  const refreshPalette = () => {
-    setPalette([]);
-
-    GAService.logEvent(analyticsEvents.colors.blender.paletteRefreshed());
-  };
-
-  const selectBaseColorsExample = (example: string[]) => {
-    const newBaseColors = example.map(color => ({ color, weight: 0 }));
-    
-    setBaseColors(newBaseColors);
-
-    GAService.logEvent(analyticsEvents.colors.blender.examplePaletteSelected(example.join(',')));
-  };
-
-  const addBaseColor = (color: string) => {
-    setBaseColors([...baseColors, { color, weight: 0 }]);
-  };
-
-  const deleteBaseColor = (index: number) => {
-    const newBaseColors = baseColors.filter((_, i) => i !== index);
-    
-    setBaseColors(newBaseColors);
-  };
-
-  const updateColor = (index: number, color: string) => {
-    const newBaseColors = [...baseColors];
-
-    newBaseColors[index].color = color;
-    
-    setBaseColors(newBaseColors);
-  };
-
-  const updateWeight = (index: number, weight: number) => {
-    const newBaseColors = [...baseColors];
-
-    newBaseColors[index].weight = weight;
-    
-    setBaseColors(newBaseColors);
+  const handleExampleClick = (exampleColors: PaletteColor[]) => {
+    setSelectedColors(exampleColors);
   };
 
   return (
-    <>
-      <Container>
-        <Column>
-          <CurrentColor 
-            color={currentColor} 
-            onAddColor={addColorToPalette} 
-          />
+    <Container>
+      <Preview selectedColors={selectedColors} />
 
-          <Palette
-            palette={palette}
-            onRemoveColor={removeColorFromPalette}
-            onRefreshPalette={refreshPalette}
+      <MainContent>
+        <Column>
+          <ColorSelector
+            selectedColors={selectedColors}
+            onColorChange={handleColorChange}
+            onAddColor={handleAddColor}
+            onRemoveColor={handleRemoveColor}
           />
         </Column>
-        
         <Column>
-          <ColorsList 
-            baseColorsWeights={baseColors}
-            onColorChange={updateColor} 
-            onWeightChange={updateWeight} 
-            onAddBaseColor={addBaseColor}
-            onDeleteBaseColor={deleteBaseColor}
-          />
+          <ShadesList selectedColors={selectedColors} onAddShade={handleAddShade} />
         </Column>
-      </Container>
+      </MainContent>
 
-      <BaseColorsExamples 
-        onSelected={selectBaseColorsExample} 
-      />
-    </>
+      <Palette selectedColors={selectedColors} onRemoveColor={handleRemoveColorFromPalette} />
+      
+      <ContrastChecker selectedColors={selectedColors} />
+      
+      <Examples onExampleClick={handleExampleClick} />
+    </Container>
   );
 };
 
-const Container = styled(TwoColumnsContainer)`
-  grid-template-columns: 4fr 5fr;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+`;
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
+const MainContent = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: 2rem;
-
-  @media (max-width: 768px) {
-    row-gap: 1rem;
-  }
+  flex: 1;
+  padding: 10px;
 `;
 
-export { ColorBlender };
+export { PaletteGeneratorMain };

@@ -80,6 +80,7 @@ const ColorSquare = styled.div<{ color: string }>`
   height: 10rem;
   background-color: ${({ color }) => color};
   border-radius: 0.25rem 0.25rem 0 0;
+  transition: all 0.3s;
 `;
 
 export { CurrentColor };
