@@ -16,6 +16,7 @@ interface ColorSettings {
 
 const rybslColorsMixing = (colors: Color[]): string => {
   const colorSettings: ColorSettings[] = colors
+    .filter(({ weight }) => weight > 0)
     .map(({ color, weight }) => {
       const { h, s, l } = parseColorNumbers(convertColor(color, ColorFormat.HSL), ColorFormat.HSL) as HSL;
 
@@ -23,7 +24,9 @@ const rybslColorsMixing = (colors: Color[]): string => {
 
       const sWeight = (50 - Math.abs(50 - l)) / 50 * weight;
 
-      const hWeight = (s / 100) * sWeight * weight;
+      const hWeight = (s / 100) * sWeight;
+
+      console.log('h', h, 's', s, 'l', l, 'lWeight', lWeight, 'sWeight', sWeight, 'hWeight', hWeight);
 
       return {
         h,
