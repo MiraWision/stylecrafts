@@ -4,7 +4,6 @@ import { Color } from '@mirawision/colorize';
 
 import { PaletteColor, Shade } from './types';
 
-
 const generateShades = (color: string): Shade[] => {
   const baseColor = new Color(color);
   
@@ -33,22 +32,26 @@ interface Props {
 }
 
 const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
-  const shades = useMemo(() => {
+  const shadesList = useMemo(() => {
     return selectedColors.map((color) => {
       return generateShades(color.baseColor);
     });
   }, [selectedColors]);
   
+  const isSelected = (hex: string) => {
+    return selectedColors.some((color) => color.baseColor === hex || color.shades.some((shade) => shade.hex === hex));  
+  };
+
   return (
     <Container>
-      {shades.map((colors, index) => (
+      {shadesList.map((colors, index) => (
         <ShadesRow key={index}>
           {colors.map((shade, shadeIndex) => (
             <ShadeBox
               key={shadeIndex}
               color={shade.hex}
-              onClick={() => shade.shade === 0 ? undefined : onAddShade(index, shade)}
-              isCurrent={shade.shade === 0}
+              onClick={() => isSelected(shade.hex) ? undefined : onAddShade(index, shade)}
+              isSelected={isSelected(shade.hex)}
             />
           ))}
         </ShadesRow>
@@ -70,7 +73,7 @@ const ShadesRow = styled.div`
   height: 3.125rem;
 `;
 
-const ShadeBox = styled.div<{ color: string, isCurrent: boolean }>`
+const ShadeBox = styled.div<{ color: string, isSelected: boolean }>`
   background-color: ${({ color }) => color};
   width: 2rem;
   height: 2rem;
@@ -78,7 +81,7 @@ const ShadeBox = styled.div<{ color: string, isCurrent: boolean }>`
   border: 0.0625rem solid var(--surface-border);
   cursor: pointer;
 
-  ${({ isCurrent }) => isCurrent && css`
+  ${({ isSelected }) => isSelected && css`
     border: 0.0625rem solid var(--primary-color);
     cursor: default;
   `}

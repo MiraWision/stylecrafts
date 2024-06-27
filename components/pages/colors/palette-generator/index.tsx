@@ -11,10 +11,10 @@ import { Preview } from './preview';
 import { ContrastChecker } from './contrast-checker';
 
 const initialColors: PaletteColor[] = [
-  { baseColor: '#ffffff', title: 'Background', shades: [] },
-  { baseColor: '#000000', title: 'Text', shades: [] },
-  { baseColor: '#ff0000', title: 'Primary', shades: [] },
-  { baseColor: '#00ff00', title: 'Additional', shades: [] },
+  { baseColor: '#f5f5f5', title: 'Background', shades: [] },
+  { baseColor: '#333333', title: 'Text', shades: [] },
+  { baseColor: '#3498db', title: 'Primary', shades: [] },
+  { baseColor: '#e74c3c', title: 'Additional', shades: [] },
 ];
 
 const PaletteGeneratorMain: React.FC = () => {
@@ -73,15 +73,21 @@ const PaletteGeneratorMain: React.FC = () => {
         </Column>
 
         <Column>
-          <ShadesList selectedColors={selectedColors} onAddShade={handleAddShade} />
+          <ShadesList 
+            selectedColors={selectedColors} 
+            onAddShade={handleAddShade}
+          />
         </Column>
       </MainContent>
 
-      <Palette selectedColors={selectedColors} onRemoveColor={handleRemoveColorFromPalette} />
-
-      <Preview selectedColors={selectedColors} />
+      <Palette 
+        selectedColors={selectedColors} 
+        onRemoveColor={handleRemoveColorFromPalette} 
+      />
 
       <ContrastChecker selectedColors={selectedColors} />
+
+      <Preview selectedColors={selectedColors} />
       
       <Examples onExampleClick={handleExampleClick} />
     </Container>

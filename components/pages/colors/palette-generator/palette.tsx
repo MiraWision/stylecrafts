@@ -1,19 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-
-interface Shade {
-  shade: number;
-  hex: string;
-}
-
-interface Color {
-  baseColor: string;
-  title: string;
-  shades: Shade[];
-}
+import { PaletteColor } from './types';
 
 interface PaletteProps {
-  selectedColors: Color[];
+  selectedColors: PaletteColor[];
   onRemoveColor: (colorIndex: number, shadeIndex?: number) => void;
 }
 
@@ -23,6 +13,7 @@ const Palette: React.FC<PaletteProps> = ({ selectedColors, onRemoveColor }) => {
       {selectedColors.map((color, colorIndex) => (
         <React.Fragment key={colorIndex}>
           <ColorBox color={color.baseColor} onDoubleClick={() => onRemoveColor(colorIndex)} />
+          
           {color.shades.map((shade, shadeIndex) => (
             <ColorBox key={shadeIndex} color={shade.hex} onDoubleClick={() => onRemoveColor(colorIndex, shadeIndex)} />
           ))}
