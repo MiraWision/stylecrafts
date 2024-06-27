@@ -15,6 +15,7 @@ import { Gradient, GradientExamplesList } from '@/components/pages/colors/gradie
 import { PrimaryButton } from '@/components/ui/buttons/primary-button';
 import { RemoveButton } from '@/components/ui/buttons/remove-button';
 import { StepNumberInput } from '@/components/ui/inputs/step-number-input';
+import { Preview } from './preview';
 
 interface Props {
 }
@@ -161,6 +162,8 @@ const GradientGenerator: React.FC<Props> = ({}) => {
       <GradientExamplesList
         onSelected={handleColorsSelected}
       />
+
+      <Preview gradient={gradient || []} />
     </>
   );
 }
