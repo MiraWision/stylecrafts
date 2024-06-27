@@ -1,6 +1,6 @@
 import { LevelDifficulty, ChallengeDifficulty } from './data';
 import { Difficulty, Level } from './types';
-import { blendColorsRealistic } from './blend-colors-realistic';
+import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 
 // TODO add method to imagine library
 const getRandomNumber = (min: number, max: number) => {
@@ -30,7 +30,7 @@ const getRandomColor = (colors: string[], difficulty: Difficulty): { color: stri
   }
 
   return {
-    color: blendColorsRealistic(Object.entries(drops).map(([color, weight]) => ({ color, weight }))),
+    color: rybslColorsMixing(Object.entries(drops).map(([color, weight]) => ({ color, weight }))),
     dropsCount: count,
   };
 };

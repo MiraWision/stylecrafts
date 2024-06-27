@@ -14,7 +14,7 @@ interface ColorSettings {
   lWeight: number;
 }
 
-const blendColorsRealistic = (colors: Color[]): string => {
+const rybslColorsMixing = (colors: Color[]): string => {
   const colorSettings: ColorSettings[] = colors
     .map(({ color, weight }) => {
       const { h, s, l } = parseColorNumbers(convertColor(color, ColorFormat.HSL), ColorFormat.HSL) as HSL;
@@ -67,9 +67,7 @@ const blendColorsRealistic = (colors: Color[]): string => {
 
   const hsl = `hsl(${Math.round(h)}, ${Math.round(s)}%, ${Math.round(l)}%)`;
 
-  // console.log([...colors.map(({ color, weight }) => `${convertColor(color, ColorFormat.HSL)} - ${weight}}`), '------', hsl].join('\n'));
-
   return convertColor(hsl, ColorFormat.HEX);
 };
 
-export { blendColorsRealistic };
+export { rybslColorsMixing };

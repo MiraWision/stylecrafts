@@ -16,7 +16,7 @@ import { ColorsPreview } from '@/components/pages/games/guess-color-blend/colors
 import { PrimaryButton } from '@/components/ui/buttons/primary-button';
 import { Label } from '@/components/ui/texts/label';
 import { ColorSelection } from './color-selection';
-import { blendColorsRealistic } from './blend-colors-realistic';
+import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 import { useTimer } from '@/hooks/use-timer';
 
 interface Props {
@@ -50,7 +50,7 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
       return '';
     }
 
-    return blendColorsRealistic(selectedColors.filter((color) => color.weight > 0).map((color) => ({ color: color.hex, weight: color.weight })));
+    return rybslColorsMixing(selectedColors.filter((color) => color.weight > 0).map((color) => ({ color: color.hex, weight: color.weight })));
   }, [selectedColors]);
 
   const matchPercentage = useMemo<number>(() => {

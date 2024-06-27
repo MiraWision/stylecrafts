@@ -4,7 +4,7 @@ import { Color } from '@mirawision/colorize';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
-import { blendColorsRealistic } from '../../games/guess-color-blend/blend-colors-realistic';
+import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 
 import { CurrentColor } from './current-color';
 import { SingleColumnContainer } from '@/components/ui/containers';
@@ -27,7 +27,7 @@ const ColorMixerMain: React.FC = () => {
 
   const currentColor = useMemo<Color>(() => {
     try {
-      return new Color(blendColorsRealistic(baseColors));
+      return new Color(rybslColorsMixing(baseColors));
     } catch {
       return new Color('#ffffff');
     }
