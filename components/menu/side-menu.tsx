@@ -15,6 +15,8 @@ import {
   faPuzzlePiece,
   faBlog,
   faPalette,
+  faDroplet,
+  faCircleHalfStroke,
 } from '@fortawesome/free-solid-svg-icons';
 import { 
   faFileCode,
@@ -44,11 +46,11 @@ const MenuItems = [
         name: 'Base64 to Image',
         url: Routes.Base64ToImageTool,
       },
-      {
-        icon: faImages,
-        name: 'Cropping',
-        url: Routes.ImageCroppingTool,
-      },
+      // {
+      //   icon: faImages,
+      //   name: 'Cropping',
+      //   url: Routes.ImageCroppingTool,
+      // },
     ],
   },
   {
@@ -65,12 +67,12 @@ const MenuItems = [
         url: Routes.ColorsPaletteGeneratorTool,
       },
       {
-        icon: faPalette,
+        icon: faDroplet,
         name: 'Palette from Image',
         url: Routes.ColorsPaletteFromImageTool,
       },
       {
-        icon: faPalette,
+        icon: faCircleHalfStroke ,
         name: 'Contrast Checker',
         url: Routes.ColorsContrastCheckerTool,
       },
