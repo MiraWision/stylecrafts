@@ -15,6 +15,8 @@ import {
   faPuzzlePiece,
   faBlog,
   faPalette,
+  faAdjust,
+  faEyeDropper
 } from '@fortawesome/free-solid-svg-icons';
 import { 
   faFileCode,
@@ -44,11 +46,6 @@ const MenuItems = [
         name: 'Base64 to Image',
         url: Routes.Base64ToImageTool,
       },
-      {
-        icon: faImages,
-        name: 'Cropping',
-        url: Routes.ImageCroppingTool,
-      },
     ],
   },
   {
@@ -65,12 +62,12 @@ const MenuItems = [
         url: Routes.ColorsPaletteGeneratorTool,
       },
       {
-        icon: faPalette,
+        icon: faEyeDropper,
         name: 'Palette from Image',
         url: Routes.ColorsPaletteFromImageTool,
       },
       {
-        icon: faPalette,
+        icon: faAdjust,
         name: 'Contrast Checker',
         url: Routes.ColorsContrastCheckerTool,
       },

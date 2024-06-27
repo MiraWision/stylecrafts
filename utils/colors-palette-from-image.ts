@@ -27,7 +27,7 @@ const getPaletteWithCoordinates = (
     return [];
   }
 
-  const maxDimension = 200;
+  const maxDimension = 230.4;
   const scale = Math.min(maxDimension / image.width, maxDimension / image.height);
   canvas.width = image.width * scale;
   canvas.height = image.height * scale;
@@ -70,7 +70,7 @@ const getPaletteWithCoordinates = (
         const avgB = Math.round(data.sumB / data.count);
         const rgbString = `rgb(${avgR},${avgG},${avgB})`;
         const hexColor = convertColor(rgbString, ColorFormat.HEX);
-        const { x, y } = data.coordinates[0]; // Use the first coordinate
+        const { x, y } = data.coordinates[0]; 
         return { color: hexColor, x, y };
       });
       return palette;
@@ -88,7 +88,7 @@ const getPaletteWithCoordinates = (
       const avgB = Math.round(data.sumB / data.count);
       const rgbString = `rgb(${avgR},${avgG},${avgB})`;
       const hexColor = convertColor(rgbString, ColorFormat.HEX);
-      const { x, y } = data.coordinates[0]; // Use the first coordinate
+      const { x, y } = data.coordinates[0];
       return { color: hexColor, x, y };
     });
 
