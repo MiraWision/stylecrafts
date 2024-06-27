@@ -17,6 +17,7 @@ import {
   faPalette,
   faDroplet,
   faCircleHalfStroke,
+  faEyeDropper,
 } from '@fortawesome/free-solid-svg-icons';
 import { 
   faFileCode,
@@ -67,7 +68,7 @@ const MenuItems = [
         url: Routes.ColorsPaletteGeneratorTool,
       },
       {
-        icon: faDroplet,
+        icon: faEyeDropper,
         name: 'Palette from Image',
         url: Routes.ColorsPaletteFromImageTool,
       },
@@ -82,7 +83,7 @@ const MenuItems = [
         url: Routes.ColorsConverterTool,
       },
       {
-        icon: faFillDrip,
+        icon: faDroplet,
         name: 'Color Mixing',
         url: Routes.ColorsMixerTool,
       },
