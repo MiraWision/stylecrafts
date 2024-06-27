@@ -62,8 +62,6 @@ const PaletteGeneratorMain: React.FC = () => {
 
   return (
     <Container>
-      <Preview selectedColors={selectedColors} />
-
       <MainContent>
         <Column>
           <ColorSelector
@@ -73,13 +71,16 @@ const PaletteGeneratorMain: React.FC = () => {
             onRemoveColor={handleRemoveColor}
           />
         </Column>
+
         <Column>
           <ShadesList selectedColors={selectedColors} onAddShade={handleAddShade} />
         </Column>
       </MainContent>
 
       <Palette selectedColors={selectedColors} onRemoveColor={handleRemoveColorFromPalette} />
-      
+
+      <Preview selectedColors={selectedColors} />
+
       <ContrastChecker selectedColors={selectedColors} />
       
       <Examples onExampleClick={handleExampleClick} />
@@ -90,17 +91,17 @@ const PaletteGeneratorMain: React.FC = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
 `;
 
 const MainContent = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
 `;
 
 const Column = styled.div`
-  flex: 1;
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 export { PaletteGeneratorMain };

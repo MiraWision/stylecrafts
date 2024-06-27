@@ -1,16 +1,30 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useMemo } from 'react';
+import styled, { css } from 'styled-components';
+import { Color } from '@mirawision/colorize';
 
 import { PaletteColor, Shade } from './types';
 
 
-const generateShades = (color: string) => {
-  return [
-    { shade: 50, hex: color },
-    { shade: 100, hex: color },
-    { shade: -50, hex: color },
-    { shade: -100, hex: color },
-  ];
+const generateShades = (color: string): Shade[] => {
+  const baseColor = new Color(color);
+  
+  try {
+    return [
+      { shade: -200, hex: baseColor.withTint(0.2) },
+      { shade: -100, hex: baseColor.withTint(0.1) },
+      { shade: 0, hex: baseColor.get() },
+      { shade: 100, hex: baseColor.withShade(0.1) },
+      { shade: 200, hex: baseColor.withShade(0.2) },
+    ];
+  } catch (error) {
+    return [
+      { shade: -200, hex: baseColor.get() },
+      { shade: -100, hex: baseColor.get() },
+      { shade: 0, hex: baseColor.get() },
+      { shade: 100, hex: baseColor.get() },
+      { shade: 200, hex: baseColor.get() },
+    ];
+  }
 };
 
 interface Props {
@@ -19,37 +33,55 @@ interface Props {
 }
 
 const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
+  const shades = useMemo(() => {
+    return selectedColors.map((color) => {
+      return generateShades(color.baseColor);
+    });
+  }, [selectedColors]);
+  
   return (
-    <div>
-      {selectedColors.map((color, index) => (
-        <div key={index}>
-          <h3>{color.title}</h3>
-          <ShadeContainer>
-            {generateShades(color.baseColor).map((shade, shadeIndex) => (
-              <ShadeBox
-                key={shadeIndex}
-                color={shade.hex}
-                onClick={() => onAddShade(index, shade)}
-              />
-            ))}
-          </ShadeContainer>
-        </div>
+    <Container>
+      {shades.map((colors, index) => (
+        <ShadesRow key={index}>
+          {colors.map((shade, shadeIndex) => (
+            <ShadeBox
+              key={shadeIndex}
+              color={shade.hex}
+              onClick={() => shade.shade === 0 ? undefined : onAddShade(index, shade)}
+              isCurrent={shade.shade === 0}
+            />
+          ))}
+        </ShadesRow>
       ))}
-    </div>
+    </Container>
   );
 };
 
-const ShadeContainer = styled.div`
+const Container = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
-const ShadeBox = styled.div<{ color: string }>`
+const ShadesRow = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 3.125rem;
+`;
+
+const ShadeBox = styled.div<{ color: string, isCurrent: boolean }>`
   background-color: ${({ color }) => color};
-  width: 100px;
-  height: 100px;
-  margin: 5px;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  border: 0.0625rem solid var(--surface-border);
   cursor: pointer;
+
+  ${({ isCurrent }) => isCurrent && css`
+    border: 0.0625rem solid var(--primary-color);
+    cursor: default;
+  `}
 `;
 
 export { ShadesList };
