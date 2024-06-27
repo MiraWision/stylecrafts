@@ -30,6 +30,7 @@ const FloatingMenu: React.FC<Props> = ({ sections }) => {
     };
 
     window.addEventListener('scroll', handleScroll);
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, [sections]);
 
@@ -100,7 +101,7 @@ const MenuContainer = styled.div<{ isMenuVisible: boolean }>`
 const MenuItem = styled.div<{ isActive: boolean }>`
   padding: 0rem 0.5rem;
   cursor: pointer;
-  color: var(--text-color);
+  color: var(--surface-400);
   font-weight: 300;
   min-width: 12rem;
   height: 1.5rem;
@@ -112,14 +113,15 @@ const MenuItem = styled.div<{ isActive: boolean }>`
   }
 
   ${({ isActive }) => isActive && css`
-    font-weight: 500;  
+    font-weight: 500;
+    color: var(--primary-color);
   `}
 `;
 
 const MenuDash = styled.div<{ isActive: boolean }>`
   width: 1.25rem;
   height: 0.125rem;
-  background: var(--surface-300);
+  background: var(--surface-400);
   margin: 0.6875rem 0;
   border-radius: 0.125rem;
 
