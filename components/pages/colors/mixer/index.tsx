@@ -5,9 +5,11 @@ import { Color } from '@mirawision/colorize';
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
+import { ColorExamples } from './color-examples';
+import { ColorExample } from './types';
 
 import { CurrentColor } from './current-color';
-import { SingleColumnContainer } from '@/components/ui/containers';
+import { SingleColumnContainer, TwoColumnsContainer } from '@/components/ui/containers';
 import { ColorWeightInput } from '@/components/ui/inputs/color-weight-input';
 
 interface BaseColor {
@@ -34,6 +36,10 @@ const ColorMixerMain: React.FC = () => {
   }, [baseColors]);
 
   const updateWeight = (index: number, weight: number) => {
+    if (weight < 0) {
+      weight = 0;
+    }
+    
     const newBaseColors = [...baseColors];
 
     newBaseColors[index].weight = weight;
@@ -41,22 +47,39 @@ const ColorMixerMain: React.FC = () => {
     setBaseColors(newBaseColors);
   };
 
+  const selectColorExample = (colorExample: ColorExample) => {
+    setBaseColors([
+      { color: '#ff0000', weight: colorExample.red },
+      { color: '#ffff00', weight: colorExample.yellow },
+      { color: '#0000ff', weight: colorExample.blue },
+      { color: '#ffffff', weight: colorExample.white },
+      { color: '#808080', weight: colorExample.grey },
+      { color: '#000000', weight: colorExample.black },
+    ]);
+  };
+
   return (
     <>
       <SingleColumnContainer>
-        <CurrentColor 
-          color={currentColor} 
-        />
+        <TwoColumnsContainer>
+          <CurrentColor 
+            color={currentColor} 
+          />
 
-        <ColorListContainer>
-          {baseColors.map((item, index) => (
-            <ColorWeightInput 
-              key={item.color} 
-              colorWeight={item} 
-              onWeightChange={(weight) => updateWeight(index, weight)}
-            />
-          ))}
-        </ColorListContainer>
+          <ColorListContainer>
+            {baseColors.map((item, index) => (
+              <ColorWeightInput 
+                key={item.color} 
+                colorWeight={item} 
+                onWeightChange={(weight) => updateWeight(index, weight)}
+              />
+            ))}
+          </ColorListContainer>
+        </TwoColumnsContainer>
+
+        <ColorExamples
+          onColorSelect={selectColorExample}
+        />
       </SingleColumnContainer>
     </>
   );
