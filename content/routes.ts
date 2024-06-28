@@ -10,6 +10,7 @@ enum Routes {
   Base64ToImageTool = '/images/base64-to-image',
   CharactersCheatSheet = '/cheatsheets/characters',
   EmojisCheatSheet = '/cheatsheets/emojis',
+  ColorsSwatchbookCheatSheet = '/cheatsheets/colors-swatchbook',
   ImageCroppingTool = '/images/image-cropping',
   GuessColorBlendGame = '/games/guess-color-blend',
   Blog = '/blog',

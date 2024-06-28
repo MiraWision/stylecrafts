@@ -9,11 +9,11 @@ const generateShades = (color: string): Shade[] => {
   
   try {
     return [
-      { shade: -200, hex: baseColor.withTint(0.2) },
-      { shade: -100, hex: baseColor.withTint(0.1) },
+      { shade: -200, hex: baseColor.withBrightness(-20) },
+      { shade: -100, hex: baseColor.withBrightness(-10) },
       { shade: 0, hex: baseColor.get() },
-      { shade: 100, hex: baseColor.withShade(0.1) },
-      { shade: 200, hex: baseColor.withShade(0.2) },
+      { shade: 100, hex: baseColor.withBrightness(10) },
+      { shade: 200, hex: baseColor.withBrightness(20) },
     ];
   } catch (error) {
     return [

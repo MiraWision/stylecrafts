@@ -13,8 +13,8 @@ import { ContrastChecker } from './contrast-checker';
 const initialColors: PaletteColor[] = [
   { baseColor: '#f5f5f5', title: 'Background', shades: [] },
   { baseColor: '#333333', title: 'Text', shades: [] },
-  { baseColor: '#3498db', title: 'Primary', shades: [] },
-  { baseColor: '#e74c3c', title: 'Additional', shades: [] },
+  { baseColor: '#3468db', title: 'Primary', shades: [] },
+  { baseColor: '#e74c3c', title: 'Accent', shades: [] },
 ];
 
 const PaletteGeneratorMain: React.FC = () => {
@@ -27,7 +27,8 @@ const PaletteGeneratorMain: React.FC = () => {
   };
 
   const handleAddColor = () => {
-    const additionalCount = selectedColors.filter(color => color.title.startsWith('Additional')).length;
+    const additionalCount = selectedColors.length - 4;
+
     setSelectedColors([
       ...selectedColors,
       { baseColor: '#000000', title: `Additional ${additionalCount + 1}`, shades: [] },
@@ -36,7 +37,9 @@ const PaletteGeneratorMain: React.FC = () => {
 
   const handleRemoveColor = (index: number) => {
     const updatedColors = [...selectedColors];
+
     updatedColors.splice(index, 1);
+    
     setSelectedColors(updatedColors);
   };
 
@@ -52,11 +55,13 @@ const PaletteGeneratorMain: React.FC = () => {
 
   const handleRemoveColorFromPalette = (colorIndex: number, shadeIndex?: number) => {
     const updatedColors = [...selectedColors];
+    
     if (shadeIndex === undefined) {
       updatedColors.splice(colorIndex, 1);
     } else {
       updatedColors[colorIndex].shades.splice(shadeIndex, 1);
     }
+
     setSelectedColors(updatedColors);
   };
 
@@ -89,11 +94,17 @@ const PaletteGeneratorMain: React.FC = () => {
         onRemoveColor={handleRemoveColorFromPalette} 
       />
 
-      <ContrastChecker selectedColors={selectedColors} />
+      <ContrastChecker 
+        selectedColors={selectedColors} 
+      />
 
-      <Preview selectedColors={selectedColors} />
+      <Preview 
+        selectedColors={selectedColors} 
+      />
       
-      <Examples onExampleClick={handleExampleClick} />
+      <Examples 
+        onExampleClick={handleExampleClick} 
+      />
     </Container>
   );
 };

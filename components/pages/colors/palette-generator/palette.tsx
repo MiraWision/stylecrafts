@@ -12,22 +12,25 @@ const Palette: React.FC<PaletteProps> = ({ selectedColors, onRemoveColor }) => {
   return (
     <PaletteContainer>
       <Label>Your Palette</Label>
-      {selectedColors.map((color, colorIndex) => (
-        <PaletteRow key={colorIndex}>
-          <ColorBox 
-            color={color.baseColor} 
-            onDoubleClick={() => onRemoveColor(colorIndex)} 
-          />
-
-          {color.shades.map((shade, shadeIndex) => (
+      
+      <PaletteRow>
+        {selectedColors.map((color, colorIndex) => (
+          <React.Fragment key={colorIndex}>
             <ColorBox 
-              key={shadeIndex} 
-              color={shade.hex} 
-              onDoubleClick={() => onRemoveColor(colorIndex, shadeIndex)}
+              color={color.baseColor} 
+              onDoubleClick={() => onRemoveColor(colorIndex)} 
             />
-          ))}
-        </PaletteRow>
-      ))}
+
+            {color.shades.map((shade, shadeIndex) => (
+              <ColorBox 
+                key={shadeIndex} 
+                color={shade.hex} 
+                onDoubleClick={() => onRemoveColor(colorIndex, shadeIndex)}
+              />
+            ))}
+          </React.Fragment>
+        ))}
+      </PaletteRow>
     </PaletteContainer>
   );
 };
@@ -40,8 +43,10 @@ const PaletteContainer = styled.div`
 `;
 
 const PaletteRow = styled.div`
-  display: flex;
+  width: fit-content;
+  display: grid;
   gap: 0.5rem;
+  grid-template-columns: repeat(8, 1fr);
 `;
 
 const ColorBox = styled.div<{ color: string }>`
