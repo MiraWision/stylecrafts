@@ -128,7 +128,7 @@ const Container = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 2rem 1rem;
   margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr;
