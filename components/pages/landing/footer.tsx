@@ -29,7 +29,7 @@ const footerData = [
   {
     groupName: 'Other',
     items: [
-      { name: 'Colors Swatchbook', href: Routes.ColorsSwatchbookCheatSheet },
+      { name: 'Colors Swatches', href: Routes.ColorSwatchesCheatSheet },
       { name: 'Characters Cheatsheet', href: Routes.CharactersCheatSheet },
       { name: 'Emojis Cheatsheet', href: Routes.EmojisCheatSheet },
       { name: 'Guess Color Blend Game', href: Routes.GuessColorBlendGame },

@@ -10,7 +10,6 @@ import {
   faCircle, 
   faCubes,
   faRetweet,
-  faFillDrip,
   faQuoteRight,
   faPuzzlePiece,
   faBlog,
@@ -18,6 +17,7 @@ import {
   faDroplet,
   faCircleHalfStroke,
   faEyeDropper,
+  faSwatchbook,
 } from '@fortawesome/free-solid-svg-icons';
 import { 
   faFileCode,
@@ -92,6 +92,11 @@ const MenuItems = [
   {
     name: 'Cheatsheets',
     items: [
+      {
+        icon: faSwatchbook,
+        name: 'Color Swatches',
+        url: Routes.ColorSwatchesCheatSheet,
+      },
       {
         icon: faQuoteRight,
         name: 'Characters',
