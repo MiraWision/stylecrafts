@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 import { Routes } from '@/content/routes';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+
 const footerData = [
   {
     groupName: 'Images Tools',
@@ -17,6 +20,8 @@ const footerData = [
     items: [
       { name: 'Gradient Generator', href: Routes.ColorsGradientGeneratorTool },
       { name: 'Palette Generator', href: Routes.ColorsPaletteGeneratorTool },
+      { name: 'Palette from Image', href: Routes.ColorsPaletteFromImageTool },
+      { name: 'Contrast Checker', href: Routes.ColorsContrastCheckerTool },
       { name: 'Color Converter', href: Routes.ColorsConverterTool },
       { name: 'Color Mixer', href: Routes.ColorsMixerTool },
     ],
@@ -24,6 +29,7 @@ const footerData = [
   {
     groupName: 'Other',
     items: [
+      { name: 'Colors Swatchbook', href: Routes.ColorsSwatchbookCheatSheet },
       { name: 'Characters Cheatsheet', href: Routes.CharactersCheatSheet },
       { name: 'Emojis Cheatsheet', href: Routes.EmojisCheatSheet },
       { name: 'Guess Color Blend Game', href: Routes.GuessColorBlendGame },
@@ -92,6 +98,16 @@ const Footer: React.FC<Props> = ({ className }) => {
         <Description>
           © 2024 MiraWision. All rights reserved.
         </Description>
+
+        <SocialNetworks>
+          <FooterLink href='https://www.linkedin.com/company/mirawision' target='_blank' rel='noopener noreferrer'>
+            <SocialIcon icon={faLinkedin} />
+          </FooterLink>
+
+          <FooterLink href='https://x.com/MiraWision' target='_blank' rel='noopener noreferrer'>
+            <SocialIcon icon={faXTwitter} />
+          </FooterLink>
+        </SocialNetworks>
       </Row>
     </Container>
   );
@@ -145,6 +161,17 @@ const Description = styled.p`
   font-size: 0.875rem;
   margin: 0;
   line-height: 1.5;
+`;
+
+const SocialNetworks = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+`;
+
+const SocialIcon = styled(FontAwesomeIcon)`
+  font-size: 1.25rem;
+  color: var(--text-color-secondary);
 `;
 
 const Links = styled.div`

@@ -74,7 +74,7 @@ const MenuItems = [
       },
       {
         icon: faCircleHalfStroke ,
-        name: 'Contrast Checker',
+        name: 'Contrast Checking',
         url: Routes.ColorsContrastCheckerTool,
       },
       {
