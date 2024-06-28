@@ -1,59 +1,121 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { PaletteColor } from './types';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faExclamationTriangle,
+  faExclamationCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import { checkContrast } from '@/utils/check-contrast';
 
 interface Props {
   selectedColors: PaletteColor[];
 }
 
-const checkContrast = (color1: string, color2: string) => {
-  return { ratio: 4.5, meetsStandard: true };
-};
+interface ContrastIssue {
+  severity: 'error' | 'warning';
+  message: string;
+}
 
 const ContrastChecker: React.FC<Props> = ({ selectedColors }) => {
-  const backgroundColor = selectedColors.find(color => color.title === 'Background')?.baseColor || '#ffffff';
-  const textColor = selectedColors.find(color => color.title === 'Text')?.baseColor || '#000000';
-  const primaryColor = selectedColors.find(color => color.title === 'Primary')?.baseColor || '#ff0000';
-  const additionalColor = selectedColors.find(color => color.title === 'Additional')?.baseColor || '#00ff00';
+  const contrastIssues = useMemo<ContrastIssue[]>(() => {
+    const backgroundColor = selectedColors[0].baseColor;
+    const textColor = selectedColors[1].baseColor;
+    const primaryColor = selectedColors[2].baseColor;
+    const additionalColor = selectedColors[3].baseColor;
 
-  const contrastChecks = [
-    { color1: backgroundColor, color2: textColor, description: 'Background and Text' },
-    { color1: backgroundColor, color2: primaryColor, description: 'Background and Primary' },
-    { color1: backgroundColor, color2: additionalColor, description: 'Background and Additional' },
-  ];
+    const issues: ContrastIssue[] = [];
+
+    const contrstBetweenBackgroundAndText = checkContrast(backgroundColor, textColor);
+
+    if (!contrstBetweenBackgroundAndText.isHeaderSuitableForAA) {
+      issues.push({
+        severity: 'error',
+        message: `Contrast between background and text (${contrstBetweenBackgroundAndText.contrast.toFixed(2)}) is not suitable for AA level for headers (3)`,
+      });
+    } else if (!contrstBetweenBackgroundAndText.isHeaderSuitableForAAA) {
+      issues.push({
+        severity: 'error',
+        message: `Contrast between background and text (${contrstBetweenBackgroundAndText.contrast.toFixed(2)}) is not suitable for AAA level for headers (4.5)`,
+      });
+    } else if (!contrstBetweenBackgroundAndText.isTextSuitableForAAA) {
+      issues.push({
+        severity: 'warning',
+        message: `Contrast between background and text (${contrstBetweenBackgroundAndText.contrast.toFixed(2)}) is not suitable for AAA level for text (7)`,
+      });
+    }
+
+    const contrastBetweenBackgroundAndPrimary = checkContrast(backgroundColor, primaryColor);
+
+    if (!contrastBetweenBackgroundAndPrimary.isObjectSuitable) {
+      issues.push({
+        severity: 'warning',
+        message: `Contrast between background and primary color (${contrastBetweenBackgroundAndPrimary.contrast.toFixed(2)}) is not suitable`,
+      });
+    }
+
+    const contrastBetweenBackgroundAndAdditional = checkContrast(backgroundColor, additionalColor);
+
+    if (!contrastBetweenBackgroundAndAdditional.isObjectSuitable) {
+      issues.push({
+        severity: 'warning',
+        message: `Contrast between background and additional color (${contrastBetweenBackgroundAndAdditional.contrast.toFixed(2)}) is not suitable`,
+      });
+    }
+
+    selectedColors.slice(4).forEach((color, index) => {
+      const contrastBetweenBackgroundAndAdditional = checkContrast(backgroundColor, color.baseColor);
+
+      if (!contrastBetweenBackgroundAndAdditional.isObjectSuitable) {
+        issues.push({
+          severity: 'warning',
+          message: `Contrast between background and additional color ${index + 1} (${contrastBetweenBackgroundAndAdditional.contrast.toFixed(2)}) is not suitable`,
+        });
+      }
+    });
+    
+    return issues;
+  }, [selectedColors]);
+
+  if (contrastIssues.length === 0) {
+    return null;
+  }
 
   return (
     <CheckerContainer>
-      <h3>Contrast Checker</h3>
-      {contrastChecks.map((check, index) => {
-        const { ratio, meetsStandard } = checkContrast(check.color1, check.color2);
-        return (
-          <div key={index}>
-            <div>{check.description}: {ratio}:1</div>
-            {!meetsStandard && <Error>Does not meet contrast standards!</Error>}
-            {meetsStandard && <Warning>Meets contrast standards.</Warning>}
-          </div>
-        );
-      })}
+      {contrastIssues.map((issue, index) => (
+        <Message key={index} severity={issue.severity}>
+          <Icon icon={issue.severity === 'error' ? faExclamationCircle : faExclamationTriangle} />
+
+          {issue.message}
+        </Message>
+      ))}
     </CheckerContainer>
   );
 };
 
 const CheckerContainer = styled.div`
-  margin-top: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 
-const Error = styled.div`
-  color: red;
-  font-weight: bold;
+const Icon = styled(FontAwesomeIcon)`
+  margin-right: 0.5rem;
 `;
 
-const Warning = styled.div`
-  color: orange;
-  font-weight: bold;
+const Message = styled.div<{ severity: 'error' | 'warning' }>`
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+
+  ${Icon} {
+    color: ${({ severity }) => severity === 'error' ? 'var(--red-700)' : 'var(--yellow-700)'};
+    margin-right: 0.5rem;
+  }
 `;
 
 export { ContrastChecker };

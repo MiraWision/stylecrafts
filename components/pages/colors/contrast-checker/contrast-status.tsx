@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { calculateContrast } from '@/utils/color-contrast';
+import { checkContrast } from '@/utils/check-contrast';
 
 interface ContrastStatusProps {
   textColor: string;
@@ -14,7 +14,7 @@ const ContrastStatus: React.FC<ContrastStatusProps> = ({
   bgColor,
   isDescription,
 }) => {
-  const { contrast, isSuitableForAA, isSuitableForAAA } = calculateContrast(textColor, bgColor);
+  const { contrast } = checkContrast(textColor, bgColor);
   
   const aaThreshold = isDescription ? 4.5 : 3.0;
   const aaaThreshold = isDescription ? 7.0 : 4.5;

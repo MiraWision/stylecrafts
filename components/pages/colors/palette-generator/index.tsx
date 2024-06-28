@@ -42,7 +42,11 @@ const PaletteGeneratorMain: React.FC = () => {
 
   const handleAddShade = (colorIndex: number, shade: Shade) => {
     const updatedColors = [...selectedColors];
+
     updatedColors[colorIndex].shades.push(shade);
+
+    updatedColors[colorIndex].shades.sort((a, b) => a.shade - b.shade);
+
     setSelectedColors(updatedColors);
   };
 

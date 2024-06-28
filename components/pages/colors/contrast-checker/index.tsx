@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { randomColor } from '@mirawision/colorize';
-import { calculateContrast } from '@/utils/color-contrast';
+import { checkContrast } from '@/utils/check-contrast';
 
 import { Header } from '@/components/pages/colors/contrast-checker/header';
 import { ColorCard } from '@/components/pages/colors/contrast-checker/color-card';
@@ -12,9 +12,9 @@ const ColorContrast: React.FC = () => {
   const [textColor, setTextColor] = useState<string>(randomColor());
   const [bgColor, setBgColor] = useState<string>(randomColor());
 
-  const contrastResult = calculateContrast(textColor, bgColor);
+  const contrastResult = checkContrast(textColor, bgColor);
   const contrastRatio = contrastResult.contrast.toFixed(2);
-  const contrastLevel = contrastResult.isSuitableForAAA ? 'AAA' : (contrastResult.isSuitableForAA ? 'AA' : 'Fail');
+  // const contrastLevel = contrastResult.isSuitableForAAA ? 'AAA' : (contrastResult.isSuitableForAA ? 'AA' : 'Fail');
 
   const handleRandomColorsGenerated = (bgColor: string, textColor: string) => {
     setTextColor(textColor);

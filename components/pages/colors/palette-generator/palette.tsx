@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PaletteColor } from './types';
+import { Label } from '@/components/ui/texts/label';
 
 interface PaletteProps {
   selectedColors: PaletteColor[];
@@ -10,14 +11,22 @@ interface PaletteProps {
 const Palette: React.FC<PaletteProps> = ({ selectedColors, onRemoveColor }) => {
   return (
     <PaletteContainer>
+      <Label>Your Palette</Label>
       {selectedColors.map((color, colorIndex) => (
-        <React.Fragment key={colorIndex}>
-          <ColorBox color={color.baseColor} onDoubleClick={() => onRemoveColor(colorIndex)} />
-          
+        <PaletteRow key={colorIndex}>
+          <ColorBox 
+            color={color.baseColor} 
+            onDoubleClick={() => onRemoveColor(colorIndex)} 
+          />
+
           {color.shades.map((shade, shadeIndex) => (
-            <ColorBox key={shadeIndex} color={shade.hex} onDoubleClick={() => onRemoveColor(colorIndex, shadeIndex)} />
+            <ColorBox 
+              key={shadeIndex} 
+              color={shade.hex} 
+              onDoubleClick={() => onRemoveColor(colorIndex, shadeIndex)}
+            />
           ))}
-        </React.Fragment>
+        </PaletteRow>
       ))}
     </PaletteContainer>
   );
@@ -25,15 +34,22 @@ const Palette: React.FC<PaletteProps> = ({ selectedColors, onRemoveColor }) => {
 
 const PaletteContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  margin-top: 20px;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+`;
+
+const PaletteRow = styled.div`
+  display: flex;
+  gap: 0.5rem;
 `;
 
 const ColorBox = styled.div<{ color: string }>`
   background-color: ${({ color }) => color};
-  width: 100px;
-  height: 100px;
-  margin: 5px;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  border: 0.0625rem solid var(--surface-border);
   cursor: pointer;
 `;
 
