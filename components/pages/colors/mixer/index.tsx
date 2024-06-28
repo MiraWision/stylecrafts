@@ -9,7 +9,7 @@ import { ColorExamples } from './color-examples';
 import { ColorExample } from './types';
 
 import { CurrentColor } from './current-color';
-import { SingleColumnContainer, TwoColumnsContainer } from '@/components/ui/containers';
+import { TwoColumnsContainer } from '@/components/ui/containers';
 import { ColorWeightInput } from '@/components/ui/inputs/color-weight-input';
 
 interface BaseColor {
@@ -59,29 +59,29 @@ const ColorMixerMain: React.FC = () => {
   };
 
   return (
-    <>
-      <SingleColumnContainer>
-        <TwoColumnsContainer>
-          <CurrentColor 
-            color={currentColor} 
-          />
+    <TwoColumnsContainer>
+      <Column>
+        <CurrentColor 
+          color={currentColor} 
+        />
+      </Column>
 
-          <ColorListContainer>
-            {baseColors.map((item, index) => (
-              <ColorWeightInput 
-                key={item.color} 
-                colorWeight={item} 
-                onWeightChange={(weight) => updateWeight(index, weight)}
-              />
-            ))}
-          </ColorListContainer>
-        </TwoColumnsContainer>
+      <Column>
+        <ColorListContainer>
+          {baseColors.map((item, index) => (
+            <ColorWeightInput 
+              key={item.color} 
+              colorWeight={item} 
+              onWeightChange={(weight) => updateWeight(index, weight)}
+            />
+          ))}
+        </ColorListContainer>
 
         <ColorExamples
           onColorSelect={selectColorExample}
         />
-      </SingleColumnContainer>
-    </>
+      </Column>
+    </TwoColumnsContainer>
   );
 };
 
@@ -90,6 +90,12 @@ const ColorListContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin-bottom: 2rem;
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export { ColorMixerMain };

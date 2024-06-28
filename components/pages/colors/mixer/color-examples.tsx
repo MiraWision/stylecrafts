@@ -10,44 +10,25 @@ interface Props {
 
 const ColorExamples: React.FC<Props> = ({ onColorSelect }) => {
   return (
-    <>
-      {Object.entries(colorsExamples).map(([group, colors]) => (
-        <React.Fragment key={group}>
-          <GroupTitle key={group}>
-            {group} shades
-          </GroupTitle>
+    <Container>
+      {colorsExamples.map((color) => (
+        <ColorCard key={color.name} onClick={() => onColorSelect(color)}>          
+          <ColorName>
+            {color.name}
+          </ColorName>
 
-          <Container>
-            {colors.map((color) => (
-              <ColorCard key={color.name} onClick={() => onColorSelect(color)}>          
-                <ColorName>
-                  {color.name}
-                </ColorName>
-
-                <ColorSquare color={color.color} />
-              </ColorCard>
-            ))}
-          </Container>
-        </React.Fragment>
+          <ColorSquare color={color.color} />
+        </ColorCard>
       ))}
-    </>
+    </Container>
   );
 }
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem 1rem;
   margin-bottom: 2rem;
-`;
-
-const GroupTitle = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: var(--color-text);
-  margin: 0;
-  text-transform: capitalize;
-  align-self: flex-start;
 `;
 
 const ColorCard = styled.div`
@@ -55,11 +36,11 @@ const ColorCard = styled.div`
   flex-direction: column;
   align-items: flex-start;
   cursor: pointer;
-  max-width: 8rem;
+  max-width: 6rem;
 `;
 
 const ColorSquare = styled.div<{ color: string }>`
-  width: 8rem;
+  width: 6rem;
   height: 2rem;
   border-radius: 0.25rem;
   border: 0.0625rem solid var(--surface-border);
