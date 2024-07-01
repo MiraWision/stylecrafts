@@ -2,27 +2,27 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdjust } from '@fortawesome/free-solid-svg-icons';
-import { RandomColorButton } from '@/components/ui/buttons/random-color';
+import { ReverseButton } from '@/components/ui/buttons/reverse-color';
 
 interface HeaderProps {
   textColor: string;
   bgColor: string;
   contrastRatio: string;
-  onRandomColorsGenerated: (bgColor: string, textColor: string) => void;
+  onReverseColors: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
   textColor,
   bgColor,
   contrastRatio,
-  onRandomColorsGenerated,
+  onReverseColors,
 }) => {
   return (
     <Container bgColor={bgColor}>
       <Content>
-        <Title textColor={textColor}>This is a pangram</Title>
+        <Title textColor={textColor}>This is a preview</Title>
         <Subtitle textColor={textColor}>
-          Typography is known for two-dimensional architecture and requires extra zeal within every job.
+        Here is a preview of a color combination applied to a real-life example.
         </Subtitle>
         <FontWeights>
           <Weight textColor={textColor} weight={300}>Light</Weight>
@@ -38,20 +38,18 @@ const Header: React.FC<HeaderProps> = ({
             <Icon icon={faAdjust} /> {contrastRatio}
           </ContrastRatio>
         </ContrastInfo>
-        <RandomColorButton onRandomColorsGenerated={onRandomColorsGenerated} />
+        <ReverseButton onReverseColors={onReverseColors} />
       </LargeTextContainer>
     </Container>
   );
 };
 
 const Container = styled.div<{ bgColor: string }>`
-  background-color: ${({ bgColor }) => bgColor};
   padding: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 0.5rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 20px 40px rgba(0, 0, 0, 0.2);
 `;
 
 const Content = styled.div`

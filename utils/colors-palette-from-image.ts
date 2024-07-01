@@ -13,6 +13,8 @@ const colors: { [key: string]: ColorData } = {};
 const getPaletteWithCoordinates = (
   image: HTMLImageElement,
   numColors: number,
+  imgWidth: number,
+  imgHeight: number,
   initialThreshold: number = 16,
   maxIterations: number = 5,
   skipPixels: number = 10
@@ -27,10 +29,8 @@ const getPaletteWithCoordinates = (
     return [];
   }
 
-  const maxDimension = 200;
-  const scale = Math.min(maxDimension / image.width, maxDimension / image.height);
-  canvas.width = image.width * scale;
-  canvas.height = image.height * scale;
+  canvas.width = imgWidth;
+  canvas.height = imgHeight;
 
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
@@ -70,7 +70,7 @@ const getPaletteWithCoordinates = (
         const avgB = Math.round(data.sumB / data.count);
         const rgbString = `rgb(${avgR},${avgG},${avgB})`;
         const hexColor = convertColor(rgbString, ColorFormat.HEX);
-        const { x, y } = data.coordinates[0]; // Use the first coordinate
+        const { x, y } = data.coordinates[0];
         return { color: hexColor, x, y };
       });
       return palette;
@@ -88,7 +88,7 @@ const getPaletteWithCoordinates = (
       const avgB = Math.round(data.sumB / data.count);
       const rgbString = `rgb(${avgR},${avgG},${avgB})`;
       const hexColor = convertColor(rgbString, ColorFormat.HEX);
-      const { x, y } = data.coordinates[0]; // Use the first coordinate
+      const { x, y } = data.coordinates[0];
       return { color: hexColor, x, y };
     });
 

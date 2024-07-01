@@ -38,6 +38,11 @@ const MenuItems = [
         url: Routes.ImageOptimizationTool,
       },
       {
+        icon: faImages,
+        name: 'Single Optimization',
+        url: Routes.SingleImageOptimizationTool,
+      },
+      {
         icon: faFileCode,
         name: 'Image to Base64',
         url: Routes.ImageToBase64Tool,

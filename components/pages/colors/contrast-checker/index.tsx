@@ -1,56 +1,83 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { randomColor } from '@mirawision/colorize';
 import { checkContrast } from '@/utils/check-contrast';
-
-import { Header } from '@/components/pages/colors/contrast-checker/header';
 import { ColorCard } from '@/components/pages/colors/contrast-checker/color-card';
 import { ContrastStatus } from '@/components/pages/colors/contrast-checker/contrast-status';
 import { TemplateCard } from '@/components/pages/colors/contrast-checker/template-card';
+import { ColorPalette } from './example-palette';
+import { colorPalettes } from './examples';
+
+const getRandomColorFromPalettes = () => {
+  let textColor, bgColor, contrastRatio;
+
+  do {
+    const textGroup = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+    const bgGroup = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+
+    textColor = textGroup.colors[Math.floor(Math.random() * textGroup.colors.length)].hex;
+    bgColor = bgGroup.colors[Math.floor(Math.random() * bgGroup.colors.length)].hex;
+
+    contrastRatio = checkContrast(textColor, bgColor).contrast;
+  } while (contrastRatio <= 5);
+
+  return { textColor, bgColor };
+};
+
+const getValidTextColor = (bgColor: string) => {
+  let textColor, contrastRatio;
+
+  do {
+    const textGroup = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+    textColor = textGroup.colors[Math.floor(Math.random() * textGroup.colors.length)].hex;
+    contrastRatio = checkContrast(textColor, bgColor).contrast;
+  } while (contrastRatio <= 5);
+
+  return textColor;
+};
+
+const getValidBgColor = (textColor: string) => {
+  let bgColor, contrastRatio;
+
+  do {
+    const bgGroup = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+    bgColor = bgGroup.colors[Math.floor(Math.random() * bgGroup.colors.length)].hex;
+    contrastRatio = checkContrast(textColor, bgColor).contrast;
+  } while (contrastRatio <= 5);
+
+  return bgColor;
+};
 
 const ColorContrast: React.FC = () => {
-  const [textColor, setTextColor] = useState<string>(randomColor());
-  const [bgColor, setBgColor] = useState<string>(randomColor());
+  const [{ textColor, bgColor }, setColors] = useState<{ textColor: string, bgColor: string }>({ textColor: '', bgColor: '' });
 
-  const contrastResult = checkContrast(textColor, bgColor);
-  const contrastRatio = contrastResult.contrast.toFixed(2);
-  // const contrastLevel = contrastResult.isSuitableForAAA ? 'AAA' : (contrastResult.isSuitableForAA ? 'AA' : 'Fail');
+  useEffect(() => {
+    setColors(getRandomColorFromPalettes());
+  }, []);
 
-  const handleRandomColorsGenerated = (bgColor: string, textColor: string) => {
-    setTextColor(textColor);
-    setBgColor(bgColor);
+  const handleTextColorChange = () => {
+    setColors(prev => ({ ...prev, textColor: getValidTextColor(prev.bgColor) }));
   };
 
-  const handleRandomTextColor = () => {
-    setTextColor(randomColor());
+  const handleBgColorChange = () => {
+    setColors(prev => ({ ...prev, bgColor: getValidBgColor(prev.textColor) }));
   };
 
-  const handleRandomBgColor = (color: string) => {
-    setBgColor(color);
+  const handleColorPaletteSelect = (background: string, text: string) => {
+    setColors({ bgColor: background, textColor: text });
   };
 
-  const handleTextColorChange = (color: string) => {
-    setTextColor(color);
-  };
-
-  const handleBgColorChange = (color: string) => {
-    setBgColor(color);
+  const handleReverseColors = () => {
+    setColors(prev => ({ textColor: prev.bgColor, bgColor: prev.textColor }));
   };
 
   return (
     <>
-      <Header 
-        textColor={textColor} 
-        bgColor={bgColor} 
-        contrastRatio={contrastRatio} 
-        onRandomColorsGenerated={handleRandomColorsGenerated}
-      />
       <GridContainer>
         <ColorCardWrapper>
           <ColorCard 
             color={bgColor} 
             label="Change background color" 
-            onRandomColor={handleRandomBgColor} 
+            onRandomColor={handleBgColorChange} 
             onColorChange={handleBgColorChange} 
           />
           <ContrastStatus 
@@ -64,7 +91,7 @@ const ColorContrast: React.FC = () => {
           <ColorCard 
             color={textColor} 
             label="Change text color" 
-            onRandomColor={handleRandomTextColor} 
+            onRandomColor={handleTextColorChange} 
             onColorChange={handleTextColorChange} 
           />
           <ContrastStatus 
@@ -78,10 +105,10 @@ const ColorContrast: React.FC = () => {
       <InfoText>
         You can read about contrast standards in the interface here — <WCAGLink href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank">WCAG</WCAGLink>
       </InfoText>
-      <GridContainer>
+      <PreviewContainer>
         <TemplateCard textColor={textColor} bgColor={bgColor} />
-        <TemplateCard textColor={bgColor} bgColor={textColor} />
-      </GridContainer>
+      </PreviewContainer>
+      <ColorPalette onSelect={handleColorPaletteSelect} />
     </>
   );
 };
@@ -90,6 +117,12 @@ const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  margin-top: 2rem;
+`;
+
+const PreviewContainer = styled.div`
+  display: flex;
+  justify-content: center;
   margin-top: 2rem;
 `;
 

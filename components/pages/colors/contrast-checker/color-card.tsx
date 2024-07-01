@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { Button } from 'primereact/button';
 import { ColorPicker } from 'primereact/colorpicker';
 import { randomColor } from '@mirawision/colorize';
+import { checkContrast } from '@/utils/check-contrast';
+import { colorPalettes } from './examples';
 
 interface ColorCardProps {
   color: string;
   label: string;
-  onRandomColor: (color: string) => void;
+  onRandomColor: () => void;
   onColorChange: (color: string) => void;
 }
 
@@ -18,11 +20,6 @@ const ColorCard: React.FC<ColorCardProps> = ({ color, label, onRandomColor, onCo
   const handleColorChange = (e: any) => {
     const hexColor = `#${e.value.toUpperCase()}`;
     onColorChange(hexColor);
-  };
-
-  const handleRandomColor = () => {
-    const color = randomColor();
-    onRandomColor(color);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -60,7 +57,7 @@ const ColorCard: React.FC<ColorCardProps> = ({ color, label, onRandomColor, onCo
           <ColorCode>{color}</ColorCode>
         </ColorLabel>
         <IconWrapper>
-          <RandomColorButton icon="pi pi-refresh" onClick={handleRandomColor} />
+          <RandomColorButton icon="pi pi-refresh" onClick={onRandomColor} />
           <Label>Random color</Label>
         </IconWrapper>
       </Column>
@@ -152,4 +149,3 @@ const Label = styled.span`
 `;
 
 export { ColorCard };
-

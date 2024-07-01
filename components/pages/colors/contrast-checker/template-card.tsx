@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'primereact/button';
 import { ProgressBar as PrimeProgressBar } from 'primereact/progressbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faShareAlt, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { TemplateReview } from './template-review';
+import { Header } from '@/components/pages/colors/contrast-checker/header';
+import { checkContrast } from '@/utils/check-contrast';
 
 interface TemplateCardProps {
   textColor: string;
@@ -10,34 +14,65 @@ interface TemplateCardProps {
 }
 
 const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, bgColor }) => {
+  const [currentBgColor, setBgColor] = useState(bgColor);
+  const [currentTextColor, setTextColor] = useState(textColor);
+
+  const handleReverseColors = () => {
+    setBgColor(currentTextColor);
+    setTextColor(currentBgColor);
+  };
+
+  useEffect(() => {
+    setBgColor(bgColor);
+    setTextColor(textColor);
+  }, [bgColor, textColor]);
+
+  const contrastRatio = checkContrast(currentTextColor, currentBgColor).contrast.toFixed(2);
+
   return (
-    <Card bgColor={bgColor} color={textColor}>
-      <h2 style={{ color: textColor }}>{bgColor}</h2>
-      <Divider color={textColor} />
-      <Paragraph color={textColor}>
+    <Card bgColor={currentBgColor} color={currentTextColor}>
+      <Header
+        textColor={currentTextColor}
+        bgColor={currentBgColor}
+        contrastRatio={contrastRatio}
+        onReverseColors={handleReverseColors}
+      />
+      <Divider color={currentTextColor} />
+      <Paragraph color={currentTextColor}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       </Paragraph>
       <Row>
-        <StyledButtonFill label="Button" textColor={bgColor} bgColor={textColor} />
-        <StyledButtonOutline label="Button" textColor={textColor} bgColor={bgColor} />
+        <StyledButtonFill label="Button" textColor={currentBgColor} bgColor={currentTextColor} />
+        <StyledButtonOutline label="Button" textColor={currentTextColor} bgColor={currentBgColor} />
       </Row>
-      <Quote color={textColor}>
+      <Quote color={currentTextColor}>
         The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a footer or cite element.
         <cite>
-          Someone famous in <a href="#" style={{ color: textColor }}>Source Title</a>
+          Someone famous in <a href="#" style={{ color: currentTextColor }}>Source Title</a>
         </cite>
       </Quote>
       <ProgressBarContainer>
-        <p style={{ color: textColor }}>Progress</p>
-        <StyledProgressBar value={50} textColor={textColor} bgColor={bgColor} />
+        <p style={{ color: currentTextColor }}>Progress</p>
+        <StyledProgressBar value={50} textColor={currentTextColor} bgColor={currentBgColor} />
       </ProgressBarContainer>
       <TemplateReview
-        textColor={textColor}
-        bgColor={bgColor}
+        textColor={currentTextColor}
+        bgColor={currentBgColor}
         title="Gradients.app"
         date="23.06.2024"
         content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."
       />
+      <IconList>
+        <IconItem>
+          <FontAwesomeIcon icon={faHeart} />
+        </IconItem>
+        <IconItem>
+          <FontAwesomeIcon icon={faShareAlt} />
+        </IconItem>
+        <IconItem>
+          <FontAwesomeIcon icon={faBookmark} />
+        </IconItem>
+      </IconList>
     </Card>
   );
 };
@@ -46,15 +81,19 @@ const Card = styled.div<{ bgColor: string }>`
   background-color: ${({ bgColor }) => bgColor};
   border-radius: 0.5rem;
   padding: 1rem;
-  max-width: 400px;
+  width: 100%;
   color: ${({ color }) => color};
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 20px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Divider = styled.hr<{ color: string }>`
   border: none;
   border-top: 1px solid ${({ color }) => color};
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const Paragraph = styled.p<{ color: string }>`
@@ -77,6 +116,7 @@ const Row = styled.div`
   justify-content: space-around;
   gap: 1rem;
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const StyledButtonFill = styled(Button)<{ textColor: string, bgColor: string }>`
@@ -97,6 +137,7 @@ const Quote = styled.blockquote<{ color: string }>`
   margin: 1rem 0;
   color: ${({ color }) => color};
   font-style: italic;
+  width: 100%;
 
   cite {
     display: block;
@@ -112,6 +153,7 @@ const Quote = styled.blockquote<{ color: string }>`
 
 const ProgressBarContainer = styled.div`
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const StyledProgressBar = styled(PrimeProgressBar)<{ textColor: string, bgColor: string }>`
@@ -121,6 +163,18 @@ const StyledProgressBar = styled(PrimeProgressBar)<{ textColor: string, bgColor:
   .p-progressbar-label {
     color: ${({ bgColor }) => bgColor} !important;
   }
+`;
+
+const IconList = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 1rem;
+`;
+
+const IconItem = styled.div`
+  font-size: 1.5rem;
+  color: inherit;
 `;
 
 export { TemplateCard };
