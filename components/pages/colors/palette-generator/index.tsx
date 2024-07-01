@@ -7,8 +7,8 @@ import { ColorSelector } from './color-selector';
 import { ShadesList } from './shades-list';
 import { Palette } from './palette';
 import { Examples } from './examples';
-import { Preview } from './preview';
 import { ContrastChecker } from './contrast-checker';
+import { TemplateCard } from './palette-preview';
 
 const initialColors: PaletteColor[] = [
   { baseColor: '#f5f5f5', title: 'Background', shades: [] },
@@ -69,6 +69,11 @@ const PaletteGeneratorMain: React.FC = () => {
     setSelectedColors(exampleColors);
   };
 
+  const backgroundColor = selectedColors.find(color => color.title === 'Background')?.baseColor || '#ffffff';
+  const textColor = selectedColors.find(color => color.title === 'Text')?.baseColor || '#000000';
+  const accentColor = selectedColors.find(color => color.title === 'Accent')?.baseColor || '#ff0000';
+  const additionalColor = selectedColors.find(color => color.title === 'Primary')?.baseColor || '#00ff00';
+
   return (
     <Container>
       <MainContent>
@@ -98,8 +103,11 @@ const PaletteGeneratorMain: React.FC = () => {
         selectedColors={selectedColors} 
       />
 
-      <Preview 
-        selectedColors={selectedColors} 
+      <TemplateCard 
+        bgColor={backgroundColor}
+        textColor={textColor}
+        accentColor={accentColor}
+        additionalColor={additionalColor}
       />
       
       <Examples 
