@@ -7,6 +7,7 @@ import { analyticsEvents } from '@/services/google-analytics-service/analytics-e
 import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 import { ColorExamples } from './color-examples';
 import { ColorExample } from './types';
+import { ShadesGrid } from './shades';
 
 import { CurrentColor } from './current-color';
 import { TwoColumnsContainer } from '@/components/ui/containers';
@@ -61,17 +62,20 @@ const ColorMixerMain: React.FC = () => {
   return (
     <TwoColumnsContainer>
       <Column>
-        <CurrentColor 
-          color={currentColor} 
+        <CurrentColor
+          color={currentColor}
+        />
+        <ShadesGrid
+          baseColor={currentColor.hex()}
         />
       </Column>
 
       <Column>
         <ColorListContainer>
           {baseColors.map((item, index) => (
-            <ColorWeightInput 
-              key={item.color} 
-              colorWeight={item} 
+            <ColorWeightInput
+              key={item.color}
+              colorWeight={item}
               onWeightChange={(weight) => updateWeight(index, weight)}
             />
           ))}
@@ -80,6 +84,7 @@ const ColorMixerMain: React.FC = () => {
         <ColorExamples
           onColorSelect={selectColorExample}
         />
+
       </Column>
     </TwoColumnsContainer>
   );

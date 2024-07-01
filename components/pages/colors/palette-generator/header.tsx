@@ -7,14 +7,19 @@ import { ReverseButton } from '@/components/ui/buttons/reverse-color';
 interface HeaderProps {
   textColor: string;
   bgColor: string;
-  contrastRatio: string;
+  contrastRatios: {
+    textBg: string;
+    accentBg: string;
+    additionalBg: string;
+    accentText: string;
+  };
   onReverseColors: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
   textColor,
   bgColor,
-  contrastRatio,
+  contrastRatios,
   onReverseColors,
 }) => {
   return (
@@ -22,26 +27,38 @@ const Header: React.FC<HeaderProps> = ({
       <Content>
         <Title textColor={textColor}>This is a preview</Title>
         <Subtitle textColor={textColor}>
-        Here is a preview of a color combination applied to a real-life example.
+          Here is a preview of a color combination applied to a real-life example.
         </Subtitle>
-        <FontWeights>
-          <Weight textColor={textColor} weight={300}>Light</Weight>
-          <Weight textColor={textColor} weight={400}>Regular</Weight>
-          <Weight textColor={textColor} weight={500}>Medium</Weight>
-          <Weight textColor={textColor} weight={700}>Bold</Weight>
-        </FontWeights>
+
+        <ContrastContainer>
+          {Object.entries(contrastRatios).map(([key, value]) => (
+            <ContrastItem key={key} textColor={textColor}>
+              {formatContrastKey(key)} <Icon icon={faAdjust} /> {value}
+            </ContrastItem>
+          ))}
+        </ContrastContainer>
       </Content>
       <LargeTextContainer>
         <LargeText textColor={textColor}>Az</LargeText>
-        <ContrastInfo textColor={textColor}>
-          <ContrastRatio>
-            <Icon icon={faAdjust} /> {contrastRatio}
-          </ContrastRatio>
-        </ContrastInfo>
         <ReverseButton onReverseColors={onReverseColors} />
       </LargeTextContainer>
     </Container>
   );
+};
+
+const formatContrastKey = (key: string) => {
+  switch (key) {
+    case 'textBg':
+      return 'Text : Background';
+    case 'accentBg':
+      return 'Accent : Background';
+    case 'additionalBg':
+      return 'Additional : Background';
+    case 'accentText':
+      return 'Accent : Text';
+    default:
+      return key;
+  }
 };
 
 const Container = styled.div<{ bgColor: string }>`
@@ -50,6 +67,7 @@ const Container = styled.div<{ bgColor: string }>`
   justify-content: space-between;
   align-items: center;
   border-radius: 0.5rem;
+  background-color: ${({ bgColor }) => bgColor};
 `;
 
 const Content = styled.div`
@@ -70,16 +88,18 @@ const Subtitle = styled.p<{ textColor: string }>`
   margin: 0.4rem 0;
 `;
 
-const FontWeights = styled.div`
+const ContrastContainer = styled.div`
   display: flex;
-  gap: 0.8rem;
-  margin-top: 0.8rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
 `;
 
-const Weight = styled.span<{ textColor: string, weight: number }>`
+const ContrastItem = styled.div<{ textColor: string }>`
   color: ${({ textColor }) => textColor};
+  display: flex;
+  align-items: center;
   font-size: 0.8rem;
-  font-weight: ${({ weight }) => weight};
 `;
 
 const LargeTextContainer = styled.div`
@@ -95,22 +115,9 @@ const LargeText = styled.span<{ textColor: string }>`
   font-weight: bold;
 `;
 
-const ContrastInfo = styled.div<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
-  display: flex;
-  align-items: center;
-  font-size: 0.8rem;
-  margin-top: 0.4rem;
-`;
-
-const ContrastRatio = styled.span`
-  display: flex;
-  align-items: center;
-`;
-
 const Icon = styled(FontAwesomeIcon)`
   font-size: 0.8rem;
-  margin-right: 0.3rem;
+  margin: 0 0.3rem;
 `;
 
 export { Header };

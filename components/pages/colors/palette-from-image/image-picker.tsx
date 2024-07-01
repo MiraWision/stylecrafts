@@ -5,9 +5,10 @@ import { getPaletteWithCoordinates } from '@/utils/colors-palette-from-image';
 
 interface Props {
   onPaletteChange: (autoPalette: string[], userPalette: string[]) => void;
+  selectedImage: string | null;
 };
 
-const ImageColorPicker: React.FC<Props> = ({ onPaletteChange }) => {
+const ImageColorPicker: React.FC<Props> = ({ onPaletteChange, selectedImage }) => {
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
   const [autoPalette, setAutoPalette] = useState<string[]>([]);
   const [userPalette, setUserPalette] = useState<string[]>([]);
@@ -15,6 +16,12 @@ const ImageColorPicker: React.FC<Props> = ({ onPaletteChange }) => {
   
   const imageRef = useRef<HTMLImageElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (selectedImage) {
+      setImageSrc(selectedImage);
+    }
+  }, [selectedImage]);
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -33,7 +40,9 @@ const ImageColorPicker: React.FC<Props> = ({ onPaletteChange }) => {
 
   const handleImageLoad = () => {
     if (imageRef.current) {
-      const colorsWithCoordinates = getPaletteWithCoordinates(imageRef.current, 10);
+      const imgWidth = imageRef.current.width;
+      const imgHeight = imageRef.current.height;
+      const colorsWithCoordinates = getPaletteWithCoordinates(imageRef.current, 10, imgWidth, imgHeight);
       const colors = colorsWithCoordinates.map((color) => color.color);
       setAutoPalette(colors);
       setColorPickers(colorsWithCoordinates);
