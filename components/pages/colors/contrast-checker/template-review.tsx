@@ -3,18 +3,18 @@ import styled from 'styled-components';
 
 interface ReviewCardProps {
   textColor: string;
-  bgColor: string;
+  backgroundColor: string;
   title: string;
   date: string;
   content: string;
 }
 
-const TemplateReview: React.FC<ReviewCardProps> = ({ textColor, bgColor, title, date, content }) => {
+const TemplateReview: React.FC<ReviewCardProps> = ({ textColor, backgroundColor, title, date, content }) => {
   return (
-    <CardContainer bgColor={bgColor}>
+    <CardContainer backgroundColor={backgroundColor}>
       <Header>
-        <IconWrapper bgColor={textColor}>
-          <Icon bgColor={bgColor}>G</Icon>
+        <IconWrapper backgroundColor={textColor}>
+          <Icon backgroundColor={backgroundColor}>G</Icon>
         </IconWrapper>
         <TitleDateWrapper>
           <Title textColor={textColor}>{title}</Title>
@@ -26,8 +26,8 @@ const TemplateReview: React.FC<ReviewCardProps> = ({ textColor, bgColor, title, 
   );
 };
 
-const CardContainer = styled.div<{ bgColor: string }>`
-  background-color: ${({ bgColor }) => bgColor};
+const CardContainer = styled.div<{ backgroundColor: string }>`
+  background-color: ${({ backgroundColor }) => backgroundColor};
   border-radius: 0.5rem;
   padding: 1rem;
   max-width: 300px;
@@ -39,8 +39,8 @@ const Header = styled.div`
   margin-bottom: 1rem;
 `;
 
-const IconWrapper = styled.div<{ bgColor: string }>`
-  background-color: ${({ bgColor }) => bgColor};
+const IconWrapper = styled.div<{ backgroundColor: string }>`
+  background-color: ${({ backgroundColor }) => backgroundColor};
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -50,8 +50,8 @@ const IconWrapper = styled.div<{ bgColor: string }>`
   margin-right: 1rem;
 `;
 
-const Icon = styled.span<{ bgColor: string }>`
-  color: ${({ bgColor }) => bgColor};
+const Icon = styled.span<{ backgroundColor: string }>`
+  color: ${({ backgroundColor }) => backgroundColor};
   font-size: 1.5rem;
   font-weight: bold;
 `;

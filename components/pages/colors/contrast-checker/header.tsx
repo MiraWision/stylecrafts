@@ -6,19 +6,19 @@ import { ReverseButton } from '@/components/ui/buttons/reverse-color';
 
 interface HeaderProps {
   textColor: string;
-  bgColor: string;
+  backgroundColor: string;
   contrastRatio: string;
   onReverseColors: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
   textColor,
-  bgColor,
+  backgroundColor,
   contrastRatio,
   onReverseColors,
 }) => {
   return (
-    <Container bgColor={bgColor}>
+    <Container backgroundColor={backgroundColor}>
       <Content>
         <Title textColor={textColor}>This is a preview</Title>
         <Subtitle textColor={textColor}>
@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({
   );
 };
 
-const Container = styled.div<{ bgColor: string }>`
+const Container = styled.div<{ backgroundColor: string }>`
   padding: 2rem;
   display: flex;
   justify-content: space-between;

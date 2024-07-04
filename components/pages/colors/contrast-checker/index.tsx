@@ -80,6 +80,7 @@ const ColorContrast: React.FC = () => {
             onRandomColor={handleBgColorChange} 
             onColorChange={handleBgColorChange} 
           />
+
           <ContrastStatus 
             textColor={bgColor} 
             bgColor={textColor} 
@@ -87,6 +88,7 @@ const ColorContrast: React.FC = () => {
             isBackground={true} 
           />
         </ColorCardWrapper>
+
         <ColorCardWrapper>
           <ColorCard 
             color={textColor} 
@@ -94,6 +96,7 @@ const ColorContrast: React.FC = () => {
             onRandomColor={handleTextColorChange} 
             onColorChange={handleTextColorChange} 
           />
+
           <ContrastStatus 
             textColor={textColor} 
             bgColor={bgColor} 
@@ -102,12 +105,11 @@ const ColorContrast: React.FC = () => {
           />
         </ColorCardWrapper>
       </GridContainer>
-      <InfoText>
-        You can read about contrast standards in the interface here — <WCAGLink href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank">WCAG</WCAGLink>
-      </InfoText>
+
       <PreviewContainer>
-        <TemplateCard textColor={textColor} bgColor={bgColor} />
+        <TemplateCard textColor={textColor} backgroundColor={bgColor} />
       </PreviewContainer>
+      
       <ColorPalette onSelect={handleColorPaletteSelect} />
     </>
   );

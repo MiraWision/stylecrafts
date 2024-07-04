@@ -10,30 +10,30 @@ import { checkContrast } from '@/utils/check-contrast';
 
 interface TemplateCardProps {
   textColor: string;
-  bgColor: string;
+  backgroundColor: string;
 }
 
-const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, bgColor }) => {
-  const [currentBgColor, setBgColor] = useState(bgColor);
+const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, backgroundColor }) => {
+  const [currentBackgroundColor, setBackgroundColor] = useState(backgroundColor);
   const [currentTextColor, setTextColor] = useState(textColor);
 
   const handleReverseColors = () => {
-    setBgColor(currentTextColor);
-    setTextColor(currentBgColor);
+    setBackgroundColor(currentTextColor);
+    setTextColor(currentBackgroundColor);
   };
 
   useEffect(() => {
-    setBgColor(bgColor);
+    setBackgroundColor(backgroundColor);
     setTextColor(textColor);
-  }, [bgColor, textColor]);
+  }, [backgroundColor, textColor]);
 
-  const contrastRatio = checkContrast(currentTextColor, currentBgColor).contrast.toFixed(2);
+  const contrastRatio = checkContrast(currentTextColor, currentBackgroundColor).contrast.toFixed(2);
 
   return (
-    <Card bgColor={currentBgColor} color={currentTextColor}>
+    <Card backgroundColor={currentBackgroundColor} color={currentTextColor}>
       <Header
         textColor={currentTextColor}
-        bgColor={currentBgColor}
+        backgroundColor={currentBackgroundColor}
         contrastRatio={contrastRatio}
         onReverseColors={handleReverseColors}
       />
@@ -42,8 +42,8 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, bgColor }) => {
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       </Paragraph>
       <Row>
-        <StyledButtonFill label="Button" textColor={currentBgColor} bgColor={currentTextColor} />
-        <StyledButtonOutline label="Button" textColor={currentTextColor} bgColor={currentBgColor} />
+        <StyledButtonFill label="Button" textColor={currentBackgroundColor} backgroundColor={currentTextColor} />
+        <StyledButtonOutline label="Button" textColor={currentTextColor} backgroundColor={currentBackgroundColor} />
       </Row>
       <Quote color={currentTextColor}>
         The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a footer or cite element.
@@ -53,11 +53,11 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, bgColor }) => {
       </Quote>
       <ProgressBarContainer>
         <p style={{ color: currentTextColor }}>Progress</p>
-        <StyledProgressBar value={50} textColor={currentTextColor} bgColor={currentBgColor} />
+        <StyledProgressBar value={50} textColor={currentTextColor} backgroundColor={currentBackgroundColor} />
       </ProgressBarContainer>
       <TemplateReview
         textColor={currentTextColor}
-        bgColor={currentBgColor}
+        backgroundColor={currentBackgroundColor}
         title="Gradients.app"
         date="23.06.2024"
         content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."
@@ -77,8 +77,8 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, bgColor }) => {
   );
 };
 
-const Card = styled.div<{ bgColor: string }>`
-  background-color: ${({ bgColor }) => bgColor};
+const Card = styled.div<{ backgroundColor: string }>`
+  background-color: ${({ backgroundColor }) => backgroundColor};
   border-radius: 0.5rem;
   padding: 1rem;
   width: 100%;
@@ -119,13 +119,13 @@ const Row = styled.div`
   width: 100%;
 `;
 
-const StyledButtonFill = styled(Button)<{ textColor: string, bgColor: string }>`
-  background-color: ${({ bgColor }) => bgColor} !important;
+const StyledButtonFill = styled(Button)<{ textColor: string, backgroundColor: string }>`
+  background-color: ${({ backgroundColor }) => backgroundColor} !important;
   color: ${({ textColor }) => textColor} !important;
   border: none !important;
 `;
 
-const StyledButtonOutline = styled(Button)<{ textColor: string, bgColor: string }>`
+const StyledButtonOutline = styled(Button)<{ textColor: string, backgroundColor: string }>`
   color: ${({ textColor }) => textColor} !important;
   border: 1px solid ${({ textColor }) => textColor} !important;
   background: none !important;
@@ -156,12 +156,12 @@ const ProgressBarContainer = styled.div`
   width: 100%;
 `;
 
-const StyledProgressBar = styled(PrimeProgressBar)<{ textColor: string, bgColor: string }>`
+const StyledProgressBar = styled(PrimeProgressBar)<{ textColor: string, backgroundColor: string }>`
   .p-progressbar-value {
     background-color: ${({ textColor }) => textColor} !important;
   }
   .p-progressbar-label {
-    color: ${({ bgColor }) => bgColor} !important;
+    color: ${({ backgroundColor }) => backgroundColor} !important;
   }
 `;
 
