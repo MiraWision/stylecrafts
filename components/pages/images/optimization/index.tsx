@@ -1,266 +1,253 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import styled from 'styled-components';
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
+import styled, { css } from 'styled-components';
 
-import { GAService } from '@/services/google-analytics-service';
-import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
-import { ImageType } from '@/types/image-types';
+import { optimizeImage } from '@/api/images';
 
-import { ImageData, ImageInput } from '@/components/ui/inputs/image-input';
-import { SingleColumnContainer } from '@/components/ui/containers';
+import { Button } from 'primereact/button';
 import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
 import { ImagePlaceholder } from '@/components/ui/image-placeholder';
-import { DefaultQuality, ImageSettings, Settings } from '@/components/pages/images/optimization/image-settings';
-
-interface OriginalImage {
-  content: string;
-  fileName: string;
-  size: number;
-  type: ImageType;
-  width: number;
-  height: number;
-}
+import { ImageInput, ImageData } from '@/components/ui/inputs/image-input';
+import { ImageType } from '@/types/image-types';
+import { Label } from '@/components/ui/texts/label';
 
 interface OptimizedImage {
   content: string;
   size: number;
 }
 
-const Key = 'image-settings';
+const OptimizationOptions = [
+  { 
+    value: 'minimal',
+    label: 'Minimal',
+    optimization: '10-20',
+  },
+  { 
+    label: 'Optimal', 
+    value: 'optimal',
+    optimization: '30-50',
+    best: true,
+  },
+  { 
+    label: 'Maximum',
+    value: 'maximum',
+    optimization: '50-70',
+  },
+];
 
-interface Props {
-}
+const ImageOptimizer: React.FC = () => {
+  const [originalImage, setOriginalImage] = useState<ImageData | null>(null);
 
-const ImageOptimization: React.FC<Props> = ({}) => {
-  const [originalImage, setOriginalImage] = useState<OriginalImage | null>(null);
   const [optimizedImage, setOptimizedImage] = useState<OptimizedImage | null>(null);
-  const [settings, setSettings] = useState<Settings | null>(null);
 
-  const imageRatio = useMemo(() => (originalImage?.width ?? 1) / (originalImage?.height ?? 1), [originalImage]);
-  const optimizationPercentage = useMemo(() => Math.floor((1 - ((optimizedImage?.size ?? 1) / (originalImage?.size ?? 1))) * 100), [optimizedImage, originalImage]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    if (settings !== null) {
-      saveSettingsToStorage();
+  const optimizationPercentage = useMemo(() => {
+    if (originalImage?.fileMetaData?.size && optimizedImage?.size) {
+      return Math.round((1 - (optimizedImage.size / originalImage.fileMetaData.size)) * 100);
     }
 
-    GAService.logEvent(analyticsEvents.images.optimization.optimizationSettingsChanged(JSON.stringify(settings)));
+    return null;
+  }, [originalImage, optimizedImage]);
 
+  useEffect(() => {
+    if (originalImage) {
+      setOptimizedImage(null);
+    }
+  }, [originalImage]);
+
+  const handleImageOptimization = async (optimizationLevel: string) => {
     if (!originalImage) {
       return;
     }
 
-    const imageElement = new Image();
+    const imageFile = convertImageToFile();
 
-    imageElement.onload = () => {
-      renderCanvas(imageElement, settings?.width ?? 0, settings?.height ?? 0);
-    };
-
-    imageElement.src = originalImage.content;
-
-    generateOptimizedImage();
-  }, [settings]);
-
-  const handleImageChange = (image: ImageData) => {
-    if (!image || !image.content) {
+    if (!imageFile) {
       return;
     }
 
-    const imageElement = new Image();
+    try {
+      setLoading(true);
 
-    imageElement.onload = () => {
-      setOriginalImage({
-        content: image.content ?? '',
-        fileName: image.fileMetaData?.name ?? ImageType.JPEG,
-        size: image.fileMetaData?.size ?? 0,
-        type: image.fileMetaData?.type ?? ImageType.JPEG,
-        width: imageElement.width,
-        height: imageElement.height,
-      });
-
-      if (!settings) {
-        let originalSettings = getSettingsFromStorage();
-
-        if (originalSettings) {
-          originalSettings.height = Math.round((imageElement.height / imageElement.width) * originalSettings.width);
-        } else {
-          originalSettings = {
-            width: imageElement.width,
-            height: imageElement.height,
-            type: image.fileMetaData?.type ?? ImageType.JPEG,
-            quality: DefaultQuality,
-          };
-        }
-        
-        setSettings(originalSettings);
-      }
-
-      renderCanvas(
-        imageElement, 
-        settings?.width ?? imageElement.width, 
-        settings?.height ?? imageElement.height,
+      const response = await optimizeImage(
+        imageFile,
+        originalImage.fileMetaData?.type as ImageType,
+        optimizationLevel,
       );
 
-      GAService.logEvent(analyticsEvents.images.optimization.imageUploaded(`${image.fileMetaData?.size} bytes`));
-    };
+      setLoading(false);
 
-    imageElement.src = image.content;
+      const { image, size } = response;
+
+      const content = `data:${originalImage.fileMetaData?.type};base64,${image}`;
+
+      setOptimizedImage({ content, size });
+    } catch (error) {
+      console.error('Error optimizing image:', error);
+    }
   };
 
-  const renderCanvas = (imageElement: HTMLImageElement, width: number, height: number) => {
-    const canvas = canvasRef.current;
-
-    if (!canvas) {
-      return;
-    }
-
-    const ctx = canvas.getContext('2d');
-
-    if (!ctx) {
-      return;
-    }
-
-    canvas.width = width;
-    
-    canvas.height = height;
-    
-    ctx.drawImage(imageElement, 0, 0, width, height);
-
-    generateOptimizedImage();
-  };
-
-  const generateOptimizedImage = () => {
-    const canvas = canvasRef.current;
-
-    if (!canvas) {
-      return;
-    }
-
-    const content = canvas.toDataURL(settings?.type, (settings?.quality ?? 100) / 100);
-    
-    const size = content.length * 0.75;
-
-    setOptimizedImage({ content, size });
-  };
-
-  const getSettingsFromStorage = (): Settings | null => {
-    const savedSettings = localStorage.getItem(Key);
-
-    if (!savedSettings) {
+  const convertImageToFile = (): File | null => {
+    if (!originalImage || !originalImage.content || !originalImage.fileMetaData?.type) {
       return null;
     }
 
-    const settings = JSON.parse(savedSettings);
+    const byteString = atob(originalImage.content.split(',')[1]);
 
-    return settings as Settings;
+    const mimeString = originalImage.content.split(',')[0].split(':')[1].split(';')[0];
+    
+    const ab = new ArrayBuffer(byteString.length);
+    
+    const ia = new Uint8Array(ab);
+
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    
+    const blob = new Blob([ab], { type: mimeString });
+
+    const file = new File([blob], originalImage?.fileMetaData?.name, { type: originalImage?.fileMetaData?.type });
+    
+    return file;
   };
 
-  const saveSettingsToStorage = () => {
-    localStorage.setItem(Key, JSON.stringify(settings));
+  const handleDownloadImage = () => {
+    if (!optimizedImage?.content) {
+      return;
+    }
+
+    const link = document.createElement('a');
+
+    link.href = optimizedImage.content;
+
+    link.download = originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-optimized$&') ?? 'optimized-image';
+
+    link.click();
   };
 
-  const onDownload = () => {
-    GAService.logEvent(analyticsEvents.images.optimization.imageOptimized(optimizationPercentage.toString()));
-  };
-  
   return (
-    <SingleColumnContainer>
-      <InputAndImageContainer>
-        <ImageContainer>
-          <ImageInputStyled 
-            value={originalImage?.content ?? null} 
-            onChange={handleImageChange} 
-          />
+    <Container>
+      <Form>
+        <ImagesContainer>
+          <ImageLabel>
+            Upload Image in one of the following formats:<br />JPEG, PNG, WEBP, TIFF, GIF, AVIF, or HEIF
+          </ImageLabel>
 
-          {originalImage && (
-            <>
-              <TextOverlayTop>Original</TextOverlayTop>
+          <DownloadButtonContainer>
+            {optimizedImage?.content && (
+              <DownloadButton
+                label='Download Image'
+                icon='pi pi-download'
+                onClick={handleDownloadImage}
+              />
+            )}
+          </DownloadButtonContainer>
+        </ImagesContainer>
 
-              <TextOverlayBottom>{`${originalImage.width}x${originalImage.height}px`}</TextOverlayBottom>
-            </>  
-          )}
-        </ImageContainer>
-        
-        <ImageContainer>
-          <Canvas ref={canvasRef} />
+        <ImagesContainer>
+          <ImageContainer>
+            <ImageInputStyled 
+              value={originalImage?.content ?? null} 
+              onChange={setOriginalImage} 
+            />
 
-          {optimizedImage?.content 
-            ? (
+            {originalImage?.content && (
+              <>
+                <TextOverlayTop>Original</TextOverlayTop>
+
+                <TextOverlayBottom>{originalImage?.fileMetaData?.size ? `${(originalImage?.fileMetaData?.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayBottom>
+              </>
+            )}
+          </ImageContainer>
+          
+          <ImageContainer>
+            {optimizedImage ? (
               <>
                 <ImageWithDownloadStyled
-                  image={optimizedImage?.content ?? ''}
-                  fileName={`${originalImage?.fileName?.split('.')[0]}-optimized.${settings?.type?.split('/')[1]}`}
-                  onDownloadCallback={onDownload}
+                  image={optimizedImage.content}
+                  fileName={originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-optimized$&')}
                 />
 
                 <TextOverlayTop>Optimized</TextOverlayTop>
                 
-                <TextOverlayBottom>{`${settings?.width}x${settings?.height}px`}</TextOverlayBottom>
-              </>
-            )
-            : (
-              <ImagePlaceholder />
-            )
-          }
-        </ImageContainer>
-      </InputAndImageContainer>
-
-      {originalImage && optimizedImage && (
-        <SizeContainer>
-          <div>
-            <ImageSizeText>Size: {(originalImage.size / 1024).toFixed(2)} KB</ImageSizeText>
-          </div>
-
-          <div>
-            <ImageSizeText>Size: {(optimizedImage.size / 1024).toFixed(2)} KB</ImageSizeText>
+                <TextOverlayBottom>{optimizedImage.size ? `${(optimizedImage.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayBottom>
                 
-            {optimizationPercentage > 0 && (
-              <OptimizationTag>{optimizationPercentage}% Optimized</OptimizationTag>
+                {optimizationPercentage !== null && (
+                  <OptimizationTag>{optimizationPercentage}% Optimized</OptimizationTag>
+                )}
+              </>
+            ) : (
+              <ImagePlaceholder isLoading={loading} />
             )}
-          </div>
-        </SizeContainer> 
-      )}
+          </ImageContainer>
+        </ImagesContainer>
 
-      {optimizedImage && settings && (
-        <ImageSettings 
-          settings={settings}
-          onChange={setSettings}
-          originalRatio={imageRatio}
-        />
-      )}
-    </SingleColumnContainer>
+        <OptimizationLabel>Select Optimization Level</OptimizationLabel> 
+
+        <OptimizationContainer>
+          {OptimizationOptions.map((option) => (
+            <OptimizationOption 
+              key={option.value}
+              best={option.best}
+              onClick={() => handleImageOptimization(option.value)}
+            >
+              <h4>{option.label}</h4>
+
+              <p>~{option.optimization}% Optimization</p>
+            </OptimizationOption>
+          ))}
+        </OptimizationContainer>
+      </Form>
+    </Container>
   );
-}
+};
 
-const InputAndImageContainer = styled.div`
+const Container = styled.div`
+  width: 100%;
+  margin: 0 auto;
+`;
+
+const Form = styled.div`
   display: flex;
-  gap: 2rem;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+`;
 
-  @media (max-width: 768px) {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr 1fr;
-    height: 100%;
-  }
+const ImageLabel = styled(Label)`
+  margin-top: 1rem;
+  text-align: center;
+  width: 48%;
+  line-height: 1.5;
+`;
+
+const ImagesContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const ImageContainer = styled.div`
   position: relative;
-  
+  width: 48%;
+
   @media (max-width: 768px) {
-    height: 100%;
+    width: 100%;
   }
 `;
 
-const Canvas = styled.canvas`
-  position: absolute;
-  z-index: -1;
-  border-radius: 0.5rem;
-  width: 100%;
-  height: 100%;
+const DownloadButtonContainer = styled.div`
+  width: 50%;
+  display: flex;
+  justify-content: center;
+`;
+
+const DownloadButton = styled(Button)`
+  width: fit-content;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: var(--primary-color);
+  background: transparent;
+  border: 0.0625rem solid var(--primary-color);
 `;
 
 const TextOverlay = styled.div`
@@ -284,18 +271,15 @@ const TextOverlayBottom = styled(TextOverlay)`
 `;
 
 const ImageInputStyled = styled(ImageInput)`
-  width: 20rem;
+  width: 100%;
   min-height: 10rem;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    min-height: auto;
-  }
 `;
 
 const ImageWithDownloadStyled = styled(ImageWithDownload)`
   img {
-    width: 20rem;
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
   }
 `;
 
@@ -305,30 +289,70 @@ const OptimizationTag = styled.div`
   padding: 0.25rem 0.5rem;
   border-radius: 1rem;
   font-size: 0.75rem;
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
-const SizeContainer = styled.div`
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: 1fr 1fr;
+const OptimizationLabel = styled(Label)`
+  margin-top: 1rem;
+  text-align: center;
   width: 100%;
-  height: 1.5rem;
+`;
 
-  > div {
-    display: flex;
-    gap: 0.25rem;
-    align-items: center;
-    justify-content: center;
+const OptimizationContainer = styled.div`
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  width: 100%;
+`;
 
-    @media (max-width: 768px) {
-      justify-content: flex-start;
-      flex-direction: column;
+const OptimizationOption = styled.div<{ best?: boolean }>`
+  color: var(--text-color-secondary);
+  border: 0.0625rem solid var(--gray-300);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(1);
+  }
+
+  ${({ best }) => best && css`
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+
+    &:hover {
+      transform: scale(1.15);
     }
+
+    &:active {
+      transform: scale(1.1);
+    }
+  `}
+
+  h4 {
+    margin: 0;
+    font-size: 0.75rem;
+    text-transform: uppercase;  
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.75rem;
   }
 `;
 
-const ImageSizeText = styled.div`
-  font-size: 0.75rem;
-`;
-
-export { ImageOptimization };
+export { ImageOptimizer };

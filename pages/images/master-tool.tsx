@@ -9,21 +9,27 @@ import { MainContainer } from '@/components/ui/containers';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
 import { Subtitle, Title } from '@/components/ui/texts/typography';
-import { ImageOptimizer } from '@/components/pages/images/single-optimization';
+import { ImageOptimization } from '@/components/pages/images/master-tool';
 
-const ImageOptimizationToolPage: React.FC = () => {
+const ImageOptimizationToolPage = () => {
+  return null;
+
   return (
     <BaseLayout>
       <MetaTags {...metaTags} />
 
       <MainContainer>
         <Title>Image Optimization</Title>
+
         <Subtitle>Compress and Resize Your Images Effortlessly</Subtitle>
-        <ImageOptimizer />
+  
+        <ImageOptimization />
       </MainContainer>  
 
       <BlogContainer>
-        <Markdown markdownText={content} />
+        <Markdown 
+          markdownText={content}
+        />
       </BlogContainer> 
     </BaseLayout>
   );

@@ -5,7 +5,7 @@ enum Routes {
   ColorsPaletteGeneratorTool = '/colors/palette-generator',
   ColorsMixerTool = '/colors/mixer',
   ColorsConverterTool = '/colors/converter',
-  SingleImageOptimizationTool = '/images/single-optimization',
+  ImageMasterTool = '/images/master-tool',
   ImageOptimizationTool = '/images/optimization',
   ImageToBase64Tool = '/images/image-to-base64',
   Base64ToImageTool = '/images/base64-to-image',

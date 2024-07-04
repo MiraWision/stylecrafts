@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { ImageType } from '@/types/image-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 interface ImageData {
   content: string | null;
@@ -129,7 +131,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
 
           {!value && (
             <>
-              <Icon className='pi pi-cloud-upload' />
+              <Icon icon={faCloudArrowUp} />
 
               <Text><b>Upload your image</b><br />Click here to select a file, or drop it on a page, or just copy-paste it!</Text>
             </>
@@ -168,12 +170,12 @@ const Label = styled.label`
   cursor: pointer;
 `;
 
-const Icon = styled.i`
-  font-size: 3rem;
+const Icon = styled(FontAwesomeIcon)`
+  font-size: 2rem;
   color: var(--primary-color);  
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 `;
 

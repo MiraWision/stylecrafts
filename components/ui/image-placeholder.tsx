@@ -2,12 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
+  isLoading?: boolean;
 }
 
-const ImagePlaceholder: React.FC<Props> = ({}) => {
+const ImagePlaceholder: React.FC<Props> = ({ isLoading }) => {
   return (
     <Container>
-      <Icon className='pi pi-image' />
+      <Icon 
+        className={isLoading ? 'pi pi-spin pi-spinner-dotted' : 'pi pi-image'}
+      />
     </Container>
   );
 };

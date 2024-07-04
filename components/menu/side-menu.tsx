@@ -32,16 +32,21 @@ const MenuItems = [
   {
     name: 'Images',
     items: [
+      // {
+      //   icon: faImages,
+      //   name: 'Master Tool',
+      //   url: Routes.ImageMasterTool,
+      // },
       {
         icon: faImages,
         name: 'Optimization',
         url: Routes.ImageOptimizationTool,
       },
-      {
-        icon: faImages,
-        name: 'Single Optimization',
-        url: Routes.SingleImageOptimizationTool,
-      },
+      // {
+      //   icon: faImages,
+      //   name: 'Cropping',
+      //   url: Routes.ImageCroppingTool,
+      // },
       {
         icon: faFileCode,
         name: 'Image to Base64',
@@ -52,11 +57,6 @@ const MenuItems = [
         name: 'Base64 to Image',
         url: Routes.Base64ToImageTool,
       },
-      // {
-      //   icon: faImages,
-      //   name: 'Cropping',
-      //   url: Routes.ImageCroppingTool,
-      // },
     ],
   },
   {
