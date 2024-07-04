@@ -3,11 +3,12 @@ import styled from 'styled-components';
 
 interface Props {
   isLoading?: boolean;
+  className?: string;
 }
 
-const ImagePlaceholder: React.FC<Props> = ({ isLoading }) => {
+const ImagePlaceholder: React.FC<Props> = ({ isLoading, className }) => {
   return (
-    <Container>
+    <Container className={className}>
       <Icon 
         className={isLoading ? 'pi pi-spin pi-spinner-dotted' : 'pi pi-image'}
       />

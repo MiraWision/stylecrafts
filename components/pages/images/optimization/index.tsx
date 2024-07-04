@@ -177,7 +177,7 @@ const ImageOptimizer: React.FC = () => {
                 )}
               </>
             ) : (
-              <ImagePlaceholder isLoading={loading} />
+              <ImagePlaceholderStyled isLoading={loading} />
             )}
           </ImageContainer>
         </ImagesContainer>
@@ -232,6 +232,10 @@ const ImageContainer = styled.div`
   @media (max-width: 768px) {
     width: 100%;
   }
+`;
+
+const ImagePlaceholderStyled = styled(ImagePlaceholder)`
+  height: 100%;
 `;
 
 const DownloadButtonContainer = styled.div`
