@@ -29,7 +29,7 @@ const CodeBlock: React.FC<Props> = ({ code }) => {
   };
 
   return (
-    <Container isDark={theme === Theme.Dark}>
+    <Container $isDark={theme === Theme.Dark}>
       <Text>
         {code}
       </Text>
@@ -61,11 +61,14 @@ const CopyButton = styled(Button)`
   }
 `;
 
-const Container = styled.div<{ isDark: boolean }>`
+const Container = styled.div.attrs<{ $isDark: boolean }>(({ $isDark }) => ({
+  style: {
+    backgroundColor: $isDark ? '#2d2d2d' : '#f8f8f2',
+    color: $isDark ? '#f8f8f2' : '#2d2d2d',
+  },
+}))`
   position: relative;
   margin: 1rem 0;
-  background: ${({ isDark }) => isDark ? '#2d2d2d' : '#f8f8f2'};
-  color: ${({ isDark }) => isDark ? '#f8f8f2' : '#2d2d2d'};
   padding: 1rem;
   border-radius: 0.25rem;
   overflow: auto;

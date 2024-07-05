@@ -56,7 +56,7 @@ const GradientSettings: React.FC<Props> = ({
         <ToggleContainer onClick={() => setIsOpen(!isOpen)}>
           Adjust Colors
 
-          <Icon icon={faChevronDown} isOpen={isOpen} />
+          <Icon icon={faChevronDown} $isOpen={isOpen} />
         </ToggleContainer>
 
         <PrimaryButton icon='pi pi-copy' onClick={copyAll}>
@@ -64,7 +64,7 @@ const GradientSettings: React.FC<Props> = ({
         </PrimaryButton>
       </Header>
       
-      <SettingsContainer isOpen={isOpen}>
+      <SettingsContainer $isOpen={isOpen}>
         <FormColumn>
           {gradientSettings.map((item, index) => {
             const colorIndex = Math.floor(index / 2);
@@ -73,7 +73,7 @@ const GradientSettings: React.FC<Props> = ({
 
             if (type === 'color') {
               return (
-                <Field>
+                <Field key={`${item}-${index}`}>
                   <Label>Color {colorIndex + 1}</Label>
 
                   <ColorInputContainer>
@@ -92,7 +92,7 @@ const GradientSettings: React.FC<Props> = ({
             }
 
             return (
-              <Field>
+              <Field key={`${item}-${index}`}>
                 <Label>Steps to Color {colorIndex + 2}</Label>
 
                 <StepNumberInput
@@ -144,15 +144,21 @@ const ToggleContainer = styled.div`
   cursor: pointer;
 `;
 
-const Icon = styled(FontAwesomeIcon)<{ isOpen: boolean }>`
+const Icon = styled(FontAwesomeIcon).attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
+  style: {
+    transform: $isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+  },
+}))`
   font-size: 0.75rem;
   margin-left: 0.5rem;
-  transform: ${({ isOpen }) => isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
   transition: transform 0.3s;
 `;
 
-const SettingsContainer = styled(TwoColumnsContainer)<{ isOpen: boolean }>`
-  max-height: ${({ isOpen }) => isOpen ? '50rem' : '0'};
+const SettingsContainer = styled(TwoColumnsContainer).attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
+  style: {
+    maxHeight: $isOpen ? '50rem' : '0',
+  },
+}))`
   overflow: hidden;
   transition: all 0.6s ease-in-out;
   margin: 0;

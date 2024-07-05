@@ -20,7 +20,7 @@ const PaletteExample: React.FC<Props> = ({ palette, onClick }) => {
 
       <ColorsContainer>
         {palette.colors.map((item) => (
-          <ColorBox key={item} color={item} />
+          <ColorBox key={item} $backgroundColor={item} />
         ))}
       </ColorsContainer>
     </Container>
@@ -41,10 +41,13 @@ const ColorsContainer = styled.div`
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
 `;
 
-const ColorBox = styled.div<{ color: string }>`
+const ColorBox = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 1rem;
   height: 2rem;
-  background-color: ${({ color }) => color};
 `;
 
 export { PaletteExample };

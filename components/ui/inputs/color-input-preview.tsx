@@ -68,7 +68,7 @@ const ColorInputPreview: React.FC<Props> = ({ value, onChange }) => {
   );
 };
 
-const Container = styled.div<{ margin?: string }>`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

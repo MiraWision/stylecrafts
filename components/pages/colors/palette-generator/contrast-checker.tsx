@@ -86,7 +86,7 @@ const ContrastChecker: React.FC<Props> = ({ selectedColors }) => {
   return (
     <CheckerContainer>
       {contrastIssues.map((issue, index) => (
-        <Message key={index} severity={issue.severity}>
+        <Message key={index} $severity={issue.severity}>
           <Icon icon={issue.severity === 'error' ? faExclamationCircle : faExclamationTriangle} />
 
           {issue.message}
@@ -107,14 +107,27 @@ const Icon = styled(FontAwesomeIcon)`
   margin-right: 0.5rem;
 `;
 
-const Message = styled.div<{ severity: 'error' | 'warning' }>`
+const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severity }) => ({
+  className: $severity,
+}))`
   display: flex;
   align-items: center;
   font-size: 0.875rem;
 
   ${Icon} {
-    color: ${({ severity }) => severity === 'error' ? 'var(--red-700)' : 'var(--yellow-700)'};
     margin-right: 0.5rem;
+  }
+
+  .error {
+    ${Icon} {
+      color: var(--red-700);
+    }
+  }
+
+  .warning {
+    ${Icon} {
+      color: var(--yellow-700);
+    }
   }
 `;
 

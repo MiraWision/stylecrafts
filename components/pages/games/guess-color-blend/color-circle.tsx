@@ -29,12 +29,12 @@ const ColorCircle: React.FC<Props> = ({ color, totalWeight, onWeightChange }) =>
 
   return (
     <Container>
-      <Item color={color.hex} onClick={handleIncreaseWeight}>
+      <Item $color={color.hex} onClick={handleIncreaseWeight}>
         {color.weight > 0 && (
           <>
-            <WeightLabel color={textColor}>{color.weight}</WeightLabel>
+            <WeightLabel $color={textColor}>{color.weight}</WeightLabel>
 
-            <PercentageLabel color={textColor}>{percentage}%</PercentageLabel>
+            <PercentageLabel $color={textColor}>{percentage}%</PercentageLabel>
           </>
         )}
       </Item>
@@ -57,10 +57,13 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Item = styled.div<{ color: string }>`
+const Item = styled.div.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    backgroundColor: $color,
+  },
+}))`
   width: 3.75rem;
   height: 3.75rem;
-  background-color: ${({ color }) => color};
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -75,19 +78,25 @@ const Item = styled.div<{ color: string }>`
   }
 `;
 
-const WeightLabel = styled.div<{ color: string }>`
+const WeightLabel = styled.div.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 1rem;
   font-weight: bold;
   position: absolute;
   top: 0.5rem;
-  color: ${({ color }) => color};
 `;
 
-const PercentageLabel = styled.div<{ color: string }>`
+const PercentageLabel = styled.div.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 0.75rem;
   position: absolute;
   bottom: 0.5rem;
-  color: ${({ color }) => color};
 `;
 
 const ButtonContainer = styled.div`

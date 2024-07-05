@@ -12,8 +12,8 @@ const ChartPreview: React.FC<Props> = ({ data }) => {
         {data.map((bar, index) => (
           <Bar
             key={index}
-            percentage={bar.percentage}
-            color={bar.color}
+            $percentage={bar.percentage}
+            $backgroundColor={bar.color}
           />
         ))}
       </Chart>
@@ -39,7 +39,13 @@ const Chart = styled.div`
   align-items: flex-start;
 `;
 
-const Bar = styled.div<{ percentage: number }>`
+const Bar = styled.div.attrs<{ $backgroundColor: string, $percentage: number }>(({ $backgroundColor, $percentage }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    top: $percentage > 0 ? `${(100 - $percentage) / 2}%` : '50%',
+    height: `${Math.abs($percentage / 2)}%`,
+  },
+}))`
   position: relative;
   width: 1.5rem;
   display: flex;
@@ -47,9 +53,6 @@ const Bar = styled.div<{ percentage: number }>`
   align-items: flex-end;
   color: var(--surface-100);
   font-size: 0.5rem;
-  height: ${({ percentage }) => Math.abs(percentage / 2)}%;
-  background-color: ${({ color }) => color};
-  top: ${({ percentage }) => (percentage > 0 ? `${(100 - percentage) / 2}%` : '50%')};
   transition: all 0.6s;
 `;
 

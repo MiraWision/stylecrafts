@@ -14,7 +14,7 @@ const Days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const HeatmapPreview: React.FC<Props> = ({ gradient, data, cols, rows }) => {
   return (
-    <Heatmap cols={cols}>
+    <Heatmap $cols={cols}>
       {Array.from({ length: cols + 1 }).map((_, i) => (
         <HeaderCell key={i}>
           {i % 4 === 1 ? Months[(i - 1) / 4 % 12] : ''}
@@ -25,23 +25,29 @@ const HeatmapPreview: React.FC<Props> = ({ gradient, data, cols, rows }) => {
           {i % cols === 0 && (
             <HeaderCell>{Days[i / cols % 7]}</HeaderCell>
           )}
-          <Cell color={gradient[index]} />
+          <Cell $backgroundColor={gradient[index]} />
         </React.Fragment>
       ))}
     </Heatmap>
   );
 }
 
-const Heatmap = styled.div<{ cols: number }>`
+const Heatmap = styled.div.attrs<{ $cols: number }>(({ $cols }) => ({
+  style: {
+    gridTemplateColumns: `repeat(${$cols + 1}, 1fr)`,
+  },
+}))`
   width: fit-content;
   margin: 0 auto 2rem;
   display: grid;
-  grid-template-columns: repeat(${({ cols }) => cols + 1}, 1fr);
   border-collapse: collapse;
 `;
 
-const Cell = styled.div<{ color: string }>`
-  background-color: ${({ color }) => color};
+const Cell = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 2rem;
   height: 2rem;
   border: 0.0625rem solid var(--surface-200);

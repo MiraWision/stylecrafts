@@ -58,7 +58,7 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
             return (
               <EmptyColorSquare 
                 key={index} 
-                color="#fff" 
+                $backgroundColor='#ffffff' 
               />
             );
           }
@@ -66,7 +66,7 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
           return (
             <ColorSquare
               key={index}
-              color={color}
+              $backgroundColor={color}
               onClick={() => copyColor(color)}
               onDoubleClick={() => onRemoveColor(index)}
             >
@@ -100,10 +100,13 @@ const PaletteGrid = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-const ColorSquare = styled.div<{ color: string }>`
+const ColorSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 4rem;
   height: 4rem;
-  background-color: ${({ color }) => color};
   position: relative;
   border-radius: 0.25rem;
   cursor: pointer;

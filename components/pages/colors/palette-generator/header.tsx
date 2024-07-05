@@ -23,23 +23,23 @@ const Header: React.FC<HeaderProps> = ({
   onReverseColors,
 }) => {
   return (
-    <Container bgColor={bgColor}>
+    <Container $backgroundColor={bgColor}>
       <Content>
-        <Title textColor={textColor}>This is a preview</Title>
-        <Subtitle textColor={textColor}>
+        <Title $color={textColor}>This is a preview</Title>
+        <Subtitle $color={textColor}>
           Here is a preview of a color combination applied to a real-life example.
         </Subtitle>
 
         <ContrastContainer>
           {Object.entries(contrastRatios).map(([key, value]) => (
-            <ContrastItem key={key} textColor={textColor}>
+            <ContrastItem key={key} $color={textColor}>
               {formatContrastKey(key)} <Icon icon={faAdjust} /> {value}
             </ContrastItem>
           ))}
         </ContrastContainer>
       </Content>
       <LargeTextContainer>
-        <LargeText textColor={textColor}>Az</LargeText>
+        <LargeText $color={textColor}>Az</LargeText>
         <ReverseButton onReverseColors={onReverseColors} />
       </LargeTextContainer>
     </Container>
@@ -61,13 +61,16 @@ const formatContrastKey = (key: string) => {
   }
 };
 
-const Container = styled.div<{ bgColor: string }>`
+const Container = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   padding: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 0.5rem;
-  background-color: ${({ bgColor }) => bgColor};
 `;
 
 const Content = styled.div`
@@ -75,15 +78,21 @@ const Content = styled.div`
   flex-direction: column;
 `;
 
-const Title = styled.h1<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const Title = styled.h1.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 1.6rem;
   font-weight: bold;
   margin: 0;
 `;
 
-const Subtitle = styled.p<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const Subtitle = styled.p.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 1rem;
   margin: 0.4rem 0;
 `;
@@ -95,8 +104,11 @@ const ContrastContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const ContrastItem = styled.div<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const ContrastItem = styled.div.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   display: flex;
   align-items: center;
   font-size: 0.8rem;
@@ -109,8 +121,11 @@ const LargeTextContainer = styled.div`
   position: relative;
 `;
 
-const LargeText = styled.span<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const LargeText = styled.span.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 4rem;
   font-weight: bold;
 `;

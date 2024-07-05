@@ -42,19 +42,19 @@ const ColorSwatchesCheatSheetMain: React.FC<Props> = ({}) => {
                 <ColorCard key={color.title}>
                   <ColorName>{color.title}</ColorName>
 
-                  <ColorSquare color={color.hex} textColor={getTextColor(color.hex)}>
-                    <FormatPanel color={color.hex}>
+                  <ColorSquare $backgroundColor={color.hex} $color={getTextColor(color.hex)}>
+                    <FormatPanel $backgroundColor={color.hex}>
                       <Format>
                         HEX
-                        <CopyButtonSmall text={color.hex} onCopyCallback={() => onCopy(color.hex)} textColor={getTextColor(color.hex)} />
+                        <CopyButtonSmall text={color.hex} onCopyCallback={() => onCopy(color.hex)} $color={getTextColor(color.hex)} />
                       </Format>
                       <Format>
                         RGB
-                        <CopyButtonSmall text={convertColor(color.hex, ColorFormat.RGB)} onCopyCallback={() => onCopy(convertColor(color.hex, ColorFormat.RGB))} textColor={getTextColor(color.hex)} />
+                        <CopyButtonSmall text={convertColor(color.hex, ColorFormat.RGB)} onCopyCallback={() => onCopy(convertColor(color.hex, ColorFormat.RGB))} $color={getTextColor(color.hex)} />
                       </Format>
                       <Format>
                         HSL
-                        <CopyButtonSmall text={convertColor(color.hex, ColorFormat.HSL)} onCopyCallback={() => onCopy(convertColor(color.hex, ColorFormat.HSL))} textColor={getTextColor(color.hex)} />
+                        <CopyButtonSmall text={convertColor(color.hex, ColorFormat.HSL)} onCopyCallback={() => onCopy(convertColor(color.hex, ColorFormat.HSL))} $color={getTextColor(color.hex)} />
                       </Format>
                     </FormatPanel>
                   </ColorSquare>
@@ -92,17 +92,20 @@ const ColorCard = styled.div`
   max-width: 8rem;
 `;
 
-const ColorSquare = styled.div<{ color: string; textColor: string }>`
+const ColorSquare = styled.div.attrs<{ $backgroundColor: string; $color: string }>(({ $backgroundColor, $color }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    color: $color,
+  },
+}))`
   width: 8rem;
   height: 2rem;
   border: 0.0625rem solid var(--surface-border);
   border-radius: 0.25rem;
-  background-color: ${({ color }) => color};
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ textColor }) => textColor};
   margin-bottom: 0;
 
   &:hover div {
@@ -119,11 +122,14 @@ const ColorName = styled.div`
   white-space: nowrap;
 `;
 
-const FormatPanel = styled.div<{ color: string }>`
+const FormatPanel = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   display: none;
   flex-direction: column;
   align-items: flex-start;
-  background: ${({ color }) => color};
   border: none;
   padding: 0.5rem;
   width: 100%;
@@ -150,10 +156,13 @@ const Format = styled.div`
   }
 `;
 
-const CopyButtonSmall = styled(CopyButton)<{ textColor: string }>`
+const CopyButtonSmall = styled(CopyButton).attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   .pi {
     font-size: 0.75rem;
-    color: ${({ textColor }) => textColor};
   }
 
   button {

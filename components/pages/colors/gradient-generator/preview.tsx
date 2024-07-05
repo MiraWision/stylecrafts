@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-// @ts-ignore
-import USAMap from 'react-usa-map';
+// import { USAMap, StateAbbreviations } from '@mirawision/usa-map-react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faRefresh } from '@fortawesome/free-solid-svg-icons';
@@ -13,14 +12,6 @@ interface Props {
 }
 
 type MapSettings = Record<string, { fill: string }>;
-
-const USStates = [
-  'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 
-  'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 
-  'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 
-  'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 
-  'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY',
-];
 
 const HeatmapCols = 18;
 const HeatmapRows = 7;
@@ -46,11 +37,11 @@ const Preview: React.FC<Props> = ({ gradient }) => {
   const mapSettings = useMemo<MapSettings>(() => {
     const settings: MapSettings = {};
 
-    USStates.forEach((state) => {
-      settings[state] = {
-        fill: gradient[Math.floor(Math.random() * gradient.length)]
-      };
-    });
+    // StateAbbreviations.forEach((state) => {
+    //   settings[state] = {
+    //     fill: gradient[Math.floor(Math.random() * gradient.length)]
+    //   };
+    // });
 
     return settings;
   }, [gradient, refreshIndex]);
@@ -98,13 +89,15 @@ const Preview: React.FC<Props> = ({ gradient }) => {
       </Header>
 
       <SliderContainer>
-        <SliderContent translateX={selectedPreview * 100}>
+        <SliderContent $translateX={selectedPreview * 100}>
           <MapContainer>
-            <USAMap 
-              width='100%'
-              height='fit-content'
-              customize={mapSettings}
-            />
+            {/* <USAMap
+              mapSettings={{
+                width: '100%',
+                height: 'fit-content',
+              }}
+              customStates={mapSettings}
+            /> */}
           </MapContainer>
           
           <ChartContainer>
@@ -128,7 +121,7 @@ const Preview: React.FC<Props> = ({ gradient }) => {
         <LegendLabel>+100</LegendLabel>
 
         {gradient.map((color, i) => (
-          <LegendColor key={i} color={color} />
+          <LegendColor key={i} $backgroundColor={color} />
         ))}
 
         <LegendLabel>-100</LegendLabel>
@@ -198,10 +191,13 @@ const SliderContainer = styled.div`
   position: relative;
 `;
 
-const SliderContent = styled.div<{ translateX: number }>`
+const SliderContent = styled.div.attrs<{ $translateX: number }>(({ $translateX }) => ({
+  style: {
+    transform: `translateX(-${$translateX}%)`,
+  },
+}))`
   display: flex;
   transition: transform 0.5s ease;
-  transform: translateX(-${({ translateX }) => translateX}%);
 `;
 
 const MapContainer = styled.div`
@@ -236,11 +232,14 @@ const Legend = styled.div`
   gap: 0.25rem;
 `;
 
-const LegendColor = styled.div<{ color: string }>`
+const LegendColor = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 1rem;
   height: 1rem;
   border-radius: 0.25rem;
-  background-color: ${({ color }) => color};
   border: 0.0625rem solid var(--surface-border);
   transition: background-color 0.6s;
 `;

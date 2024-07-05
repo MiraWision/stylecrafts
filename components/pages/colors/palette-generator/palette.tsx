@@ -17,14 +17,14 @@ const Palette: React.FC<PaletteProps> = ({ selectedColors, onRemoveColor }) => {
         {selectedColors.map((color, colorIndex) => (
           <React.Fragment key={colorIndex}>
             <ColorBox 
-              color={color.baseColor} 
+              $backgroundColor={color.baseColor} 
               onDoubleClick={() => onRemoveColor(colorIndex)} 
             />
 
             {color.shades.map((shade, shadeIndex) => (
               <ColorBox 
                 key={shadeIndex} 
-                color={shade.hex} 
+                $backgroundColor={shade.hex} 
                 onDoubleClick={() => onRemoveColor(colorIndex, shadeIndex)}
               />
             ))}
@@ -49,8 +49,11 @@ const PaletteRow = styled.div`
   grid-template-columns: repeat(8, 1fr);
 `;
 
-const ColorBox = styled.div<{ color: string }>`
-  background-color: ${({ color }) => color};
+const ColorBox = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 2rem;
   height: 2rem;
   border-radius: 0.25rem;

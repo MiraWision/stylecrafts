@@ -32,7 +32,7 @@ const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
     <Container>
       {!isSidebarOpen && (
         <StyledButton
-          isOpen={isSidebarOpen}
+          $isOpen={isSidebarOpen}
           icon='pi pi-bars'
           onClick={toggleSidebar}
           className='p-button-rounded p-button-text'
@@ -40,7 +40,7 @@ const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
         />
       )}
 
-      <Sidebar isOpen={isSidebarOpen}>
+      <Sidebar $isOpen={isSidebarOpen}>
         <Logo onClick={handleLogoClick} />
 
         <SideMenu />
@@ -49,7 +49,7 @@ const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
       <Content>
         <ThemeButton />
         
-        <Overlay isOpen={isSidebarOpen} onClick={toggleSidebar} />
+        <Overlay $isOpen={isSidebarOpen} onClick={toggleSidebar} />
         
         {children}
 
@@ -64,7 +64,9 @@ const Container = styled.div`
   display: flex;
 `;
 
-const Sidebar = styled.div<{ isOpen: boolean }>`
+const Sidebar = styled.div.attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
+  className: $isOpen ? 'open' : 'closed',
+}))`
   width: 15rem;
   height: 100vh;
   padding: 1.5rem;
@@ -87,9 +89,20 @@ const Sidebar = styled.div<{ isOpen: boolean }>`
     z-index: 10;
   }
 
+  &.open {
+    @media (max-width: 768px) {
+      transform: translateX(0);
+    }
+  }
+
+  &.closed {
+    @media (max-width: 768px) {
+      transform: translateX(-100%);
+    }
+  }
+
   @media (max-width: 768px) {
     transition: transform 0.3s ease-in-out;
-    transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
     z-index: 20;
 
     &::after {
@@ -98,7 +111,9 @@ const Sidebar = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const StyledButton = styled(Button)<{ isOpen: boolean }>`
+const StyledButton = styled(Button).attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
+  className: $isOpen ? 'open' : 'closed',
+}))`
   && {
     background-color: transparent !important;
     border: none !important;
@@ -112,13 +127,20 @@ const StyledButton = styled(Button)<{ isOpen: boolean }>`
     display: none; 
 
     @media (max-width: 768px) {
-      display: ${({ isOpen }) => (isOpen ? 'none' : 'flex')};
+      &.open {
+        display: none;
+      }
+
+      &.closed {
+        display: flex;
+      }
     }
   }
 `;
 
-const Overlay = styled.div<{ isOpen: boolean }>`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+const Overlay = styled.div.attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
+  className: $isOpen ? 'open' : 'closed',
+}))`
   position: fixed;
   top: 0;
   left: 0;
@@ -127,6 +149,14 @@ const Overlay = styled.div<{ isOpen: boolean }>`
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
 
+  &.open {
+    display: block;
+  }
+
+  &.closed {
+    display: none;
+  }
+  
   @media (min-width: 769px) {
     display: none;
   }

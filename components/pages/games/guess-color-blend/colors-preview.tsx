@@ -48,7 +48,7 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
 
   return (
     <Container>
-      <ColorSection color={currentColor}>
+      <ColorSection $backgroundColor={currentColor}>
         {!currentColor && (
           <EmptyBackground />
         )}
@@ -61,7 +61,7 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
       </ColorSection>
 
       <Match
-        isMatched={isMatched}
+        $isMatched={isMatched}
         onClick={handleOnClick}  
       >
         <MatchText>{text}</MatchText>
@@ -69,7 +69,7 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
         <HoverText>{hoverText}</HoverText>
       </Match>
 
-      <ColorSection color={targetColor}>
+      <ColorSection $backgroundColor={targetColor}>
         <Overlay>
           <SectionTitle>Target</SectionTitle>
 
@@ -98,10 +98,13 @@ const Container = styled.div`
   }
 `;
 
-const ColorSection = styled.div<{ color: string }>`
+const ColorSection = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor || 'white',
+  },
+}))`
   flex: 1;
   height: 100%;
-  background-color: ${({ color }) => color || 'white'};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,6 +124,7 @@ const ColorSection = styled.div<{ color: string }>`
     border-bottom-right-radius: 1rem;
   }
 `;
+
 
 const EmptyBackground = styled.div`
   position: absolute;
@@ -178,7 +182,12 @@ const HoverText = styled.div`
   color: var(--primary-color);
 `;
 
-const Match = styled.div<{ isMatched: boolean }>`
+const Match = styled.div.attrs<{ $isMatched: boolean }>(({ $isMatched }) => ({
+  style: {
+    borderColor: $isMatched ? 'var(--primary-color)' : 'var(--surface-border)',
+    color: $isMatched ? 'var(--primary-color)' : 'var(--text-color)',
+  },
+}))<{ $isMatched: boolean }>`
   position: absolute;
   z-index: 1;
   top: 50%;
@@ -191,13 +200,12 @@ const Match = styled.div<{ isMatched: boolean }>`
   gap: 0.5rem;
   background-color: var(--surface-100);
   padding: 0.5rem 1rem;
-  border: 0.0625rem solid ${({ isMatched }) => isMatched ? 'var(--primary-color)' : 'var(--surface-border)'};
+  border: 0.0625rem solid;
   border-radius: 1rem;
   width: 5rem;
   height: 5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  color: ${({ isMatched }) => (isMatched ? 'var(--primary-color)' : 'var(--text-color)')};
 
   &:hover {
     background-color: var(--surface-200);

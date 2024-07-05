@@ -163,12 +163,12 @@ const HomePage: React.FC = () => {
 
       <BaseLayout includeFooter={false}>
         <MainContainer ref={containerRef}>      
-          <Section id='Hero' isFullHeight>
+          <Section id='Hero' $isFullHeight>
             <HeroSection onScrollToNextSection={() => scrollToSection(1)} />
           </Section>
 
           {Sections.map((section) => (
-            <Section key={section.title} id={section.title} isFullHeight={section.isFullHeight}>
+            <Section key={section.title} id={section.title} $isFullHeight={section.isFullHeight}>
               {section.renderComponent()}
             </Section>
           ))}
@@ -186,15 +186,17 @@ const HomePage: React.FC = () => {
 
 const MainContainer = styled.div`
   scroll-behavior: smooth;
-  /* overflow-y: hidden; */
   width: calc(100% + 3rem);
   height: 100vh;
   margin: -1.5rem;
 `;
 
-const Section = styled.section<{ isFullHeight?: boolean }>`
+const Section = styled.section.attrs<{ $isFullHeight?: boolean }>(({ $isFullHeight = true }) => ({
+  style: {
+    height: $isFullHeight ? '100vh' : 'auto',
+  },
+}))`
   width: 100%;
-  height: ${({ isFullHeight = true }) => isFullHeight ? '100vh' : 'auto'};
   display: flex;
   align-items: center;
   justify-content: center;

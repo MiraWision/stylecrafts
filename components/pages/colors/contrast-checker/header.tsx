@@ -18,22 +18,22 @@ const Header: React.FC<HeaderProps> = ({
   onReverseColors,
 }) => {
   return (
-    <Container backgroundColor={backgroundColor}>
+    <Container>
       <Content>
-        <Title textColor={textColor}>This is a preview</Title>
-        <Subtitle textColor={textColor}>
+        <Title $color={textColor}>This is a preview</Title>
+        <Subtitle $color={textColor}>
         Here is a preview of a color combination applied to a real-life example.
         </Subtitle>
         <FontWeights>
-          <Weight textColor={textColor} weight={300}>Light</Weight>
-          <Weight textColor={textColor} weight={400}>Regular</Weight>
-          <Weight textColor={textColor} weight={500}>Medium</Weight>
-          <Weight textColor={textColor} weight={700}>Bold</Weight>
+          <Weight $color={textColor} $weight={300}>Light</Weight>
+          <Weight $color={textColor} $weight={400}>Regular</Weight>
+          <Weight $color={textColor} $weight={500}>Medium</Weight>
+          <Weight $color={textColor} $weight={700}>Bold</Weight>
         </FontWeights>
       </Content>
       <LargeTextContainer>
-        <LargeText textColor={textColor}>Az</LargeText>
-        <ContrastInfo textColor={textColor}>
+        <LargeText $color={textColor}>Az</LargeText>
+        <ContrastInfo $color={textColor}>
           <ContrastRatio>
             <Icon icon={faAdjust} /> {contrastRatio}
           </ContrastRatio>
@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({
   );
 };
 
-const Container = styled.div<{ backgroundColor: string }>`
+const Container = styled.div`
   padding: 2rem;
   display: flex;
   justify-content: space-between;
@@ -57,15 +57,21 @@ const Content = styled.div`
   flex-direction: column;
 `;
 
-const Title = styled.h1<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const Title = styled.h1.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 1.6rem;
   font-weight: bold;
   margin: 0;
 `;
 
-const Subtitle = styled.p<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const Subtitle = styled.p.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 1rem;
   margin: 0.4rem 0;
 `;
@@ -76,10 +82,13 @@ const FontWeights = styled.div`
   margin-top: 0.8rem;
 `;
 
-const Weight = styled.span<{ textColor: string, weight: number }>`
-  color: ${({ textColor }) => textColor};
+const Weight = styled.span.attrs<{ $color: string, $weight: number }>(({ $color, $weight }) => ({
+  style: {
+    color: $color,
+    fontWeight: $weight,
+  },
+}))`
   font-size: 0.8rem;
-  font-weight: ${({ weight }) => weight};
 `;
 
 const LargeTextContainer = styled.div`
@@ -89,14 +98,20 @@ const LargeTextContainer = styled.div`
   position: relative;
 `;
 
-const LargeText = styled.span<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const LargeText = styled.span.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 4rem;
   font-weight: bold;
 `;
 
-const ContrastInfo = styled.div<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const ContrastInfo = styled.div.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   display: flex;
   align-items: center;
   font-size: 0.8rem;

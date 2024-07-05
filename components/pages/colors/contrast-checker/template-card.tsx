@@ -30,37 +30,37 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, backgroundColor 
   const contrastRatio = checkContrast(currentTextColor, currentBackgroundColor).contrast.toFixed(2);
 
   return (
-    <Card backgroundColor={currentBackgroundColor} color={currentTextColor}>
+    <Card $backgroundColor={currentBackgroundColor} $color={currentTextColor}>
       <Header
         textColor={currentTextColor}
         backgroundColor={currentBackgroundColor}
         contrastRatio={contrastRatio}
         onReverseColors={handleReverseColors}
       />
-      <Divider color={currentTextColor} />
-      <Paragraph color={currentTextColor}>
+      <Divider $color={currentTextColor} />
+      <Paragraph $color={currentTextColor}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       </Paragraph>
       <Row>
-        <StyledButtonFill label="Button" textColor={currentBackgroundColor} backgroundColor={currentTextColor} />
-        <StyledButtonOutline label="Button" textColor={currentTextColor} backgroundColor={currentBackgroundColor} />
+        <StyledButtonFill label='Button' $color={currentBackgroundColor} $backgroundColor={currentTextColor} />
+        <StyledButtonOutline label='Button' $color={currentTextColor} />
       </Row>
-      <Quote color={currentTextColor}>
+      <Quote $color={currentTextColor}>
         The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a footer or cite element.
         <cite>
-          Someone famous in <a href="#" style={{ color: currentTextColor }}>Source Title</a>
+          Someone famous in <a href='#' style={{ color: currentTextColor }}>Source Title</a>
         </cite>
       </Quote>
       <ProgressBarContainer>
         <p style={{ color: currentTextColor }}>Progress</p>
-        <StyledProgressBar value={50} textColor={currentTextColor} backgroundColor={currentBackgroundColor} />
+        {/* <StyledProgressBar value={50} textColor={currentTextColor} backgroundColor={currentBackgroundColor} /> */}
       </ProgressBarContainer>
       <TemplateReview
         textColor={currentTextColor}
         backgroundColor={currentBackgroundColor}
-        title="Gradients.app"
-        date="23.06.2024"
-        content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."
+        title='Gradients.app'
+        date='23.06.2024'
+        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'
       />
       <IconList>
         <IconItem>
@@ -77,28 +77,38 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, backgroundColor 
   );
 };
 
-const Card = styled.div<{ backgroundColor: string }>`
-  background-color: ${({ backgroundColor }) => backgroundColor};
+const Card = styled.div.attrs<{ $backgroundColor: string, $color: string }>(({ $backgroundColor, $color }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    color: $color,
+  },
+}))`
   border-radius: 0.5rem;
   padding: 1rem;
   width: 100%;
-  color: ${({ color }) => color};
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 20px 40px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const Divider = styled.hr<{ color: string }>`
+const Divider = styled.hr.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    borderTopColor: $color,
+  },
+}))`
   border: none;
-  border-top: 1px solid ${({ color }) => color};
+  border-top: 1px solid;
   margin: 1rem 0;
   width: 100%;
 `;
 
-const Paragraph = styled.p<{ color: string }>`
+const Paragraph = styled.p.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   margin: 1rem 0;
-  color: ${({ color }) => color};
   position: relative;
 
   &::first-letter {
@@ -107,7 +117,6 @@ const Paragraph = styled.p<{ color: string }>`
     float: left;
     margin-right: 0.5rem;
     line-height: 1;
-    color: ${({ color }) => color};
   }
 `;
 
@@ -119,23 +128,33 @@ const Row = styled.div`
   width: 100%;
 `;
 
-const StyledButtonFill = styled(Button)<{ textColor: string, backgroundColor: string }>`
-  background-color: ${({ backgroundColor }) => backgroundColor} !important;
-  color: ${({ textColor }) => textColor} !important;
+const StyledButtonFill = styled(Button).attrs<{ $color: string, $backgroundColor: string }>(({ $color, $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    color: $color,
+  },
+}))`
   border: none !important;
 `;
 
-const StyledButtonOutline = styled(Button)<{ textColor: string, backgroundColor: string }>`
-  color: ${({ textColor }) => textColor} !important;
-  border: 1px solid ${({ textColor }) => textColor} !important;
+const StyledButtonOutline = styled(Button).attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+    borderColor: $color,
+  },
+}))`
   background: none !important;
 `;
 
-const Quote = styled.blockquote<{ color: string }>`
-  border-left: 4px solid ${({ color }) => color};
+const Quote = styled.blockquote.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    borderLeftColor: $color,
+    color: $color,
+  },
+}))`
+  border-left: 4px solid;
   padding-left: 1rem;
   margin: 1rem 0;
-  color: ${({ color }) => color};
   font-style: italic;
   width: 100%;
 
@@ -146,7 +165,6 @@ const Quote = styled.blockquote<{ color: string }>`
   }
 
   a {
-    color: ${({ color }) => color};
     text-decoration: underline;
   }
 `;
@@ -154,15 +172,6 @@ const Quote = styled.blockquote<{ color: string }>`
 const ProgressBarContainer = styled.div`
   margin: 1rem 0;
   width: 100%;
-`;
-
-const StyledProgressBar = styled(PrimeProgressBar)<{ textColor: string, backgroundColor: string }>`
-  .p-progressbar-value {
-    background-color: ${({ textColor }) => textColor} !important;
-  }
-  .p-progressbar-label {
-    color: ${({ backgroundColor }) => backgroundColor} !important;
-  }
 `;
 
 const IconList = styled.div`

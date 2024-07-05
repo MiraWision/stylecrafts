@@ -17,7 +17,7 @@ const ColorExamples: React.FC<Props> = ({ onColorSelect }) => {
             {color.name}
           </ColorName>
 
-          <ColorSquare color={color.color} />
+          <ColorSquare $backgroundColor={color.color} />
         </ColorCard>
       ))}
     </Container>
@@ -39,12 +39,15 @@ const ColorCard = styled.div`
   max-width: 6rem;
 `;
 
-const ColorSquare = styled.div<{ color: string }>`
+const ColorSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 6rem;
   height: 2rem;
   border-radius: 0.25rem;
   border: 0.0625rem solid var(--surface-border);
-  background-color: ${({ color }) => color};
 `;
 
 const ColorName = styled.div`

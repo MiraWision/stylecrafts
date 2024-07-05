@@ -60,10 +60,13 @@ const ContrastStatusContainer = styled.div`
   width: 100%;
 `;
 
-const StatusMessage = styled.p<{ $isSuitable: boolean }>`
+const StatusMessage = styled.p.attrs<{ $isSuitable: boolean }>(({ $isSuitable }) => ({
+  style: {
+    color: $isSuitable ? 'green' : 'red',
+  },
+}))`
   font-size: 1rem;
   font-weight: bold;
-  color: ${({ $isSuitable }) => ($isSuitable ? 'green' : 'red')};
   margin: 0;
 `;
 
@@ -79,14 +82,17 @@ const Ratio = styled.div`
   gap: 0.5rem;
 `;
 
-const RatioIcon = styled.i<{ $isSuitable: boolean }>`
-  color: ${({ $isSuitable }) => ($isSuitable ? 'green' : 'red')};
+const RatioIcon = styled.i.attrs<{ $isSuitable: boolean }>(({ $isSuitable }) => ({
+  style: {
+    color: $isSuitable ? 'green' : 'red',
+  },
+}))`
   font-size: 1.5rem;
 `;
 
 const RatioText = styled.span`
   font-size: 1rem;
-  color: #333;
+  color: #333333;
 `;
 
 export  { ContrastStatus };

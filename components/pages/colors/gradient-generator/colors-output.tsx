@@ -19,7 +19,7 @@ const ColorsOutput: React.FC<Props> = ({ colors }) => {
     <ColorsList>
       {colors.map((color, index) => (
         <React.Fragment key={index}>
-          <ColorRectangle color={color} />
+          <ColorRectangle $backgroundColor={color} />
 
           <ColorText>{color}</ColorText>
           
@@ -43,11 +43,14 @@ const ColorsList = styled.div`
   align-items: center;
 `;
 
-const ColorRectangle = styled.div<{ color: string }>`
+const ColorRectangle = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 3rem;
   height: 1.5rem;
   border-radius: 0.25rem;
-  background-color: ${({ color }) => color};
 `;
 
 const ColorText = styled.div`

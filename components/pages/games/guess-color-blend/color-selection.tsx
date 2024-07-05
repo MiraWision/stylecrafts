@@ -25,8 +25,8 @@ const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatche
         {selectedColors.map((color) => (
           <ColorBarSegment
             key={color.hex}
-            color={color.hex}
-            width={`${color.weight / totalWeight * 100}%`}
+            $backgroundColor={color.hex}
+            $width={`${color.weight / totalWeight * 100}%`}
           />  
         ))}
       </ColorBar>
@@ -72,11 +72,14 @@ const ColorBar = styled.div`
   }
 `;
 
-const ColorBarSegment = styled.div<{ color: string; width: string }>`
-  width: ${({ width }) => width};
+const ColorBarSegment = styled.div.attrs<{ $backgroundColor: string; $width: string }>(({ $backgroundColor, $width }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    width: $width,
+  },
+}))`
   height: 100%;
   transition: width 0.5s;
-  background-color: ${({ color }) => color};
 `;
 
 const ColorCirclesContainer = styled.div`

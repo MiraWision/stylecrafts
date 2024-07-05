@@ -38,7 +38,7 @@ const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback
     <Container>
       <GroupTitle id={generateSlug(title)}>{title}</GroupTitle>
 
-      <CharactersList columns={columns.map(({ width }) => `${width ?? 1}fr`).join(' ')}>
+      <CharactersList $columns={columns.map(({ width }) => `${width ?? 1}fr`).join(' ')}>
         {columns.map((column, index) => (
           <HeaderField key={index}>
             {column.header}
@@ -49,9 +49,9 @@ const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback
           <React.Fragment key={index}>
             {row.map((field, fieldIndex) => (
               <Field 
-                isHighlighted={index % 2 !== 0}
-                canCopy={columns[fieldIndex].canCopy}
-                isLarge={columns[fieldIndex].isLarge}
+                $isHighlighted={index % 2 !== 0}
+                $canCopy={columns[fieldIndex].canCopy}
+                $isLarge={columns[fieldIndex].isLarge}
                 onClick={columns[fieldIndex].canCopy ? () => onCopy(field) : undefined}
               >
                 {field}
@@ -91,9 +91,12 @@ const GroupTitle = styled.h2`
   }
 `;
 
-const CharactersList = styled.div<{ columns: string }>`
+const CharactersList = styled.div.attrs<{ $columns: string }>(({ $columns }) => ({
+  style: {
+    gridTemplateColumns: $columns,
+  },
+}))`
   display: grid;
-  grid-template-columns: ${({ columns }) => columns};
   width: 100%;
   border-collapse: collapse;
 `;
@@ -106,14 +109,28 @@ const HeaderField = styled.div`
   color: var(--text-color);
 `;
 
-const Field = styled.div<{ isHighlighted: boolean, canCopy: boolean, isLarge: boolean }>`
+const Field = styled.div.attrs<{ $isHighlighted: boolean, $canCopy: boolean, $isLarge: boolean }>(({ $isHighlighted, $canCopy, $isLarge }) => ({
+  className: `${$isHighlighted ? 'highlighted' : ''} ${$canCopy ? 'copyable' : ''} ${$isLarge ? 'large' : ''}`,
+}))`
   display: flex;
   align-items: center;
   padding: 0.25rem 0.5rem;
-  background-color: ${({ isHighlighted }) => isHighlighted ? 'var(--surface-100)' : 'transparent'};
-  font-size: ${({ isLarge }) => isLarge ? '1.25rem' : '0.875rem'};
+  background-color: transparent;
+  font-size: 0.875rem;
   color: var(--text-color);
-  cursor: ${({ canCopy }) => canCopy ? 'pointer' : 'default'};
+  cursor: default;
+  
+  &.highlighted {
+    background-color: var(--surface-100);
+  }
+
+  &.large {
+    font-size: 1.25rem;
+  }
+
+  &.copyable {
+    cursor: pointer;
+  }
   
   > i {
     margin-left: 0.5rem;
@@ -130,7 +147,13 @@ const Field = styled.div<{ isHighlighted: boolean, canCopy: boolean, isLarge: bo
   @media (max-width: 768px) {
     padding: 0.25rem 0.25rem;
     
-    font-size: ${({ isLarge }) => isLarge ? '1rem' : '0.75rem'};
+    &.large {
+      font-size: 1rem;
+    }
+
+    &:not(.large) {
+      font-size: 0.75rem;
+    }
   }
 `;
 

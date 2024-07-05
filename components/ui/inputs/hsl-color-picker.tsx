@@ -42,18 +42,18 @@ const HSLColorPicker = ({}) => {
       <h2>Hue Bar</h2>
       <HueBarContainer>
         {hueBar.map((color, index) => (
-          <HueBar key={index} color={color} onClick={() => setHue(index * 10)} />
+          <HueBar key={index} $backgroundColor={color} onClick={() => setHue(index * 10)} />
         ))}
       </HueBarContainer>
       
       <h2>HSL Color Grid</h2>
-      <GridContainer steps={steps}>
+      <GridContainer $steps={steps}>
         {grid.map((row, rowIndex) =>
           row.map((cell, colIndex) => (
             <GridCell
               key={`${rowIndex}-${colIndex}`}
-              color={cell.color}
-              isSelected={selectedColor === cell.color}
+              $backgroundColor={cell.color}
+              $isSelected={selectedColor === cell.color}
               onClick={() => setSelectedColor(cell.color)}
               title={`H: ${hue}, S: ${cell.lightness}%, L: ${cell.saturation}%`}
             />
@@ -64,7 +64,7 @@ const HSLColorPicker = ({}) => {
       {selectedColor && (
         <SelectedColorDisplay>
           <h3>Selected Color: {selectedColor}</h3>
-          <SelectedColorBox color={selectedColor} />
+          <SelectedColorBox $backgroundColor={selectedColor} />
         </SelectedColorDisplay>
       )}
     </div>
@@ -76,9 +76,9 @@ const HueBarContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const HueBar = styled.div.attrs(({ color }) => ({
+const HueBar = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
   style: {
-    background: color,
+    backgroundColor: $backgroundColor,
   },
 }))`
   width: 6px;
@@ -86,26 +86,32 @@ const HueBar = styled.div.attrs(({ color }) => ({
   cursor: pointer;
 `;
 
-const GridContainer = styled.div<{ steps: number }>`
+const GridContainer = styled.div.attrs<{ $steps: number }>(({ $steps }) => ({
+  style: {
+    gridTemplateColumns: `repeat(${$steps + 1}, 1fr)`,
+  },
+}))`
   width: fit-content;
   display: grid;
-  grid-template-columns: repeat(${({ steps }) => steps + 1}, 1fr);
 `;
 
-const GridCell = styled.div<{ color: string, isSelected: boolean }>`
-  background-color: ${({ color }) => color};
+const GridCell = styled.div.attrs<{ $backgroundColor: string, $isSelected: boolean }>(({ $backgroundColor, $isSelected }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    cursor: $isSelected ? 'default' : 'pointer',
+  },
+}))`
   width: 10px;
   height: 10px;
-  cursor: pointer;
 `;
 
 const SelectedColorDisplay = styled.div`
   margin-top: 20px;
 `;
 
-const SelectedColorBox = styled.div.attrs(({ color }) => ({
+const SelectedColorBox = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
   style: {
-    background: color,
+    backgroundColor: $backgroundColor,
   },
 }))`
   width: 100px;

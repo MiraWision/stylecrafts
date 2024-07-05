@@ -20,7 +20,7 @@ const FeatureCard: React.FC<Props> = ({
   description,
 }) => {
   return (
-    <Card href={href} isVisible={isVisible}>
+    <Card href={href} $isVisible={isVisible}>
       <Logo src={imageSrc} alt={title} />
       
       <Title>{title}</Title>
@@ -30,7 +30,9 @@ const FeatureCard: React.FC<Props> = ({
   );
 }
 
-const Card = styled(Link)<{ isVisible: boolean }>`
+const Card = styled(Link).attrs<{ $isVisible: boolean }>(({ $isVisible }) => ({
+  className: $isVisible ? 'visible' : '',
+}))`
   width: 20rem;
   height: 100%;
   padding: 1rem;
@@ -48,11 +50,11 @@ const Card = styled(Link)<{ isVisible: boolean }>`
     transform: scale(1.05);
   }
 
-  ${({ isVisible }) => isVisible && css`
+  &.visible {
     animation: ${fadeInSlideUp} 1s ease-out;
     opacity: 1;
     transform: translateY(0);
-  `}
+  }
 
   @media (max-width: 768px) {
     padding: 0.5rem;

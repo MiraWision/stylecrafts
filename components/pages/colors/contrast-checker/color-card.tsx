@@ -43,7 +43,7 @@ const ColorCard: React.FC<ColorCardProps> = ({ color, label, onRandomColor, onCo
   return (
     <CardContainer>
       <Column>
-        <ColorArea $bgColor={color} onClick={() => setShowColorPicker(!showColorPicker)}>
+        <ColorArea $backgroundColor={color} onClick={() => setShowColorPicker(!showColorPicker)}>
           {showColorPicker && (
             <ColorPickerWrapper ref={colorPickerRef}>
               <ColorPicker value={color.slice(1)} onChange={handleColorChange} inline />
@@ -51,13 +51,17 @@ const ColorCard: React.FC<ColorCardProps> = ({ color, label, onRandomColor, onCo
           )}
         </ColorArea>
       </Column>
+
       <Column>
         <ColorLabel>
           <ChangeText>{label}</ChangeText>
+
           <ColorCode>{color}</ColorCode>
         </ColorLabel>
+
         <IconWrapper>
-          <RandomColorButton icon="pi pi-refresh" onClick={onRandomColor} />
+          <RandomColorButton icon='pi pi-refresh' onClick={onRandomColor} />
+
           <Label>Random color</Label>
         </IconWrapper>
       </Column>
@@ -76,8 +80,11 @@ const Column = styled.div`
   flex-direction: column;
 `;
 
-const ColorArea = styled.div<{ $bgColor: string }>`
-  background-color: ${({ $bgColor }) => $bgColor};
+const ColorArea = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   border-radius: 0.4rem;
   width: 9rem;
   height: 6rem;

@@ -139,7 +139,7 @@ const SideMenu: React.FC<Props> = ({}) => {
             <MenuItem 
               key={item.url} 
               href={item.url}
-              active={item.url === pathname}
+              $active={item.url === pathname}
             >
               <Icon icon={item.icon ?? faCircle} />
 
@@ -154,7 +154,7 @@ const SideMenu: React.FC<Props> = ({}) => {
       <Group>
         <MenuItem
           href={Routes.Blog}
-          active={pathname.includes(Routes.Blog)}
+          $active={pathname.includes(Routes.Blog)}
         >
           <Icon icon={faBlog} />
 
@@ -196,7 +196,9 @@ const Icon = styled(FontAwesomeIcon)`
   transition: color 0.3s;
 `;
 
-const MenuItem = styled(Link)<{ active: boolean }>`
+const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
+  className: $active ? 'active' : '',
+}))`
   font-weight: 400;
   display: flex;
   padding: 0.375rem 0;
@@ -218,7 +220,7 @@ const MenuItem = styled(Link)<{ active: boolean }>`
     }
   }
 
-  ${({ active }) => active && css`
+  &.active {
     font-weight: 500;
     color: var(--primary-color);
 
@@ -233,7 +235,7 @@ const MenuItem = styled(Link)<{ active: boolean }>`
         color: var(--primary-color);
       }
     }
-  `}
+  }
 
   div {
     margin-left: 0.25rem;

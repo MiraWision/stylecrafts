@@ -69,7 +69,7 @@ const ColorInput: React.FC<Props> = ({ value, onChange, className }) => {
   );
 };
 
-const Container = styled.div<{ margin?: string }>`
+const Container = styled.div`
   display: flex;
   align-items: center;
   width: 14rem;

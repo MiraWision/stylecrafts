@@ -40,14 +40,14 @@ const FloatingMenu: React.FC<Props> = ({ sections }) => {
 
   return (
     <MenuContainer
-      isMenuVisible={isMenuVisible}
+      $isMenuVisible={isMenuVisible}
       onMouseEnter={() => setIsMenuVisible(true)}
       onMouseLeave={() => setIsMenuVisible(false)}
     >
       {isMenuVisible && sections.map((section) => (
         <MenuItem
           key={section.id}
-          isActive={section.id === activeSection}
+          $isActive={section.id === activeSection}
           onClick={() => handleClick(section.id)}
         >
           {section.title}
@@ -57,14 +57,16 @@ const FloatingMenu: React.FC<Props> = ({ sections }) => {
       {!isMenuVisible && sections.map((section) => (
         <MenuDash
           key={section.id} 
-          isActive={section.id === activeSection}
+          $isActive={section.id === activeSection}
         />
       ))}
     </MenuContainer>
   );
 };
 
-const MenuContainer = styled.div<{ isMenuVisible: boolean }>`
+const MenuContainer = styled.div.attrs<{ $isMenuVisible: boolean }>(({ $isMenuVisible }) => ({
+  className: $isMenuVisible ? 'visible' : 'hidden',
+}))`
   position: fixed;
   z-index: 100;
   top: 10rem;
@@ -87,7 +89,7 @@ const MenuContainer = styled.div<{ isMenuVisible: boolean }>`
     max-width: 100%;
   }
 
-  ${({ isMenuVisible }) => !isMenuVisible && css`
+  &.hidden {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -95,10 +97,12 @@ const MenuContainer = styled.div<{ isMenuVisible: boolean }>`
     border-color: transparent;
     width: 2rem;
     max-width: 2rem;
-  `}
+  }
 `;
 
-const MenuItem = styled.div<{ isActive: boolean }>`
+const MenuItem = styled.div.attrs<{ $isActive: boolean }>(({ $isActive }) => ({
+  className: $isActive ? 'active' : '',
+}))`
   padding: 0rem 0.5rem;
   cursor: pointer;
   color: var(--surface-400);
@@ -112,23 +116,24 @@ const MenuItem = styled.div<{ isActive: boolean }>`
     font-weight: 500;  
   }
 
-  ${({ isActive }) => isActive && css`
+  &.active {
     font-weight: 500;
     color: var(--primary-color);
-  `}
+  }
 `;
 
-const MenuDash = styled.div<{ isActive: boolean }>`
+const MenuDash = styled.div.attrs<{ $isActive: boolean }>(({ $isActive }) => ({
+  className: $isActive ? 'active' : '',
+}))`
   width: 1.25rem;
   height: 0.125rem;
   background: var(--surface-400);
   margin: 0.6875rem 0;
   border-radius: 0.125rem;
 
-  ${({ isActive }) => isActive && css`
-    height: 0.125rem;
+  &.active {
     background: var(--primary-color);
-  `}
+  }
 `;
 
 export { FloatingMenu };

@@ -11,23 +11,26 @@ interface ReviewCardProps {
 
 const TemplateReview: React.FC<ReviewCardProps> = ({ textColor, backgroundColor, title, date, content }) => {
   return (
-    <CardContainer backgroundColor={backgroundColor}>
+    <CardContainer $backgroundColor={backgroundColor}>
       <Header>
-        <IconWrapper backgroundColor={textColor}>
-          <Icon backgroundColor={backgroundColor}>G</Icon>
+        <IconWrapper $backgroundColor={textColor}>
+          <Icon $backgroundColor={backgroundColor}>G</Icon>
         </IconWrapper>
         <TitleDateWrapper>
-          <Title textColor={textColor}>{title}</Title>
-          <Date textColor={textColor}>{date}</Date>
+          <Title $color={textColor}>{title}</Title>
+          <Date $color={textColor}>{date}</Date>
         </TitleDateWrapper>
       </Header>
-      <Content textColor={textColor}>{content}</Content>
+      <Content $color={textColor}>{content}</Content>
     </CardContainer>
   );
 };
 
-const CardContainer = styled.div<{ backgroundColor: string }>`
-  background-color: ${({ backgroundColor }) => backgroundColor};
+const CardContainer = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   border-radius: 0.5rem;
   padding: 1rem;
   max-width: 300px;
@@ -39,8 +42,11 @@ const Header = styled.div`
   margin-bottom: 1rem;
 `;
 
-const IconWrapper = styled.div<{ backgroundColor: string }>`
-  background-color: ${({ backgroundColor }) => backgroundColor};
+const IconWrapper = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -50,8 +56,11 @@ const IconWrapper = styled.div<{ backgroundColor: string }>`
   margin-right: 1rem;
 `;
 
-const Icon = styled.span<{ backgroundColor: string }>`
-  color: ${({ backgroundColor }) => backgroundColor};
+const Icon = styled.span.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    color: $backgroundColor,
+  },
+}))`
   font-size: 1.5rem;
   font-weight: bold;
 `;
@@ -61,21 +70,31 @@ const TitleDateWrapper = styled.div`
   flex-direction: column;
 `;
 
-const Title = styled.span<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const Title = styled.span.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 1rem;
   font-weight: bold;
 `;
 
-const Date = styled.span<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const Date = styled.span.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 0.875rem;
 `;
 
-const Content = styled.p<{ textColor: string }>`
-  color: ${({ textColor }) => textColor};
+const Content = styled.p.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 0.875rem;
   margin: 0;
 `;
+
 
 export { TemplateReview };

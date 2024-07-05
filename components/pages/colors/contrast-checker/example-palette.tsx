@@ -17,8 +17,8 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onSelect }) => {
               <PaletteItem
                 key={index}
                 onClick={() => onSelect(color.background, color.text)}
-                background={color.background}
-                textColor={color.text}
+                $backgroundColor={color.background}
+                $color={color.text}
               >
                 Az
               </PaletteItem>
@@ -43,14 +43,17 @@ const PaletteGrid = styled.div`
   gap: 1rem;
 `;
 
-const PaletteItem = styled.div<{ background: string; textColor: string }>`
+const PaletteItem = styled.div.attrs<{$backgroundColor: string; $color: string }>(({ $backgroundColor, $color }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    color: $color,
+  },
+}))`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 4rem;
   height: 4rem;
-  background-color: ${({ background }) => background};
-  color: ${({ textColor }) => textColor};
   border-radius: 0.5rem;
   font-size: 1.5rem;
   font-weight: bold;

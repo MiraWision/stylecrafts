@@ -49,16 +49,18 @@ const FeaturesRow = styled.div`
   }
 `;
 
-const Column = styled.div<{ isVisible: boolean }>`
+const Column = styled.div.attrs<{ $isVisible: boolean }>(({ $isVisible }) => ({
+  className: $isVisible ? 'visible' : '',
+}))`
   opacity: 0;
   animation-fill-mode: both;
   max-width: 25rem;
 
-  ${({ isVisible }) => isVisible && css`
+  &.visible {
     animation: ${fadeInSlideUp} 1s ease-out;
     opacity: 1;
     transform: translateY(0);
-  `}
+  }
 
   @media (max-width: 768px) {
     display: flex;

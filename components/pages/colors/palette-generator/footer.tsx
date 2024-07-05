@@ -8,25 +8,25 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ bgColor, textColor }) => {
   return (
-    <FooterContainer bgColor={bgColor} textColor={textColor}>
+    <FooterContainer $backgroundColor={bgColor} $color={textColor}>
       <FooterContent>
         <FooterColumn>
           <FooterTitle>About Us</FooterTitle>
-          <FooterLink href="#">Team</FooterLink>
-          <FooterLink href="#">Careers</FooterLink>
-          <FooterLink href="#">Contact</FooterLink>
+          <FooterLink href='#'>Team</FooterLink>
+          <FooterLink href='#'>Careers</FooterLink>
+          <FooterLink href='#'>Contact</FooterLink>
         </FooterColumn>
         <FooterColumn>
           <FooterTitle>Services</FooterTitle>
-          <FooterLink href="#">Web Development</FooterLink>
-          <FooterLink href="#">Design</FooterLink>
-          <FooterLink href="#">Marketing</FooterLink>
+          <FooterLink href='#'>Web Development</FooterLink>
+          <FooterLink href='#'>Design</FooterLink>
+          <FooterLink href='#'>Marketing</FooterLink>
         </FooterColumn>
         <FooterColumn>
           <FooterTitle>Follow Us</FooterTitle>
-          <FooterLink href="#">Facebook</FooterLink>
-          <FooterLink href="#">Twitter</FooterLink>
-          <FooterLink href="#">Instagram</FooterLink>
+          <FooterLink href='#'>Facebook</FooterLink>
+          <FooterLink href='#'>Twitter</FooterLink>
+          <FooterLink href='#'>Instagram</FooterLink>
         </FooterColumn>
       </FooterContent>
       <FooterBottom>
@@ -36,9 +36,10 @@ const Footer: React.FC<FooterProps> = ({ bgColor, textColor }) => {
   );
 };
 
-const FooterContainer = styled.footer<{ bgColor: string, textColor: string }>`
-  background-color: ${({ bgColor }) => bgColor};
-  color: ${({ textColor }) => textColor};
+const FooterContainer = styled.footer.attrs<{ $backgroundColor: string, $color: string }>(({ $backgroundColor, $color }) => ({
+  backgroundColor: $backgroundColor,
+  color: $color,
+}))`
   width: 100%;
   padding: 1rem 0;
   display: flex;

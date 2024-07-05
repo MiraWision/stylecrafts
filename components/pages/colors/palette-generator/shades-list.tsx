@@ -49,9 +49,9 @@ const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
           {colors.map((shade, shadeIndex) => (
             <ShadeBox
               key={shadeIndex}
-              color={shade.hex}
+              $color={shade.hex}
+              $isSelected={isSelected(shade.hex)}
               onClick={() => isSelected(shade.hex) ? undefined : onAddShade(index, shade)}
-              isSelected={isSelected(shade.hex)}
             />
           ))}
         </ShadesRow>
@@ -73,18 +73,18 @@ const ShadesRow = styled.div`
   height: 3.125rem;
 `;
 
-const ShadeBox = styled.div<{ color: string, isSelected: boolean }>`
-  background-color: ${({ color }) => color};
+const ShadeBox = styled.div.attrs<{ $color: string, $isSelected: boolean }>(({ $color, $isSelected }) => ({
+  style: {
+    backgroundColor: $color,
+    borderColor: $isSelected ? 'var(--primary-color)' : 'var(--surface-border)',
+    cursor: $isSelected ? 'default' : 'pointer',
+  },
+}))`
   width: 2rem;
   height: 2rem;
   border-radius: 0.25rem;
-  border: 0.0625rem solid var(--surface-border);
-  cursor: pointer;
-
-  ${({ isSelected }) => isSelected && css`
-    border: 0.0625rem solid var(--primary-color);
-    cursor: default;
-  `}
+  border: 0.0625rem solid;
 `;
+
 
 export { ShadesList };

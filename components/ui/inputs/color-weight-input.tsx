@@ -16,12 +16,12 @@ interface Props {
 const ColorWeightInput: React.FC<Props> = ({ colorWeight, onWeightChange }) => {
   return (
     <Container>
-      <Color color={colorWeight.color} />
+      <Color $backgroundColor={colorWeight.color} />
 
       <WeightInput
         value={colorWeight.weight}
         onChange={(e) => onWeightChange(e.value ?? 0)}
-        isEmpty={colorWeight.weight === 0}
+        $isEmpty={colorWeight.weight === 0}
         min={0}
       />
 
@@ -47,15 +47,20 @@ const Container = styled.div`
   border: 0.0625rem solid var(--surface-border);
 `;
 
-const Color = styled.div<{ color: string }>`
+const Color = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 100%;
   height: 3rem;
-  background: ${({ color }) => color};
   border-radius: 0.25rem 0.25rem 0 0;
   border-bottom: 0.0625rem solid var(--surface-border);
 `;
 
-const WeightInput = styled(InputNumber)<{ isEmpty: boolean }>`
+const WeightInput = styled(InputNumber).attrs<{ $isEmpty: boolean }>(({ $isEmpty }) => ({
+  className: $isEmpty ? 'empty' : '',
+}))`
   width: 100%;
   margin: 0;
   padding: 0;
@@ -75,10 +80,10 @@ const WeightInput = styled(InputNumber)<{ isEmpty: boolean }>`
       box-shadow: none;
     }
 
-    ${({ isEmpty }) => isEmpty && css`
+    &.empty {
       color: var(--surface-400);
       font-weight: 300;
-    `}
+    }
   }
 `;
 

@@ -37,8 +37,7 @@ const ShadesGrid: React.FC<ShadesGridProps> = ({ baseColor }) => {
               {shadeType.shades.map((color, shadeIndex) => (
                 <ShadeSquare
                   key={`${shadeType.name}-${shadeIndex}`}
-                  color={color}
-                  //onClick={() => onColorSelect(color)}
+                  $backgroundColor={color}
                 />
               ))}
             </ShadesRow>
@@ -83,11 +82,14 @@ const ShadeType = styled.div`
   white-space: nowrap;
 `;
 
-const ShadeSquare = styled.div<{ color: string }>`
+const ShadeSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 2rem;
   height: 2rem;
   border-radius: 0.25rem;
-  background-color: ${({ color }) => color};
   margin-right: 0.5rem;
   cursor: pointer;
 `;

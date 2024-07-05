@@ -52,7 +52,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, bgColor, accentC
   };
 
   return (
-    <Card bgColor={colors.bgColor} color={colors.textColor} fontWeight={fontWeight}>
+    <Card $backgroundColor={colors.bgColor} $color={colors.textColor} $fontWeight={fontWeight}>
       <Header
         textColor={colors.textColor}
         bgColor={colors.bgColor}
@@ -60,56 +60,50 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, bgColor, accentC
         onReverseColors={handleReverseColors}
       />
       <FontWeights>
-        <Weight textColor={colors.textColor} weight={300} onClick={() => handleFontWeightChange('300')}>Light</Weight>
-        <Weight textColor={colors.textColor} weight={400} onClick={() => handleFontWeightChange('400')}>Regular</Weight>
-        <Weight textColor={colors.textColor} weight={500} onClick={() => handleFontWeightChange('500')}>Medium</Weight>
-        <Weight textColor={colors.textColor} weight={700} onClick={() => handleFontWeightChange('700')}>Bold</Weight>
+        <Weight $color={colors.textColor} $fontWeight={300} onClick={() => handleFontWeightChange('300')}>Light</Weight>
+        <Weight $color={colors.textColor} $fontWeight={400} onClick={() => handleFontWeightChange('400')}>Regular</Weight>
+        <Weight $color={colors.textColor} $fontWeight={500} onClick={() => handleFontWeightChange('500')}>Medium</Weight>
+        <Weight $color={colors.textColor} $fontWeight={700} onClick={() => handleFontWeightChange('700')}>Bold</Weight>
       </FontWeights>
-      <Divider color={colors.textColor} />
-      <Paragraph color={colors.textColor}>
+      <Divider $color={colors.textColor} />
+      <Paragraph $color={colors.textColor}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       </Paragraph>
       <Row>
-        <StyledButtonFill label="Button" textColor={colors.bgColor} bgColor={colors.accentColor} />
-        <StyledButtonOutline label="Button" textColor={colors.accentColor} bgColor={colors.bgColor} />
-        <StyledButtonDashed label="Dashed Button" textColor={colors.accentColor} bgColor={colors.bgColor} />
-        <StyledButtonLink label="Link Button" textColor={colors.accentColor} bgColor={colors.textColor} />
+        <StyledButtonFill label='Button' $color={colors.bgColor} $backgroundColor={colors.accentColor} />
+        <StyledButtonOutline label='Button' $color={colors.accentColor} />
       </Row>
-      <Quote color={colors.additionalColor}>
+      <Quote $color={colors.additionalColor}>
         The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a footer or cite element.
         <cite>
-          Someone famous in <a href="#" style={{ color: colors.additionalColor }}>Source Title</a>
+          Someone famous in <a href='#' style={{ color: colors.additionalColor }}>Source Title</a>
         </cite>
       </Quote>
       <CardContainer>
-        <MiniCard bgColor={colors.accentColor} textColor={colors.bgColor}>
+        <MiniCard $backgroundColor={colors.accentColor} $color={colors.bgColor}>
           <CardTitle>Card Title</CardTitle>
           <CardContent>Card content goes here.</CardContent>
         </MiniCard>
-        <MiniCard bgColor={colors.additionalColor} textColor={colors.bgColor}>
+        <MiniCard $backgroundColor={colors.additionalColor} $color={colors.bgColor}>
           <CardTitle>Card Title</CardTitle>
           <CardContent>Card content goes here.</CardContent>
         </MiniCard>
       </CardContainer>
-      <ProgressBarContainer>
-        <p style={{ color: colors.textColor }}>Progress</p>
-        <StyledProgressBar value={50} textColor={colors.textColor} bgColor={colors.bgColor} />
-      </ProgressBarContainer>
       <TemplateReview
         textColor={colors.textColor}
         bgColor={colors.bgColor}
-        title="Gradients.app"
-        date="23.06.2024"
-        content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."
+        title='Gradients.app'
+        date='23.06.2024'
+        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'
       />
       <IconList>
-        <IconItem color={colors.accentColor} hoverColor={colors.textColor}>
+        <IconItem $color={colors.accentColor}>
           <FontAwesomeIcon icon={faHeart} />
         </IconItem>
-        <IconItem color={colors.accentColor} hoverColor={colors.textColor}>
+        <IconItem $color={colors.accentColor}>
           <FontAwesomeIcon icon={faShareAlt} />
         </IconItem>
-        <IconItem color={colors.accentColor} hoverColor={colors.textColor}>
+        <IconItem $color={colors.accentColor}>
           <FontAwesomeIcon icon={faBookmark} />
         </IconItem>
       </IconList>
@@ -118,29 +112,39 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, bgColor, accentC
   );
 };
 
-const Card = styled.div<{ bgColor: string, color: string, fontWeight: string }>`
-  background-color: ${({ bgColor }) => bgColor};
+const Card = styled.div.attrs<{ $backgroundColor: string, $color: string, $fontWeight: string }>(({ $backgroundColor, $color, $fontWeight }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    color: $color,
+    fontWeight: $fontWeight,
+  },
+}))`
   border-radius: 0.5rem;
   padding: 1rem;
   width: 100%;
-  color: ${({ color }) => color};
-  font-weight: ${({ fontWeight }) => fontWeight};
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 20px 40px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const Divider = styled.hr<{ color: string }>`
+const Divider = styled.hr.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    borderTopColor: $color,
+  },
+}))`
   border: none;
-  border-top: 1px solid ${({ color }) => color};
+  border-top: 1px solid;
   margin: 1rem 0;
   width: 100%;
 `;
 
-const Paragraph = styled.p<{ color: string }>`
+const Paragraph = styled.p.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   margin: 1rem 0;
-  color: ${({ color }) => color};
   position: relative;
 
   &::first-letter {
@@ -149,7 +153,6 @@ const Paragraph = styled.p<{ color: string }>`
     float: left;
     margin-right: 0.5rem;
     line-height: 1;
-    color: ${({ color }) => color};
   }
 `;
 
@@ -161,56 +164,32 @@ const Row = styled.div`
   width: 100%;
 `;
 
-const StyledButtonFill = styled(Button)<{ textColor: string, bgColor: string }>`
-  background-color: ${({ bgColor }) => bgColor} !important;
-  color: ${({ textColor }) => textColor} !important;
+const StyledButtonFill = styled(Button).attrs<{ $color: string, $backgroundColor: string }>(({ $color, $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    color: $color,
+  },
+}))`
   border: none !important;
-
-  &:hover {
-    background-color: ${({ textColor }) => textColor} !important;
-    color: ${({ bgColor }) => bgColor} !important;
-  }
 `;
 
-const StyledButtonOutline = styled(Button)<{ textColor: string, bgColor: string }>`
-  color: ${({ textColor }) => textColor} !important;
-  border: 1px solid ${({ textColor }) => textColor} !important;
+const StyledButtonOutline = styled(Button).attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+    borderColor: $color,
+  },
+}))`
   background: none !important;
-
-  &:hover {
-    background-color: ${({ textColor }) => textColor} !important;
-    color: ${({ bgColor }) => bgColor} !important;
-  }
 `;
 
-const StyledButtonDashed = styled(Button)<{ textColor: string, bgColor: string }>`
-  color: ${({ textColor }) => textColor} !important;
-  border: 1px dashed ${({ textColor }) => textColor} !important;
-  background: none !important;
-
-  &:hover {
-    background-color: ${({ textColor }) => textColor} !important;
-    color: ${({ bgColor }) => bgColor} !important;
-  }
-`;
-
-const StyledButtonLink = styled(Button)<{ textColor: string, bgColor: string }>`
-  color: ${({ textColor }) => textColor} !important;
-  background: none !important;
-  border: none !important;
-  text-decoration: underline;
-
-  &:hover {
-    color: ${({ bgColor }) => bgColor} !important;
-    background: none !important;
-  }
-`;
-
-const Quote = styled.blockquote<{ color: string }>`
-  border-left: 4px solid ${({ color }) => color};
+const Quote = styled.blockquote.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    borderLeftColor: $color,
+    color: $color,
+  },
+}))<{ $color: string }>`
   padding-left: 1rem;
   margin: 1rem 0;
-  color: ${({ color }) => color};
   font-style: italic;
   width: 100%;
 
@@ -221,7 +200,6 @@ const Quote = styled.blockquote<{ color: string }>`
   }
 
   a {
-    color: ${({ color }) => color};
     text-decoration: underline;
   }
 `;
@@ -233,9 +211,12 @@ const CardContainer = styled.div`
   margin: 1rem 0;
 `;
 
-const MiniCard = styled.div<{ bgColor: string, textColor: string }>`
-  background-color: ${({ bgColor }) => bgColor};
-  color: ${({ textColor }) => textColor};
+const MiniCard = styled.div.attrs<{ $backgroundColor: string, $color: string }>(({ $backgroundColor, $color }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    color: $color,
+  },
+}))`
   padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
@@ -250,20 +231,6 @@ const CardContent = styled.p`
   margin: 0;
 `;
 
-const ProgressBarContainer = styled.div`
-  margin: 1rem 0;
-  width: 100%;
-`;
-
-const StyledProgressBar = styled(PrimeProgressBar)<{ textColor: string, bgColor: string }>`
-  .p-progressbar-value {
-    background-color: ${({ textColor }) => textColor} !important;
-  }
-  .p-progressbar-label {
-    color: ${({ bgColor }) => bgColor} !important;
-  }
-`;
-
 const IconList = styled.div`
   display: flex;
   justify-content: space-around;
@@ -271,13 +238,15 @@ const IconList = styled.div`
   margin-top: 1rem;
 `;
 
-const IconItem = styled.div<{ color: string, hoverColor: string }>`
+const IconItem = styled.div.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
   font-size: 1.5rem;
-  color: ${({ color }) => color};
   transition: color 0.3s ease, transform 0.3s ease;
 
   &:hover {
-    color: ${({ hoverColor }) => hoverColor} !important;
     transform: scale(1.1);
   }
 `;
@@ -288,10 +257,13 @@ const FontWeights = styled.div`
   margin-top: 0.8rem;
 `;
 
-const Weight = styled.span<{ textColor: string, weight: number }>`
-  color: ${({ textColor }) => textColor};
+const Weight = styled.span.attrs<{ $color: string, $fontWeight: number }>(({ $color, $fontWeight }) => ({
+  style: {
+    color: $color,
+    fontWeight: $fontWeight,
+  },
+}))`
   font-size: 0.8rem;
-  font-weight: ${({ weight }) => weight};
   cursor: pointer;
 
   &:hover {

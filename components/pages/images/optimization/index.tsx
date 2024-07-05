@@ -188,7 +188,7 @@ const ImageOptimizer: React.FC = () => {
           {OptimizationOptions.map((option) => (
             <OptimizationOption 
               key={option.value}
-              best={option.best}
+              $best={option.best}
               onClick={() => handleImageOptimization(option.value)}
             >
               <h4>{option.label}</h4>
@@ -312,7 +312,9 @@ const OptimizationContainer = styled.div`
   width: 100%;
 `;
 
-const OptimizationOption = styled.div<{ best?: boolean }>`
+const OptimizationOption = styled.div.attrs<{ $best?: boolean }>(({ $best }) => ({
+  className: $best ? 'best' : '',
+}))`
   color: var(--text-color-secondary);
   border: 0.0625rem solid var(--gray-300);
   padding: 1rem;
@@ -333,7 +335,7 @@ const OptimizationOption = styled.div<{ best?: boolean }>`
     transform: scale(1);
   }
 
-  ${({ best }) => best && css`
+  &.best {
     color: var(--primary-color);
     border-color: var(--primary-color);
     transform: scale(1.1);
@@ -345,7 +347,7 @@ const OptimizationOption = styled.div<{ best?: boolean }>`
     &:active {
       transform: scale(1.1);
     }
-  `}
+  }
 
   h4 {
     margin: 0;

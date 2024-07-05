@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 interface Props {
   slidesCount: number;
@@ -15,7 +15,7 @@ const SlidesMenu: React.FC<Props> = ({ slidesCount, currentSlideIndex, onSlideCh
           key={index}
           onClick={() => index !== currentSlideIndex && onSlideChange(index)}
         >
-          <Slide isActive={index === currentSlideIndex} />
+          <Slide $isActive={index === currentSlideIndex} />
         </SlideWrapper>
       ))}
     </Container>
@@ -40,7 +40,9 @@ const SlideWrapper = styled.div`
   cursor: pointer;
 `;
 
-const Slide = styled.div<{ isActive: boolean }>`
+const Slide = styled.div.attrs<{ $isActive: boolean }>(({ $isActive }) => ({
+  className: $isActive ? 'active' : '',
+}))`
   width: 0.25rem;
   height: 0.25rem;
   border-radius: 0.25rem;
@@ -51,14 +53,15 @@ const Slide = styled.div<{ isActive: boolean }>`
     background-color: var(--surface-400);
   }
 
-  ${({ isActive }) => isActive && css`
+  &.active {
     height: 2rem;
     background-color: var(--primary-color);
 
     &:hover {
       background-color: var(--primary-color);
     }
-  `}
+  }
 `;
+
 
 export { SlidesMenu };

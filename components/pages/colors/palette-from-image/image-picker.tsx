@@ -121,9 +121,9 @@ const ImageColorPicker: React.FC<Props> = ({ onPaletteChange, selectedImage }) =
             {colorPickers.map((picker, index) => (
               <ColorPicker
                 key={index}
-                color={picker.color}
-                x={picker.x}
-                y={picker.y}
+                $backgroundColor={picker.color}
+                $x={picker.x}
+                $y={picker.y}
                 onMouseDown={(event) => handleMouseDown(index, event)}
               />
             ))}
@@ -160,15 +160,18 @@ const ChooseButton = styled.button`
   font-size: 16px;
 `;
 
-const ColorPicker = styled.div<{ color: string; x: number; y: number }>`
+const ColorPicker = styled.div.attrs<{ $backgroundColor: string; $x: number; $y: number }>(({ $backgroundColor, $x, $y }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    top: `${$y}px`,
+    left: `${$x}px`,
+  },
+}))`
   position: absolute;
   width: 20px;
   height: 20px;
-  background-color: ${({ color }) => color};
   border-radius: 50%;
   border: 2px solid white;
-  top: ${({ y }) => y}px;
-  left: ${({ x }) => x}px;
   transform: translate(-50%, -50%);
   cursor: pointer;
   transition: transform 0.2s;

@@ -11,7 +11,7 @@ interface Props {
 const CurrentColor: React.FC<Props> = ({ color }) => {
   return (
     <Container>
-      <ColorSquare color={color.get()} />
+      <ColorSquare $backgroundColor={color.get()} />
 
       <Footer>
         {[
@@ -75,10 +75,13 @@ const ColorTitle = styled.div`
   }
 `;
 
-const ColorSquare = styled.div<{ color: string }>`
+const ColorSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+  },
+}))`
   width: 100%;
   height: 10rem;
-  background-color: ${({ color }) => color};
   border-radius: 0.25rem 0.25rem 0 0;
   transition: all 0.3s;
 `;
