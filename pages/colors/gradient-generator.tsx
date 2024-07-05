@@ -25,6 +25,11 @@ const ColorsGradientGeneratorToolPage = () => {
         <GradientGenerator />
 
         <NPMLink
+          text='Want to use the USA Map component in your app? Check out our NPM package'
+          packageName='@mirawision/usa-map-react'
+        />
+
+        <NPMLink
           text='Need to have color tools like these in your app? Feel free to use our NPM package'
           packageName='@mirawision/colorize'
         />

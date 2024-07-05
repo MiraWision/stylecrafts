@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { ColorExample } from './types';
@@ -9,6 +9,10 @@ interface Props {
 }
 
 const ColorExamples: React.FC<Props> = ({ onColorSelect }) => {
+  useEffect(() => {
+    onColorSelect(colorsExamples[Math.floor(Math.random() * colorsExamples.length)]);
+  }, []);
+
   return (
     <Container>
       {colorsExamples.map((color) => (

@@ -26,6 +26,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: end;
+  margin-top: 1rem;
 `;
 
 const Text = styled.span`

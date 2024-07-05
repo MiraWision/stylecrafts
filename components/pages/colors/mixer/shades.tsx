@@ -78,7 +78,7 @@ const ShadeType = styled.div`
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-text);
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.5rem 0;
   white-space: nowrap;
 `;
 
