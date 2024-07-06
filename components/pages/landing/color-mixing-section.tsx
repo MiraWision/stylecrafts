@@ -16,7 +16,7 @@ const ColorMixingSection: React.FC = () => {
       <Headline>Discover Realistic Color Mixing</Headline>
 
       <Row>
-        <TextColumn isVisible={isVisible}>
+        <TextColumn $isVisible={isVisible}>
           <p>
             Most programmatic color mixing algorithms often produce unrealistic results.
             Considering this, we've developed an innovative color model and mixing algorithm that
@@ -36,7 +36,7 @@ const ColorMixingSection: React.FC = () => {
           </p>
         </TextColumn>
 
-        <ExamplesColumn isVisible={isVisible}>
+        <ExamplesColumn $isVisible={isVisible}>
           <MainExample>
             <figure>
               <img src='/landing/mix-best.png' alt='Correct Color Mixing Example' />

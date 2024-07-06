@@ -18,7 +18,7 @@ const NpmToolsSection: React.FC = () => {
       <Headline>Our Solutions</Headline>
 
       <Row>
-        <TextColumn isVisible={isVisible}>
+        <TextColumn $isVisible={isVisible}>
           <p>
             At MiraWision, we’re passionate about creating tools that enhance web development and design. 
             The same innovative solutions that power our website are available for you to use in your own projects.
@@ -29,7 +29,7 @@ const NpmToolsSection: React.FC = () => {
           </p>
         </TextColumn>
 
-        <CardColumn isVisible={isVisible}>
+        <CardColumn $isVisible={isVisible}>
           <Header>
             <ServiceLogo href='https://github.com/MiraWision' target='_blank' rel='noopener noreferrer'>
               <img src='/icons/github.svg' alt='github' />

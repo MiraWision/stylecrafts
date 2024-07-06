@@ -17,7 +17,6 @@ const ChartPreview: React.FC<Props> = ({ data }) => {
           />
         ))}
       </Chart>
-      <YAxis />
       <XAxis />
     </ChartContainer>
   );
@@ -27,7 +26,8 @@ const ChartContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  border: 0.0625rem solid var(--surface-border);
+  background: var(--surface-100);
+  border-radius: 1rem;
 `;
 
 const Chart = styled.div`

@@ -7,35 +7,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 const footerData = [
-  {
-    groupName: 'Images Tools',
-    items: [
-      { name: 'Image Optimization', href: Routes.ImageOptimizationTool },
-      { name: 'Image to Base64', href: Routes.ImageToBase64Tool },
-      { name: 'Base64 to Image', href: Routes.Base64ToImageTool },
-    ],
-  },
-  {
-    groupName: 'Colors Tools',
-    items: [
-      { name: 'Gradient Generator', href: Routes.ColorsGradientGeneratorTool },
-      { name: 'Palette Generator', href: Routes.ColorsPaletteGeneratorTool },
-      { name: 'Palette from Image', href: Routes.ColorsPaletteFromImageTool },
-      { name: 'Contrast Checker', href: Routes.ColorsContrastCheckerTool },
-      { name: 'Color Converter', href: Routes.ColorsConverterTool },
-      { name: 'Color Mixer', href: Routes.ColorsMixerTool },
-    ],
-  },
-  {
-    groupName: 'Other',
-    items: [
-      { name: 'Colors Swatches', href: Routes.ColorSwatchesCheatSheet },
-      { name: 'Characters Cheatsheet', href: Routes.CharactersCheatSheet },
-      { name: 'Emojis Cheatsheet', href: Routes.EmojisCheatSheet },
-      { name: 'Guess Color Blend Game', href: Routes.GuessColorBlendGame },
-      { name: 'Blog', href: Routes.Blog },
-    ],
-  },
+  // {
+  //   groupName: 'Images Tools',
+  //   items: [
+  //     { name: 'Image Optimization', href: Routes.ImageOptimizationTool },
+  //     { name: 'Image to Base64', href: Routes.ImageToBase64Tool },
+  //     { name: 'Base64 to Image', href: Routes.Base64ToImageTool },
+  //   ],
+  // },
+  // {
+  //   groupName: 'Colors Tools',
+  //   items: [
+  //     { name: 'Gradient Generator', href: Routes.ColorsGradientGeneratorTool },
+  //     { name: 'Palette Generator', href: Routes.ColorsPaletteGeneratorTool },
+  //     { name: 'Palette from Image', href: Routes.ColorsPaletteFromImageTool },
+  //     { name: 'Contrast Checker', href: Routes.ColorsContrastCheckerTool },
+  //     { name: 'Color Converter', href: Routes.ColorsConverterTool },
+  //     { name: 'Color Mixer', href: Routes.ColorsMixerTool },
+  //   ],
+  // },
+  // {
+  //   groupName: 'Other',
+  //   items: [
+  //     { name: 'Colors Swatches', href: Routes.ColorSwatchesCheatSheet },
+  //     { name: 'Characters Cheatsheet', href: Routes.CharactersCheatSheet },
+  //     { name: 'Emojis Cheatsheet', href: Routes.EmojisCheatSheet },
+  //     { name: 'Guess Color Blend Game', href: Routes.GuessColorBlendGame },
+  //     { name: 'Blog', href: Routes.Blog },
+  //   ],
+  // },
   {
     groupName: 'Company',
     items: [
@@ -119,7 +119,7 @@ const Container = styled.footer`
   flex-direction: column;
   background-color: var(--surface-100);
   color: var(--text-color);
-  padding: 4rem 4rem 2rem;
+  padding: 2rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -136,7 +136,7 @@ const Company = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 15rem;
+  max-width: 25rem;
 `;
 
 const Title = styled.h2`
@@ -176,7 +176,7 @@ const SocialIcon = styled(FontAwesomeIcon)`
 
 const Links = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
 
   @media (max-width: 768px) {

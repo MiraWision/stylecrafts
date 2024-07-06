@@ -26,8 +26,6 @@ const rybslColorsMixing = (colors: Color[]): string => {
 
       const hWeight = (s / 100) * sWeight;
 
-      console.log('h', h, 's', s, 'l', l, 'lWeight', lWeight, 'sWeight', sWeight, 'hWeight', hWeight);
-
       return {
         h,
         s,

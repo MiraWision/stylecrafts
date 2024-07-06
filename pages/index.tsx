@@ -50,7 +50,6 @@ const HomePage: React.FC = () => {
   const touchEndY = useRef<number | null>(null);
 
   const scrollToSection = (index: number) => {
-    console.log('scrollToSection', index);
     if (index >= 0 && index < Sections.length + 1) {
       const targetSection = containerRef.current?.children?.[index];
 

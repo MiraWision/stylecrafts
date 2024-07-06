@@ -17,10 +17,8 @@ const ImageOptimizationToolPage: React.FC = () => {
       <MetaTags {...metaTags} />
 
       <MainContainer>
-        <Title>Image Optimization</Title>
+        <Title>Image Compression</Title>
 
-        <Subtitle>Compress and Resize Your Images Effortlessly</Subtitle>
-        
         <ImageOptimizer />
       </MainContainer>  
 

@@ -85,7 +85,7 @@ const Sidebar = styled.div.attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
     right: -0.0625rem; 
     height: 100%;
     width: 0.0625rem; 
-    background: linear-gradient(to bottom, var(--primary-color) 50%, transparent 95%);
+    background: linear-gradient(to bottom, var(--surface-border) 80%, transparent 95%);
     z-index: 10;
   }
 

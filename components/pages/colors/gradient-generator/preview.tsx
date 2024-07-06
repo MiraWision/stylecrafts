@@ -91,7 +91,7 @@ const Preview: React.FC<Props> = ({ gradient }) => {
       <SliderContainer>
         <SliderContent $translateX={selectedPreview * 100}>
           <MapContainer>
-            <USAMap
+            <USAMapStyled
               mapSettings={{
                 width: '100%',
                 height: 'fit-content',
@@ -144,6 +144,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const USAMapStyled = styled(USAMap)`
+  background: var(--surface-100);
+  border-radius: 1rem;
 `;
 
 const Icon = styled(FontAwesomeIcon)`
@@ -200,27 +205,27 @@ const SliderContent = styled.div.attrs<{ $translateX: number }>(({ $translateX }
   transition: transform 0.5s ease;
 `;
 
-const MapContainer = styled.div`
+const PreviewContainer = styled.div`
   min-width: 42rem;
   height: 24rem;
+  background: var(--surface-100);
+  border-radius: 1rem;
+`;
 
+const MapContainer = styled(PreviewContainer)`
   * path {
     transition: fill 0.6s;
     stroke: var(--surface-200);
   }
 `;
 
-const HeatmapContainer = styled.div`
-  min-width: 42rem;
-  height: 24rem;
+const HeatmapContainer = styled(PreviewContainer)`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const ChartContainer = styled.div`
-  min-width: 42rem;
-  height: 24rem;
+const ChartContainer = styled(PreviewContainer)`
 `;
 
 const Legend = styled.div`

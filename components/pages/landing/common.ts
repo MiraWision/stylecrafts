@@ -17,7 +17,7 @@ const Container = styled.div`
   padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 
   @media (max-width: 768px) {
     padding: 1rem 0.5rem;
@@ -25,9 +25,10 @@ const Container = styled.div`
 `;
 
 const Headline = styled.h2`
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   font-weight: 400;
   margin-bottom: 2rem;
+  margin-left: 1rem;
   animation: ${fadeInSlideUp} 1s ease-out;
 
   @media (max-width: 768px) {

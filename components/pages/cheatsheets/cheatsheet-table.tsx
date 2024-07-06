@@ -48,7 +48,8 @@ const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback
         {data.map((row, index) => (
           <React.Fragment key={index}>
             {row.map((field, fieldIndex) => (
-              <Field 
+              <Field
+                key={fieldIndex}
                 $isHighlighted={index % 2 !== 0}
                 $canCopy={columns[fieldIndex].canCopy}
                 $isLarge={columns[fieldIndex].isLarge}

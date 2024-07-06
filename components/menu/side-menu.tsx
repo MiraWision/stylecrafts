@@ -166,11 +166,11 @@ const SideMenu: React.FC<Props> = ({}) => {
 }
 
 const Container = styled.div`
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 `;
 
 const Group = styled.div`
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 `;
 
 const Separator = styled.div`
@@ -222,7 +222,6 @@ const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
 
   &.active {
     font-weight: 500;
-    color: var(--primary-color);
 
     ${Icon} {
       color: var(--primary-color);

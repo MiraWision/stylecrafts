@@ -128,21 +128,21 @@ const ImageOptimizer: React.FC = () => {
   return (
     <Container>
       <Form>
-        <ImagesContainer>
-          <ImageLabel>
-            Upload Image in one of the following formats:<br />JPEG, PNG, WEBP, TIFF, GIF, AVIF, or HEIF
-          </ImageLabel>
+        <OptimizationLabel>Select Compression Level</OptimizationLabel> 
 
-          <DownloadButtonContainer>
-            {optimizedImage?.content && (
-              <DownloadButton
-                label='Download Image'
-                icon='pi pi-download'
-                onClick={handleDownloadImage}
-              />
-            )}
-          </DownloadButtonContainer>
-        </ImagesContainer>
+        <OptimizationContainer>
+          {OptimizationOptions.map((option) => (
+            <OptimizationOption 
+              key={option.value}
+              $best={option.best}
+              onClick={() => handleImageOptimization(option.value)}
+            >
+              <h4>{option.label}</h4>
+
+              <p>~{option.optimization}% Compression</p>
+            </OptimizationOption>
+          ))}
+        </OptimizationContainer>
 
         <ImagesContainer>
           <ImageContainer>
@@ -182,21 +182,21 @@ const ImageOptimizer: React.FC = () => {
           </ImageContainer>
         </ImagesContainer>
 
-        <OptimizationLabel>Select Optimization Level</OptimizationLabel> 
+        <ImagesContainer>
+          <ImageLabel>
+            Upload Image in one of the following formats:<br />JPEG, PNG, WEBP, TIFF, GIF, AVIF, or HEIF
+          </ImageLabel>
 
-        <OptimizationContainer>
-          {OptimizationOptions.map((option) => (
-            <OptimizationOption 
-              key={option.value}
-              $best={option.best}
-              onClick={() => handleImageOptimization(option.value)}
-            >
-              <h4>{option.label}</h4>
-
-              <p>~{option.optimization}% Optimization</p>
-            </OptimizationOption>
-          ))}
-        </OptimizationContainer>
+          <DownloadButtonContainer>
+            {optimizedImage?.content && (
+              <DownloadButton
+                label='Download Image'
+                icon='pi pi-download'
+                onClick={handleDownloadImage}
+              />
+            )}
+          </DownloadButtonContainer>
+        </ImagesContainer>
       </Form>
     </Container>
   );
@@ -214,7 +214,6 @@ const Form = styled.div`
 `;
 
 const ImageLabel = styled(Label)`
-  margin-top: 1rem;
   text-align: center;
   width: 48%;
   line-height: 1.5;
@@ -300,7 +299,6 @@ const OptimizationTag = styled.div`
 `;
 
 const OptimizationLabel = styled(Label)`
-  margin-top: 1rem;
   text-align: center;
   width: 100%;
 `;
@@ -310,6 +308,7 @@ const OptimizationContainer = styled.div`
   gap: 2rem;
   justify-content: center;
   width: 100%;
+  margin-bottom: 1rem;
 `;
 
 const OptimizationOption = styled.div.attrs<{ $best?: boolean }>(({ $best }) => ({

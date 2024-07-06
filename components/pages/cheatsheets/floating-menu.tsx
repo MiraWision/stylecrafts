@@ -89,7 +89,7 @@ const MenuContainer = styled.div.attrs<{ $isMenuVisible: boolean }>(({ $isMenuVi
     max-width: 100%;
   }
 
-  &.hidden {
+  &.visible {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

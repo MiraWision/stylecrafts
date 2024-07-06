@@ -6,7 +6,7 @@ const Title = styled.h1`
   font-weight: 500;
   line-height: 1.2;
   color: var(--surface-900);
-  text-align: center;
+  text-align: left;
 
   @media (max-width: 768px) {
     font-size: 1.25rem;
@@ -21,7 +21,7 @@ const Subtitle = styled.h2`
   font-weight: 500;
   line-height: 1.2;
   color: var(--surface-900);
-  text-align: center;
+  text-align: left;
 
   @media (max-width: 768px) { 
     font-size: 1rem;
