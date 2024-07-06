@@ -9,7 +9,7 @@ import { ImageData, ImageInput } from '@/components/ui/inputs/image-input';
 import { SingleColumnContainer } from '@/components/ui/containers';
 import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
 import { ImagePlaceholder } from '@/components/ui/image-placeholder';
-import { DefaultQuality, ImageSettings, Settings } from '@/components/pages/images/optimization/image-settings';
+import { DefaultQuality, ImageSettings, Settings } from '@/components/pages/images/master-tool/image-settings';
 
 interface OriginalImage {
   content: string;
@@ -30,13 +30,13 @@ const Key = 'image-settings';
 interface Props {
 }
 
-const ImageOptimization: React.FC<Props> = ({}) => {
+const ImageCompression: React.FC<Props> = ({}) => {
   const [originalImage, setOriginalImage] = useState<OriginalImage | null>(null);
-  const [optimizedImage, setOptimizedImage] = useState<OptimizedImage | null>(null);
+  const [compressdImage, setOptimizedImage] = useState<OptimizedImage | null>(null);
   const [settings, setSettings] = useState<Settings | null>(null);
 
   const imageRatio = useMemo(() => (originalImage?.width ?? 1) / (originalImage?.height ?? 1), [originalImage]);
-  const optimizationPercentage = useMemo(() => Math.floor((1 - ((optimizedImage?.size ?? 1) / (originalImage?.size ?? 1))) * 100), [optimizedImage, originalImage]);
+  const compressionPercentage = useMemo(() => Math.floor((1 - ((compressdImage?.size ?? 1) / (originalImage?.size ?? 1))) * 100), [compressdImage, originalImage]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -45,7 +45,7 @@ const ImageOptimization: React.FC<Props> = ({}) => {
       saveSettingsToStorage();
     }
 
-    GAService.logEvent(analyticsEvents.images.optimization.optimizationSettingsChanged(JSON.stringify(settings)));
+    GAService.logEvent(analyticsEvents.images.compression.compressionSettingsChanged(JSON.stringify(settings)));
 
     if (!originalImage) {
       return;
@@ -102,7 +102,7 @@ const ImageOptimization: React.FC<Props> = ({}) => {
         settings?.height ?? imageElement.height,
       );
 
-      GAService.logEvent(analyticsEvents.images.optimization.imageUploaded(`${image.fileMetaData?.size} bytes`));
+      GAService.logEvent(analyticsEvents.images.compression.imageUploaded(`${image.fileMetaData?.size} bytes`));
     };
 
     imageElement.src = image.content;
@@ -161,7 +161,7 @@ const ImageOptimization: React.FC<Props> = ({}) => {
   };
 
   const onDownload = () => {
-    GAService.logEvent(analyticsEvents.images.optimization.imageOptimized(optimizationPercentage.toString()));
+    GAService.logEvent(analyticsEvents.images.compression.imageCompressed(compressionPercentage.toString()));
   };
   
   return (
@@ -185,12 +185,12 @@ const ImageOptimization: React.FC<Props> = ({}) => {
         <ImageContainer>
           <Canvas ref={canvasRef} />
 
-          {optimizedImage?.content 
+          {compressdImage?.content 
             ? (
               <>
                 <ImageWithDownloadStyled
-                  image={optimizedImage?.content ?? ''}
-                  fileName={`${originalImage?.fileName?.split('.')[0]}-optimized.${settings?.type?.split('/')[1]}`}
+                  image={compressdImage?.content ?? ''}
+                  fileName={`${originalImage?.fileName?.split('.')[0]}-compressd.${settings?.type?.split('/')[1]}`}
                   onDownloadCallback={onDownload}
                 />
 
@@ -206,23 +206,23 @@ const ImageOptimization: React.FC<Props> = ({}) => {
         </ImageContainer>
       </InputAndImageContainer>
 
-      {originalImage && optimizedImage && (
+      {originalImage && compressdImage && (
         <SizeContainer>
           <div>
             <ImageSizeText>Size: {(originalImage.size / 1024).toFixed(2)} KB</ImageSizeText>
           </div>
 
           <div>
-            <ImageSizeText>Size: {(optimizedImage.size / 1024).toFixed(2)} KB</ImageSizeText>
+            <ImageSizeText>Size: {(compressdImage.size / 1024).toFixed(2)} KB</ImageSizeText>
                 
-            {optimizationPercentage > 0 && (
-              <OptimizationTag>{optimizationPercentage}% Optimized</OptimizationTag>
+            {compressionPercentage > 0 && (
+              <CompressionTag>{compressionPercentage}% Optimized</CompressionTag>
             )}
           </div>
         </SizeContainer> 
       )}
 
-      {optimizedImage && settings && (
+      {compressdImage && settings && (
         <ImageSettings 
           settings={settings}
           onChange={setSettings}
@@ -299,7 +299,7 @@ const ImageWithDownloadStyled = styled(ImageWithDownload)`
   }
 `;
 
-const OptimizationTag = styled.div`
+const CompressionTag = styled.div`
   background: var(--primary-color);
   color: var(--gray-50);
   padding: 0.25rem 0.5rem;
@@ -331,4 +331,4 @@ const ImageSizeText = styled.div`
   font-size: 0.75rem;
 `;
 
-export { ImageOptimization };
+export { ImageCompression };

@@ -1,15 +1,15 @@
 import { sendRequest } from './send-request';
 import { APIPath, HTTPMethod } from './types';
 
-const optimizeImage = async (image: File, format: string, optimizationLevel: string) => {
+const compressImage = async (image: File, format: string, compressionLevel: string) => {
   const formData = new FormData();
 
   formData.append('image', image);
   formData.append('format', format);
-  formData.append('optimizationLevel', optimizationLevel);
+  formData.append('compressionLevel', compressionLevel);
 
   const response = await sendRequest(
-    APIPath.Optimize,
+    APIPath.Compress,
     HTTPMethod.POST,
     formData,
   );
@@ -17,4 +17,4 @@ const optimizeImage = async (image: File, format: string, optimizationLevel: str
   return response;
 };
 
-export { optimizeImage };
+export { compressImage };

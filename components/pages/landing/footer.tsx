@@ -10,7 +10,7 @@ const footerData = [
   // {
   //   groupName: 'Images Tools',
   //   items: [
-  //     { name: 'Image Optimization', href: Routes.ImageOptimizationTool },
+  //     { name: 'Image Compression', href: Routes.ImageCompressionTool },
   //     { name: 'Image to Base64', href: Routes.ImageToBase64Tool },
   //     { name: 'Base64 to Image', href: Routes.Base64ToImageTool },
   //   ],

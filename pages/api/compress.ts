@@ -11,11 +11,11 @@ export const config = {
   },
 };
 
-type OptimizationLevel = 'minimal' | 'optimal' | 'maximum';
+type CompressionLevel = 'minimal' | 'optimal' | 'maximum';
 
 const readFile = promisify(fs.readFile);
 
-const QualitySettings: Record<OptimizationLevel, any> = {
+const QualitySettings: Record<CompressionLevel, any> = {
   minimal: {
     jpeg: { quality: 85, mozjpeg: false },
     png: { compressionLevel: 2 },
@@ -42,12 +42,12 @@ const QualitySettings: Record<OptimizationLevel, any> = {
   },
 };
 
-const optimizeImage = async (file: File, format: string, optimizationLevel: OptimizationLevel) => {
+const compressImage = async (file: File, format: string, compressionLevel: CompressionLevel) => {
   const buffer = await readFile(file.filepath);
 
   let image = sharp(buffer).withMetadata({ orientation: undefined, density: undefined });
 
-  const selectedQuality = QualitySettings[optimizationLevel];
+  const selectedQuality = QualitySettings[compressionLevel];
 
   switch (format.split('/')[1]) {
     case 'jpeg':
@@ -78,16 +78,16 @@ const optimizeImage = async (file: File, format: string, optimizationLevel: Opti
 
   image = image.withMetadata({ exif: undefined });
 
-  const optimizedBuffer = await image.toBuffer();
+  const compressdBuffer = await image.toBuffer();
 
-  if (optimizedBuffer.length >= buffer.length) {
+  if (compressdBuffer.length >= buffer.length) {
     return buffer;
   }
 
-  return optimizedBuffer;
+  return compressdBuffer;
 };
 
-const getParams = (fields: Fields, files: Files): { file: File, format: string, optimizationLevel: OptimizationLevel } => {
+const getParams = (fields: Fields, files: Files): { file: File, format: string, compressionLevel: CompressionLevel } => {
   const file = Array.isArray(files.image) 
     ? files.image[0] 
     : files.image;
@@ -96,15 +96,15 @@ const getParams = (fields: Fields, files: Files): { file: File, format: string, 
     ? fields.format[0]
     : fields.format ?? 'image/jpeg';
   
-  const optimizationLevel = (Array.isArray(fields.optimizationLevel) 
-    ? fields.optimizationLevel[0] 
-    : fields.optimizationLevel ?? 'optimal') as OptimizationLevel;
+  const compressionLevel = (Array.isArray(fields.compressionLevel) 
+    ? fields.compressionLevel[0] 
+    : fields.compressionLevel ?? 'optimal') as CompressionLevel;
 
   if (!file || typeof file.filepath !== 'string') {
     throw new Error('Invalid input');
   }
 
-  return { file, format, optimizationLevel };
+  return { file, format, compressionLevel };
 };
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -124,21 +124,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
   });
 
-  const { file, format, optimizationLevel } = getParams(fields, files);
+  const { file, format, compressionLevel } = getParams(fields, files);
 
   try {
-    const optimizedBuffer = await optimizeImage(file, format, optimizationLevel);
+    const compressdBuffer = await compressImage(file, format, compressionLevel);
     
-    const optimizedImage = optimizedBuffer.toString('base64');
+    const compressdImage = compressdBuffer.toString('base64');
 
     res.status(200).json({
-      image: optimizedImage,
-      size: optimizedBuffer.length,
+      image: compressdImage,
+      size: compressdBuffer.length,
     });
   } catch (error) {
-    console.error('Error optimizing image:', error);
+    console.error('Error compressing image:', error);
 
-    res.status(500).json({ error: 'Error optimizing image' });
+    res.status(500).json({ error: 'Error compressing image' });
   } finally {
     fs.unlink(file.filepath, (err) => {
       if (err) console.error(`Failed to delete temporary file: ${file.filepath}`);

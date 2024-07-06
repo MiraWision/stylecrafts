@@ -106,20 +106,20 @@ const analyticsEvents = {
         label: size,
       }),
     },
-    optimization: {
+    compression: {
       imageUploaded: (size: string) => ({
-        category: 'ImagesOptimization',
+        category: 'ImagesCompression',
         action: 'ImageUploaded',
         label: size,
       }),
-      optimizationSettingsChanged: (settings: string) => ({
-        category: 'ImagesOptimization',
-        action: 'OptimizationSettingsChanged',
+      compressionSettingsChanged: (settings: string) => ({
+        category: 'ImagesCompression',
+        action: 'CompressionSettingsChanged',
         label: settings,
       }),
-      imageOptimized: (oprimizationPercentage: string) => ({
-        category: 'ImagesOptimization',
-        action: 'ImageOptimized',
+      imageCompressed: (oprimizationPercentage: string) => ({
+        category: 'ImagesCompression',
+        action: 'ImageCompressed',
         label: oprimizationPercentage,
       }),
     },

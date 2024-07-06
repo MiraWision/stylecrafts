@@ -6,7 +6,7 @@ enum HTTPMethod {
 }
 
 enum APIPath {
-  Optimize = '/api/optimize',
+  Compress = '/api/compress',
 }
 
 export { HTTPMethod, APIPath };

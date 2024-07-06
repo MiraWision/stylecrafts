@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { content } from '@/content/function-descriptions/image-optimization';
-import { metaTags } from '@/content/meta-data/function-image-optimization';
+import { content } from '@/content/function-descriptions/image-compression';
+import { metaTags } from '@/content/meta-data/function-image-compression';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';
 import { MainContainer } from '@/components/ui/containers';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
-import { Subtitle, Title } from '@/components/ui/texts/typography';
-import { ImageOptimizer } from '@/components/pages/images/optimization';
+import { Title } from '@/components/ui/texts/typography';
+import { ImageCompressionMain } from '@/components/pages/images/compression';
 
-const ImageOptimizationToolPage: React.FC = () => {
+const ImageCompressionToolPage: React.FC = () => {
   return (
     <BaseLayout>
       <MetaTags {...metaTags} />
@@ -19,7 +19,7 @@ const ImageOptimizationToolPage: React.FC = () => {
       <MainContainer>
         <Title>Image Compression</Title>
 
-        <ImageOptimizer />
+        <ImageCompressionMain />
       </MainContainer>  
 
       <BlogContainer>
@@ -29,4 +29,4 @@ const ImageOptimizationToolPage: React.FC = () => {
   );
 };
 
-export default ImageOptimizationToolPage;
+export default ImageCompressionToolPage;

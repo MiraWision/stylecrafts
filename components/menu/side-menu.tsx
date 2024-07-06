@@ -39,8 +39,8 @@ const MenuItems = [
       // },
       {
         icon: faImages,
-        name: 'Optimization',
-        url: Routes.ImageOptimizationTool,
+        name: 'Compression',
+        url: Routes.ImageCompressionTool,
       },
       // {
       //   icon: faImages,

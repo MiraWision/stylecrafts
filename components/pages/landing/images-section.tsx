@@ -15,11 +15,11 @@ const ImagesSection: React.FC = () => {
 
       <FeaturesRow>
         <FeatureCard
-          href={Routes.ImageOptimizationTool}
+          href={Routes.ImageCompressionTool}
           isVisible={isVisible}
-          imageSrc='/landing/image-optimization.png'
-          title='Image Optimization'
-          description='Achieve up to 99% image optimization for faster website loading and improved performance'
+          imageSrc='/landing/image-compression.png'
+          title='Image Compression'
+          description='Achieve up to 99% image compression for faster website loading and improved performance'
         />
       </FeaturesRow>
 

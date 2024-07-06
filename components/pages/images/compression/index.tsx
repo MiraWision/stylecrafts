@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
-import { optimizeImage } from '@/api/images';
+import { compressImage } from '@/api/images';
 
 import { Button } from 'primereact/button';
 import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
@@ -10,52 +10,52 @@ import { ImageInput, ImageData } from '@/components/ui/inputs/image-input';
 import { ImageType } from '@/types/image-types';
 import { Label } from '@/components/ui/texts/label';
 
-interface OptimizedImage {
+interface CompressedImage {
   content: string;
   size: number;
 }
 
-const OptimizationOptions = [
+const CompressionOptions = [
   { 
     value: 'minimal',
     label: 'Minimal',
-    optimization: '10-20',
+    compression: '10-20',
   },
   { 
     label: 'Optimal', 
     value: 'optimal',
-    optimization: '30-50',
+    compression: '30-50',
     best: true,
   },
   { 
     label: 'Maximum',
     value: 'maximum',
-    optimization: '50-70',
+    compression: '50-70',
   },
 ];
 
-const ImageOptimizer: React.FC = () => {
+const ImageCompressionMain: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<ImageData | null>(null);
 
-  const [optimizedImage, setOptimizedImage] = useState<OptimizedImage | null>(null);
+  const [compressedImage, setCompressedImage] = useState<CompressedImage | null>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const optimizationPercentage = useMemo(() => {
-    if (originalImage?.fileMetaData?.size && optimizedImage?.size) {
-      return Math.round((1 - (optimizedImage.size / originalImage.fileMetaData.size)) * 100);
+  const compressionPercentage = useMemo(() => {
+    if (originalImage?.fileMetaData?.size && compressedImage?.size) {
+      return Math.round((1 - (compressedImage.size / originalImage.fileMetaData.size)) * 100);
     }
 
     return null;
-  }, [originalImage, optimizedImage]);
+  }, [originalImage, compressedImage]);
 
   useEffect(() => {
     if (originalImage) {
-      setOptimizedImage(null);
+      setCompressedImage(null);
     }
   }, [originalImage]);
 
-  const handleImageOptimization = async (optimizationLevel: string) => {
+  const handleImageCompression = async (compressionLevel: string) => {
     if (!originalImage) {
       return;
     }
@@ -69,10 +69,10 @@ const ImageOptimizer: React.FC = () => {
     try {
       setLoading(true);
 
-      const response = await optimizeImage(
+      const response = await compressImage(
         imageFile,
         originalImage.fileMetaData?.type as ImageType,
-        optimizationLevel,
+        compressionLevel,
       );
 
       setLoading(false);
@@ -81,9 +81,9 @@ const ImageOptimizer: React.FC = () => {
 
       const content = `data:${originalImage.fileMetaData?.type};base64,${image}`;
 
-      setOptimizedImage({ content, size });
+      setCompressedImage({ content, size });
     } catch (error) {
-      console.error('Error optimizing image:', error);
+      console.error('Error compressing image:', error);
     }
   };
 
@@ -112,15 +112,15 @@ const ImageOptimizer: React.FC = () => {
   };
 
   const handleDownloadImage = () => {
-    if (!optimizedImage?.content) {
+    if (!compressedImage?.content) {
       return;
     }
 
     const link = document.createElement('a');
 
-    link.href = optimizedImage.content;
+    link.href = compressedImage.content;
 
-    link.download = originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-optimized$&') ?? 'optimized-image';
+    link.download = originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-compressd$&') ?? 'compressd-image';
 
     link.click();
   };
@@ -128,21 +128,21 @@ const ImageOptimizer: React.FC = () => {
   return (
     <Container>
       <Form>
-        <OptimizationLabel>Select Compression Level</OptimizationLabel> 
+        <CompressionLabel>Select Compression Level</CompressionLabel> 
 
-        <OptimizationContainer>
-          {OptimizationOptions.map((option) => (
-            <OptimizationOption 
+        <CompressionContainer>
+          {CompressionOptions.map((option) => (
+            <CompressionOption 
               key={option.value}
               $best={option.best}
-              onClick={() => handleImageOptimization(option.value)}
+              onClick={() => handleImageCompression(option.value)}
             >
               <h4>{option.label}</h4>
 
-              <p>~{option.optimization}% Compression</p>
-            </OptimizationOption>
+              <p>~{option.compression}% Compression</p>
+            </CompressionOption>
           ))}
-        </OptimizationContainer>
+        </CompressionContainer>
 
         <ImagesContainer>
           <ImageContainer>
@@ -161,19 +161,19 @@ const ImageOptimizer: React.FC = () => {
           </ImageContainer>
           
           <ImageContainer>
-            {optimizedImage ? (
+            {compressedImage ? (
               <>
                 <ImageWithDownloadStyled
-                  image={optimizedImage.content}
-                  fileName={originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-optimized$&')}
+                  image={compressedImage.content}
+                  fileName={originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-compressd$&')}
                 />
 
-                <TextOverlayTop>Optimized</TextOverlayTop>
+                <TextOverlayTop>Compressed</TextOverlayTop>
                 
-                <TextOverlayBottom>{optimizedImage.size ? `${(optimizedImage.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayBottom>
+                <TextOverlayBottom>{compressedImage.size ? `${(compressedImage.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayBottom>
                 
-                {optimizationPercentage !== null && (
-                  <OptimizationTag>{optimizationPercentage}% Optimized</OptimizationTag>
+                {compressionPercentage !== null && (
+                  <CompressionTag>{compressionPercentage}% Saved</CompressionTag>
                 )}
               </>
             ) : (
@@ -188,7 +188,7 @@ const ImageOptimizer: React.FC = () => {
           </ImageLabel>
 
           <DownloadButtonContainer>
-            {optimizedImage?.content && (
+            {compressedImage?.content && (
               <DownloadButton
                 label='Download Image'
                 icon='pi pi-download'
@@ -286,7 +286,7 @@ const ImageWithDownloadStyled = styled(ImageWithDownload)`
   }
 `;
 
-const OptimizationTag = styled.div`
+const CompressionTag = styled.div`
   background: var(--primary-color);
   color: var(--gray-50);
   padding: 0.25rem 0.5rem;
@@ -298,12 +298,12 @@ const OptimizationTag = styled.div`
   transform: translateX(-50%);
 `;
 
-const OptimizationLabel = styled(Label)`
+const CompressionLabel = styled(Label)`
   text-align: center;
   width: 100%;
 `;
 
-const OptimizationContainer = styled.div`
+const CompressionContainer = styled.div`
   display: flex;
   gap: 2rem;
   justify-content: center;
@@ -311,7 +311,7 @@ const OptimizationContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-const OptimizationOption = styled.div.attrs<{ $best?: boolean }>(({ $best }) => ({
+const CompressionOption = styled.div.attrs<{ $best?: boolean }>(({ $best }) => ({
   className: $best ? 'best' : '',
 }))`
   color: var(--text-color-secondary);
@@ -360,4 +360,4 @@ const OptimizationOption = styled.div.attrs<{ $best?: boolean }>(({ $best }) => 
   }
 `;
 
-export { ImageOptimizer };
+export { ImageCompressionMain };
