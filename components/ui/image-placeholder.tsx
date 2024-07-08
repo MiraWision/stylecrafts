@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { ImageIcon } from '@/components/icons/image';
+import { ImageAnimatedIcon } from '@/components/icons/image-animated';
+
 interface Props {
   isLoading?: boolean;
   className?: string;
@@ -9,9 +12,11 @@ interface Props {
 const ImagePlaceholder: React.FC<Props> = ({ isLoading, className }) => {
   return (
     <Container className={className}>
-      <Icon 
-        className={isLoading ? 'pi pi-spin pi-spinner-dotted' : 'pi pi-image'}
-      />
+      {isLoading ? (
+        <ImageAnimatedIcon width='48' height='48' />
+      ) : (
+        <ImageIcon width='48' height='48' />
+      )}
     </Container>
   );
 };
@@ -25,16 +30,15 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
+  .icon * {
+    stroke: var(--primary-color);
+  }
+
   @media (max-width: 768px) {
     width: 100%;
     height: 100%;
     min-height: 8rem;
   }
-`;
-
-const Icon = styled.i`
-  font-size: 2rem;
-  color: var(--primary-color);  
 `;
 
 export { ImagePlaceholder };

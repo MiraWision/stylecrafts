@@ -2,10 +2,11 @@ import React, { useMemo, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { USAMap, StateAbbreviations } from '@mirawision/usa-map-react';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { ChartPreview } from './chart-preview';
 import { HeatmapPreview } from './heatmap-preview';
+import { ChevronLeftIcon } from '@/components/icons/chevron-left';
+import { ChevronRightIcon } from '@/components/icons/chevron-right';
+import { ShuffleIcon } from '@/components/icons/shuffle';
 
 interface Props {
   gradient: string[];
@@ -70,7 +71,7 @@ const Preview: React.FC<Props> = ({ gradient }) => {
     <Container>
       <Header>
         <span onClick={previousPreview}>
-          <Icon icon={faChevronLeft} />
+          <ChevronLeftIcon />
 
           {previews[selectedPreview - 1 < 0 ? previews.length - 1 : selectedPreview - 1]}
         </span>
@@ -78,13 +79,15 @@ const Preview: React.FC<Props> = ({ gradient }) => {
         <h3>
           {previews[selectedPreview]}
 
-          <Icon icon={faRefresh} onClick={() => setRefreshIndex(refreshIndex + 1)} />  
+          <ShuffleIcon
+            onClick={() => setRefreshIndex(refreshIndex + 1)}
+          />
         </h3>
         
         <span onClick={nextPreview}>
           {previews[(selectedPreview + 1) % previews.length]}
 
-          <Icon icon={faChevronRight} />
+          <ChevronRightIcon />
         </span>
       </Header>
 
@@ -131,12 +134,16 @@ const Preview: React.FC<Props> = ({ gradient }) => {
 }
 
 const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
+  0% {
+    transform: scaleY(1);
   }
 
-  to {
-    transform: rotate(180deg);
+  50% {
+    transform: scaleY(-1);
+  }
+
+  100% {
+    transform: scaleY(1);
   }
 `;
 
@@ -151,10 +158,6 @@ const USAMapStyled = styled(USAMap)`
   border-radius: 1rem;
 `;
 
-const Icon = styled(FontAwesomeIcon)`
-  font-size: 0.75rem;
-`;
-
 const Header = styled.div`
   width: 100%;
   margin-bottom: 0.5rem;
@@ -162,17 +165,22 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  .icon * {
+    stroke: var(--text-color);
+  }
+
   h3 {
     font-size: 1rem;
     font-weight: 500;
     margin: 0;
+    display: flex;
+    align-items: center;
 
-    ${Icon} {
-      margin-left: 0.5rem;
+    .icon {
       cursor: pointer;
 
       &:hover {
-        animation: ${rotate} 1s infinite;
+        animation: ${rotate} 2.5s infinite;
       }
     }
   }
@@ -183,8 +191,8 @@ const Header = styled.div`
     font-size: 0.875rem;
     cursor: pointer;
 
-    ${Icon} {
-      margin: 0 0.5rem;
+    .icon {
+      margin-left: 0.5rem;
     }
   }
 `;

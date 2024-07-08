@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import { Routes } from '@/content/routes';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { LinkedInIcon } from '@/components/icons/linked-in';
+import { XIcon } from '@/components/icons/x';
 
 const footerData = [
   // {
@@ -101,11 +101,11 @@ const Footer: React.FC<Props> = ({ className }) => {
 
         <SocialNetworks>
           <FooterLink href='https://www.linkedin.com/company/mirawision' target='_blank' rel='noopener noreferrer'>
-            <SocialIcon icon={faLinkedin} />
+            <LinkedInIcon />
           </FooterLink>
 
           <FooterLink href='https://x.com/MiraWision' target='_blank' rel='noopener noreferrer'>
-            <SocialIcon icon={faXTwitter} />
+            <XIcon />
           </FooterLink>
         </SocialNetworks>
       </Row>
@@ -169,11 +169,6 @@ const SocialNetworks = styled.div`
   gap: 1.5rem;
 `;
 
-const SocialIcon = styled(FontAwesomeIcon)`
-  font-size: 1.25rem;
-  color: var(--text-color-secondary);
-`;
-
 const Links = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -204,6 +199,10 @@ const FooterLink = styled.a`
   text-decoration: none;
   margin-bottom: 0.25rem;
   color: var(--text-color-secondary);
+
+  .icon * {
+    stroke: var(--text-color-secondary);
+  }
 
   &:hover {
     text-decoration: underline;

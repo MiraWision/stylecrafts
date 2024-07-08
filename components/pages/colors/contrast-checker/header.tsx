@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdjust } from '@fortawesome/free-solid-svg-icons';
+
 import { ReverseButton } from '@/components/ui/buttons/reverse-color';
 
 interface HeaderProps {
@@ -33,11 +32,6 @@ const Header: React.FC<HeaderProps> = ({
       </Content>
       <LargeTextContainer>
         <LargeText $color={textColor}>Az</LargeText>
-        <ContrastInfo $color={textColor}>
-          <ContrastRatio>
-            <Icon icon={faAdjust} /> {contrastRatio}
-          </ContrastRatio>
-        </ContrastInfo>
         <ReverseButton onReverseColors={onReverseColors} />
       </LargeTextContainer>
     </Container>
@@ -105,27 +99,6 @@ const LargeText = styled.span.attrs<{ $color: string }>(({ $color }) => ({
 }))`
   font-size: 4rem;
   font-weight: bold;
-`;
-
-const ContrastInfo = styled.div.attrs<{ $color: string }>(({ $color }) => ({
-  style: {
-    color: $color,
-  },
-}))`
-  display: flex;
-  align-items: center;
-  font-size: 0.8rem;
-  margin-top: 0.4rem;
-`;
-
-const ContrastRatio = styled.span`
-  display: flex;
-  align-items: center;
-`;
-
-const Icon = styled(FontAwesomeIcon)`
-  font-size: 0.8rem;
-  margin-right: 0.3rem;
 `;
 
 export { Header };

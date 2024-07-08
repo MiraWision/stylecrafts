@@ -1,14 +1,11 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import { checkContrast } from '@/utils/check-contrast';
 import { PaletteColor } from './types';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faExclamationTriangle,
-  faExclamationCircle,
-} from '@fortawesome/free-solid-svg-icons';
-import { checkContrast } from '@/utils/check-contrast';
+import { ErrorIcon } from '@/components/icons/error';
+import { WarningIcon } from '@/components/icons/warning';
 
 interface Props {
   selectedColors: PaletteColor[];
@@ -87,7 +84,11 @@ const ContrastChecker: React.FC<Props> = ({ selectedColors }) => {
     <CheckerContainer>
       {contrastIssues.map((issue, index) => (
         <Message key={index} $severity={issue.severity}>
-          <Icon icon={issue.severity === 'error' ? faExclamationCircle : faExclamationTriangle} />
+          {issue.severity === 'error' ? (
+            <ErrorIcon />
+          ) : (
+            <WarningIcon />
+          )}
 
           {issue.message}
         </Message>
@@ -103,10 +104,6 @@ const CheckerContainer = styled.div`
   gap: 0.5rem;
 `;
 
-const Icon = styled(FontAwesomeIcon)`
-  margin-right: 0.5rem;
-`;
-
 const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severity }) => ({
   className: $severity,
 }))`
@@ -114,19 +111,19 @@ const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severit
   align-items: center;
   font-size: 0.875rem;
 
-  ${Icon} {
+  .icon {
     margin-right: 0.5rem;
   }
 
-  .error {
-    ${Icon} {
-      color: var(--red-700);
+  &.error {
+    .icon * {
+      stroke: var(--red-700);
     }
   }
 
-  .warning {
-    ${Icon} {
-      color: var(--yellow-700);
+  &.warning {
+    .icon * {
+      stroke: var(--yellow-700);
     }
   }
 `;

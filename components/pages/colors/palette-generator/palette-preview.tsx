@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'primereact/button';
 import { ProgressBar as PrimeProgressBar } from 'primereact/progressbar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faShareAlt, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { TemplateReview } from './template-review';
 import { Header } from '@/components/pages/colors/palette-generator/header';
 import { Footer } from '@/components/pages/colors/palette-generator/footer';
@@ -96,17 +94,6 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, bgColor, accentC
         date='23.06.2024'
         content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'
       />
-      <IconList>
-        <IconItem $color={colors.accentColor}>
-          <FontAwesomeIcon icon={faHeart} />
-        </IconItem>
-        <IconItem $color={colors.accentColor}>
-          <FontAwesomeIcon icon={faShareAlt} />
-        </IconItem>
-        <IconItem $color={colors.accentColor}>
-          <FontAwesomeIcon icon={faBookmark} />
-        </IconItem>
-      </IconList>
       <Footer bgColor={colors.additionalColor} textColor={colors.bgColor} />
     </Card>
   );
@@ -231,25 +218,6 @@ const CardContent = styled.p`
   margin: 0;
 `;
 
-const IconList = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  margin-top: 1rem;
-`;
-
-const IconItem = styled.div.attrs<{ $color: string }>(({ $color }) => ({
-  style: {
-    color: $color,
-  },
-}))`
-  font-size: 1.5rem;
-  transition: color 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
 
 const FontWeights = styled.div`
   display: flex;

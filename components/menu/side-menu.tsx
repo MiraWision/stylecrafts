@@ -5,26 +5,20 @@ import { usePathname } from 'next/navigation';
 
 import { Routes } from '@/content/routes';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faCircle, 
-  faCubes,
-  faRetweet,
-  faQuoteRight,
-  faPuzzlePiece,
-  faBlog,
-  faPalette,
-  faDroplet,
-  faCircleHalfStroke,
-  faEyeDropper,
-  faSwatchbook,
-} from '@fortawesome/free-solid-svg-icons';
-import { 
-  faFileCode,
-  faFileImage,
-  faImages,
-  faFaceSmile,
-} from '@fortawesome/free-regular-svg-icons';
+import { ImageCompressionIcon } from '../icons/image-compression';
+import { ImageToBase64Icon } from '../icons/image-to-base64';
+import { Base64ToImageIcon } from '../icons/base64-to-image';
+import { GradientGenerationIcon } from '../icons/gradient-generation';
+import { PaletteGenerationIcon } from '../icons/palette-generation';
+import { PaletteFromImageIcon } from '../icons/palette-from-image';
+import { ContrastCheckerIcon } from '../icons/contrast-checker';
+import { ColorConversionIcon } from '../icons/color-conversion';
+import { ColorInspectorIcon } from '../icons/color-inspector';
+import { ColorSwatchesIcon } from '../icons/color-swatches';
+import { CharactersIcon } from '../icons/characters';
+import { EmojisIcon } from '../icons/emojis';
+import { GameIcon } from '../icons/game';
+import { BlogIcon } from '../icons/blog';
 
 interface Props {}
 
@@ -37,23 +31,23 @@ const MenuItems = [
       //   name: 'Master Tool',
       //   url: Routes.ImageMasterTool,
       // },
-      {
-        icon: faImages,
-        name: 'Compression',
-        url: Routes.ImageCompressionTool,
-      },
       // {
       //   icon: faImages,
       //   name: 'Cropping',
       //   url: Routes.ImageCroppingTool,
       // },
       {
-        icon: faFileCode,
+        icon: ImageCompressionIcon,
+        name: 'Compression',
+        url: Routes.ImageCompressionTool,
+      },
+      {
+        icon: ImageToBase64Icon,
         name: 'Image to Base64',
         url: Routes.ImageToBase64Tool,
       },
       {
-        icon: faFileImage,
+        icon: Base64ToImageIcon,
         name: 'Base64 to Image',
         url: Routes.Base64ToImageTool,
       },
@@ -63,32 +57,32 @@ const MenuItems = [
     name: 'Colors',
     items: [
       {
-        icon: faCubes,
+        icon: GradientGenerationIcon,
         name: 'Gradient Generation',
         url: Routes.ColorsGradientGeneratorTool,
       },
       {
-        icon: faPalette,
+        icon: PaletteGenerationIcon,
         name: 'Palette Generation',
         url: Routes.ColorsPaletteGeneratorTool,
       },
       {
-        icon: faEyeDropper,
+        icon: PaletteFromImageIcon,
         name: 'Palette from Image',
         url: Routes.ColorsPaletteFromImageTool,
       },
       {
-        icon: faCircleHalfStroke ,
+        icon: ContrastCheckerIcon ,
         name: 'Contrast Checking',
         url: Routes.ColorsContrastCheckerTool,
       },
       {
-        icon: faRetweet,
+        icon: ColorConversionIcon,
         name: 'Color Conversion',
         url: Routes.ColorsConverterTool,
       },
       {
-        icon: faDroplet,
+        icon: ColorInspectorIcon,
         name: 'Color Mixing',
         url: Routes.ColorsMixerTool,
       },
@@ -98,17 +92,17 @@ const MenuItems = [
     name: 'Cheatsheets',
     items: [
       {
-        icon: faSwatchbook,
+        icon: ColorSwatchesIcon,
         name: 'Color Swatches',
         url: Routes.ColorSwatchesCheatSheet,
       },
       {
-        icon: faQuoteRight,
+        icon: CharactersIcon,
         name: 'Characters',
         url: Routes.CharactersCheatSheet,
       },
       {
-        icon: faFaceSmile,
+        icon: EmojisIcon,
         name: 'Emojis',
         url: Routes.EmojisCheatSheet,
       },
@@ -118,7 +112,7 @@ const MenuItems = [
     name: 'Games',
     items: [
       {
-        icon: faPuzzlePiece,
+        icon: GameIcon,
         name: 'Guess Color Blend',
         url: Routes.GuessColorBlendGame,
       },
@@ -141,7 +135,7 @@ const SideMenu: React.FC<Props> = ({}) => {
               href={item.url}
               $active={item.url === pathname}
             >
-              <Icon icon={item.icon ?? faCircle} />
+              <item.icon width='24' height='24' />
 
               {item.name}
             </MenuItem>
@@ -156,7 +150,7 @@ const SideMenu: React.FC<Props> = ({}) => {
           href={Routes.Blog}
           $active={pathname.includes(Routes.Blog)}
         >
-          <Icon icon={faBlog} />
+          <BlogIcon width='24' height='24' />
 
           Blog
         </MenuItem>
@@ -190,48 +184,46 @@ const GroupName = styled.div`
   color: var(--surface-500);
 `;
 
-const Icon = styled(FontAwesomeIcon)`
-  width: 1rem;
-  margin-right: 0.5rem;
-  transition: color 0.3s;
-`;
-
 const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
   className: $active ? 'active' : '',
 }))`
   font-weight: 400;
   display: flex;
+  align-items: center;
   padding: 0.375rem 0;
-  color: var(--surface-600);
+  color: var(--surface-500);
   transition: all 0.3s;
   text-decoration: none;
-  display: flex;
 
-  ${Icon} {
-    color: var(--surface-400);
+  .icon {
+    margin-right: 0.5rem;
+  }
+
+  .icon * {
+    stroke: var(--surface-500);
   }
 
   &:hover {
     font-weight: 500;
     color: var(--surface-900);
 
-    ${Icon} {
-      color: var(--surface-800);
+    .icon * {
+      stroke: var(--surface-900);
     }
   }
 
   &.active {
     font-weight: 500;
 
-    ${Icon} {
-      color: var(--primary-color);
+    .icon * {
+      stroke: var(--primary-color);
     }
 
     &:hover {
       color: var(--primary-color);
 
-      ${Icon} {
-        color: var(--primary-color);
+      .icon * {
+        stroke: var(--primary-color);
       }
     }
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CopyButton } from '@/components/ui/buttons/copy-button';
+import { CopyIconButton } from '@/components/ui/buttons/copy-icon-button';
 
 import { colorPalettes } from './data';
 
@@ -156,7 +156,7 @@ const Format = styled.div`
   }
 `;
 
-const CopyButtonSmall = styled(CopyButton).attrs<{ $color: string }>(({ $color }) => ({
+const CopyButtonSmall = styled(CopyIconButton).attrs<{ $color: string }>(({ $color }) => ({
   style: {
     color: $color,
   },

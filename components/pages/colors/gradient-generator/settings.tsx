@@ -6,8 +6,6 @@ import { analyticsEvents } from '@/services/google-analytics-service/analytics-e
 import { copyToClipboard } from '@/utils/copy';
 import { Gradient } from './gradient-examples';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { Label } from '@/components/ui/texts/label';
 import { ColorInput } from '@/components/ui/inputs/color-input';
@@ -16,6 +14,8 @@ import { StepNumberInput } from '@/components/ui/inputs/step-number-input';
 import { PrimaryButton } from '@/components/ui/buttons/primary-button';
 import { ColorsOutput } from './colors-output';
 import { useToast } from '@/components/ui/toast';
+import { AdjustIcon } from '@/components/icons/adjust';
+import { CopyIcon } from '@/components/icons/copy';
 
 interface Props {
   gradientSettings: Gradient['colors'];
@@ -54,12 +54,14 @@ const GradientSettings: React.FC<Props> = ({
     <Container>
       <Header>
         <ToggleContainer onClick={() => setIsOpen(!isOpen)}>
-          Adjust Colors
+          <AdjustIcon />
 
-          <Icon icon={faChevronDown} $isOpen={isOpen} />
+          Adjust Colors
         </ToggleContainer>
 
-        <PrimaryButton icon='pi pi-copy' onClick={copyAll}>
+        <PrimaryButton onClick={copyAll}>
+          <CopyIcon width='16' height='16' />
+
           Copy Colors
         </PrimaryButton>
       </Header>
@@ -142,16 +144,14 @@ const ToggleContainer = styled.div`
   justify-content: center;
   font-size: 0.875rem;
   cursor: pointer;
-`;
 
-const Icon = styled(FontAwesomeIcon).attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
-  style: {
-    transform: $isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-  },
-}))`
-  font-size: 0.75rem;
-  margin-left: 0.5rem;
-  transition: transform 0.3s;
+  .icon {
+    margin-right: 0.5rem;
+
+    * {
+      stroke: var(--text-color);
+    }
+  }
 `;
 
 const SettingsContainer = styled(TwoColumnsContainer).attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({

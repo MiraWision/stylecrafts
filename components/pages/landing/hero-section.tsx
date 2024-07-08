@@ -1,9 +1,8 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Logo } from '@/components/ui/logo';
+import { ChevronDownIcon } from '@/components/icons/chevron-down';
 
 interface Props {
   onScrollToNextSection: () => void;
@@ -22,7 +21,7 @@ const HeroSection: React.FC<Props> = ({ onScrollToNextSection }) => (
     <ExploreButton onClick={onScrollToNextSection}>
       <span>Explore More</span>
 
-      <FontAwesomeIcon icon={faChevronDown} />
+      <ChevronDownIcon />
     </ExploreButton>
   </Container>
 );

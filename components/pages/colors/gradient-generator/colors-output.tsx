@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
-import { CopyButton } from '../../../ui/buttons/copy-button';
+import { CopyIconButton } from '../../../ui/buttons/copy-icon-button';
 
 interface Props {
   colors: string[];
@@ -23,7 +23,7 @@ const ColorsOutput: React.FC<Props> = ({ colors }) => {
 
           <ColorText>{color}</ColorText>
           
-          <CopyButton 
+          <CopyIconButton 
             text={color}
             label='Color'
             onCopyCallback={() => handleCopy(color)}

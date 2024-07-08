@@ -1,3 +1,4 @@
+import { RemoveIcon } from '@/components/icons/remove';
 import { Button } from 'primereact/button';
 import React from 'react';
 import styled from 'styled-components';
@@ -10,11 +11,12 @@ interface Props {
 const RemoveButton: React.FC<Props> = ({ onClick, disabled }) => {
   return (
     <ButtonStyled
-      icon='pi pi-minus'
       className='p-button-sm'
       onClick={onClick}
       disabled={disabled}
-    />
+    >
+      <RemoveIcon />
+    </ButtonStyled>
   );
 }
 

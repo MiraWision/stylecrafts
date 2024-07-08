@@ -60,8 +60,6 @@ const ColorCard: React.FC<ColorCardProps> = ({ color, label, onRandomColor, onCo
         </ColorLabel>
 
         <IconWrapper>
-          <RandomColorButton icon='pi pi-refresh' onClick={onRandomColor} />
-
           <Label>Random color</Label>
         </IconWrapper>
       </Column>

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { ImageType } from '@/types/image-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { UploadIcon } from '@/components/icons/upload';
 
 interface ImageData {
   content: string | null;
@@ -131,7 +130,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
 
           {!value && (
             <>
-              <Icon icon={faCloudArrowUp} />
+              <UploadIcon width='48' height='48' />
 
               <Text><b>Upload your image</b><br />Click here to select a file, or drop it on a page, or just copy-paste it!</Text>
             </>
@@ -158,6 +157,10 @@ const Container = styled.div`
   @media (max-width: 768px) {
     padding: 0.5rem;
   }
+
+  .icon * {
+    stroke: var(--primary-color);
+  }
 `;
 
 const Label = styled.label`
@@ -168,15 +171,6 @@ const Label = styled.label`
   width: 100%;
   height: 100%;
   cursor: pointer;
-`;
-
-const Icon = styled(FontAwesomeIcon)`
-  font-size: 2rem;
-  color: var(--primary-color);  
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
 `;
 
 const Text = styled.div`

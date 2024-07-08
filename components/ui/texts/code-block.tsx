@@ -2,27 +2,30 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { copyToClipboard } from '@/utils/copy';
-import { useTheme } from '@/services/theme-service/use-theme';
-import { Theme } from '@/services/theme-service/types';
 
 import { Button } from 'primereact/button';
+import { CopyIcon } from '@/components/icons/copy';
+import { CheckmarkIcon } from '@/components/icons/checkmark';
+
+import { useTheme } from '@/services/theme-service/use-theme';
+import { Theme } from '@/services/theme-service/types';
 
 interface Props {
   code: string;
 }
 
 const CodeBlock: React.FC<Props> = ({ code }) => {
-  const [icon, setIcon] = useState('pi pi-copy');
+  const [icon, setIcon] = useState('copy');
 
   const [theme] = useTheme();
 
   const copyText = async () => {
     copyToClipboard(code, {
       onSuccess: () => {
-        setIcon('pi pi-check');
+        setIcon('check');
 
         setTimeout(() => {
-          setIcon('pi pi-copy');
+          setIcon('copy');
         }, 3000);
       },
     });
@@ -34,7 +37,13 @@ const CodeBlock: React.FC<Props> = ({ code }) => {
         {code}
       </Text>
 
-      <CopyButton icon={icon} onClick={copyText} />
+      <CopyButton onClick={copyText}>
+        {icon === 'copy' ? (
+          <CopyIcon width='16' height='16' />
+        ) : (
+          <CheckmarkIcon width='16' height='16' />
+        )}
+      </CopyButton>
     </Container>
   );
 }

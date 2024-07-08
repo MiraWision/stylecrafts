@@ -5,8 +5,8 @@ import { useObserver } from '@/hooks/use-observer';
 
 import { Column, Container, Headline, TextColumn, fadeInSlideUp } from './common';
 import { Routes } from '@/content/routes';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
+import { CheckmarkCircleIcon } from '@/components/icons/checkmark-circle';
+import { CrossCircleIcon } from '@/components/icons/cross-circle';
 
 const ColorMixingSection: React.FC = () => {
   const [observerRef, isVisible] = useObserver<HTMLDivElement>();
@@ -42,7 +42,7 @@ const ColorMixingSection: React.FC = () => {
               <img src='/landing/mix-best.png' alt='Correct Color Mixing Example' />
               
               <figcaption>
-                <FontAwesomeIcon icon={faCheckCircle} />
+                <CheckmarkCircleIcon width='36' height='36' />
               </figcaption>
             </figure>
           </MainExample>
@@ -53,7 +53,7 @@ const ColorMixingSection: React.FC = () => {
                 <img src={`/landing/${src}`} alt='Incorrect Color Mixing Example' />
                 
                 <figcaption>
-                  <FontAwesomeIcon icon={faTimesCircle} />
+                  <CrossCircleIcon width='24' height='24' />
                 </figcaption>
               </figure>  
             ))}

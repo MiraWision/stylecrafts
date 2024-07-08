@@ -1,6 +1,9 @@
-import React, { use, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button } from 'primereact/button';
 import styled from 'styled-components';
+
+import { MoonIcon } from '@/components/icons/moon';
+import { SunIcon } from '@/components/icons/sun';
 
 import { useTheme } from '@/services/theme-service/use-theme';
 import { Theme } from '@/services/theme-service/types';
@@ -18,7 +21,7 @@ const ThemeButton: React.FC<Props> = () => {
   }, []);
 
   const icon = useMemo(() => {
-    return theme === Theme.Light ? 'pi pi-moon' : 'pi pi-sun';
+    return theme === Theme.Light ? 'moon' : 'sun';
   }, [theme]);
 
   const toggleTheme = () => {
@@ -28,10 +31,15 @@ const ThemeButton: React.FC<Props> = () => {
   return isClient && (
     <Container>
       <ButtonStyled 
-        icon={icon} 
         onClick={toggleTheme} 
         className='p-button-rounded'
-      />
+      >
+        {icon === 'moon' ? (
+          <MoonIcon />
+        ) : (
+          <SunIcon />
+        )}
+      </ButtonStyled>
     </Container>
   );
 };
@@ -51,8 +59,13 @@ const Container = styled.div`
 `;
 
 const ButtonStyled = styled(Button)`
-  color: var(--primary-color);
+  padding: 0.25rem;
   background-color: var(--surface-50);
+  border: 0.0625rem dashed var(--surface-500);
+
+  .icon * {
+    stroke: var(--surface-500);
+  }
 
   @media (max-width: 768px) {
     width: 2rem;

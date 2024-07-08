@@ -5,6 +5,8 @@ import { copyToClipboard } from '@/utils/copy';
 import { useToast } from '../toast';
 
 import { Button } from 'primereact/button';
+import { CopyIcon } from '@/components/icons/copy';
+import { CheckmarkIcon } from '@/components/icons/checkmark';
 
 interface Props {
   text: string;
@@ -14,8 +16,8 @@ interface Props {
   className?: string;
 }
 
-const CopyButton: React.FC<Props> = ({ text, label, onCopyCallback, style, className }) => {
-  const [icon, setIcon] = useState('pi pi-copy');
+const CopyIconButton: React.FC<Props> = ({ text, label, onCopyCallback, style, className }) => {
+  const [icon, setIcon] = useState('copy');
 
   const { toast } = useToast();
 
@@ -24,10 +26,10 @@ const CopyButton: React.FC<Props> = ({ text, label, onCopyCallback, style, class
       onSuccess: () => {
         toast.success(label? `${label} copied to clipboard` : 'Copied to clipboard', text);
 
-        setIcon('pi pi-check');
+        setIcon('check');
 
         setTimeout(() => {
-          setIcon('pi pi-copy');
+          setIcon('copy');
         }, 3000);
 
         if (onCopyCallback) {
@@ -39,7 +41,13 @@ const CopyButton: React.FC<Props> = ({ text, label, onCopyCallback, style, class
 
   return (
     <div className={className} style={style}>
-      <ButtonSmall icon={icon} onClick={copyText} />
+      <ButtonSmall onClick={copyText}>
+        {icon === 'copy' ? (
+          <CopyIcon width='16' height='16' />
+        ) : (
+          <CheckmarkIcon width='16' height='16' />
+        )}
+      </ButtonSmall>
     </div>
   );
 };
@@ -48,7 +56,7 @@ const ButtonSmall = styled(Button)`
   border-radius: 0.4rem;
   height: 2rem;
   width: 2rem;
-  color: var(--primary-color);
+  padding: 0.5rem;
   border: none;
   background: none;
 
@@ -56,9 +64,9 @@ const ButtonSmall = styled(Button)`
     box-shadow: none;
   }
 
-  .pi {
-    color: var(--primary-color);
+  .icon * {
+    stroke: var(--primary-color);
   }
 `;
 
-export { CopyButton };
+export { CopyIconButton };
