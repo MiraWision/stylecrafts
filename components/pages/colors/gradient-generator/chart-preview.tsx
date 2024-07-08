@@ -17,6 +17,13 @@ const ChartPreview: React.FC<Props> = ({ data }) => {
           />
         ))}
       </Chart>
+
+      <YAxis />
+
+      <TopLegend>+100</TopLegend>
+
+      <BottomLegend>-100</BottomLegend>
+      
       <XAxis />
     </ChartContainer>
   );
@@ -32,8 +39,9 @@ const ChartContainer = styled.div`
 
 const Chart = styled.div`
   position: relative;
-  width: 100%;
+  width: 90%;
   height: 100%;
+  margin-left: 9%;
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
@@ -64,15 +72,32 @@ const Axis = styled.div`
 const YAxis = styled(Axis)`
   width: 0.0625rem;
   height: 100%;
-  left: 0;
+  left: 3%;
   top: 0;
 `;
 
 const XAxis = styled(Axis)`
-  width: 100%;
+  width: 96%;
   height: 0.0625rem;
-  left: 0;
+  left: 3%;
   bottom: 50%;
+`;
+
+const Legend = styled.div`
+  position: absolute;
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: var(--surface-500);
+`
+
+const TopLegend = styled(Legend)`
+  left: 4%;
+  top: 0.25rem;
+`;
+
+const BottomLegend = styled(Legend)`
+  left: 4%;
+  bottom: 0.25rem;
 `;
 
 export { ChartPreview };

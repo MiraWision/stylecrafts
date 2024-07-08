@@ -17,7 +17,7 @@ const HeatmapCols = 18;
 const HeatmapRows = 7;
 const HeatmapTotalCells = HeatmapCols * HeatmapRows;
 
-const BarsCount = 25;
+const BarsCount = 20;
 
 const Preview: React.FC<Props> = ({ gradient }) => {
   const previews = [
