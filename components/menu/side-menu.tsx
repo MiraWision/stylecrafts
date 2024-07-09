@@ -164,7 +164,7 @@ const Container = styled.div`
 `;
 
 const Group = styled.div`
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 `;
 
 const Separator = styled.div`
@@ -190,7 +190,7 @@ const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
   font-weight: 400;
   display: flex;
   align-items: center;
-  padding: 0.375rem 0;
+  padding: 0.175rem 0;
   color: var(--surface-500);
   transition: all 0.3s;
   text-decoration: none;

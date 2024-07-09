@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
-import { CopyIconButton } from '../../../ui/buttons/copy-icon-button';
+import { CopyIconButton } from '../../../ui/icon-buttons/copy-icon-button';
 
 interface Props {
   colors: string[];

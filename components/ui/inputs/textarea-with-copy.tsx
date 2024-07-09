@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { copyToClipboard } from '@/utils/copy';
-0
 import { InputTextarea } from 'primereact/inputtextarea';
-import { PrimaryButton } from '../buttons/primary-button';
+import { CopyTextButton } from '../text-buttons/copy-text-button';
 
 interface CopyOption {
   name: string;
@@ -21,31 +19,23 @@ interface Props {
 }
 
 const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyOptions}) => {
-  const copyValue = (option: CopyOption) => () => {
-    const copiedValue = option.getValue(value);
-   
-    copyToClipboard(copiedValue, { onSuccess: option.onSuccess, onFail: option.onFail });
-  }
-
   return (
     <Container>
       <InputTextareaStyled 
         value={value}
         placeholder={placeholder}
-        // disabled={!!onChange}
         onChange={(e) => onChange?.(e.currentTarget.value)}
       />
 
       {copyOptions && (
         <ActionsContainer>
           {copyOptions.map((option, index) => (
-            <PrimaryButton
-              key={index} 
-              icon='pi pi-copy'
-              onClick={copyValue(option)}
-            >
-              {option.name}
-            </PrimaryButton>
+            <CopyTextButton
+              key={index}
+              text={option.name}
+              copyText={option.getValue(value)}
+              onCopyCallback={option.onSuccess}
+            />
           ))}
         </ActionsContainer>
       )}

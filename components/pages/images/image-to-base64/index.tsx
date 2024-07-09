@@ -41,7 +41,7 @@ const ImageToBase64: React.FC<Props> = ({}) => {
         value={image ?? ''}
         copyOptions={[
           { 
-            name: 'Copy base64', 
+            name: 'Copy Base64', 
             getValue: (text) => text, 
             onSuccess: () => {
               callback.onSuccess('Base64 Content copied to clipboard');

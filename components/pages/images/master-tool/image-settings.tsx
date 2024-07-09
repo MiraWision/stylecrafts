@@ -5,7 +5,7 @@ import { ImageType } from '@/types/image-types';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 import { Slider } from 'primereact/slider';
-import { LinkToggleButton } from '@/components/ui/buttons/link-toggle-button';
+import { LinkIconButton } from '@/components/ui/icon-buttons/link-icon-button';
 
 interface Settings {
   width: number;
@@ -86,7 +86,7 @@ const ImageSettings: React.FC<Props> = ({ settings, onChange, originalRatio }) =
         </Field>
 
         <MiddleContainer>
-          <LinkToggleButton 
+          <LinkIconButton 
             linked={areLinkedDimensions} 
             onToggle={() => setAreLinkedDimensions(!areLinkedDimensions)} 
           />

@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
-import { PrimaryButton } from '@/components/ui/buttons/primary-button';
 import { useToast } from '@/components/ui/toast';
+import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
 
 interface Props {
   palette: string[];
@@ -30,7 +30,7 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
     GAService.logEvent(analyticsEvents.colors.blender.colorCopied(color));
   };
 
-  const copyAllColors = () => {
+  const onCopy = () => {
     const text = JSON.stringify(palette).replace(/,/g, ', ');
 
     navigator.clipboard.writeText(text);
@@ -80,9 +80,11 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
         })}
       </PaletteGrid>
 
-      <PrimaryButton icon='pi pi-copy' onClick={copyAllColors}>
-        Copy All
-      </PrimaryButton>
+      <CopyTextButton
+        text='Copy All'
+        copyText={JSON.stringify(palette).replace(/,/g, ', ')}
+        onCopyCallback={onCopy}
+      />
     </Container>
   );
 };

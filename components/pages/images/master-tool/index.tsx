@@ -7,8 +7,8 @@ import { ImageType } from '@/types/image-types';
 
 import { ImageData, ImageInput } from '@/components/ui/inputs/image-input';
 import { SingleColumnContainer } from '@/components/ui/containers';
-import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
-import { ImagePlaceholder } from '@/components/ui/image-placeholder';
+import { ImageWithDownload } from '@/components/ui/images/image-with-download';
+import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 import { DefaultQuality, ImageSettings, Settings } from '@/components/pages/images/master-tool/image-settings';
 
 interface OriginalImage {

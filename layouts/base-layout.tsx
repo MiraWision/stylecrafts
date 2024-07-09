@@ -5,10 +5,11 @@ import { useRouter } from 'next/router';
 import { Button } from 'primereact/button';
 import { Logo } from '@/components/ui/logo';
 import { SideMenu } from '@/components/menu/side-menu';
-import { ThemeButton } from '@/components/ui/buttons/theme-button';
+import { ThemeButton } from '@/components/ui/theme-button';
 import { Footer } from '@/components/pages/landing/footer';
 
 import 'primereact/resources/primereact.min.css';
+import { BurgerIcon } from '@/components/icons/burger';
 
 interface Props {
   includeFooter?: boolean;
@@ -32,11 +33,12 @@ const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
       {!isSidebarOpen && (
         <StyledButton
           $isOpen={isSidebarOpen}
-          icon='pi pi-bars'
           onClick={toggleSidebar}
           className='p-button-rounded p-button-text'
           aria-label='Toggle Menu'
-        />
+        >
+          <BurgerIcon />
+        </StyledButton>
       )}
 
       <Sidebar $isOpen={isSidebarOpen}>
@@ -122,6 +124,7 @@ const StyledButton = styled(Button).attrs<{ $isOpen: boolean }>(({ $isOpen }) =>
     left: 1rem;
     width: 2rem;
     height: 2rem;
+    padding: 0;
     z-index: 30;
     display: none; 
 

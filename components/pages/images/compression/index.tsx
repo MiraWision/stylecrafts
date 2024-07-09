@@ -1,14 +1,15 @@
-import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useState, useMemo, useEffect } from 'react';
+import styled from 'styled-components';
 
 import { compressImage } from '@/api/images';
 
 import { Button } from 'primereact/button';
-import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
-import { ImagePlaceholder } from '@/components/ui/image-placeholder';
+import { ImageWithDownload } from '@/components/ui/images/image-with-download';
+import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 import { ImageInput, ImageData } from '@/components/ui/inputs/image-input';
 import { ImageType } from '@/types/image-types';
 import { Label } from '@/components/ui/texts/label';
+import { DownloadTextButton } from '@/components/ui/text-buttons/download-text-button';
 
 interface CompressedImage {
   content: string;
@@ -189,9 +190,8 @@ const ImageCompressionMain: React.FC = () => {
 
           <DownloadButtonContainer>
             {compressedImage?.content && (
-              <DownloadButton
-                label='Download Image'
-                icon='pi pi-download'
+              <DownloadTextButton
+                text='Download Image'
                 onClick={handleDownloadImage}
               />
             )}

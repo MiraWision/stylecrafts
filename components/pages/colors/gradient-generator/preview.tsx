@@ -156,6 +156,10 @@ const Container = styled.div`
 const USAMapStyled = styled(USAMap)`
   background: var(--surface-100);
   border-radius: 1rem;
+
+  * path {
+    stroke-width: 0;
+  }
 `;
 
 const Header = styled.div`

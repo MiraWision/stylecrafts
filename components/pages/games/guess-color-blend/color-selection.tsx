@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { SelectedColor } from './types';
 
 import { ColorCircle } from './color-circle';
-import { RefreshButton } from '@/components/ui/buttons/refresh-button';
+import { RefreshIconButton } from '@/components/ui/icon-buttons/refresh-icon-button';
 import { Label } from '@/components/ui/texts/label';
 
 interface Props {
@@ -32,7 +32,7 @@ const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatche
       </ColorBar>
 
       <ColorCirclesContainer>
-        <RefreshButtonStyled onClick={onResetAll} />
+        <RefreshIconButtonStyled onClick={onResetAll} />
 
         {selectedColors.map((color) => (
           <ColorCircle
@@ -90,7 +90,7 @@ const ColorCirclesContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const RefreshButtonStyled = styled(RefreshButton)`
+const RefreshIconButtonStyled = styled(RefreshIconButton)`
   margin-top: -2rem;
 `;
 

@@ -5,8 +5,8 @@ import { PaletteColor } from './types';
 
 import { Label } from '@/components/ui/texts/label';
 import { ColorInput } from '@/components/ui/inputs/color-input';
-import { RemoveButton } from '@/components/ui/buttons/remove-button';
-import { PrimaryButton } from '@/components/ui/buttons/primary-button';
+import { RemoveIconButton } from '@/components/ui/icon-buttons/remove-icon-button';
+import { AddTextButton } from '@/components/ui/text-buttons/add-text-button';
 
 interface Props {
   selectedColors: PaletteColor[];
@@ -34,7 +34,7 @@ const ColorSelector: React.FC<Props> = ({
             />
 
             {index > 3 && (
-              <RemoveButton 
+              <RemoveIconButton 
                 onClick={() => onRemoveColor(index)}
               />
             )}
@@ -42,9 +42,10 @@ const ColorSelector: React.FC<Props> = ({
         </ColorPickerContainer>
       ))}
 
-      <PrimaryButton icon='pi pi-plus' onClick={onAddColor}>
-          Add Color
-      </PrimaryButton>
+      <AddTextButton
+        text='Add Color'
+        onClick={onAddColor}
+      />
     </>
   );
 };

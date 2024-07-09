@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { DownloadButton } from '@/components/ui/buttons/download-button';
+import { Button } from 'primereact/button';
+import { DownloadIcon } from '@/components/icons/download';
 
 interface Props {
   image: string;
@@ -39,7 +40,12 @@ const ImageWithDownload: React.FC<Props> = ({
       <StyledImage src={image} alt='Uploaded Image' />
 
       <DownloadContainer>
-        <DownloadButton onClick={onDownload} />
+        <Button 
+          onClick={onDownload} 
+          className='p-button-rounded p-button-primary' 
+        >
+          <DownloadIcon width='36' height='36' />
+        </Button>
       </DownloadContainer>
     </ImageContainer>
   );
@@ -85,6 +91,28 @@ const DownloadContainer = styled.div`
 
   &:hover {
     opacity: 1;
+  }
+
+  .p-button {
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-color);
+    border: none;
+  }
+
+  .icon * {
+    stroke: #ffffff;
+  }
+
+  @media (max-width: 768px) {
+    .p-button {
+      width: 2rem;
+      height: 2rem;
+    }
   }
 `;
 

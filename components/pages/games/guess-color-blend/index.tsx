@@ -13,11 +13,11 @@ import { useLocalStorage } from '@/hooks/use-local-storage';
 import { PaletteColors, LevelOptions } from './data';
 
 import { ColorsPreview } from '@/components/pages/games/guess-color-blend/colors-preview';
-import { PrimaryButton } from '@/components/ui/buttons/primary-button';
 import { Label } from '@/components/ui/texts/label';
 import { ColorSelection } from './color-selection';
 import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 import { useTimer } from '@/hooks/use-timer';
+import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
 
 interface Props {
 }
@@ -185,7 +185,7 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
           {LevelOptions.map((item) => (
             <LevelButton
               key={item.value}
-              label={item.label}
+              text={item.label}
               className={level === item.value ? 'selected' : ''}
               onClick={() => handleDifficultyChange(item.value)}
             />
@@ -251,7 +251,7 @@ const ButtonsContainer = styled.div`
   gap: 1rem;
 `;
 
-const LevelButton = styled(PrimaryButton)`
+const LevelButton = styled(BaseTextButton)`
   border-color: var(--surface-border);
 
   span {

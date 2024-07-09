@@ -4,7 +4,7 @@ import { isDark } from '@mirawision/colorize/is-dark';
 
 import { SelectedColor } from './types';
 
-import { RemoveButton } from '@/components/ui/buttons/remove-button';
+import { RemoveIconButton } from '@/components/ui/icon-buttons/remove-icon-button';
 
 interface Props {
   color: SelectedColor;
@@ -41,7 +41,7 @@ const ColorCircle: React.FC<Props> = ({ color, totalWeight, onWeightChange }) =>
 
       <ButtonContainer>
         {color.weight > 0 && (
-          <RemoveButton
+          <RemoveIconButton
             onClick={handleDecreaseWeight}
           />
         )}

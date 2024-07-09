@@ -3,19 +3,18 @@ import styled from 'styled-components';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
-import { copyToClipboard } from '@/utils/copy';
 import { Gradient } from './gradient-examples';
 
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { Label } from '@/components/ui/texts/label';
 import { ColorInput } from '@/components/ui/inputs/color-input';
-import { RemoveButton } from '@/components/ui/buttons/remove-button';
+import { RemoveIconButton } from '@/components/ui/icon-buttons/remove-icon-button';
 import { StepNumberInput } from '@/components/ui/inputs/step-number-input';
-import { PrimaryButton } from '@/components/ui/buttons/primary-button';
 import { ColorsOutput } from './colors-output';
 import { useToast } from '@/components/ui/toast';
 import { AdjustIcon } from '@/components/icons/adjust';
-import { CopyIcon } from '@/components/icons/copy';
+import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
+import { AddTextButton } from '@/components/ui/text-buttons/add-text-button';
 
 interface Props {
   gradientSettings: Gradient['colors'];
@@ -38,16 +37,12 @@ const GradientSettings: React.FC<Props> = ({
   
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const copyAll = () => {
+  const onCopy = () => {
     const text = JSON.stringify(gradient).replace(/,/g, ', ');
 
-    copyToClipboard(text, {
-      onSuccess: () => {
-        toast.success('Colors copied to clipboard', text);
+    toast.success('Colors copied to clipboard', text);
 
-        GAService.logEvent(analyticsEvents.colors.gradient.gradientCopied(text));
-      },
-    });
+    GAService.logEvent(analyticsEvents.colors.gradient.gradientCopied(text));
   };
   
   return (
@@ -59,11 +54,11 @@ const GradientSettings: React.FC<Props> = ({
           Adjust Colors
         </ToggleContainer>
 
-        <PrimaryButton onClick={copyAll}>
-          <CopyIcon width='16' height='16' />
-
-          Copy Colors
-        </PrimaryButton>
+        <CopyTextButton
+          text='Copy Colors'
+          copyText={JSON.stringify(gradient).replace(/,/g, ', ')}
+          onCopyCallback={onCopy}
+        />
       </Header>
       
       <SettingsContainer $isOpen={isOpen}>
@@ -84,7 +79,7 @@ const GradientSettings: React.FC<Props> = ({
                       onChange={(newColor) => onUpdateColor(colorIndex, newColor)}
                     />
 
-                    <RemoveButton 
+                    <RemoveIconButton 
                       onClick={() => onRemoveColor(colorIndex)}
                       disabled={gradientSettings.length <= 3} 
                     />
@@ -109,9 +104,10 @@ const GradientSettings: React.FC<Props> = ({
             );
           })}
 
-          <PrimaryButton icon='pi pi-plus' onClick={onAddColor}>
-            Add Color
-          </PrimaryButton>
+          <AddTextButton 
+            text='Add Color' 
+            onClick={onAddColor}
+          />
         </FormColumn>
 
         <ResultsColumn>

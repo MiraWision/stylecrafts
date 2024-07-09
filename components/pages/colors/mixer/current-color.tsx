@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Color } from '@mirawision/colorize';
 
-import { CopyIconButton } from '@/components/ui/buttons/copy-icon-button';
+import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 
 interface Props {
   color: Color;

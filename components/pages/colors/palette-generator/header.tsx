@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ReverseButton } from '@/components/ui/buttons/reverse-color';
+import { ShuffleIconButton } from '@/components/ui/icon-buttons/shuffle-icon-button';
 
 interface HeaderProps {
   textColor: string;
@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({
       </Content>
       <LargeTextContainer>
         <LargeText $color={textColor}>Az</LargeText>
-        <ReverseButton onReverseColors={onReverseColors} />
+        <ShuffleIconButton onReverseColors={onReverseColors} />
       </LargeTextContainer>
     </Container>
   );

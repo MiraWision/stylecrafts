@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CopyIconButton } from '@/components/ui/buttons/copy-icon-button';
+import { convertColor, ColorFormat, getLuminance } from '@mirawision/colorize';
 
 import { colorPalettes } from './data';
 
@@ -10,7 +10,7 @@ import { generateSlug } from '@/utils/text';
 
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { FloatingMenu } from '../floating-menu';
-import { convertColor, ColorFormat, getLuminance } from '@mirawision/colorize';
+import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 
 interface Props {}
 

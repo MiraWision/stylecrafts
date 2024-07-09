@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
-import { ImageWithDownload } from '@/components/ui/outputs/image-with-download';
+import { ImageWithDownload } from '@/components/ui/images/image-with-download';
 import { SingleColumnContainer } from '@/components/ui/containers';
 import { TextareaWithCopy } from '@/components/ui/inputs/textarea-with-copy';
-import { ImagePlaceholder } from '@/components/ui/image-placeholder';
+import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 
 interface Props {
 }

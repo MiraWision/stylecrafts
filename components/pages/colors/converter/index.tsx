@@ -6,7 +6,7 @@ import { analyticsEvents } from '@/services/google-analytics-service/analytics-e
 
 import { Label } from '@/components/ui/texts/label';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
-import { CopyIconButton } from '@/components/ui/buttons/copy-icon-button';
+import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { ColorInputPreview } from '@/components/ui/inputs/color-input-preview';
 
