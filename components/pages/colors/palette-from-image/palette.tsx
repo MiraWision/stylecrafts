@@ -6,6 +6,8 @@ import { analyticsEvents } from '@/services/google-analytics-service/analytics-e
 
 import { useToast } from '@/components/ui/toast';
 import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
+import { RefreshIcon } from '@/components/icons/refresh';
+import { CopyIcon } from '@/components/icons/copy';
 
 interface Props {
   palette: string[];
@@ -47,7 +49,7 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
           if (index === rowsCount * 4 - 1) {
             return (
               <RefreshButton key={index} onClick={onRefreshPalette}>
-                <i className='pi pi-refresh' />
+                <RefreshIcon />
               </RefreshButton>
             );
           }
@@ -73,7 +75,7 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
               <Overlay>
                 <ColorTooltip>{color}</ColorTooltip>
 
-                <i className='pi pi-copy' />
+                <CopyIcon />
               </Overlay>
             </ColorSquare>
           );

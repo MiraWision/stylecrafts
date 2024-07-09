@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { ChevronLeftIcon } from '@/components/icons/chevron-left';
 
 interface Props {
   href: string;
@@ -9,7 +10,7 @@ interface Props {
 
 const BackLink: React.FC<Props> = ({ href, children }) => (
   <LinkStyled href={href}>
-    <Icon className='pi pi-angle-left' />
+    <ChevronLeftIcon />
 
     {children}
   </LinkStyled>

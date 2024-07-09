@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { checkContrast } from '@/utils/check-contrast';
+import { CheckmarkIcon } from '@/components/icons/checkmark';
+import { CrossCircleIcon } from '@/components/icons/cross-circle';
 
 interface ContrastStatusProps {
   textColor: string;
@@ -32,11 +34,21 @@ const ContrastStatus: React.FC<ContrastStatusProps> = ({
   const getContrastRatios = () => (
     <>
       <Ratio>
-        <RatioIcon className={`pi ${isAA ? 'pi-check' : 'pi-exclamation-circle'}`} $isSuitable={isAA} />
+        {isAA ? (
+          <CheckmarkIcon stroke='green' /> 
+        ) : (
+          <CrossCircleIcon stroke='red' />
+        )}
+        
         <RatioText>AA — {aaThreshold}:1</RatioText>
       </Ratio>
       <Ratio>
-        <RatioIcon className={`pi ${isAAA ? 'pi-check' : 'pi-exclamation-circle'}`} $isSuitable={isAAA} />
+        {isAAA ? (
+          <CheckmarkIcon stroke='green' /> 
+        ) : (
+          <CrossCircleIcon stroke='red' />
+        )}
+
         <RatioText>AAA — {aaaThreshold}:1</RatioText>
       </Ratio>
     </>

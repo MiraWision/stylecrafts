@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { generateSlug } from '@/utils/text';
 import { copyToClipboard } from '@/utils/copy';
 import { useToast } from '@/components/ui/toast';
+import { CopyIcon } from '@/components/icons/copy';
 
 interface Column {
   header: string;
@@ -58,7 +59,7 @@ const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback
                 {field}
         
                 {columns[fieldIndex].canCopy && 
-                  <i className='pi pi-copy' />
+                  <CopyIcon width='16' height='16' />
                 }
               </Field>
             ))}
@@ -133,15 +134,17 @@ const Field = styled.div.attrs<{ $isHighlighted: boolean, $canCopy: boolean, $is
     cursor: pointer;
   }
   
-  > i {
+  .icon {
     margin-left: 0.5rem;
-    font-size: 0.75rem;
-    color: var(--primary-color);
     opacity: 0;
     transition: opacity 0.3s;
+
+    * {
+      stroke: var(--primary-color);
+    }
   }
 
-  &:hover > i {
+  &:hover > .icon {
     opacity: 1;
   }
 
