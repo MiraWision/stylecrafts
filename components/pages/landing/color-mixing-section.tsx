@@ -26,7 +26,7 @@ const ColorMixingSection: React.FC = () => {
           <p>
             Whether you're working on digital art, web design, or any creative project,
             our advanced algorithm will provide a true-to-life color blending experience.
-            Ready to see it in action? Try the <a href={Routes.ColorsMixerTool} target='_blank'>Color Mixer Tool</a> now!
+            Ready to see it in action? Try the <a href={Routes.ColorsInspectorTool} target='_blank'>Color Mixer Tool</a> now!
           </p>
           
           <p className='accent'>

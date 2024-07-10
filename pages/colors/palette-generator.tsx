@@ -12,7 +12,7 @@ import { Subtitle, Title } from '@/components/ui/texts/typography';
 import { NPMLink } from '@/components/ui/texts/npm-link';
 import { PaletteGeneratorMain } from '@/components/pages/colors/palette-generator';
 
-const ColorsMixerToolPage = () => {
+const ColorsInspectorToolPage = () => {
   return (
     <BaseLayout>
       <MetaTags {...metaTags} />
@@ -39,4 +39,4 @@ const ColorsMixerToolPage = () => {
   );
 };
 
-export default ColorsMixerToolPage;
+export default ColorsInspectorToolPage;

@@ -16,7 +16,11 @@ interface CompressedImage {
   size: number;
 }
 
-const CompressionOptions = [
+const CompressionOptions: {
+  value: CompressionLevel;
+  label: string;
+  compression: string;
+}[] = [
   { 
     value: 'minimal',
     label: 'Minimal',
@@ -26,7 +30,6 @@ const CompressionOptions = [
     label: 'Optimal', 
     value: 'optimal',
     compression: '30-50',
-    best: true,
   },
   { 
     label: 'Maximum',
@@ -35,10 +38,14 @@ const CompressionOptions = [
   },
 ];
 
+type CompressionLevel = 'minimal' | 'optimal' | 'maximum';
+
 const ImageCompressionMain: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<ImageData | null>(null);
 
   const [compressedImage, setCompressedImage] = useState<CompressedImage | null>(null);
+
+  const [compressionLevel, setCompressionLevel] = useState<CompressionLevel>('optimal');
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -53,8 +60,16 @@ const ImageCompressionMain: React.FC = () => {
   useEffect(() => {
     if (originalImage) {
       setCompressedImage(null);
+
+      handleImageCompression(compressionLevel);
     }
   }, [originalImage]);
+
+  useEffect(() => {
+    if (originalImage) {
+      handleImageCompression(compressionLevel);
+    }
+  }, [compressionLevel]);
 
   const handleImageCompression = async (compressionLevel: string) => {
     if (!originalImage) {
@@ -135,12 +150,16 @@ const ImageCompressionMain: React.FC = () => {
           {CompressionOptions.map((option) => (
             <CompressionOption 
               key={option.value}
-              $best={option.best}
-              onClick={() => handleImageCompression(option.value)}
+              $selected={compressionLevel === option.value}
+              onClick={() => setCompressionLevel(option.value)}
             >
               <h4>{option.label}</h4>
 
               <p>~{option.compression}% Compression</p>
+
+              <RadioCircle 
+                $checked={compressionLevel === option.value}
+              />
             </CompressionOption>
           ))}
         </CompressionContainer>
@@ -154,9 +173,7 @@ const ImageCompressionMain: React.FC = () => {
 
             {originalImage?.content && (
               <>
-                <TextOverlayTop>Original</TextOverlayTop>
-
-                <TextOverlayBottom>{originalImage?.fileMetaData?.size ? `${(originalImage?.fileMetaData?.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayBottom>
+                <TextOverlayTop>{originalImage?.fileMetaData?.size ? `${(originalImage?.fileMetaData?.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayTop>
               </>
             )}
           </ImageContainer>
@@ -169,9 +186,7 @@ const ImageCompressionMain: React.FC = () => {
                   fileName={originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-compressd$&')}
                 />
 
-                <TextOverlayTop>Compressed</TextOverlayTop>
-                
-                <TextOverlayBottom>{compressedImage.size ? `${(compressedImage.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayBottom>
+                <TextOverlayTop>{compressedImage.size ? `${(compressedImage.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayTop>
                 
                 {compressionPercentage !== null && (
                   <CompressionTag>{compressionPercentage}% Saved</CompressionTag>
@@ -185,7 +200,7 @@ const ImageCompressionMain: React.FC = () => {
 
         <ImagesContainer>
           <ImageLabel>
-            Upload Image in one of the following formats:<br />JPEG, PNG, WEBP, TIFF, GIF, AVIF, or HEIF
+            Supported formats:<br />JPEG, PNG, WEBP, TIFF, GIF, AVIF, or HEIF
           </ImageLabel>
 
           <DownloadButtonContainer>
@@ -214,9 +229,9 @@ const Form = styled.div`
 `;
 
 const ImageLabel = styled(Label)`
-  text-align: center;
   width: 48%;
   line-height: 1.5;
+  color: var(--text-color-secondary);
 `;
 
 const ImagesContainer = styled.div`
@@ -243,16 +258,6 @@ const DownloadButtonContainer = styled.div`
   justify-content: center;
 `;
 
-const DownloadButton = styled(Button)`
-  width: fit-content;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  color: var(--primary-color);
-  background: transparent;
-  border: 0.0625rem solid var(--primary-color);
-`;
-
 const TextOverlay = styled.div`
   left: 50%;
   transform: translateX(-50%);
@@ -267,10 +272,6 @@ const TextOverlay = styled.div`
 
 const TextOverlayTop = styled(TextOverlay)`
   top: 0.25rem;
-`;
-
-const TextOverlayBottom = styled(TextOverlay)`
-  bottom: 0.25rem;
 `;
 
 const ImageInputStyled = styled(ImageInput)`
@@ -290,73 +291,96 @@ const CompressionTag = styled.div`
   background: var(--primary-color);
   color: var(--gray-50);
   padding: 0.25rem 0.5rem;
-  border-radius: 1rem;
+  border-radius: 0.25rem;
   font-size: 0.75rem;
   position: absolute;
-  bottom: -1.5rem;
+  top: 1.75rem;
   left: 50%;
   transform: translateX(-50%);
 `;
 
 const CompressionLabel = styled(Label)`
-  text-align: center;
+  text-align: left;
   width: 100%;
+  font-size: 1rem;
 `;
 
 const CompressionContainer = styled.div`
   display: flex;
   gap: 2rem;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   margin-bottom: 1rem;
 `;
 
-const CompressionOption = styled.div.attrs<{ $best?: boolean }>(({ $best }) => ({
-  className: $best ? 'best' : '',
+const CompressionOption = styled.div.attrs<{ $selected?: boolean }>(({ $selected }) => ({
+  className: $selected ? 'selected' : '',
 }))`
+  position: relative;
   color: var(--text-color-secondary);
   border: 0.0625rem solid var(--gray-300);
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  text-align: center;
+  align-items: flex-start;
+  gap: 0.25rem;
+  text-align: left;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
 
   &:active {
-    transform: scale(1);
+    transform: scale(1.05);
   }
 
-  &.best {
-    color: var(--primary-color);
+  &.selected {
     border-color: var(--primary-color);
-    transform: scale(1.1);
-
-    &:hover {
-      transform: scale(1.15);
-    }
-
-    &:active {
-      transform: scale(1.1);
-    }
   }
 
   h4 {
-    margin: 0;
+    margin: 0 0 0 1.75rem;
     font-size: 0.75rem;
-    text-transform: uppercase;  
   }
 
   p {
-    margin: 0;
+    margin: 0 0 0 1.75rem;
     font-size: 0.75rem;
+  }
+`;
+
+const RadioCircle = styled.div.attrs<{ $checked?: boolean }>(({ $checked }) => ({
+  className: $checked ? 'checked' : '',
+}))`
+  position: absolute;
+  top: 1rem;
+  left: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 0.0625rem solid var(--surface-border);
+  background: var(--surface-ground);
+  transition: all 0.3s ease-in-out;
+
+  &.checked {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--gray-50);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 `;
 

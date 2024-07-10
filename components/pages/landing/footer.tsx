@@ -23,7 +23,7 @@ const footerData = [
   //     { name: 'Palette from Image', href: Routes.ColorsPaletteFromImageTool },
   //     { name: 'Contrast Checker', href: Routes.ColorsContrastCheckerTool },
   //     { name: 'Color Converter', href: Routes.ColorsConverterTool },
-  //     { name: 'Color Mixer', href: Routes.ColorsMixerTool },
+  //     { name: 'Color Mixer', href: Routes.ColorsInspectorTool },
   //   ],
   // },
   // {

@@ -18,7 +18,7 @@ interface BaseColor {
   weight: number;
 }
 
-const ColorMixerMain: React.FC = () => {
+const ColorInspectorMain: React.FC = () => {
   const [baseColors, setBaseColors] = useState<BaseColor[]>([
     { color: '#ff0000', weight: 0 },
     { color: '#ffff00', weight: 0 },
@@ -103,4 +103,4 @@ const Column = styled.div`
   align-items: center;
 `;
 
-export { ColorMixerMain };
+export { ColorInspectorMain };

@@ -22,7 +22,7 @@ The Bridgerton family embodies grace, nobility, and a timeless sophistication. T
 }
 \`\`\`
 
-Feeling inspired? [Mix and match these elegant colors with our color blender tool](${Routes.ColorsMixerTool}#bridgerton-elegance)!
+Feeling inspired? [Mix and match these elegant colors with our color blender tool](${Routes.ColorsInspectorTool}#bridgerton-elegance)!
 
 ## Featherington Flair
 
@@ -43,7 +43,7 @@ Bold, vibrant, and unafraid to stand out, the Featheringtons are a burst of colo
 }
 \`\`\`
 
-Want to create something just as bold? [Explore this vibrant palette with our color blender tool](${Routes.ColorsMixerTool}#featherington-flair)!
+Want to create something just as bold? [Explore this vibrant palette with our color blender tool](${Routes.ColorsInspectorTool}#featherington-flair)!
 
 ## Sharma Opulence
 
@@ -64,7 +64,7 @@ Bringing an air of exotic luxury, the Sharma family’s palette is rich with dee
 }
 \`\`\`
 
-Dive into opulence! [Blend these luxurious colors with our tool](${Routes.ColorsMixerTool}#sharma-opulence).
+Dive into opulence! [Blend these luxurious colors with our tool](${Routes.ColorsInspectorTool}#sharma-opulence).
 
 ## Duke of Hastings
 
@@ -85,7 +85,7 @@ Simon Basset, the Duke of Hastings, exudes a refined and enigmatic style. His pa
 }
 \`\`\`
 
-Ready to channel your inner Duke? [Experiment with these sophisticated hues using our blender tool](${Routes.ColorsMixerTool}#duke-of-hastings).
+Ready to channel your inner Duke? [Experiment with these sophisticated hues using our blender tool](${Routes.ColorsInspectorTool}#duke-of-hastings).
 
 ## Queen’s Court
 
@@ -106,7 +106,7 @@ Queen Charlotte’s court is the epitome of grandeur and opulence. The palette o
 }
 \`\`\`
 
-Step into the royal court! [Create majestic designs with these colors](${Routes.ColorsMixerTool}#queen-court).
+Step into the royal court! [Create majestic designs with these colors](${Routes.ColorsInspectorTool}#queen-court).
 
 ## Lady Danbury
 
@@ -127,7 +127,7 @@ Lady Danbury’s bold and sophisticated style is captured through a palette of v
 }
 \`\`\`
 
-Capture Lady Danbury’s elegance! [Blend these powerful hues with our tool](${Routes.ColorsMixerTool}#lady-danbury).
+Capture Lady Danbury’s elegance! [Blend these powerful hues with our tool](${Routes.ColorsInspectorTool}#lady-danbury).
 
 ## Bringing Bridgerton into Your Designs
 
@@ -136,7 +136,7 @@ These palettes inspired by the Bridgerton series can infuse your projects with t
 ![Bridgerton Logo](/blog-images/exploring-colors-of-bridgerton-7.jpeg "The Bridgerton series: A colorful journey through Regency-era society, filled with romance and intrigue")
 
 ### Explore the full collection and create your own Bridgerton-inspired palettes:
-[Discover more palettes and start blending colors today!](${Routes.ColorsMixerTool})
+[Discover more palettes and start blending colors today!](${Routes.ColorsInspectorTool})
 
 Share your creations with us and let’s celebrate the beauty of Bridgerton through the art of color. Happy designing!
 `;

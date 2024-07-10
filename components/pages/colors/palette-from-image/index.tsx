@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { ImageColorPicker } from './image-picker';
-import { Palette } from './palette';
-import { ImageExamples } from './image-examples';
+import { useToast } from '@/components/ui/toast';
+import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
+import { ImageInputMini, ImageData } from '@/components/ui/inputs/image-input-mini';
+import { ColorTag } from '@/components/ui/colors/color-tag';
 
 interface PaletteFromImageProps {
   autoPalette: string[];
@@ -40,23 +42,69 @@ const exampleImages = [
   },
 ];
 
-const PaletteFromImageComponent: React.FC<PaletteFromImageProps> = ({
-  autoPalette,
-  userPalette,
-  handlePaletteChange,
-  handleRemoveColor,
-  handleRefreshPalette,
-}) => {
+const PaletteFromImageMain: React.FC<PaletteFromImageProps> = ({}) => {
+  const { toast } = useToast();
+
+  const [autoPalette, setAutoPalette] = useState<string[]>([]);
+  const [userPalette, setUserPalette] = useState<string[]>([]);
+
+  const handlePaletteChange = (newAutoPalette: string[], newUserPalette: string[]) => {
+    setAutoPalette(newAutoPalette);
+    setUserPalette(newUserPalette);
+  };
+
+  const handleRemoveColor = (index: number, paletteType: 'auto' | 'user') => {
+    if (paletteType === 'auto') {
+      const newPalette = [...autoPalette];
+      newPalette.splice(index, 1);
+      setAutoPalette(newPalette);
+    } else {
+      const newPalette = [...userPalette];
+      newPalette.splice(index, 1);
+      setUserPalette(newPalette);
+    }
+  };
+
+  const handleRefreshPalette = () => {
+    setUserPalette([]);
+  };
+
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const handleImageSelect = (imageSrc: string) => {
-    setSelectedImage(imageSrc);
+  const handleImageSelect = (imageData: ImageData) => {
+    setSelectedImage(imageData.content);
   };
 
   return (
     <GridContainer>
-      <ImageColorPicker onPaletteChange={handlePaletteChange} selectedImage={selectedImage} />
-      <Row>
+      <Column>
+        <ImageInputMini
+          value={selectedImage}
+          onChange={handleImageSelect}
+        />
+
+        {selectedImage ? (
+          <ImageColorPicker
+            onPaletteChange={handlePaletteChange}
+            selectedImage={selectedImage}
+          /> 
+        ) : (
+          <ImagePlaceholder />
+        )}
+      </Column>
+
+      <Column>
+        <ColorsGrid>
+          {autoPalette.map((color, index) => (
+            <ColorTag
+              key={index}
+              color={color}
+            />
+          ))}
+        </ColorsGrid>
+      </Column>
+
+      {/* <Row>
         <Column>
           <PaletteName>Auto Palette</PaletteName>
           <Palette
@@ -73,24 +121,16 @@ const PaletteFromImageComponent: React.FC<PaletteFromImageProps> = ({
             onRefreshPalette={handleRefreshPalette}
           />
         </Column>
-      </Row>
-      <ImageExamples images={exampleImages} onImageSelect={handleImageSelect} />
+      </Row> */}
+      {/* <ImageExamples images={exampleImages} onImageSelect={handleImageSelect} /> */}
     </GridContainer>
   );
 };
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 3fr 2fr;
   gap: 1rem;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
 `;
 
 const Column = styled.div`
@@ -100,9 +140,11 @@ const Column = styled.div`
   gap: 1rem;
 `;
 
-const PaletteName = styled.h4`
-  margin: 0;
-  padding: 0;
+const ColorsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
 `;
 
-export { PaletteFromImageComponent };
+export { PaletteFromImageMain };

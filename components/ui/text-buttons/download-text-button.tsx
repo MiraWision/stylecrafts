@@ -15,7 +15,7 @@ const DownloadTextButton: React.FC<Props> = ({ text = 'Download', onClick, style
     <BaseTextButton
       text={text}
       icon={<DownloadIcon width='20' height='20' />}
-      isPrimary={false}
+      isPrimary
       onClick={onClick}
       className={className}
       style={style}

@@ -45,14 +45,13 @@ const ImageWrapper = styled.div`
 
 const ExampleImage = styled.img`
   width: 100%;
-  width: 16rem;
   height: 8rem;
+  border-radius: 0.25rem;
   object-fit: cover;
 `;
 
 const ColorPalette = styled.div`
   display: flex;
-  margin-top: 0.5rem;
   gap: 0.2rem;
 `;
 

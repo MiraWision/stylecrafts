@@ -24,14 +24,14 @@ const ImagePlaceholder: React.FC<Props> = ({ isLoading, className }) => {
 const Container = styled.div`
   width: 20rem;
   height: 10rem;
-  border: 0.0625rem dashed var(--primary-color);
+  border: 0.0625rem dashed var(--surface-border);
   border-radius: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
 
   .icon * {
-    stroke: var(--primary-color);
+    stroke: var(--surface-500);
   }
 
   @media (max-width: 768px) {

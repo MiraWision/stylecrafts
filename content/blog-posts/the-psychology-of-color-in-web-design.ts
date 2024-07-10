@@ -68,7 +68,7 @@ Our suite of tools can assist you in selecting and applying the right colors for
 ## Conclusion
 Understanding and leveraging the psychology of color can transform your web design, making it more engaging and effective. By choosing colors that align with your brand and resonate with your audience, you can enhance the overall user experience.
 
-> Elevate your web design by harnessing the power of color psychology. Try our [Colors Converter](${Routes.ColorsConverterTool}), [Gradient Generator](${Routes.ColorsGradientGeneratorTool}), and [Colors Blending Tool](${Routes.ColorsMixerTool}) to create visually compelling and emotionally resonant websites.
+> Elevate your web design by harnessing the power of color psychology. Try our [Colors Converter](${Routes.ColorsConverterTool}), [Gradient Generator](${Routes.ColorsGradientGeneratorTool}), and [Colors Blending Tool](${Routes.ColorsInspectorTool}) to create visually compelling and emotionally resonant websites.
 `;
 
 export { content };

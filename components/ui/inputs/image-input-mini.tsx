@@ -20,7 +20,7 @@ interface Props {
   className?: string;
 }
 
-const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
+const ImageInputMini: React.FC<Props> = ({ value, onChange, className }) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const setImage = (value: string, file?: File) => {
@@ -124,17 +124,9 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
 
       {!isDragging && (
         <Label>
-          {value && (
-            <Image src={value} alt='uploaded' />
-          )}
+          <UploadIcon width='24' height='24' />
 
-          {!value && (
-            <>
-              <UploadIcon width='48' height='48' />
-
-              <Text><b>Upload your image</b><br />Click here to select a file, or drop it on a page, or just copy-paste it!</Text>
-            </>
-          )}
+          <Text>Upload your image</Text>
         
           <input type='file' accept='image/*' style={{ display: 'none' }} onChange={handleInputChange} />
         </Label>
@@ -144,11 +136,10 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
 }
 
 const Container = styled.div`
-  width: 20rem;
-  min-height: 10rem;
+  width: 8rem;
   position: relative;
   border: 0.0625rem solid var(--surface-border);
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -165,7 +156,6 @@ const Container = styled.div`
 
 const Label = styled.label`
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -175,9 +165,9 @@ const Label = styled.label`
 
 const Text = styled.div`
   text-align: center;
-  font-size: 0.875rem;
-  margin: 0.5rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-left: 0.25rem;
 `;
 
 const Overlay = styled.div`
@@ -193,13 +183,6 @@ const Overlay = styled.div`
   background-color: var(--surface-ground);
 `;
 
-const Image = styled.img`
-  width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
-  /* object-fit: contain; */
-`;
-
-export { ImageInput };
+export { ImageInputMini };
 
 export type { ImageData };

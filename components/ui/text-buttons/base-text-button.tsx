@@ -43,6 +43,7 @@ const ButtonStyled = styled(Button)<{ $isPrimary: boolean }>`
   font-size: 0.875rem;
   padding: 0.25rem 0.5rem;
   width: fit-content;
+  height: fit-content;
   min-height: 2rem;
   color: ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-500)'};
   border: 0.0625rem solid ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-border)'};

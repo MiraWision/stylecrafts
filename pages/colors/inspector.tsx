@@ -10,19 +10,19 @@ import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
 import { Subtitle, Title } from '@/components/ui/texts/typography';
 import { NPMLink } from '@/components/ui/texts/npm-link';
-import { ColorMixerMain } from '@/components/pages/colors/mixer';
+import { ColorInspectorMain } from '@/components/pages/colors/inspector';
 
-const ColorsMixerToolPage = () => {
+const ColorsInspectorToolPage = () => {
   return (
     <BaseLayout>
       <MetaTags {...metaTags} />
 
       <MainContainer>
-        <Title>Color Mixer</Title>
+        <Title>Color Inspector</Title>
 
-        <Subtitle>Mix Different Colors to Create New Shades</Subtitle>
+        <Subtitle>Get all the data you need about any color</Subtitle>
 
-        <ColorMixerMain />
+        <ColorInspectorMain />
 
         <NPMLink 
           text='Need to have color tools like these in you app? Feel free to use our NPM package'
@@ -39,4 +39,4 @@ const ColorsMixerToolPage = () => {
   );
 };
 
-export default ColorsMixerToolPage;
+export default ColorsInspectorToolPage;

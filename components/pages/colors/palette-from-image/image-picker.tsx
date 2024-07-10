@@ -4,39 +4,16 @@ import styled from 'styled-components';
 import { getPaletteWithCoordinates } from '@/utils/colors-palette-from-image';
 
 interface Props {
-  onPaletteChange: (autoPalette: string[], userPalette: string[]) => void;
   selectedImage: string | null;
+  onPaletteChange: (autoPalette: string[], userPalette: string[]) => void;
 };
 
-const ImageColorPicker: React.FC<Props> = ({ onPaletteChange, selectedImage }) => {
-  const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
+const ImageColorPicker: React.FC<Props> = ({ selectedImage, onPaletteChange }) => {
   const [autoPalette, setAutoPalette] = useState<string[]>([]);
   const [userPalette, setUserPalette] = useState<string[]>([]);
   const [colorPickers, setColorPickers] = useState<{ color: string; x: number; y: number }[]>([]);
   
   const imageRef = useRef<HTMLImageElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (selectedImage) {
-      setImageSrc(selectedImage);
-    }
-  }, [selectedImage]);
-
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImageSrc(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleChooseClick = () => {
-    fileInputRef.current?.click();
-  };
 
   const handleImageLoad = () => {
     if (imageRef.current) {
@@ -99,25 +76,18 @@ const ImageColorPicker: React.FC<Props> = ({ onPaletteChange, selectedImage }) =
   };
 
   useEffect(() => {
-    if (imageRef.current && imageSrc) {
+    if (imageRef.current && selectedImage) {
       handleImageLoad();
     }
-  }, [imageSrc]);
+  }, [selectedImage]);
 
   return (
     <Container>
-      <ChooseButton onClick={handleChooseClick}>Choose</ChooseButton>
-      <input
-        type='file'
-        accept='image/*'
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleUpload}
-      />
       <ImageWrapper>
-        {imageSrc && (
+        {selectedImage && (
           <>
-            <img src={imageSrc as string} alt='Uploaded' ref={imageRef} onLoad={handleImageLoad} />
+            <img src={selectedImage as string} alt='Uploaded' ref={imageRef} onLoad={handleImageLoad} />
+
             {colorPickers.map((picker, index) => (
               <ColorPicker
                 key={index}
@@ -138,26 +108,17 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
-  margin-top: 20px;
+
   img {
     max-width: 100%;
     cursor: crosshair;
+    border-radius: 0.5rem;
+    user-select: none;
   }
-`;
-
-const ChooseButton = styled.button`
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
 `;
 
 const ColorPicker = styled.div.attrs<{ $backgroundColor: string; $x: number; $y: number }>(({ $backgroundColor, $x, $y }) => ({
@@ -168,13 +129,13 @@ const ColorPicker = styled.div.attrs<{ $backgroundColor: string; $x: number; $y:
   },
 }))`
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 0.125rem solid white;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.3s;
 
   &:hover {
     transform: translate(-50%, -50%) scale(1.2);

@@ -83,8 +83,8 @@ const MenuItems = [
       },
       {
         icon: ColorInspectorIcon,
-        name: 'Color Mixing',
-        url: Routes.ColorsMixerTool,
+        name: 'Color Inspector',
+        url: Routes.ColorsInspectorTool,
       },
     ],
   },
@@ -178,10 +178,9 @@ const GroupName = styled.div`
   padding: 0.5rem 0.5rem 0.5rem 0;
   margin: 0;
   font-size: 0.75rem;
-  font-weight: 500;
   letter-spacing: 0.0625rem;
   text-transform: uppercase;
-  color: var(--surface-500);
+  color: var(--text-color);
 `;
 
 const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
@@ -191,7 +190,7 @@ const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
   display: flex;
   align-items: center;
   padding: 0.175rem 0;
-  color: var(--surface-500);
+  color: var(--text-color);
   transition: all 0.3s;
   text-decoration: none;
 
@@ -204,8 +203,7 @@ const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
   }
 
   &:hover {
-    font-weight: 500;
-    color: var(--surface-900);
+    font-weight: 700;
 
     .icon * {
       stroke: var(--surface-900);
@@ -213,14 +211,13 @@ const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
   }
 
   &.active {
-    font-weight: 500;
+    font-weight: 700;
 
     .icon * {
       stroke: var(--primary-color);
     }
 
     &:hover {
-      color: var(--primary-color);
 
       .icon * {
         stroke: var(--primary-color);

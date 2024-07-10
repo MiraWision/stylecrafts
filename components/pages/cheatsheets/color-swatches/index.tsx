@@ -11,6 +11,7 @@ import { generateSlug } from '@/utils/text';
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { FloatingMenu } from '../floating-menu';
 import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
+import { ColorCard } from '@/components/ui/colors/color-card';
 
 interface Props {}
 
@@ -39,6 +40,14 @@ const ColorSwatchesCheatSheetMain: React.FC<Props> = ({}) => {
 
             <Container>
               {colors.map((color) => (
+                <ColorCard 
+                  key={color.title}
+                  color={color.hex}
+                  title={color.title}
+                />
+              ))}
+
+              {/* {colors.map((color) => (
                 <ColorCard key={color.title}>
                   <ColorName>{color.title}</ColorName>
 
@@ -59,7 +68,7 @@ const ColorSwatchesCheatSheetMain: React.FC<Props> = ({}) => {
                     </FormatPanel>
                   </ColorSquare>
                 </ColorCard>
-              ))}
+              ))} */}
             </Container>
           </React.Fragment>
         ))}
@@ -84,13 +93,13 @@ const GroupTitle = styled.h2`
   align-self: flex-start;
 `;
 
-const ColorCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  cursor: pointer;
-  max-width: 8rem;
-`;
+// const ColorCard = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-start;
+//   cursor: pointer;
+//   max-width: 8rem;
+// `;
 
 const ColorSquare = styled.div.attrs<{ $backgroundColor: string; $color: string }>(({ $backgroundColor, $color }) => ({
   style: {

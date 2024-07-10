@@ -3,7 +3,7 @@ enum Routes {
   ColorsContrastCheckerTool = '/colors/contrast-checker',
   ColorsGradientGeneratorTool = '/colors/gradient-generator',
   ColorsPaletteGeneratorTool = '/colors/palette-generator',
-  ColorsMixerTool = '/colors/mixer',
+  ColorsInspectorTool = '/colors/inspector',
   ColorsConverterTool = '/colors/converter',
   ImageMasterTool = '/images/master-tool',
   ImageCompressionTool = '/images/compression',

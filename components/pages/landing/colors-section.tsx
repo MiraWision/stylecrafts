@@ -33,7 +33,7 @@ const ColorsSection: React.FC = () => {
 
       <FeaturesRow>
         <FeatureCard
-          href={Routes.ColorsMixerTool}
+          href={Routes.ColorsInspectorTool}
           isVisible={isVisible}
           imageSrc='/landing/color-mixer.png'
           title='Color Mixer'
