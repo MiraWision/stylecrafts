@@ -60,7 +60,7 @@ const GradientSettings: React.FC<Props> = ({
           onCopyCallback={onCopy}
         />
       </Header>
-      
+
       <SettingsContainer $isOpen={isOpen}>
         <FormColumn>
           {gradientSettings.map((item, index) => {
@@ -70,7 +70,7 @@ const GradientSettings: React.FC<Props> = ({
 
             if (type === 'color') {
               return (
-                <Field key={`${item}-${index}`}>
+                <Field key={index}>
                   <Label>Color {colorIndex + 1}</Label>
 
                   <ColorInputContainer>
@@ -89,7 +89,7 @@ const GradientSettings: React.FC<Props> = ({
             }
 
             return (
-              <Field key={`${item}-${index}`}>
+              <Field key={index}>
                 <Label>Steps to Color {colorIndex + 2}</Label>
 
                 <NumberInput
@@ -152,11 +152,15 @@ const ToggleContainer = styled.div`
 const SettingsContainer = styled(TwoColumnsContainer).attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
   style: {
     maxHeight: $isOpen ? '50rem' : '0',
+    paddingBottom: $isOpen ? '10rem' : '0',
+    marginBottom: $isOpen ? '-10rem' : '0',
   },
 }))`
   overflow: hidden;
   transition: all 0.6s ease-in-out;
-  margin: 0;
+  width: calc(100% + 1rem);
+  margin: -0.5rem -0.5rem -10rem;
+  padding: 0.5rem 0.5rem 10rem;
 
   @media (max-width: 768px) {
     width: fit-content;

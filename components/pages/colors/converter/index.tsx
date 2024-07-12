@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { convertColor, ColorFormat } from '@mirawision/colorize';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
 import { Label } from '@/components/ui/texts/label';
-import { convertColor, ColorFormat } from '@mirawision/colorize';
 import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
+import { CustomColorPicker } from '@/components/ui/inputs/custom-color-picker';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -58,6 +59,11 @@ const ColorConverter: React.FC<Props> = ({}) => {
     <TwoColumnsContainer>
       <ColorPickerContainer>
         <Label>Enter color</Label>
+
+        <CustomColorPicker
+          color={color}
+          onChange={handleColorChange}
+        />
 
         <ColorInputBig
           value={color}

@@ -13,6 +13,7 @@ interface Props {
 
 const ColorInputBig: React.FC<Props> = ({ value, onChange, className }) => {
   const colorPickerRef = useRef<HTMLDivElement>(null);
+  const colorInputRef = useRef<HTMLInputElement>(null);
   
   const [isColorPickerVisible, setIsColorPickerVisible] = useState<boolean>(false);
 
@@ -42,8 +43,16 @@ const ColorInputBig: React.FC<Props> = ({ value, onChange, className }) => {
   useEffect(() => {
     if (isColorPickerVisible) {
       document.addEventListener('mousedown', handleClickOutside);
+
+      if (colorInputRef.current) {
+        colorInputRef.current.focus();
+      }
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
+
+      if (colorInputRef.current) {
+        colorInputRef.current.blur();
+      }
     }
 
     return () => {
@@ -87,7 +96,12 @@ const ColorInputBig: React.FC<Props> = ({ value, onChange, className }) => {
         onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}
       />
 
-      <InputTextStyled type='text' value={value} onChange={handleInputTextChange} />
+      <InputTextStyled
+        ref={colorInputRef}
+        type='text' 
+        value={value} 
+        onChange={handleInputTextChange}
+      />
 
       {isColorPickerVisible && (
         <ColorPickerContainer ref={colorPickerRef}>

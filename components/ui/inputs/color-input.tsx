@@ -13,6 +13,7 @@ interface Props {
 
 const ColorInput: React.FC<Props> = ({ value, onChange, className }) => {
   const colorPickerRef = useRef<HTMLDivElement>(null);
+  const colorInputRef = useRef<HTMLInputElement>(null);
   
   const [isColorPickerVisible, setIsColorPickerVisible] = useState<boolean>(false);
 
@@ -42,8 +43,16 @@ const ColorInput: React.FC<Props> = ({ value, onChange, className }) => {
   useEffect(() => {
     if (isColorPickerVisible) {
       document.addEventListener('mousedown', handleClickOutside);
+
+      if (colorInputRef.current) {
+        colorInputRef.current.focus();
+      }
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
+
+      if (colorInputRef.current) {
+        colorInputRef.current.blur();
+      }
     }
 
     return () => {
@@ -87,7 +96,12 @@ const ColorInput: React.FC<Props> = ({ value, onChange, className }) => {
         onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}
       />
 
-      <InputTextStyled type='text' value={value} onChange={handleInputTextChange} />
+      <InputTextStyled 
+        ref={colorInputRef}
+        type='text' 
+        value={value} 
+        onChange={handleInputTextChange}
+      />
 
       {isColorPickerVisible && (
         <ColorPickerContainer ref={colorPickerRef}>
@@ -115,13 +129,13 @@ const ColorBox = styled.div.attrs<{ $color: string }>(({ $color }) => ({
   left: 0.25rem;
   width: 1.5rem;
   height: 1.5rem;
-  border-radius: 0.125rem;
+  border-radius: 0.25rem;
   cursor: pointer;
   border: 0.0625rem solid var(--surface-border);
 `;
 
 const InputTextStyled = styled(InputText)`
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   width: 10rem;
   height: 2rem;
   padding-left: 2rem;

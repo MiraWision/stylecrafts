@@ -11,7 +11,6 @@ import { ShadesGrid } from './shades';
 
 import { CurrentColor } from './current-color';
 import { TwoColumnsContainer } from '@/components/ui/containers';
-import { ColorWeightInput } from '@/components/ui/inputs/color-weight-input';
 
 interface BaseColor {
   color: string;
@@ -72,13 +71,7 @@ const ColorInspectorMain: React.FC = () => {
 
       <Column>
         <ColorListContainer>
-          {baseColors.map((item, index) => (
-            <ColorWeightInput
-              key={item.color}
-              colorWeight={item}
-              onWeightChange={(weight) => updateWeight(index, weight)}
-            />
-          ))}
+          
         </ColorListContainer>
 
         <ColorExamples

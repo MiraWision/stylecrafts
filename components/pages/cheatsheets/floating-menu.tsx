@@ -89,7 +89,7 @@ const MenuContainer = styled.div.attrs<{ $isMenuVisible: boolean }>(({ $isMenuVi
     max-width: 100%;
   }
 
-  &.visible {
+  &.hidden {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -113,11 +113,11 @@ const MenuItem = styled.div.attrs<{ $isActive: boolean }>(({ $isActive }) => ({
   align-items: center;
 
   &:hover {
-    font-weight: 500;  
+    font-weight: 700;  
   }
 
   &.active {
-    font-weight: 500;
+    font-weight: 700;
     color: var(--primary-color);
   }
 `;
@@ -125,13 +125,17 @@ const MenuItem = styled.div.attrs<{ $isActive: boolean }>(({ $isActive }) => ({
 const MenuDash = styled.div.attrs<{ $isActive: boolean }>(({ $isActive }) => ({
   className: $isActive ? 'active' : '',
 }))`
-  width: 1.25rem;
+  width: 1rem;
   height: 0.125rem;
   background: var(--surface-400);
   margin: 0.6875rem 0;
+  margin-left: 0.5rem;
   border-radius: 0.125rem;
+  transition: all 0.3s;
 
   &.active {
+    width: 1.5rem;
+    margin-left: 0rem;
     background: var(--primary-color);
   }
 `;

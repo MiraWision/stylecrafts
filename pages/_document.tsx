@@ -34,7 +34,8 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link id='theme-link' rel='stylesheet' href='/themes/lara-dark-pink/theme.css' />
+          <link id='theme-link' rel='stylesheet' href='/styles/light.css' />
+          <link rel='stylesheet' href='/themes/lara-light-pink/theme.css' />
           <link rel='icon' type='image/x-icon' href='/logo/favicon.ico' />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
