@@ -158,7 +158,7 @@ const USAMapStyled = styled(USAMap)`
   border-radius: 1rem;
 
   * path {
-    stroke-width: 0;
+    strokeWidth: 0;
   }
 `;
 
