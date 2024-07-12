@@ -28,6 +28,7 @@ const ColorRectangle = styled.div.attrs<{ $backgroundColor: string }>(({ $backgr
 }))`
   width: 5.5rem;
   height: 1.5rem;
+  border: 0.0625rem solid var(--surface-border);
   border-radius: 0.25rem;
   transition: width 0.3s;
 `;

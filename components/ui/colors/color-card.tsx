@@ -48,7 +48,7 @@ const ColorRectangle = styled.div.attrs<{ $backgroundColor: string }>(({ $backgr
 `;
 
 const ColorTitle = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0.125rem 0;

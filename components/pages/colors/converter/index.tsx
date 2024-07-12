@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/texts/label';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
 import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 import { TwoColumnsContainer } from '@/components/ui/containers';
-import { ColorInputPreview } from '@/components/ui/inputs/color-input-preview';
+import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -59,7 +59,7 @@ const ColorConverter: React.FC<Props> = ({}) => {
       <ColorPickerContainer>
         <Label>Enter color</Label>
 
-        <ColorInputPreview
+        <ColorInputBig
           value={color}
           onChange={handleColorChange}
         />
@@ -75,7 +75,6 @@ const ColorConverter: React.FC<Props> = ({}) => {
               
               <CopyIconButton 
                 text={convertedColors[format] || ''}
-                label='Color'
                 onCopyCallback={() => handleCopy(convertedColors[format] ?? '')} 
               />
             </ResultColorContainer>

@@ -9,6 +9,7 @@ import { Palette } from './palette';
 import { Examples } from './examples';
 import { ContrastChecker } from './contrast-checker';
 import { TemplateCard } from './palette-preview';
+import { ColorPicker } from '@/components/ui/inputs/color-picker';
 
 const initialColors: PaletteColor[] = [
   { baseColor: '#f5f5f5', title: 'Background', shades: [] },

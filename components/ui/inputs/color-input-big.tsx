@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-const ColorInput: React.FC<Props> = ({ value, onChange, className }) => {
+const ColorInputBig: React.FC<Props> = ({ value, onChange, className }) => {
   const colorPickerRef = useRef<HTMLDivElement>(null);
   
   const [isColorPickerVisible, setIsColorPickerVisible] = useState<boolean>(false);
@@ -113,25 +113,24 @@ const ColorBox = styled.div.attrs<{ $color: string }>(({ $color }) => ({
   position: absolute;
   top: 0.25rem;
   left: 0.25rem;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 9.5rem;
+  height: 5rem;
   border-radius: 0.125rem;
   cursor: pointer;
-  border: 0.0625rem solid var(--surface-border);
 `;
 
 const InputTextStyled = styled(InputText)`
   border-radius: 0.25rem;
   width: 10rem;
-  height: 2rem;
-  padding-left: 2rem;
+  height: 7rem;
+  padding: 5.25rem 0.5rem 0;
 `;
 
 const ColorPickerContainer = styled.div`
   position: absolute;
   z-index: 1000;
-  top: 2.5rem;
+  top: 7.5rem;
   left: 0;
 `;
 
-export { ColorInput };
+export { ColorInputBig };

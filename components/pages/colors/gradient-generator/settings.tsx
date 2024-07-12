@@ -9,7 +9,7 @@ import { TwoColumnsContainer } from '@/components/ui/containers';
 import { Label } from '@/components/ui/texts/label';
 import { ColorInput } from '@/components/ui/inputs/color-input';
 import { RemoveIconButton } from '@/components/ui/icon-buttons/remove-icon-button';
-import { StepNumberInput } from '@/components/ui/inputs/step-number-input';
+import { NumberInput } from '@/components/ui/inputs/number-input';
 import { ColorsOutput } from './colors-output';
 import { useToast } from '@/components/ui/toast';
 import { AdjustIcon } from '@/components/icons/adjust';
@@ -92,13 +92,12 @@ const GradientSettings: React.FC<Props> = ({
               <Field key={`${item}-${index}`}>
                 <Label>Steps to Color {colorIndex + 2}</Label>
 
-                <StepNumberInput
+                <NumberInput
                   value={item as number}
                   onChange={(newSteps) => onUpdateSteps(colorIndex, newSteps)}
                   min={1}
                   max={25}
                   step={1}
-                  showButtons
                 />
               </Field>
             );
