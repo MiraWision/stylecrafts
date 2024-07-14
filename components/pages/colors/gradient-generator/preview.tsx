@@ -7,6 +7,7 @@ import { HeatmapPreview } from './heatmap-preview';
 import { ChevronLeftIcon } from '@/components/icons/chevron-left';
 import { ChevronRightIcon } from '@/components/icons/chevron-right';
 import { ShuffleIcon } from '@/components/icons/shuffle';
+import { ShuffleIconButton } from '@/components/ui/icon-buttons/shuffle-icon-button';
 
 interface Props {
   gradient: string[];
@@ -79,7 +80,7 @@ const Preview: React.FC<Props> = ({ gradient }) => {
         <h3>
           {previews[selectedPreview]}
 
-          <ShuffleIcon
+          <ShuffleIconButton
             onClick={() => setRefreshIndex(refreshIndex + 1)}
           />
         </h3>
@@ -158,7 +159,7 @@ const USAMapStyled = styled(USAMap)`
   border-radius: 1rem;
 
   * path {
-    strokeWidth: 0;
+    stroke-width: 0;
   }
 `;
 
@@ -180,12 +181,8 @@ const Header = styled.div`
     display: flex;
     align-items: center;
 
-    .icon {
-      cursor: pointer;
-
-      &:hover {
-        animation: ${rotate} 2.5s infinite;
-      }
+    button {
+      margin-left: 0.5rem;
     }
   }
 

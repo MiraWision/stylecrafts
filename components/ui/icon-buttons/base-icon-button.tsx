@@ -37,7 +37,10 @@ const ButtonSmall = styled(Button)<{ $isPrimary: boolean }>`
   border-radius: 0.25rem;
   height: 2rem;
   width: 2rem;
-  padding: 0.5rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   background: none;
 

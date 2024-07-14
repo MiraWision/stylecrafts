@@ -122,21 +122,26 @@ const CustomColorPicker: React.FC<ColorPickerProps> = ({ color: initialColor, on
   });
 
   useEffect(() => {
-    console.log('initialColor:', initialColor);
     const { r, g, b, a } = parseHexColor(initialColor);
     const { h, s, l } = rgbToHsl(r, g, b);
-    setColorState((prevState) => ({
-      ...prevState,
+    setColorState({
       hue: h,
       saturation: s,
       lightness: l,
       opacity: a,
       hex: initialColor,
-    }));
+    });
   }, [initialColor]);
 
   useEffect(() => {
-    updateColor(colorState.hue, colorState.saturation, colorState.lightness, colorState.opacity);
+    const rgbColor = hslToRgb(colorState.hue, colorState.saturation / 100, colorState.lightness / 100);
+    const hexColor = rgbToHex(rgbColor.r, rgbColor.g, rgbColor.b);
+    const finalColor = colorState.opacity === 1 ? hexColor : `${hexColor}${Math.round(colorState.opacity * 255).toString(16).padStart(2, '0')}`;
+    setColorState((prevState) => ({
+      ...prevState,
+      hex: finalColor,
+    }));
+    onChange(finalColor);
   }, [colorState.hue, colorState.saturation, colorState.lightness, colorState.opacity]);
 
   const handleSliderChange = (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,18 +149,6 @@ const CustomColorPicker: React.FC<ColorPickerProps> = ({ color: initialColor, on
       ...colorState,
       [type]: parseFloat(e.target.value),
     });
-  };
-
-  const updateColor = (h: number, s: number, l: number, a: number) => {
-    const rgbColor = hslToRgb(h, s / 100, l / 100);
-    const hexColor = rgbToHex(rgbColor.r, rgbColor.g, rgbColor.b);
-    const finalColor = a === 1 ? hexColor : `${hexColor}${Math.round(a * 255).toString(16).padStart(2, '0')}`;
-    setColorState((prevState) => ({
-      ...prevState,
-      hex: finalColor,
-    }));
-    console.log('finalColor:', finalColor);
-    onChange(finalColor);
   };
 
   return (
