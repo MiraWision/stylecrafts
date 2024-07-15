@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 
 import { Logo } from '@/components/ui/logo';
 import { ChevronDownIcon } from '@/components/icons/chevron-down';
+import { FisheyeText } from '@/components/ui/texts/fisheye-text';
 
 interface Props {
   onScrollToNextSection: () => void;
@@ -14,9 +15,12 @@ const HeroSection: React.FC<Props> = ({ onScrollToNextSection }) => (
       <Logo />
     </LogoWrapper>
 
-    <Headline>Empower Your Projects<br />with Our Cutting-Edge Solutions</Headline>
+    <Headline>Empower&nbsp;Your&nbsp;Projects</Headline>
+    <Headline>with&nbsp;Our&nbsp;Cutting-Edge&nbsp;Solutions</Headline>
 
-    <Subheadline>Optimize images, create vibrant palettes,<br />generate heatmaps, and many more<br />with our free tools and libraries</Subheadline>
+    <Subheadline>Optimize&nbsp;images,&nbsp;create&nbsp;vibrant&nbsp;palettes,</Subheadline>
+    <Subheadline>generate&nbsp;heatmaps,&nbsp;and&nbsp;manyмmore</Subheadline>
+    <Subheadline>with&nbsp;our&nbsp;free&nbsp;tools&nbsp;and&nbsp;libraries</Subheadline>
   
     <ExploreButton onClick={onScrollToNextSection}>
       <span>Explore More</span>
@@ -88,7 +92,7 @@ const LogoWrapper = styled.div`
   }
 `;
 
-const Headline = styled.h1`
+const Headline = styled(FisheyeText)`
   font-size: 2.5rem;
   font-weight: 400;
   animation: ${fadeInSlideUp} 0.8s ease-out;
@@ -96,7 +100,7 @@ const Headline = styled.h1`
   text-align: left;
 `;
 
-const Subheadline = styled.h2`
+const Subheadline = styled(FisheyeText)`
   font-size: 1.5rem;
   font-weight: 300;
   margin: 0.5rem 0 1rem;
