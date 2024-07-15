@@ -711,6 +711,83 @@ const characterEntities = [
       },      
     ]
   },
+  {
+    groupName: 'Whitespace Symbols',
+    characters: [
+      {
+        character: ' ',
+        entityName: '&nbsp;',
+        entityNumber: '&#160;',
+        description: 'Non-breaking space'
+      },
+      {
+        character: ' ',
+        entityName: '&ensp;',
+        entityNumber: '&#8194;',
+        description: 'En space'
+      },
+      {
+        character: ' ',
+        entityName: '&emsp;',
+        entityNumber: '&#8195;',
+        description: 'Em space'
+      },
+      {
+        character: ' ',
+        entityName: '&thinsp;',
+        entityNumber: '&#8201;',
+        description: 'Thin space'
+      },
+      {
+        character: ' ',
+        entityName: '&hairsp;',
+        entityNumber: '&#8202;',
+        description: 'Hair space'
+      },
+      {
+        character: ' ',
+        entityName: '&nnbsp;',
+        entityNumber: '&#8239;',
+        description: 'Narrow no-break space'
+      },
+      {
+        character: ' ',
+        entityName: '&numsp;',
+        entityNumber: '&#8199;',
+        description: 'Figure space'
+      },
+      {
+        character: ' ',
+        entityName: '&puncsp;',
+        entityNumber: '&#8200;',
+        description: 'Punctuation space'
+      },
+      {
+        character: ' ',
+        entityName: '&mediumsp;',
+        entityNumber: '&#8287;',
+        description: 'Medium Mathematical Space'
+      },
+      {
+        character: '‍',
+        entityName: '&zwsp;',
+        entityNumber: '&#8206;',
+        description: 'Zero Width Space'
+      },
+      {
+        character: '​',
+        entityName: '&zwnj;',
+        entityNumber: '&#8204;',
+        description: 'Zero Width Non-Joiner'
+      },
+      {
+        character: '‌',
+        entityName: '&zwj;',
+        entityNumber: '&#8205;',
+        description: 'Zero Width Joiner'
+      },
+    ],
+  },
 ];
 
 export { characterEntities };
