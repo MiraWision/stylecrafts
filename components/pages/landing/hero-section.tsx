@@ -4,6 +4,7 @@ import styled, { keyframes, css } from 'styled-components';
 import TopMenu from '../../menu/top-menu';
 import { ExploreMoreButton } from './explore-more-button';
 import { GoToAppButton } from './go-to-app-button';
+import { Routes } from '@/content/routes';
 
 interface Props {}
 
@@ -11,18 +12,18 @@ const HeroSection: React.FC<Props> = () => (
   <MainContainer>
     <TopMenu />
     <Container>
-      <Hero>
+      <HeroContainer>
         <StyledImage src="./landing/main.png" alt="Hero Image" />
         <TextContainer>
           <TopLeftText>DESIGN<br />GETS<br />EASIER</TopLeftText>
           <CenterText>STYLE CRAFTS</CenterText>
-          <ParagraphAndButtonContainer>
+          <ParagraphContainer>
             <Paragrapgh>optimize images, create vibrant palettes, generate heatmaps, and many more with our free tools and libraries</Paragrapgh>
-            <GoToAppButton href="/go-to-app" fontSize="1.5rem" iconSize="1.5rem" />
-          </ParagraphAndButtonContainer>
+            <GoToAppButton href={Routes.ImageCompressionTool} fontSize="1.5rem" iconSize="1.5rem" />
+          </ParagraphContainer>
         </TextContainer>
         <ExploreMoreButton href="#explore-more"/>
-      </Hero>
+      </HeroContainer>
     </Container>
   </MainContainer>
 );
@@ -58,7 +59,7 @@ const Container = styled.div`
   display: flex;
 `;
 
-const Hero = styled.div`
+const HeroContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
@@ -155,7 +156,7 @@ const CenterText = styled.div`
   }
 `;
 
-const ParagraphAndButtonContainer = styled.div`
+const ParagraphContainer = styled.div`
   grid-row: 3;
   justify-self: right;
   display: flex;
