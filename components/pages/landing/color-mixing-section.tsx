@@ -12,8 +12,8 @@ const ColorMixingSection: React.FC = () => {
   const [observerRef, isVisible] = useObserver<HTMLDivElement>();
  
   return (
-    <Container ref={observerRef}>
-      <Headline>Discover Realistic Color Mixing</Headline>
+    <StyledContainer ref={observerRef}>
+      <StyledHeadline>{'{DISCOVER REALICTIC COLOR MIXING}'}</StyledHeadline>
 
       <Row>
         <TextColumn $isVisible={isVisible}>
@@ -60,9 +60,19 @@ const ColorMixingSection: React.FC = () => {
           </WrongExamples>
         </ExamplesColumn>
       </Row>
-    </Container>
+    </StyledContainer>
   );
 };
+
+const StyledContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  padding: 5rem;
+`;
+
+const StyledHeadline = styled(Headline)`
+  color: #75468A;
+`;
 
 const Row = styled.div`
   display: flex;

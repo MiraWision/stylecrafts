@@ -1,33 +1,30 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
-import { Logo } from '@/components/ui/logo';
-import { ChevronDownIcon } from '@/components/icons/chevron-down';
-import { FisheyeText } from '@/components/ui/texts/fisheye-text';
+import TopMenu from '../../menu/top-menu';
+import { ExploreMoreButton } from './explore-more-button';
+import { GoToAppButton } from './go-to-app-button';
 
-interface Props {
-  onScrollToNextSection: () => void;
-}
+interface Props {}
 
-const HeroSection: React.FC<Props> = ({ onScrollToNextSection }) => (
-  <Container>
-    <LogoWrapper>
-      <Logo />
-    </LogoWrapper>
-
-    <Headline>Empower&nbsp;Your&nbsp;Projects</Headline>
-    <Headline>with&nbsp;Our&nbsp;Cutting-Edge&nbsp;Solutions</Headline>
-
-    <Subheadline>Optimize&nbsp;images,&nbsp;create&nbsp;vibrant&nbsp;palettes,</Subheadline>
-    <Subheadline>generate&nbsp;heatmaps,&nbsp;and&nbsp;manyмmore</Subheadline>
-    <Subheadline>with&nbsp;our&nbsp;free&nbsp;tools&nbsp;and&nbsp;libraries</Subheadline>
-  
-    <ExploreButton onClick={onScrollToNextSection}>
-      <span>Explore More</span>
-
-      <ChevronDownIcon />
-    </ExploreButton>
-  </Container>
+const HeroSection: React.FC<Props> = () => (
+  <MainContainer>
+    <TopMenu />
+    <Container>
+      <Hero>
+        <StyledImage src="./landing/main.png" alt="Hero Image" />
+        <TextContainer>
+          <TopLeftText>DESIGN<br />GETS<br />EASIER</TopLeftText>
+          <CenterText>STYLE CRAFTS</CenterText>
+          <ParagraphAndButtonContainer>
+            <Paragrapgh>optimize images, create vibrant palettes, generate heatmaps, and many more with our free tools and libraries</Paragrapgh>
+            <GoToAppButton href="/go-to-app" fontSize="1.5rem" iconSize="1.5rem" />
+          </ParagraphAndButtonContainer>
+        </TextContainer>
+        <ExploreMoreButton href="#explore-more"/>
+      </Hero>
+    </Container>
+  </MainContainer>
 );
 
 const fadeInSlideUp = keyframes`
@@ -41,95 +38,157 @@ const fadeInSlideUp = keyframes`
   }
 `;
 
+const fadeInAnimation = css`
+  animation: ${fadeInSlideUp} 1s ease-out;
+`;
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 3rem;
+`;
+
 const Container = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding-left: 5rem;
-  padding-top: 25vh;
-  color: #4b5563;
-  text-align: center;
+`;
 
-  &::before, &::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    border-radius: 50%;
-  }
+const Hero = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  &::after {
-    width: 60vw;
-    height: 50vw;
-    top: 5vh;
-    left: 2rem;
-    filter: blur(4rem);
-    backdrop-filter: blur(4rem);
-    background: linear-gradient(45deg, #ff1493 0%, #87cefa 70%);
-    opacity: 0.25;
-  }
-
-  &::before {
-    width: 30vw;
-    height: 30vw;
-    top: 40%;
-    left: 60%;
-    filter: blur(2rem);
-    backdrop-filter: blur(2rem);
-    background: linear-gradient(135deg, #87cefa 30%, #ff1493 100%);
-    opacity: 0.25;
+  @media (max-width: 1024px) {
+    padding-bottom: 14rem;
   }
 `;
 
-const LogoWrapper = styled.div`
-  display: none;
-
-  @media (max-width: 768px) {
-    display: block;
+const TextContainer = styled.div`
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: 1rem;
+  width: 60%;
+  padding-top: 8rem;
+  align-items: center;
+  
+  @media (max-width: 1024px) {
+    padding-top: 0rem;
   }
 `;
 
-const Headline = styled(FisheyeText)`
-  font-size: 2.5rem;
-  font-weight: 400;
-  animation: ${fadeInSlideUp} 0.8s ease-out;
-  margin: 0.5rem 0;
+const TopLeftText = styled.div`
+  grid-row: 1;
+  justify-self: start;
+  font-size: 2rem;
+  font-weight: 100;
+  color: #75468A;
   text-align: left;
+  line-height: 0.9;
+  letter-spacing: 0.1em;
+  ${fadeInAnimation}
+
+  @media (max-width: 1024px) {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+  }
 `;
 
-const Subheadline = styled(FisheyeText)`
-  font-size: 1.5rem;
-  font-weight: 300;
-  margin: 0.5rem 0 1rem;
-  text-align: left;
-  animation: ${fadeInSlideUp} 0.8s ease-out;
+const StyledImage = styled.img`
+  position: absolute;
+  top: 15%;
+  left: 36%;
+  transform: translateX(-50%);
+  max-width: 30vw;
+  max-height: 30vw;
+  object-fit: contain;
+  ${fadeInAnimation}
   animation-delay: 0.2s;
   animation-fill-mode: both;
-`;
 
-const ExploreButton = styled.div`
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  animation: ${fadeInSlideUp} 0.8s ease-out;
-  
-  svg {
-    margin-top: 0.25rem;
-    transition: transform 0.3s ease-out;
+  @media (max-width: 1024px) {
+    top: 20%;
+    left: 34%;
+    transform: translateX(-50%);
+    max-width: 40vw;
+    max-height: 40vw;
   }
 
-  &:hover {
-    svg {
-      transform: translateY(0.5rem);
-    }
+  @media (max-width: 480px) {
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 50vw;
+    max-height: 50vw;
+  }
+`;
+
+const CenterText = styled.div`
+  grid-row: 2;
+  justify-self: center;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #75468A;
+  text-align: center;
+  ${fadeInAnimation}
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
+  letter-spacing: 0.7em;
+  white-space: nowrap;
+
+  @media (max-width: 1024px) {
+    font-size: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
+`;
+
+const ParagraphAndButtonContainer = styled.div`
+  grid-row: 3;
+  justify-self: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  grid-row: 3;
+  margin-top: 6rem;
+  margin-right: 3rem; 
+  width: 15rem;
+
+  @media (max-width: 1024px) {
+    margin-right: 0rem; 
+    width: 13rem;
+    margin-top: 4rem;
+  }
+`;
+
+const Paragrapgh = styled.div`
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #4b5563;
+  text-align: left;
+  ${fadeInAnimation}
+  animation-delay: 0.6s;
+  animation-fill-mode: both;
+
+  @media (max-width: 1024px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
   }
 `;
 

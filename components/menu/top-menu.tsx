@@ -1,83 +1,66 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Button } from 'primereact/button';
+import styled from 'styled-components';
 
-interface TopBarItemProps {
-  name: string;
-  url: string;
-  isButton?: boolean;
-}
-
-const items: TopBarItemProps[] = [
-  {
-    name: 'Links',
-    url: '/links',
-  },
-  {
-    name: 'Features',
-    url: '/features',
-  },
-  {
-    name: 'Support Us',
-    url: '/support',
-    isButton: true,
-  },
-  {
-    name: 'Contact',
-    url: '/contact',
-  },
-];
-
-const TopBarMenu: React.FC = () => {
-  const router = useRouter();
-
-  const handleButtonClick = (url: string) => {
-    router.push(url);
-  };
-
+const TopMenu: React.FC = () => {
   return (
-    <MenuContainer>
-      {items.map((item, index) => (
-        item.isButton ? (
-          <StyledPrimeButton key={index} onClick={() => handleButtonClick(item.url)}>
-            {item.name}
-          </StyledPrimeButton>
-        ) : (
-          <TopBarItem key={index} href={item.url}>
-            {item.name}
-          </TopBarItem>
-        )
-      ))}
-    </MenuContainer>
+    <Container>
+      <Left>
+        <MenuItem href="/about">about</MenuItem>
+        <MenuItem href="/support">support</MenuItem>
+      </Left>
+      <Center>
+        <Icon href="/">
+          <IconImage src="./landing/top-menu-logo.svg" alt="Logo" />
+        </Icon>
+      </Center>
+      <Right>
+        <MenuItem href="/contact">contact</MenuItem>
+        <MenuItem href="/go-to-app">go to app</MenuItem>
+      </Right>
+    </Container>
   );
 };
 
-const MenuContainer = styled.div`
-  display: flex;
-  justify-content: end;
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 3.3rem;
-  padding: 1rem;
+  width: 40rem;
+  padding: 10px 20px;
 `;
 
-const TopBarItem = styled(Link)`
+const Left = styled.div`
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+`;
+
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Right = styled.div`
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+`;
+
+const MenuItem = styled.a`
   text-decoration: none;
-  color: inherit;
-  font-size: 1rem;
-  font-weight: 500;
-
-  &:hover {
-    text-decoration: underline;
-  }
+  color: #000;
+  font-size: 16px;
 `;
 
-const StyledPrimeButton = styled(Button)`
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+const Icon = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-export { TopBarMenu };
+const IconImage = styled.img`
+  width: 40px;
+  height: 40px;
+`;
+
+export default TopMenu;

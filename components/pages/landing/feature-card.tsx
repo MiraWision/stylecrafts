@@ -1,13 +1,13 @@
 import React from 'react';
-import Link from 'next/link';
-import styled, { css } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 import { fadeInSlideUp } from './common';
+import { GoToAppButton } from './go-to-app-button';
 
 interface Props {
   href: string;
   isVisible: boolean;
-  imageSrc: string;
+  Icon: React.FC; 
   title: string;
   description: string;
 }
@@ -15,32 +15,35 @@ interface Props {
 const FeatureCard: React.FC<Props> = ({
   href,
   isVisible,
-  imageSrc,
+  Icon,
   title,
   description,
 }) => {
   return (
-    <Card href={href} $isVisible={isVisible}>
-      <Logo src={imageSrc} alt={title} />
-      
+    <Card $isVisible={isVisible}>
+      <IconWrapper>
+        <Icon />
+      </IconWrapper>
       <Content>
         <Title>{title}</Title>
-
         <Description>{description}</Description>
+        <GoToAppButton href={href} />
       </Content>
     </Card>
   );
-}
+};
 
-const Card = styled(Link).attrs<{ $isVisible: boolean }>(({ $isVisible }) => ({
-  className: $isVisible ? 'visible' : '',
-}))`
+const fadeInAnimation = css`
+  animation: ${fadeInSlideUp} 1s ease-out;
+`;
+
+const Card = styled.div<{ $isVisible: boolean }>`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  width: 25rem;
+  width: 20rem;
   height: 100%;
-  padding: 0.5rem;
+  padding: 1rem;
   text-align: center;
   opacity: 0;
   animation-fill-mode: both;
@@ -55,33 +58,37 @@ const Card = styled(Link).attrs<{ $isVisible: boolean }>(({ $isVisible }) => ({
     transform: scale(1.05);
   }
 
-  &.visible {
-    animation: ${fadeInSlideUp} 1s ease-out;
-    opacity: 1;
-    transform: translateY(0);
-  }
+  ${({ $isVisible }) =>
+    $isVisible &&
+    css`
+      ${fadeInAnimation}
+      opacity: 1;
+      transform: translateY(0);
+    `}
 
   @media (max-width: 768px) {
+    width: 15rem;
     padding: 0.5rem;
+  }
+`;
+
+const IconWrapper = styled.div`
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    width: 3rem;
+    height: 3rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-`;
-
-const Logo = styled.img`
-  width: 5rem;
-  height: 5rem;
-
-  @media (max-width: 768px) {
-    width: 5rem;
-    height: 5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
+  align-items: center;
 `;
 
 const Title = styled.h3`
@@ -99,8 +106,8 @@ const Title = styled.h3`
 const Description = styled.p`
   font-size: 1rem;
   text-decoration: none;
-  text-align: left;
-  margin: 0;
+  text-align: center;
+  margin: 0 0 1rem 0;
 
   @media (max-width: 768px) {
     font-size: 1rem;
