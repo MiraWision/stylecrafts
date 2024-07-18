@@ -22,7 +22,7 @@ const Text = styled.p`
   font-family: var(--font-family);
   font-size: 0.875rem;
   line-height: 1.4;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
   margin: 1rem 0;
 `;
 

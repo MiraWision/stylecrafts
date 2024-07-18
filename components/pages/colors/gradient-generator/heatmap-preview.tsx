@@ -61,7 +61,7 @@ const HeaderCell = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 0.75rem;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
 `;
 
 export { HeatmapPreview };

@@ -190,7 +190,7 @@ const FooterHeading = styled.h3`
   font-size: 1rem;
   margin: 0 0 0.5rem 0;
   font-weight: 500;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
 `;
 
 const FooterLink = styled.a`
@@ -198,10 +198,10 @@ const FooterLink = styled.a`
   font-size: 0.875rem;
   text-decoration: none;
   margin-bottom: 0.25rem;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
 
   .icon * {
-    stroke: var(--text-color-secondary);
+    stroke: var(--text-color);
   }
 
   &:hover {

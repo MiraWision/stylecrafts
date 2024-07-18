@@ -60,7 +60,7 @@ const ColorTitle = styled.div`
   align-items: center;
   height: 2rem;
   font-size: 0.875rem;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
 
   b {
     color: var(--text-color);

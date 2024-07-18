@@ -6,6 +6,7 @@ import { useToast } from '@/components/ui/toast';
 import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 import { ImageInputMini, ImageData } from '@/components/ui/inputs/image-input-mini';
 import { ColorTag } from '@/components/ui/colors/color-tag';
+import { ImageExamples } from './image-examples';
 
 interface PaletteFromImageProps {
   autoPalette: string[];
@@ -104,24 +105,6 @@ const PaletteFromImageMain: React.FC<PaletteFromImageProps> = ({}) => {
         </ColorsGrid>
       </Column>
 
-      {/* <Row>
-        <Column>
-          <PaletteName>Auto Palette</PaletteName>
-          <Palette
-            palette={autoPalette}
-            onRemoveColor={(index) => handleRemoveColor(index, 'auto')}
-            onRefreshPalette={handleRefreshPalette}
-          />
-        </Column>
-        <Column>
-          <PaletteName>Your Palette</PaletteName>
-          <Palette
-            palette={userPalette}
-            onRemoveColor={(index) => handleRemoveColor(index, 'user')}
-            onRefreshPalette={handleRefreshPalette}
-          />
-        </Column>
-      </Row> */}
       {/* <ImageExamples images={exampleImages} onImageSelect={handleImageSelect} /> */}
     </GridContainer>
   );

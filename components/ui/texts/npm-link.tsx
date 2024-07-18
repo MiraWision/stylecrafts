@@ -31,7 +31,7 @@ const Container = styled.div`
 
 const Text = styled.span`
   font-size: 0.875rem;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
   text-align: right;
 `;
 

@@ -231,7 +231,7 @@ const Form = styled.div`
 const ImageLabel = styled(Label)`
   width: 48%;
   line-height: 1.5;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
 `;
 
 const ImagesContainer = styled.div`
@@ -317,7 +317,7 @@ const CompressionOption = styled.div.attrs<{ $selected?: boolean }>(({ $selected
   className: $selected ? 'selected' : '',
 }))`
   position: relative;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
   border: 0.0625rem solid var(--gray-300);
   padding: 0.5rem;
   border-radius: 0.5rem;

@@ -83,7 +83,7 @@ const PostSubtitle = styled.h2`
   font-weight: 400;
   font-style: italic;
   line-height: 1.5;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
   margin: -0.5rem 0 0;
 
   @media (max-width: 768px) {
