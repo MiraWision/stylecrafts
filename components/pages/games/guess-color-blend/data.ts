@@ -1,9 +1,12 @@
 import { PaletteColor, Difficulty, Level } from './types';
 
-const LevelOptions = [
+const PracticeLevelOptions = [
   { value: Level.Easy, label: 'Easy' },
   { value: Level.Medium, label: 'Medium' },
   { value: Level.Hard, label: 'Hard' },
+];
+
+const ChallengeLevelOptions = [
   { value: Level.Challenge, label: 'Challenge' },
 ];
 
@@ -94,7 +97,8 @@ const ChallengeDifficulty: (Difficulty & { from: number, to: number})[] = [
 ];
 
 export { 
-  LevelOptions, 
+  PracticeLevelOptions, 
+  ChallengeLevelOptions,
   PaletteColors,
   LevelDifficulty,
   ChallengeDifficulty,

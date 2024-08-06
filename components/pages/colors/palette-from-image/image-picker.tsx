@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-
+import { convertColor, ColorFormat } from '@mirawision/colorize';
 import { getPaletteWithCoordinates } from '@/utils/colors-palette-from-image';
 
 interface Props {
@@ -12,6 +12,7 @@ const ImageColorPicker: React.FC<Props> = ({ selectedImage, onPaletteChange }) =
   const [autoPalette, setAutoPalette] = useState<string[]>([]);
   const [userPalette, setUserPalette] = useState<string[]>([]);
   const [colorPickers, setColorPickers] = useState<{ color: string; x: number; y: number }[]>([]);
+  const [movedPickers, setMovedPickers] = useState<boolean[]>([]);
   
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -23,6 +24,7 @@ const ImageColorPicker: React.FC<Props> = ({ selectedImage, onPaletteChange }) =
       const colors = colorsWithCoordinates.map((color) => color.color);
       setAutoPalette(colors);
       setColorPickers(colorsWithCoordinates);
+      setMovedPickers(Array(colorsWithCoordinates.length).fill(false));
       onPaletteChange(colors, []);
     }
   };
@@ -48,12 +50,25 @@ const ImageColorPicker: React.FC<Props> = ({ selectedImage, onPaletteChange }) =
     const b = imageData[2];
 
     const newColor = `rgb(${r},${g},${b})`;
+    const hexColor = convertColor(newColor, ColorFormat.HEX);
     const newColorPickers = [...colorPickers];
-    newColorPickers[index] = { color: newColor, x: constrainedX, y: constrainedY };
+    newColorPickers[index] = { color: hexColor, x: constrainedX, y: constrainedY };
     setColorPickers(newColorPickers);
 
     const newUserPalette = [...userPalette];
-    newUserPalette[index] = newColor;
+    if (!movedPickers[index]) {
+      // First move, add color to the palette
+      newUserPalette.push(hexColor);
+      setMovedPickers((prev) => {
+        const newMovedPickers = [...prev];
+        newMovedPickers[index] = true;
+        return newMovedPickers;
+      });
+    } else {
+      // Update existing color in the palette
+      const colorIndex = movedPickers.reduce((acc, moved, idx) => (moved && idx <= index ? acc + 1 : acc), 0) - 1;
+      newUserPalette[colorIndex] = hexColor;
+    }
     setUserPalette(newUserPalette);
     onPaletteChange(autoPalette, newUserPalette);
   };

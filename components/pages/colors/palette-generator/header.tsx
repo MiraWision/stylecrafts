@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({
       </Content>
       <LargeTextContainer>
         <LargeText $color={textColor}>Az</LargeText>
-        <ShuffleIconButton onReverseColors={onReverseColors} />
+        <ShuffleIconButton onClick={onReverseColors} />
       </LargeTextContainer>
     </Container>
   );

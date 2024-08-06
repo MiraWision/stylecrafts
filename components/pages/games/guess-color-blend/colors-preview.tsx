@@ -62,11 +62,11 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
 
       <Match
         $isMatched={isMatched}
-        onClick={handleOnClick}  
+        $gameOver={gameOver}
+        onClick={handleOnClick}
       >
-        <MatchText>{text}</MatchText>
-
-        <HoverText>{hoverText}</HoverText>
+        <MatchText $isMatched={isMatched} $gameOver={gameOver}>{text}</MatchText>
+        <HoverText $isMatched={isMatched} $gameOver={gameOver}>{hoverText}</HoverText>
       </Match>
 
       <ColorSection $backgroundColor={targetColor}>
@@ -125,7 +125,6 @@ const ColorSection = styled.div.attrs<{ $backgroundColor: string }>(({ $backgrou
   }
 `;
 
-
 const EmptyBackground = styled.div`
   position: absolute;
   top: 0;
@@ -165,16 +164,16 @@ const ColorCode = styled.p`
   text-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.8);
 `;
 
-const MatchText = styled.div`
-  display: block;
+const MatchText = styled.div<{ $isMatched: boolean; $gameOver: boolean }>`
+  display: ${({ $isMatched, $gameOver }) => ($isMatched || $gameOver ? 'none' : 'block')};
   font-size: 0.875rem;
   font-weight: 500;
   text-align: center;
   line-height: 1.5;
 `;
 
-const HoverText = styled.div`
-  display: none;
+const HoverText = styled.div<{ $isMatched: boolean; $gameOver: boolean }>`
+  display: ${({ $isMatched, $gameOver }) => ($isMatched || $gameOver ? 'block' : 'none')};
   font-size: 0.875rem;
   font-weight: 500;
   text-align: center;
@@ -182,12 +181,12 @@ const HoverText = styled.div`
   color: var(--primary-color);
 `;
 
-const Match = styled.div.attrs<{ $isMatched: boolean }>(({ $isMatched }) => ({
+const Match = styled.div.attrs<{ $isMatched: boolean; $gameOver: boolean }>(({ $isMatched, $gameOver }) => ({
   style: {
     borderColor: $isMatched ? 'var(--primary-color)' : 'var(--surface-border)',
     color: $isMatched ? 'var(--primary-color)' : 'var(--text-color)',
   },
-}))<{ $isMatched: boolean }>`
+}))<{ $isMatched: boolean; $gameOver: boolean }>`
   position: absolute;
   z-index: 1;
   top: 50%;
@@ -206,18 +205,6 @@ const Match = styled.div.attrs<{ $isMatched: boolean }>(({ $isMatched }) => ({
   height: 5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--surface-200);
-
-    ${HoverText} {
-      display: block;
-    }
-
-    ${MatchText} {
-      display: none;
-    }
-  }
 
   @media (max-width: 768px) {
     top: calc(100% + 0.5rem);

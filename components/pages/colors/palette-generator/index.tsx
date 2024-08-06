@@ -24,45 +24,13 @@ const PaletteGeneratorMain: React.FC = () => {
   const handleColorChange = (index: number, newBaseColor: string) => {
     const updatedColors = [...selectedColors];
     updatedColors[index].baseColor = newBaseColor;
-    setSelectedColors(updatedColors);
-  };
-
-  const handleAddColor = () => {
-    const additionalCount = selectedColors.length - 4;
-
-    setSelectedColors([
-      ...selectedColors,
-      { baseColor: '#000000', title: `Additional ${additionalCount + 1}`, shades: [] },
-    ]);
-  };
-
-  const handleRemoveColor = (index: number) => {
-    const updatedColors = [...selectedColors];
-
-    updatedColors.splice(index, 1);
-    
+    updatedColors[index].shades = [];
     setSelectedColors(updatedColors);
   };
 
   const handleAddShade = (colorIndex: number, shade: Shade) => {
     const updatedColors = [...selectedColors];
-
-    updatedColors[colorIndex].shades.push(shade);
-
-    updatedColors[colorIndex].shades.sort((a, b) => a.shade - b.shade);
-
-    setSelectedColors(updatedColors);
-  };
-
-  const handleRemoveColorFromPalette = (colorIndex: number, shadeIndex?: number) => {
-    const updatedColors = [...selectedColors];
-    
-    if (shadeIndex === undefined) {
-      updatedColors.splice(colorIndex, 1);
-    } else {
-      updatedColors[colorIndex].shades.splice(shadeIndex, 1);
-    }
-
+    updatedColors[colorIndex].baseColor = shade.hex;
     setSelectedColors(updatedColors);
   };
 
@@ -73,7 +41,7 @@ const PaletteGeneratorMain: React.FC = () => {
   const backgroundColor = selectedColors.find(color => color.title === 'Background')?.baseColor || '#ffffff';
   const textColor = selectedColors.find(color => color.title === 'Text')?.baseColor || '#000000';
   const accentColor = selectedColors.find(color => color.title === 'Accent')?.baseColor || '#ff0000';
-  const additionalColor = selectedColors.find(color => color.title === 'Primary')?.baseColor || '#00ff00';
+  const primaryColor = selectedColors.find(color => color.title === 'Primary')?.baseColor || '#00ff00';
 
   return (
     <Container>
@@ -82,8 +50,6 @@ const PaletteGeneratorMain: React.FC = () => {
           <ColorSelector
             selectedColors={selectedColors}
             onColorChange={handleColorChange}
-            onAddColor={handleAddColor}
-            onRemoveColor={handleRemoveColor}
           />
         </Column>
 
@@ -96,8 +62,7 @@ const PaletteGeneratorMain: React.FC = () => {
       </MainContent>
 
       <Palette 
-        selectedColors={selectedColors} 
-        onRemoveColor={handleRemoveColorFromPalette} 
+        selectedColors={selectedColors}
       />
 
       <ContrastChecker 
@@ -108,12 +73,9 @@ const PaletteGeneratorMain: React.FC = () => {
         bgColor={backgroundColor}
         textColor={textColor}
         accentColor={accentColor}
-        additionalColor={additionalColor}
+        additionalColor={primaryColor}
       />
       
-      <Examples 
-        onExampleClick={handleExampleClick} 
-      />
     </Container>
   );
 };

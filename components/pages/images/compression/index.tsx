@@ -60,13 +60,13 @@ const ImageCompressionMain: React.FC = () => {
   useEffect(() => {
     if (originalImage) {
       setCompressedImage(null);
-
       handleImageCompression(compressionLevel);
     }
   }, [originalImage]);
 
   useEffect(() => {
     if (originalImage) {
+      setCompressedImage(null);
       handleImageCompression(compressionLevel);
     }
   }, [compressionLevel]);
@@ -164,6 +164,10 @@ const ImageCompressionMain: React.FC = () => {
           ))}
         </CompressionContainer>
 
+        <ImageLabel>
+          Supported formats:<br />JPEG, PNG, WEBP, TIFF, GIF, AVIF, or HEIF
+        </ImageLabel>
+
         <ImagesContainer>
           <ImageContainer>
             <ImageInputStyled 
@@ -199,9 +203,6 @@ const ImageCompressionMain: React.FC = () => {
         </ImagesContainer>
 
         <ImagesContainer>
-          <ImageLabel>
-            Supported formats:<br />JPEG, PNG, WEBP, TIFF, GIF, AVIF, or HEIF
-          </ImageLabel>
 
           <DownloadButtonContainer>
             {compressedImage?.content && (
@@ -237,6 +238,7 @@ const ImageLabel = styled(Label)`
 const ImagesContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 1.5rem;
 `;
 
 const ImageContainer = styled.div`
@@ -271,7 +273,7 @@ const TextOverlay = styled.div`
 `;
 
 const TextOverlayTop = styled(TextOverlay)`
-  top: 0.25rem;
+  top: -1.5rem;
 `;
 
 const ImageInputStyled = styled(ImageInput)`
@@ -294,7 +296,7 @@ const CompressionTag = styled.div`
   border-radius: 0.25rem;
   font-size: 0.75rem;
   position: absolute;
-  top: 1.75rem;
+  top: 0.75rem;
   left: 50%;
   transform: translateX(-50%);
 `;

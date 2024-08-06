@@ -51,7 +51,7 @@ const Preview: React.FC<Props> = ({ gradient }) => {
   const chartData = useMemo<{ percentage: number, color: string }[]>(() => {
     return Array.from({ length: BarsCount }).map(() => {
       const percentage = Math.floor(Math.random() * 200) - 100;
-      const colorIndex = Math.floor((percentage + 100) / 200 * (gradient.length - 1));
+      const colorIndex = Math.floor((percentage + 100) / 200 * (gradient.length));
       
       return {
         percentage: percentage,
@@ -72,7 +72,7 @@ const Preview: React.FC<Props> = ({ gradient }) => {
     <Container>
       <Header>
         <span onClick={previousPreview}>
-          <ChevronLeftIcon />
+          <StyledChevronLeftIcon />
 
           {previews[selectedPreview - 1 < 0 ? previews.length - 1 : selectedPreview - 1]}
         </span>
@@ -88,7 +88,7 @@ const Preview: React.FC<Props> = ({ gradient }) => {
         <span onClick={nextPreview}>
           {previews[(selectedPreview + 1) % previews.length]}
 
-          <ChevronRightIcon />
+          <StyledChevronRightIcon />
         </span>
       </Header>
 
@@ -193,7 +193,7 @@ const Header = styled.div`
     cursor: pointer;
 
     .icon {
-      margin-left: 0.5rem;
+      margin-right: 0.5rem;
     }
   }
 `;
@@ -261,6 +261,14 @@ const LegendColor = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroun
 const LegendLabel = styled.div`
   font-size: 0.75rem;
   font-weight: 500;
+`;
+
+const StyledChevronLeftIcon = styled(ChevronLeftIcon)`
+  margin-right: 0.5rem;
+`;
+
+const StyledChevronRightIcon = styled(ChevronRightIcon)`
+  margin-left: 0.5rem;
 `;
 
 export { Preview };

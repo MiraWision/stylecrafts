@@ -106,6 +106,7 @@ const Card = styled.div.attrs<{ $backgroundColor: string, $color: string, $fontW
     fontWeight: $fontWeight,
   },
 }))`
+  margin: 2rem 0;
   border-radius: 0.5rem;
   padding: 1rem;
   width: 100%;

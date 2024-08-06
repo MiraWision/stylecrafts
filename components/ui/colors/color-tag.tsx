@@ -9,7 +9,7 @@ interface Props {
 
 const ColorTag: React.FC<Props> = ({ color, onCopy }) => {
   return (
-    <Container>
+    <Container onClick={() => onCopy && onCopy(color)}>
       <ColorRectangle $backgroundColor={color} />
 
       <CopyIconContainer>

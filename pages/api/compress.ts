@@ -4,6 +4,8 @@ import formidable, { File, Files, Fields } from 'formidable';
 import fs from 'fs';
 import { promisify } from 'util';
 import os from 'os';
+import { execFile } from 'child_process';
+import gifsicle from 'gifsicle';
 
 export const config = {
   api: {
@@ -14,6 +16,8 @@ export const config = {
 type CompressionLevel = 'minimal' | 'optimal' | 'maximum';
 
 const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
+const unlink = promisify(fs.unlink);
 
 const QualitySettings: Record<CompressionLevel, any> = {
   minimal: {
@@ -22,7 +26,8 @@ const QualitySettings: Record<CompressionLevel, any> = {
     webp: { quality: 85 },
     tiff: { quality: 85 },
     avif: { quality: 85 },
-    heif: { quality: 85 }
+    heif: { quality: 85, compression: 'av1' },
+    gif: { optimizationLevel: 1, colors: 256 }
   },
   optimal: {
     jpeg: { quality: 75, mozjpeg: true },
@@ -30,7 +35,8 @@ const QualitySettings: Record<CompressionLevel, any> = {
     webp: { quality: 75 },
     tiff: { quality: 75 },
     avif: { quality: 50 },
-    heif: { quality: 50 }
+    heif: { quality: 50, compression: 'av1' },
+    gif: { optimizationLevel: 3, colors: 128 } 
   },
   maximum: {
     jpeg: { quality: 60, mozjpeg: true },
@@ -38,8 +44,24 @@ const QualitySettings: Record<CompressionLevel, any> = {
     webp: { quality: 60 },
     tiff: { quality: 60 },
     avif: { quality: 30 },
-    heif: { quality: 30 }
+    heif: { quality: 30, compression: 'av1' }, 
+    gif: { optimizationLevel: 5, colors: 64, lossy: 80 } 
   },
+};
+
+const compressGif = async (inputPath: string, outputPath: string, optimizationLevel: number, colors: number, lossy?: number) => {
+  const args = ['--optimize=' + optimizationLevel, '--colors', colors.toString(), '-o', outputPath, inputPath];
+  if (lossy) {
+    args.push('--lossy=' + lossy);
+  }
+  return new Promise<void>((resolve, reject) => {
+    execFile(gifsicle, args, (err) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve();
+    });
+  });
 };
 
 const compressImage = async (file: File, format: string, compressionLevel: CompressionLevel) => {
@@ -64,13 +86,17 @@ const compressImage = async (file: File, format: string, compressionLevel: Compr
       image = image.tiff(selectedQuality.tiff);
       break;
     case 'gif':
-      image = image.gif();
-      break;
+      const tempInputPath = file.filepath;
+      const tempOutputPath = `${file.filepath}-compressed.gif`;
+      await compressGif(tempInputPath, tempOutputPath, selectedQuality.gif.optimizationLevel, selectedQuality.gif.colors, selectedQuality.gif.lossy);
+      const compressedGifBuffer = await readFile(tempOutputPath);
+      await unlink(tempOutputPath); // Удалить временный сжатый файл
+      return compressedGifBuffer;
     case 'avif':
       image = image.avif(selectedQuality.avif);
       break;
     case 'heif':
-      image = image.heif(selectedQuality.heif);
+      image = image.heif({ quality: selectedQuality.heif.quality, compression: selectedQuality.heif.compression });
       break;
     default:
       throw new Error('Unsupported format');
@@ -78,13 +104,13 @@ const compressImage = async (file: File, format: string, compressionLevel: Compr
 
   image = image.withMetadata({ exif: undefined });
 
-  const compressdBuffer = await image.toBuffer();
+  const compressedBuffer = await image.toBuffer();
 
-  if (compressdBuffer.length >= buffer.length) {
+  if (compressedBuffer.length >= buffer.length) {
     return buffer;
   }
 
-  return compressdBuffer;
+  return compressedBuffer;
 };
 
 const getParams = (fields: Fields, files: Files): { file: File, format: string, compressionLevel: CompressionLevel } => {
@@ -127,13 +153,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { file, format, compressionLevel } = getParams(fields, files);
 
   try {
-    const compressdBuffer = await compressImage(file, format, compressionLevel);
+    const compressedBuffer = await compressImage(file, format, compressionLevel);
     
-    const compressdImage = compressdBuffer.toString('base64');
+    const compressedImage = compressedBuffer.toString('base64');
 
     res.status(200).json({
-      image: compressdImage,
-      size: compressdBuffer.length,
+      image: compressedImage,
+      size: compressedBuffer.length,
     });
   } catch (error) {
     console.error('Error compressing image:', error);

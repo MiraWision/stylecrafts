@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({
       <Content>
         <Title $color={textColor}>This is a preview</Title>
         <Subtitle $color={textColor}>
-        Here is a preview of a color combination applied to a real-life example.
+          Here is a preview of a color combination applied to a real-life example.
         </Subtitle>
         <FontWeights>
           <Weight $color={textColor} $weight={300}>Light</Weight>
@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
       </Content>
       <LargeTextContainer>
         <LargeText $color={textColor}>Az</LargeText>
-        <ShuffleIconButton onReverseColors={onReverseColors} />
+        <ShuffleIconButton onClick={onReverseColors} />
       </LargeTextContainer>
     </Container>
   );
@@ -49,6 +49,7 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  width: 70%;
 `;
 
 const Title = styled.h1.attrs<{ $color: string }>(({ $color }) => ({
@@ -76,7 +77,7 @@ const FontWeights = styled.div`
   margin-top: 0.8rem;
 `;
 
-const Weight = styled.span.attrs<{ $color: string, $weight: number }>(({ $color, $weight }) => ({
+const Weight = styled.span.attrs<{ $color: string; $weight: number }>(({ $color, $weight }) => ({
   style: {
     color: $color,
     fontWeight: $weight,

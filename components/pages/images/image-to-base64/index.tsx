@@ -6,7 +6,7 @@ import { analyticsEvents } from '@/services/google-analytics-service/analytics-e
 import { useToast } from '@/components/ui/toast';
 
 import { ImageData, ImageInput } from '@/components/ui/inputs/image-input';
-import { SingleColumnContainer } from '@/components/ui/containers';
+import { TwoColumnsContainer } from '@/components/ui/containers';
 import { TextareaWithCopy } from '@/components/ui/inputs/textarea-with-copy';
 
 interface Props {
@@ -31,7 +31,7 @@ const ImageToBase64: React.FC<Props> = ({}) => {
   }
 
   return (
-    <SingleColumnContainer>
+    <TwoColumnsContainer>
       <ImageInputStyled 
         value={image}
         onChange={handleImageChange} 
@@ -72,7 +72,7 @@ const ImageToBase64: React.FC<Props> = ({}) => {
           },
         ]}
       />          
-    </SingleColumnContainer>
+    </TwoColumnsContainer>
   );
 }
 

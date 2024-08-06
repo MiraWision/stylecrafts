@@ -10,7 +10,7 @@ import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 import { Level, Difficulty, SelectedColor } from './types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { PaletteColors, LevelOptions } from './data';
+import { PaletteColors, PracticeLevelOptions, ChallengeLevelOptions } from './data';
 
 import { ColorsPreview } from '@/components/pages/games/guess-color-blend/colors-preview';
 import { Label } from '@/components/ui/texts/label';
@@ -19,24 +19,19 @@ import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 import { useTimer } from '@/hooks/use-timer';
 import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
 
-interface Props {
-}
+interface Props {}
 
 const DefaultSelectedColors = PaletteColors.map((color) => ({ ...color, weight: 0 }));
 
 const GuessColorBlendMain: React.FC<Props> = ({}) => {
   const [selectedColors, setSelectedColors] = useState<SelectedColor[]>(DefaultSelectedColors);
-  
+  const [mode, setMode] = useState<'Practice' | 'Challenge'>('Practice');
   const [level, setLevel] = useState<Level>(Level.Easy);
-  
   const [score, setScore] = useState<number>(0);
-  
   const [topScore, setTopScore] = useLocalStorage<number>('top-score', 0);
 
   const topScoreUpdated = useRef<boolean>(false);
-
   const [targetColor, setTargetColor] = useState<string>('');
-
   const currentDropsCount = useRef<number>(0);
 
   const difficulty = useMemo<Difficulty>(() => {
@@ -62,8 +57,7 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   }, [currentColor, targetColor]);
 
   const isMatched = useMemo<boolean>(() => matchPercentage > 99, [matchPercentage]);
-
-  const isChallenge = useMemo<boolean>(() => level === Level.Challenge, [level]);
+  const isChallenge = useMemo<boolean>(() => mode === 'Challenge', [mode]);
 
   const [gameOver, setGameOver] = useState<boolean>(false);
 
@@ -71,39 +65,35 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
     setGameOver(true);
 
     GAService.logEvent(analyticsEvents.games.challengeEnded(ellapsedTime.toString()));
-
     GAService.logEvent(analyticsEvents.games.challengeScored(score.toString()));
 
     if (topScoreUpdated.current === true) {
       GAService.logEvent(analyticsEvents.games.challengeTopScored(topScore.toString()));
-
       topScoreUpdated.current = false;
     }
   });
 
   useEffect(() => {
     resetSelectedColors();
-
     generateTargetColor();
 
     if (isChallenge) {
       setScore(0);
-
       handleTime.reset();
-
       handleTime.play();
     } else {
       handleTime.pause();
     }
-  }, [level]);
+  }, [level, mode]);
 
   useEffect(() => {
     if (isMatched && isChallenge) {
       setScore((prev) => prev + currentDropsCount.current);
-
       handleTime.pause();
-
       handleTime.adjustTime(currentDropsCount.current);
+      setTimeout(() => {
+        nextGame();
+      }, 500); // Auto-continue after 0.5 seconds
     }
 
     if (isMatched) {
@@ -114,7 +104,6 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   useEffect(() => {
     if (score > topScore) {
       setTopScore(score);
-
       topScoreUpdated.current = true;
     }
   }, [score]);
@@ -125,30 +114,33 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
   const generateTargetColor = () => {
     const { color, dropsCount } = getRandomColor(PaletteColors.map((color) => color.hex), difficulty);
-
     setTargetColor(color);
-
     currentDropsCount.current = dropsCount;
   };
 
   const changeWeight = (hex: string, increment: number) => {
-    setSelectedColors((prev) => prev.map((color) => ({ 
-      ...color, 
-      weight: color.hex === hex ? color.weight + increment : color.weight,
-    })));
+    setSelectedColors((prev) =>
+      prev.map((color) => ({
+        ...color,
+        weight: color.hex === hex ? color.weight + increment : color.weight,
+      }))
+    );
   };
 
   const resetWeights = () => {
     resetSelectedColors();
   };
 
-  const handleDifficultyChange = (level: Level) => {
+  const handleLevelChange = (level: Level) => {
     setLevel(level);
+  };
+
+  const handleModeChange = (mode: 'Practice' | 'Challenge') => {
+    setMode(mode);
   };
 
   const nextGame = () => {
     resetSelectedColors();
-
     generateTargetColor();
 
     if (isChallenge) {
@@ -156,11 +148,8 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
       if (gameOver) {
         setGameOver(false);
-
         setScore(0);
-
         handleTime.reset();
-
         handleTime.play();
       }
 
@@ -170,40 +159,51 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
-
     const remainingSeconds = seconds % 60;
-
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
   return (
     <>
-      <DifficultyButtonsContainer>
-        <Label>Select Difficulty</Label>
-
+      <ModeButtonsContainer>
+        <Label>Select Mode</Label>
         <ButtonsContainer>
-          {LevelOptions.map((item) => (
-            <LevelButton
-              key={item.value}
-              text={item.label}
-              className={level === item.value ? 'selected' : ''}
-              onClick={() => handleDifficultyChange(item.value)}
-            />
-          ))}
+          <ModeButton
+            text="Practice"
+            className={mode === 'Practice' ? 'selected' : ''}
+            onClick={() => handleModeChange('Practice')}
+          />
+          <ModeButton
+            text="Challenge"
+            className={mode === 'Challenge' ? 'selected' : ''}
+            onClick={() => handleModeChange('Challenge')}
+          />
         </ButtonsContainer>
-      </DifficultyButtonsContainer>
+      </ModeButtonsContainer>
+
+      {mode === 'Practice' && (
+        <DifficultyButtonsContainer>
+          <Label>Select Difficulty</Label>
+          <ButtonsContainer>
+            {PracticeLevelOptions.map((item) => (
+              <LevelButton
+                key={item.value}
+                text={item.label}
+                className={level === item.value ? 'selected' : ''}
+                onClick={() => handleLevelChange(item.value)}
+              />
+            ))}
+          </ButtonsContainer>
+        </DifficultyButtonsContainer>
+      )}
 
       <ChallengeContainer>
         {isChallenge && (
           <>
             <ScoreContainer>
               Score: {score}
-              
-              {topScore > 0 && (
-                <TopScore>Top Score: {topScore}</TopScore> 
-              )}
+              {topScore > 0 && <TopScore>Top Score: {topScore}</TopScore>}
             </ScoreContainer>
-
             <Time>{formatTime(remainingTime)}</Time>
           </>
         )}
@@ -231,7 +231,19 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
       />
     </>
   );
-}
+};
+
+const ModeButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 12vh;
+  }
+`;
 
 const DifficultyButtonsContainer = styled.div`
   display: flex;
@@ -251,7 +263,7 @@ const ButtonsContainer = styled.div`
   gap: 1rem;
 `;
 
-const LevelButton = styled(BaseTextButton)`
+const BaseButton = styled(BaseTextButton)`
   border-color: var(--surface-border);
 
   span {
@@ -267,6 +279,9 @@ const LevelButton = styled(BaseTextButton)`
     }
   }
 `;
+
+const LevelButton = styled(BaseButton)``;
+const ModeButton = styled(BaseButton)``;
 
 const ContentContainer = styled.div`
   display: flex;

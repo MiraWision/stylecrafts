@@ -4,7 +4,7 @@ import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
 import { ImageWithDownload } from '@/components/ui/images/image-with-download';
-import { SingleColumnContainer } from '@/components/ui/containers';
+import { TwoColumnsContainer } from '@/components/ui/containers';
 import { TextareaWithCopy } from '@/components/ui/inputs/textarea-with-copy';
 import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 
@@ -27,7 +27,7 @@ const Base64ToImage: React.FC<Props> = ({}) => {
   };
 
   return (
-    <SingleColumnContainer>
+    <TwoColumnsContainer>
       <TextareaWithCopy
         value={base64Text}
         onChange={onChange}
@@ -46,7 +46,7 @@ const Base64ToImage: React.FC<Props> = ({}) => {
           <ImagePlaceholder />
         )
       }
-    </SingleColumnContainer>
+    </TwoColumnsContainer>
   );
 }
 

@@ -13,7 +13,6 @@ const ShuffleIconButton: React.FC<Props> = ({ onClick }) => {
 
   const handleClick = () => {
     setRotate(!rotate);
-
     onClick();
   };
 
@@ -35,7 +34,7 @@ const IconButton = styled(BaseIconButton)<{ $rotate: boolean }>`
   }
 
   .icon {
-    transform: scaleY(${({ $rotate }) => $rotate ? 1 : -1});
+    transform: scaleY(${({ $rotate }) => ($rotate ? 1 : -1)});
     transition: transform 0.3s;
   }
 `;

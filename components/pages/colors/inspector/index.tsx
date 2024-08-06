@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Color } from '@mirawision/colorize';
+import { useRouter } from 'next/router';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
@@ -9,7 +10,8 @@ import { ColorExamples } from './color-examples';
 import { ColorExample } from './types';
 import { ShadesGrid } from './shades';
 
-import { CurrentColor } from './current-color';
+import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
+import { ColorDescription } from './color-description';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 
 interface BaseColor {
@@ -18,6 +20,7 @@ interface BaseColor {
 }
 
 const ColorInspectorMain: React.FC = () => {
+  const router = useRouter();
   const [baseColors, setBaseColors] = useState<BaseColor[]>([
     { color: '#ff0000', weight: 0 },
     { color: '#ffff00', weight: 0 },
@@ -27,6 +30,23 @@ const ColorInspectorMain: React.FC = () => {
     { color: '#000000', weight: 0 },
   ]);
 
+  const [selectedColor, setSelectedColor] = useState<Color>(new Color('#ffffff'));
+
+  useEffect(() => {
+    const hashColor = router.asPath.split('#')[1];
+    if (hashColor) {
+      setSelectedColor(new Color(`#${hashColor}`));
+    } else {
+      setSelectedColor(new Color(rybslColorsMixing(baseColors)));
+    }
+  }, [router.asPath]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.location.hash = selectedColor.hex();
+    }
+  }, [selectedColor]);
+
   const currentColor = useMemo<Color>(() => {
     try {
       return new Color(rybslColorsMixing(baseColors));
@@ -35,15 +55,17 @@ const ColorInspectorMain: React.FC = () => {
     }
   }, [baseColors]);
 
+  useEffect(() => {
+    setSelectedColor(currentColor);
+  }, [currentColor]);
+
   const updateWeight = (index: number, weight: number) => {
     if (weight < 0) {
       weight = 0;
     }
-    
-    const newBaseColors = [...baseColors];
 
+    const newBaseColors = [...baseColors];
     newBaseColors[index].weight = weight;
-    
     setBaseColors(newBaseColors);
   };
 
@@ -56,38 +78,51 @@ const ColorInspectorMain: React.FC = () => {
       { color: '#808080', weight: colorExample.grey },
       { color: '#000000', weight: colorExample.black },
     ]);
+    setSelectedColor(new Color(colorExample.color));
+  };
+
+  const selectShade = (shade: string) => {
+    setSelectedColor(new Color(shade));
+  };
+
+  const handleColorInputChange = (newColor: string) => {
+    const updatedColor = new Color(newColor);
+    setSelectedColor(updatedColor);
   };
 
   return (
-    <TwoColumnsContainer>
-      <Column>
-        <CurrentColor
-          color={currentColor}
-        />
-        <ShadesGrid
-          baseColor={currentColor.hex()}
-        />
-      </Column>
+    <MainContainer>
+      <TwoColumnsContainer>
+        <Column>
+          <ColorInputBig
+            value={selectedColor.hex()}
+            onChange={handleColorInputChange}
+          />
+          <ColorDescription color={selectedColor} />
+        </Column>
 
-      <Column>
-        <ColorListContainer>
-          
-        </ColorListContainer>
-
-        <ColorExamples
-          onColorSelect={selectColorExample}
-        />
-
-      </Column>
-    </TwoColumnsContainer>
+        <Column>
+          <ShadesGrid baseColor={selectedColor.hex()} onShadeSelect={selectShade} />
+        </Column>
+      </TwoColumnsContainer>
+      <ColorListContainer>
+        <ColorExamples onColorSelect={selectColorExample} />
+      </ColorListContainer>
+    </MainContainer>
   );
 };
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const ColorListContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
 `;
 
 const Column = styled.div`

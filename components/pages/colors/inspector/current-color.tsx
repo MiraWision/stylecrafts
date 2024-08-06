@@ -1,26 +1,77 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Color } from '@mirawision/colorize';
-
 import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
+import { convertColor, ColorFormat, getColorFormat } from '@mirawision/colorize';
 
 interface Props {
   color: Color;
+  isInput?: boolean;
+  onColorChange?: (newColor: Color) => void;
 }
 
-const CurrentColor: React.FC<Props> = ({ color }) => {
+const CurrentColor: React.FC<Props> = ({ color, isInput = false, onColorChange }) => {
+  const [currentColor, setCurrentColor] = useState<Color>(color);
+  const [inputValue, setInputValue] = useState<string>(color.hex());
+
+  useEffect(() => {
+    setCurrentColor(color);
+    setInputValue(color.hex());
+  }, [color]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = event.target.value;
+    setInputValue(newColor);
+    if (/^#[0-9A-F]{6}$/i.test(newColor)) {
+      const colorFormat = getColorFormat(newColor);
+      if (colorFormat) {
+        const convertedColor = convertColor(newColor, colorFormat);
+        const updatedColor = new Color(convertedColor);
+        setCurrentColor(updatedColor);
+        if (onColorChange) {
+          onColorChange(updatedColor);
+        }
+      }
+    }
+  };
+
+  const handleColorPickerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = event.target.value;
+    const updatedColor = new Color(newColor);
+    setCurrentColor(updatedColor);
+    setInputValue(newColor);
+    if (onColorChange) {
+      onColorChange(updatedColor);
+    }
+  };
+
+  const handleColorSquareClick = () => {
+    document.getElementById('colorPicker')?.click();
+  };
+
   return (
     <Container>
-      <ColorSquare $backgroundColor={color.get()} />
-
+      <ColorSquare $backgroundColor={currentColor.hex()} onClick={handleColorSquareClick} />
+      <ColorPicker
+        id="colorPicker"
+        type="color"
+        value={currentColor.hex()}
+        onChange={handleColorPickerChange}
+      />
+      {isInput && (
+        <InputContainer>
+          <ColorInput type="text" value={inputValue} onChange={handleInputChange} />
+        </InputContainer>
+      )}
       <Footer>
         {[
-          { title: 'HEX', value: color.hex() },
-          { title: 'RGB', value: color.rgb() },
-          { title: 'HSL', value: color.hsl() },
+          { title: 'HEX', value: currentColor.hex() },
+          { title: 'RGB', value: currentColor.rgb() },
+          { title: 'HSL', value: currentColor.hsl() },
         ].map(({ title, value }) => (
           <ColorTitle key={title}>
-            <b>{title}: </b>{value}
+            <b>{title}: </b>
+            {value}
             <CopyButtonStyled text={value} />
           </ColorTitle>
         ))}
@@ -37,6 +88,7 @@ const Container = styled.div`
   border-radius: 0.25rem;
   width: 16rem;
   height: 16rem;
+  position: relative;
 `;
 
 const Footer = styled.div`
@@ -84,6 +136,31 @@ const ColorSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroun
   height: 10rem;
   border-radius: 0.25rem 0.25rem 0 0;
   transition: all 0.3s;
+  cursor: pointer;
+`;
+
+const ColorPicker = styled.input`
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0.5rem 0;
+`;
+
+const ColorInput = styled.input`
+  width: 80%;
+  padding: 0.25rem;
+  border: 0.0625rem solid var(--surface-border);
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  text-align: center;
 `;
 
 export { CurrentColor };

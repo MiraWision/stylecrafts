@@ -13,6 +13,7 @@
     "@mirawision/colorize": "1.4.1",
     "@mirawision/usa-map-react": "1.0.6",
     "formidable": "3.5.1",
+    "gifsicle": "^7.0.1",
     "marked": "12.0.2",
     "next": "14.2.3",
     "next-sitemap": "4.2.3",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/formidable": "3.4.5",
+    "@types/gifsicle": "^5.2.2",
     "@types/node": "20.14.2",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",

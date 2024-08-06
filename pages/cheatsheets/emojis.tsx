@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import { metaTags } from '@/content/meta-data/cheatsheet-emojis';
 import { content } from '@/content/function-descriptions/cheatsheat-emojis';
@@ -15,7 +16,7 @@ const CharacterCheatSheetPage = () => {
     <BaseLayout>
       <MetaTags {...metaTags} />
 
-      <Title>Emojis Cheatsheet</Title>
+      <StyledTitle>Emojis Cheatsheet</StyledTitle>
 
       <EmojisCheatSheetMain />
 
@@ -27,5 +28,9 @@ const CharacterCheatSheetPage = () => {
     </BaseLayout>
   );
 };
+
+const StyledTitle = styled(Title)`
+  text-align: center;
+`;
 
 export default CharacterCheatSheetPage;

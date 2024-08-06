@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Color } from '@mirawision/colorize';
 
 import { PaletteColor, Shade } from './types';
@@ -33,14 +33,8 @@ interface Props {
 
 const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
   const shadesList = useMemo(() => {
-    return selectedColors.map((color) => {
-      return generateShades(color.baseColor);
-    });
+    return selectedColors.map((color) => generateShades(color.baseColor));
   }, [selectedColors]);
-  
-  const isSelected = (hex: string) => {
-    return selectedColors.some((color) => color.baseColor === hex || color.shades.some((shade) => shade.hex === hex));  
-  };
 
   return (
     <Container>
@@ -50,8 +44,7 @@ const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
             <ShadeBox
               key={shadeIndex}
               $color={shade.hex}
-              $isSelected={isSelected(shade.hex)}
-              onClick={() => isSelected(shade.hex) ? undefined : onAddShade(index, shade)}
+              onClick={() => onAddShade(index, shade)}
             />
           ))}
         </ShadesRow>
@@ -73,11 +66,11 @@ const ShadesRow = styled.div`
   height: 3.125rem;
 `;
 
-const ShadeBox = styled.div.attrs<{ $color: string, $isSelected: boolean }>(({ $color, $isSelected }) => ({
+const ShadeBox = styled.div.attrs<{ $color: string }>(({ $color }) => ({
   style: {
     backgroundColor: $color,
-    borderColor: $isSelected ? 'var(--primary-color)' : 'var(--surface-border)',
-    cursor: $isSelected ? 'default' : 'pointer',
+    borderColor: 'var(--surface-border)',
+    cursor: 'pointer',
   },
 }))`
   width: 2rem;
@@ -85,6 +78,5 @@ const ShadeBox = styled.div.attrs<{ $color: string, $isSelected: boolean }>(({ $
   border-radius: 0.25rem;
   border: 0.0625rem solid;
 `;
-
 
 export { ShadesList };

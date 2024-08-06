@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import { metaTags } from '@/content/meta-data/cheatsheet-characters';
 import { content } from '@/content/function-descriptions/cheatsheat-characters';
@@ -15,7 +16,7 @@ const CharacterCheatSheetPage = () => {
     <BaseLayout>
       <MetaTags {...metaTags} />
 
-      <Title>Comprehensive Color Swatches</Title>
+      <StyledTitle>Comprehensive Color Swatches</StyledTitle>
 
       <ColorSwatchesCheatSheetMain />
 
@@ -27,5 +28,9 @@ const CharacterCheatSheetPage = () => {
     </BaseLayout>
   );
 };
+
+const StyledTitle = styled(Title)`
+  text-align: center;
+`;
 
 export default CharacterCheatSheetPage;

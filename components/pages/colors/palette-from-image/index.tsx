@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { ImageColorPicker } from './image-picker';
 import { useToast } from '@/components/ui/toast';
 import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 import { ImageInputMini, ImageData } from '@/components/ui/inputs/image-input-mini';
 import { ColorTag } from '@/components/ui/colors/color-tag';
 import { ImageExamples } from './image-examples';
+import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
+import { Label } from '@/components/ui/texts/label';
 
 interface PaletteFromImageProps {
   autoPalette: string[];
@@ -54,16 +59,21 @@ const PaletteFromImageMain: React.FC<PaletteFromImageProps> = ({}) => {
     setUserPalette(newUserPalette);
   };
 
-  const handleRemoveColor = (index: number, paletteType: 'auto' | 'user') => {
-    if (paletteType === 'auto') {
-      const newPalette = [...autoPalette];
-      newPalette.splice(index, 1);
-      setAutoPalette(newPalette);
-    } else {
-      const newPalette = [...userPalette];
-      newPalette.splice(index, 1);
-      setUserPalette(newPalette);
-    }
+  const handleColorChange = (index: number, newColor: string) => {
+    const newUserPalette = [...userPalette];
+    newUserPalette[index] = newColor;
+    setUserPalette(newUserPalette);
+  };
+
+  const handleAddUserColor = (newColor: string) => {
+    setUserPalette([...userPalette, newColor]);
+  };
+
+  const onCopy = () => {
+    const text = autoPalette.length > 0 ? autoPalette.join(', ') : userPalette.join(', ');
+    toast.success('Colors copied to clipboard', text);
+
+    GAService.logEvent(analyticsEvents.colors.gradient.gradientCopied(text));
   };
 
   const handleRefreshPalette = () => {
@@ -95,14 +105,41 @@ const PaletteFromImageMain: React.FC<PaletteFromImageProps> = ({}) => {
       </Column>
 
       <Column>
-        <ColorsGrid>
-          {autoPalette.map((color, index) => (
-            <ColorTag
-              key={index}
-              color={color}
-            />
-          ))}
-        </ColorsGrid>
+        {(autoPalette.length > 0 || userPalette.length > 0) && (
+          <CopyTextButton
+            text='Copy Colors'
+            copyText={autoPalette.length > 0 ? autoPalette.join(', ') : userPalette.join(', ')}
+            onCopyCallback={onCopy}
+          />
+        )}
+        <PaletteContainer>
+          {autoPalette.length > 0 && (
+            <PaletteColumn>
+              <Label>Auto Palette</Label>
+              <ColorsGrid>
+                {autoPalette.map((color, index) => (
+                  <ColorTag
+                    key={index}
+                    color={color}
+                  />
+                ))}
+              </ColorsGrid>
+            </PaletteColumn>
+          )}
+          {userPalette.length > 0 && (
+            <PaletteColumn>
+              <Label>User Palette</Label>
+              <ColorsGrid>
+                {userPalette.map((color, index) => (
+                  <ColorTag
+                    key={index}
+                    color={color}
+                  />
+                ))}
+              </ColorsGrid>
+            </PaletteColumn>
+          )}
+        </PaletteContainer>
       </Column>
 
       {/* <ImageExamples images={exampleImages} onImageSelect={handleImageSelect} /> */}
@@ -123,11 +160,22 @@ const Column = styled.div`
   gap: 1rem;
 `;
 
+const PaletteContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const PaletteColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const ColorsGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 0.5rem;
-  margin-top: 2.5rem;
 `;
 
 export { PaletteFromImageMain };

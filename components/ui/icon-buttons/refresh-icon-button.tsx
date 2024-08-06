@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 
 import { RefreshIcon } from '@/components/icons/refresh';
 import { BaseIconButton } from './base-icon-button';
@@ -10,13 +10,39 @@ interface Props {
 }
 
 const RefreshIconButton: React.FC<Props> = ({ onClick, disabled }) => {
+  const [isRotating, setIsRotating] = useState(false);
+
+  const handleClick = () => {
+    if (!disabled) {
+      setIsRotating(true);
+      onClick();
+      setTimeout(() => setIsRotating(false), 500); 
+    }
+  };
+
   return (
-    <BaseIconButton
+    <RotatingButton
       icon={<RefreshIcon />}
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled}
+      isRotating={isRotating}
     />
   );
 }
+
+const rotate = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const RotatingButton = styled(BaseIconButton)<{ isRotating: boolean }>`
+  svg {
+    animation: ${({ isRotating }) => (isRotating ? rotate : 'none')} 1s linear;
+  }
+`;
 
 export { RefreshIconButton };

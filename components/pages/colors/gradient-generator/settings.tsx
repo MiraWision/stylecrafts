@@ -53,12 +53,6 @@ const GradientSettings: React.FC<Props> = ({
 
           Adjust Colors
         </ToggleContainer>
-
-        <CopyTextButton
-          text='Copy Colors'
-          copyText={JSON.stringify(gradient).replace(/,/g, ', ')}
-          onCopyCallback={onCopy}
-        />
       </Header>
 
       <SettingsContainer $isOpen={isOpen}>
@@ -113,6 +107,12 @@ const GradientSettings: React.FC<Props> = ({
           {gradient && (
             <ColorsOutput colors={gradient} />
           )}
+          <CopyTextButton
+            text='Copy Colors'
+            copyText={JSON.stringify(gradient).replace(/,/g, ', ')}
+            onCopyCallback={onCopy}
+          />
+          
         </ResultsColumn>
       </SettingsContainer>
     </Container>

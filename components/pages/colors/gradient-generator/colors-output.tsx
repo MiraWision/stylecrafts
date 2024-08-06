@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
-
-import { CopyIconButton } from '../../../ui/icon-buttons/copy-icon-button';
 import { ColorTag } from '@/components/ui/colors/color-tag';
 
 interface Props {
@@ -13,7 +11,13 @@ interface Props {
 
 const ColorsOutput: React.FC<Props> = ({ colors }) => {
   const handleCopy = (color: string) => {
-    GAService.logEvent(analyticsEvents.colors.gradient.colorCopied(color));
+    navigator.clipboard.writeText(color)
+      .then(() => {
+        GAService.logEvent(analyticsEvents.colors.gradient.colorCopied(color));
+      })
+      .catch(err => {
+        console.error('Failed to copy the color: ', err);
+      });
   }
 
   return (

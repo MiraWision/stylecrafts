@@ -17,6 +17,8 @@ interface Props {
 }
 
 const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatched, gameOver, onWeightChange, onResetAll }) => {
+  const hasSelectedColors = selectedColors.some(color => color.weight > 0);
+
   return (
     <Container>
       <Label>Mix Basic Colors to Match Target Color</Label>
@@ -32,8 +34,9 @@ const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatche
       </ColorBar>
 
       <ColorCirclesContainer>
-        <RefreshIconButtonStyled onClick={onResetAll} />
-
+        {hasSelectedColors && (
+          <RefreshIconButtonStyled onClick={onResetAll} />
+        )}
         {selectedColors.map((color) => (
           <ColorCircle
             key={color.hex}
@@ -91,7 +94,6 @@ const ColorCirclesContainer = styled.div`
 `;
 
 const RefreshIconButtonStyled = styled(RefreshIconButton)`
-  margin-top: -2rem;
 `;
 
 export { ColorSelection };

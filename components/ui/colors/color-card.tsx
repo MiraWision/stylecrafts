@@ -6,11 +6,12 @@ interface Props {
   color: string;
   title?: string;
   onCopy?: (color: string) => void;
+  onClick?: () => void;
 }
 
-const ColorCard: React.FC<Props> = ({ color, title, onCopy }) => {
+const ColorCard: React.FC<Props> = ({ color, title, onCopy, onClick }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <ColorRectangle $backgroundColor={color} />
 
       {title && (
@@ -19,8 +20,7 @@ const ColorCard: React.FC<Props> = ({ color, title, onCopy }) => {
 
       <ColorText>
         {color}
-
-        <CopyIcon width='16' height='16' />  
+        <CopyIcon width='16' height='16' />
       </ColorText>
     </Container>
   );
@@ -34,6 +34,7 @@ const Container = styled.div`
   max-width: 8.125rem;
   overflow: hidden;
   border: 0.0625rem solid var(--surface-border);
+  cursor: pointer;
 `;
 
 const ColorRectangle = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
@@ -59,7 +60,6 @@ const ColorText = styled.div`
   color: var(--color-text);
   display: flex;
   align-items: center;
-  cursor: pointer;
 
   .icon {
     margin-left: 0.25rem;

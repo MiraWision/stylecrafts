@@ -60,15 +60,16 @@ const ColorConverter: React.FC<Props> = ({}) => {
       <ColorPickerContainer>
         <Label>Enter color</Label>
 
-        <CustomColorPicker
-          color={color}
-          onChange={handleColorChange}
-        />
-
         <ColorInputBig
           value={color}
           onChange={handleColorChange}
         />
+
+        <CustomColorPicker
+          color={color}
+          onChange={handleColorChange}
+        />
+        
       </ColorPickerContainer>
 
       <FormatsContainer>
