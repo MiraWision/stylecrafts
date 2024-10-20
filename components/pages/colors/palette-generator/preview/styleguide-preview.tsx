@@ -14,7 +14,7 @@ const StyleguidePreview: React.FC<StyleguidePreviewProps> = ({ palette }) => {
   const backgroundColor = palette.find(color => color.title === 'Background')?.baseColor || '#f5f5f5';
 
   return (
-    <Container style={{ backgroundColor }}>
+    <Container>
       <LeftColumn>
         <Section>
           <CompactHeading style={{ color: textColor }}>Buttons</CompactHeading>

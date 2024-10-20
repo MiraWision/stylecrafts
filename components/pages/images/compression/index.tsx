@@ -150,7 +150,7 @@ const ImageCompressionMain: React.FC = () => {
         </CompressionContainer>
 
         <ImageLabel>
-          Supported formats:<br />JPEG, PNG, WEBP, TIFF, GIF, AVIF, or HEIF
+          Supported formats:<br />JPEG, PNG, WEBP, GIF or AVIF 
         </ImageLabel>
 
         <ImagesContainer>
@@ -202,8 +202,6 @@ const ImageCompressionMain: React.FC = () => {
     </Container>
   );
 };
-
-// Стили
 
 const Container = styled.div`
   width: 100%;

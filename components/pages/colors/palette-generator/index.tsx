@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { PaletteColor, Shade } from './types';
 import { ColorSelector } from './color-selector';
@@ -6,6 +6,7 @@ import { ShadesList } from './shades-list';
 import { Palette } from './palette';
 import { ContrastChecker } from './preview/contrast-checker';
 import { Preview } from './preview/preview';
+import { Examples } from './examples';
 
 const initialColors: PaletteColor[] = [
   { baseColor: '#f5f5f5', title: 'Background', shades: [] },
@@ -68,6 +69,10 @@ const PaletteGeneratorMain: React.FC = () => {
     // Export logic as before...
   };
 
+  const handleExampleClick = (exampleColors: PaletteColor[]) => {
+    setSelectedColors(exampleColors);
+  };
+
   return (
     <Container>
       <MainContent>
@@ -106,6 +111,7 @@ const PaletteGeneratorMain: React.FC = () => {
       <ContrastChecker selectedColors={selectedColors} />
 
       <Preview palette={selectedColors} />
+      <Examples onExampleClick={handleExampleClick} />
     </Container>
   );
 };

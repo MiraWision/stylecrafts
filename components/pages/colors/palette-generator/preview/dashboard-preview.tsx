@@ -84,7 +84,7 @@ const DashboardPreview: React.FC<DashboardPreviewProps> = ({ data, palette }) =>
   ];
 
   return (
-    <DashboardContainer style={{ backgroundColor }}>
+    <DashboardContainer>
       <TopRow>
         {cardData.map((card, index) => (
           <Card key={index} positive={card.positive}  style={{ backgroundColor: card.positive ? `${primaryColor}1A` : `${accentColor}1A` }}>

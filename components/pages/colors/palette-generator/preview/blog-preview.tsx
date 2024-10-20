@@ -11,18 +11,18 @@ const BlogPreview: React.FC<BlogPreviewProps> = ({ palette }) => {
   const accentColor = palette.find(color => color.title === 'Accent')?.baseColor || '#e74c3c';
   const textColor = palette.find(color => color.title === 'Text')?.baseColor || '#333333';
   const backgroundColor = palette.find(color => color.title === 'Background')?.baseColor || '#f5f5f5';
-  const sectionBackgroundColor = palette.find(color => color.title === 'SectionBackground')?.baseColor || '#ffffff'; // Фон для секций
+  const additionalColor = palette.find(color => color.title === 'Additional')?.baseColor || '#f5f5f5';
 
   return (
-    <Container style={{ backgroundColor }}>
+    <Container>
       <LeftColumn>
-        <Section backgroundColor={sectionBackgroundColor}>
+        <Section backgroundColor={backgroundColor}>
           <CompactHeading style={{ color: textColor }}>Headings</CompactHeading>
           <Title style={{ color: primaryColor }}>Exploring the Wonders of the Universe</Title>
           <Subtitle style={{ color: accentColor }}>A Journey Through Space and Time</Subtitle>
         </Section>
 
-        <Section backgroundColor={sectionBackgroundColor}>
+        <Section backgroundColor={backgroundColor}>
           <CompactHeading style={{ color: textColor }}>Paragraphs</CompactHeading>
           <Paragraph style={{ color: textColor }}>
             The universe is vast and full of mysteries. Scientists have been working
@@ -33,14 +33,14 @@ const BlogPreview: React.FC<BlogPreviewProps> = ({ palette }) => {
       </LeftColumn>
 
       <RightColumn>
-        <Section backgroundColor={sectionBackgroundColor}>
+        <Section backgroundColor={backgroundColor}>
           <CompactHeading style={{ color: textColor }}>Quotes</CompactHeading>
-          <Quote style={{ borderLeftColor: primaryColor }}>
+          <Quote backgroundColor={additionalColor} style={{ borderLeftColor: primaryColor }}>
             "Imagination is more important than knowledge." – Albert Einstein
           </Quote>
         </Section>
 
-        <Section backgroundColor={sectionBackgroundColor}>
+        <Section backgroundColor={backgroundColor}>
           <CompactHeading style={{ color: textColor }}>Images</CompactHeading>
           <Image src="https://via.placeholder.com/800x400" alt="Blog cover" />
         </Section>
@@ -70,7 +70,7 @@ const RightColumn = styled.div`
 `;
 
 const Section = styled.div<{ backgroundColor: string }>`
-  background: ${({ backgroundColor }) => backgroundColor};
+  background-color: ${({ backgroundColor }) => backgroundColor};
   padding: 5px 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -96,12 +96,12 @@ const Paragraph = styled.p`
   margin-bottom: 20px;
 `;
 
-const Quote = styled.blockquote`
+const Quote = styled.blockquote<{ backgroundColor: string }>`
   font-size: 1rem;
   font-style: italic;
   margin: 20px 0;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: ${({ backgroundColor }) => backgroundColor};
   border-left: 5px solid;
 `;
 

@@ -2,28 +2,33 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { PaletteColor } from './types';
-
-import { Palette } from './palette';
+import { examplePalettes } from './example-data';
 
 interface Props {
   onExampleClick: (exampleColors: PaletteColor[]) => void;
 }
 
-const examplePalettes: PaletteColor[][] = [
-  [
-    { baseColor: '#add8e6', title: 'Background', shades: [{ shade: 50, hex: '#b3d9ea' }, { shade: -50, hex: '#a0d2e0' }] },
-    { baseColor: '#000000', title: 'Text', shades: [{ shade: 50, hex: '#333333' }, { shade: -50, hex: '#666666' }] },
-    { baseColor: '#87ceeb', title: 'Primary', shades: [{ shade: 50, hex: '#9ddff4' }, { shade: -50, hex: '#77bddc' }] },
-    { baseColor: '#4682b4', title: 'Additional', shades: [{ shade: 50, hex: '#5a9bd8' }, { shade: -50, hex: '#366ea0' }] },
-  ],
-];
-
 const Examples: React.FC<Props> = ({ onExampleClick }) => {
   return (
     <ExamplesContainer>
-      {examplePalettes.map((palette, index) => (
-        <ExamplePaletteContainer key={index} onClick={() => onExampleClick(palette)}>
-          <Palette selectedColors={palette} onRemoveColor={() => {}} />
+      {examplePalettes.map((paletteData, index) => (
+        <ExamplePaletteContainer 
+          key={index} 
+          onClick={() => onExampleClick(paletteData.colors)}
+        >
+          <TitleContainer>
+            {paletteData.iconPath && (
+              <IconWrapper>
+                <img src={paletteData.iconPath} alt={`Icon for ${paletteData.name}`} />
+              </IconWrapper>
+            )}
+            <PaletteTitle>{paletteData.name}</PaletteTitle>
+          </TitleContainer>
+          <ColorsContainer>
+            {paletteData.colors.map((color) => (
+              <ColorSquare key={color.title} style={{ backgroundColor: color.baseColor }} />
+            ))}
+          </ColorsContainer>
         </ExamplePaletteContainer>
       ))}
     </ExamplesContainer>
@@ -31,16 +36,59 @@ const Examples: React.FC<Props> = ({ onExampleClick }) => {
 };
 
 const ExamplesContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 `;
 
 const ExamplePaletteContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+  background-color: #fff;
   cursor: pointer;
+  transition: transform 0.3s ease;
+  text-align: center;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PaletteTitle = styled.h4`
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1rem 0;
+`;
+
+const IconWrapper = styled.div`
+  margin-right: 2px;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const ColorsContainer = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+const ColorSquare = styled.div`
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 `;
 
 export { Examples };

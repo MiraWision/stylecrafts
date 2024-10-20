@@ -51,7 +51,7 @@ const ProductPreview: React.FC<Props> = ({ data, palette }) => {
   };
 
   return (
-    <ProductContainer style={{ backgroundColor }}>
+    <ProductContainer>
       <Form onSubmit={handleSubmit}>
 
         <ImageSection>

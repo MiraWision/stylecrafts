@@ -24,28 +24,22 @@ const QualitySettings: Record<CompressionLevel, any> = {
     jpeg: { quality: 85, mozjpeg: false },
     png: { compressionLevel: 2 },
     webp: { quality: 85 },
-    tiff: { quality: 85 },
     avif: { quality: 85 },
-    heif: { quality: 85, compression: 'av1' },
-    gif: { optimizationLevel: 1, colors: 256 }
+    gif: { optimizationLevel: 1, colors: 256 },
   },
   optimal: {
     jpeg: { quality: 75, mozjpeg: true },
     png: { compressionLevel: 6 },
     webp: { quality: 75 },
-    tiff: { quality: 75 },
     avif: { quality: 50 },
-    heif: { quality: 50, compression: 'av1' },
-    gif: { optimizationLevel: 3, colors: 128 } 
+    gif: { optimizationLevel: 3, colors: 128 },
   },
   maximum: {
     jpeg: { quality: 60, mozjpeg: true },
     png: { compressionLevel: 9 },
     webp: { quality: 60 },
-    tiff: { quality: 60 },
     avif: { quality: 30 },
-    heif: { quality: 30, compression: 'av1' }, 
-    gif: { optimizationLevel: 5, colors: 64, lossy: 80 } 
+    gif: { optimizationLevel: 5, colors: 64, lossy: 80 },
   },
 };
 
@@ -71,60 +65,52 @@ const compressImage = async (file: File, format: string, compressionLevel: Compr
 
   const selectedQuality = QualitySettings[compressionLevel];
 
-  switch (format.split('/')[1]) {
-    case 'jpeg':
-    case 'jpg':
-      image = image.jpeg(selectedQuality.jpeg);
-      break;
-    case 'png':
-      image = image.png(selectedQuality.png);
-      break;
-    case 'webp':
-      image = image.webp(selectedQuality.webp);
-      break;
-    case 'tiff':
-      image = image.tiff(selectedQuality.tiff);
-      break;
-    case 'gif':
-      const tempInputPath = file.filepath;
-      const tempOutputPath = `${file.filepath}-compressed.gif`;
-      await compressGif(tempInputPath, tempOutputPath, selectedQuality.gif.optimizationLevel, selectedQuality.gif.colors, selectedQuality.gif.lossy);
-      const compressedGifBuffer = await readFile(tempOutputPath);
-      await unlink(tempOutputPath); // Удалить временный сжатый файл
-      return compressedGifBuffer;
-    case 'avif':
-      image = image.avif(selectedQuality.avif);
-      break;
-    case 'heif':
-      image = image.heif({ quality: selectedQuality.heif.quality, compression: selectedQuality.heif.compression });
-      break;
-    default:
-      throw new Error('Unsupported format');
+  try {
+    switch (format.split('/')[1]) {
+      case 'jpeg':
+      case 'jpg':
+        image = image.jpeg(selectedQuality.jpeg);
+        break;
+      case 'png':
+        image = image.png(selectedQuality.png);
+        break;
+      case 'webp':
+        image = image.webp(selectedQuality.webp);
+        break;
+      case 'gif':
+        const tempInputPath = file.filepath;
+        const tempOutputPath = `${file.filepath}-compressed.gif`;
+        await compressGif(tempInputPath, tempOutputPath, selectedQuality.gif.optimizationLevel, selectedQuality.gif.colors, selectedQuality.gif.lossy);
+        const compressedGifBuffer = await readFile(tempOutputPath);
+        await unlink(tempOutputPath);
+        return compressedGifBuffer;
+      case 'avif':
+        image = image.avif(selectedQuality.avif);
+        break;
+      default:
+        throw new Error('Unsupported format');
+    }
+
+    image = image.withMetadata({ exif: undefined });
+
+    const compressedBuffer = await image.toBuffer();
+
+    if (compressedBuffer.length >= buffer.length) {
+      return buffer;
+    }
+
+    return compressedBuffer;
+  } catch (error) {
+    console.error(`Error compressing image for format ${format}:`, error);
+    throw new Error(`Failed to process ${format}`);
   }
-
-  image = image.withMetadata({ exif: undefined });
-
-  const compressedBuffer = await image.toBuffer();
-
-  if (compressedBuffer.length >= buffer.length) {
-    return buffer;
-  }
-
-  return compressedBuffer;
 };
 
 const getParams = (fields: Fields, files: Files): { file: File, format: string, compressionLevel: CompressionLevel } => {
-  const file = Array.isArray(files.image) 
-    ? files.image[0] 
-    : files.image;
+  const file = Array.isArray(files.image) ? files.image[0] : files.image;
 
-  const format = Array.isArray(fields.format)
-    ? fields.format[0]
-    : fields.format ?? 'image/jpeg';
-  
-  const compressionLevel = (Array.isArray(fields.compressionLevel) 
-    ? fields.compressionLevel[0] 
-    : fields.compressionLevel ?? 'optimal') as CompressionLevel;
+  const format = Array.isArray(fields.format) ? fields.format[0] : fields.format ?? 'image/jpeg';
+  const compressionLevel = (Array.isArray(fields.compressionLevel) ? fields.compressionLevel[0] : fields.compressionLevel ?? 'optimal') as CompressionLevel;
 
   if (!file || typeof file.filepath !== 'string') {
     throw new Error('Invalid input');
@@ -154,7 +140,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const compressedBuffer = await compressImage(file, format, compressionLevel);
-    
     const compressedImage = compressedBuffer.toString('base64');
 
     res.status(200).json({
@@ -163,7 +148,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
   } catch (error) {
     console.error('Error compressing image:', error);
-
     res.status(500).json({ error: 'Error compressing image' });
   } finally {
     fs.unlink(file.filepath, (err) => {

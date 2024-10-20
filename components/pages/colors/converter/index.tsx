@@ -25,7 +25,6 @@ const ColorConverter: React.FC<Props> = () => {
   const router = useRouter();
   const { color: queryColor } = router.query;
 
-  // Функция для генерации случайного цвета
   const generateRandomColor = () => {
     return (
       '#' +
@@ -35,12 +34,10 @@ const ColorConverter: React.FC<Props> = () => {
     );
   };
 
-  // Устанавливаем флаг, что рендеринг происходит на клиенте
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Обрабатываем цвет из query параметров, если он доступен
   useEffect(() => {
     if (queryColor && typeof queryColor === 'string') {
       try {
@@ -53,7 +50,6 @@ const ColorConverter: React.FC<Props> = () => {
     }
   }, [queryColor]);
 
-  // Конвертируем цвет во все нужные форматы
   useEffect(() => {
     if (!color) return;
 
@@ -89,7 +85,7 @@ const ColorConverter: React.FC<Props> = () => {
 
   return (
     <MainContainer>
-      <TwoColumnsContainer>
+      <TwoColumnsContainer ratio="1fr 2fr">
         <ColorPickerContainer>
           <Label fontSize="1rem">Enter color</Label>
           <ColorInputBig value={color} onChange={handleColorChange} />
@@ -124,7 +120,6 @@ const ColorConverter: React.FC<Props> = () => {
   );
 };
 
-// Стили
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -147,6 +142,7 @@ const FlexContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: start;
+  width: 100%;
 `;
 
 const FormatsContainer = styled.div`
@@ -158,7 +154,7 @@ const FormatsContainer = styled.div`
 
 const ResultColorContainer = styled.div`
   display: grid;
-  grid-template-columns: 3rem 10rem 1rem;
+  grid-template-columns: 3rem 12rem 1rem;
   align-items: center;
   gap: 1rem;
   padding: 0.5rem;
@@ -171,7 +167,7 @@ const ColorTitle = styled.div`
 `;
 
 const ColorValue = styled.div`
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--surface-900);
 `;
