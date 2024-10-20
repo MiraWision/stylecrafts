@@ -11,7 +11,9 @@ const contrastColors = [
       { background: "#1C2833", text: "#D4E6F1" },
       { background: "#212F3C", text: "#FDEDEC" },
       { background: "#4A235A", text: "#E8DAEF" },
-      { background: "#0B5345", text: "#A9DFBF" }
+      { background: "#0B5345", text: "#A9DFBF" },
+      { background: "#2E4053", text: "#FAD7A0" },
+      { background: "#283747", text: "#D5DBDB" }
     ]
   },
   {
@@ -26,7 +28,9 @@ const contrastColors = [
       { background: "#FFF8DC", text: "#1C2833" },
       { background: "#FFFFF0", text: "#212F3C" },
       { background: "#FFF5EE", text: "#4A235A" },
-      { background: "#FAEBD7", text: "#0B5345" }
+      { background: "#FAEBD7", text: "#0B5345" },
+      { background: "#FFFFE0", text: "#34495E" },
+      { background: "#FFFDD0", text: "#2E4053" }
     ]
   }
 ];

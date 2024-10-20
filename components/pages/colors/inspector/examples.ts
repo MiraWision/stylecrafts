@@ -211,6 +211,157 @@ const colorsExamples: ColorExample[] = [
     white: 0,
     black: 255
   },
+  // Новые цвета
+  {
+    name: 'Azure',
+    color: '#007fff',
+    red: 0,
+    yellow: 0,
+    blue: 10,
+    grey: 2,
+    white: 0,
+    black: 1
+  },
+  {
+    name: 'Electric Lime',
+    color: '#ccff00',
+    red: 8,
+    yellow: 9,
+    blue: 0,
+    grey: 0,
+    white: 5,
+    black: 0
+  },
+  {
+    name: 'Flame',
+    color: '#e25822',
+    red: 9,
+    yellow: 2,
+    blue: 0,
+    grey: 4,
+    white: 0,
+    black: 2
+  },
+  {
+    name: 'Fuchsia',
+    color: '#ff00ff',
+    red: 10,
+    yellow: 0,
+    blue: 10,
+    grey: 0,
+    white: 4,
+    black: 0
+  },
+  {
+    name: 'Cyan',
+    color: '#00ffff',
+    red: 0,
+    yellow: 0,
+    blue: 10,
+    grey: 0,
+    white: 4,
+    black: 0
+  },
+  {
+    name: 'Spring Green',
+    color: '#00ff7f',
+    red: 0,
+    yellow: 5,
+    blue: 5,
+    grey: 0,
+    white: 3,
+    black: 0
+  },
+  {
+    name: 'Rose',
+    color: '#ff007f',
+    red: 10,
+    yellow: 0,
+    blue: 5,
+    grey: 0,
+    white: 2,
+    black: 0
+  },
+  {
+    name: 'Mango Tango',
+    color: '#ff8243',
+    red: 7,
+    yellow: 5,
+    blue: 0,
+    grey: 0,
+    white: 3,
+    black: 0
+  },
+  {
+    name: 'Amethyst',
+    color: '#9966cc',
+    red: 6,
+    yellow: 0,
+    blue: 8,
+    grey: 3,
+    white: 0,
+    black: 0
+  },
+  {
+    name: 'Jade',
+    color: '#00a86b',
+    red: 0,
+    yellow: 7,
+    blue: 5,
+    grey: 3,
+    white: 0,
+    black: 0
+  },
+  {
+    name: 'Teal',
+    color: '#008080',
+    red: 0,
+    yellow: 5,
+    blue: 5,
+    grey: 4,
+    white: 0,
+    black: 2
+  },
+  {
+    name: 'Magenta',
+    color: '#ff00ff',
+    red: 10,
+    yellow: 0,
+    blue: 10,
+    grey: 0,
+    white: 3,
+    black: 0
+  },
+  {
+    name: 'Beige',
+    color: '#f5f5dc',
+    red: 9,
+    yellow: 9,
+    blue: 1,
+    grey: 5,
+    white: 100,
+    black: 0
+  },
+  {
+    name: 'Turquoise',
+    color: '#30d5c8',
+    red: 3,
+    yellow: 5,
+    blue: 7,
+    grey: 2,
+    white: 3,
+    black: 0
+  },
+  {
+    name: 'Pistachio',
+    color: '#93c572',
+    red: 5,
+    yellow: 9,
+    blue: 5,
+    grey: 0,
+    white: 2,
+    black: 0
+  }
 ];
 
 export { colorsExamples };

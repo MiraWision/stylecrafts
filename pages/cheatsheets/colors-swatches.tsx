@@ -10,16 +10,16 @@ import { Title } from '@/components/ui/texts/typography';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
 import { ColorSwatchesCheatSheetMain } from '@/components/pages/cheatsheets/color-swatches';
+import { MainContainer } from '@/components/ui/containers';
 
 const CharacterCheatSheetPage = () => {
   return (
     <BaseLayout>
       <MetaTags {...metaTags} />
-
-      <StyledTitle>Comprehensive Color Swatches</StyledTitle>
-
-      <ColorSwatchesCheatSheetMain />
-
+      <MainContainer>
+        <StyledTitle>Comprehensive Color Swatches</StyledTitle>
+        <ColorSwatchesCheatSheetMain />
+      </MainContainer>
       <BlogContainer>
         <Markdown 
           markdownText={content}

@@ -46,6 +46,14 @@ const exampleImages = [
     src: '/image-examples/white-animal.jpeg',
     colors: ["#6b5e85", "#cbafaa", "#e3cab8", "#443d70", "#ead2c9", "#3d3a70", "#4c3d3e", "#1f1a21", "#3f4077", "#d7b0c7"]
   },
+  {
+    src: '/image-examples/horvatia-example.jpg',
+    colors: ["#176f94", "#b8c8d8", "#225260", "#408eb3", "#b88b71", "#9e745b", "#619078"]
+  },
+  {
+    src: '/image-examples/canoe-example.jpg',
+    colors: ["#cddce5", "#485349", "#70a2a8", "#5a7698", "#cc5d67", "#778e62", "#879b69", "#a86588"]
+  }
 ];
 
 const PaletteFromImageMain: React.FC<PaletteFromImageProps> = ({}) => {
@@ -80,24 +88,25 @@ const PaletteFromImageMain: React.FC<PaletteFromImageProps> = ({}) => {
     setUserPalette([]);
   };
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
 
-  const handleImageSelect = (imageData: ImageData) => {
-    setSelectedImage(imageData.content);
+  const handleImageSelect = (imageSrc: string) => {
+    const imageData: ImageData = { content: imageSrc };
+    setSelectedImage(imageData);
   };
 
   return (
     <GridContainer>
       <Column>
         <ImageInputMini
-          value={selectedImage}
-          onChange={handleImageSelect}
+          value={selectedImage?.content || null}
+          onChange={setSelectedImage}
         />
 
         {selectedImage ? (
           <ImageColorPicker
             onPaletteChange={handlePaletteChange}
-            selectedImage={selectedImage}
+            selectedImage={selectedImage.content}
           /> 
         ) : (
           <ImagePlaceholder />
@@ -142,7 +151,7 @@ const PaletteFromImageMain: React.FC<PaletteFromImageProps> = ({}) => {
         </PaletteContainer>
       </Column>
 
-      {/* <ImageExamples images={exampleImages} onImageSelect={handleImageSelect} /> */}
+      <ImageExamples images={exampleImages} onImageSelect={handleImageSelect} />
     </GridContainer>
   );
 };

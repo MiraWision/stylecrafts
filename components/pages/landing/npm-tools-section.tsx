@@ -8,6 +8,7 @@ import { Column, Container, Headline, TextColumn } from './common';
 
 const libraries = [
   { name: '@mirawision/colorize', url: 'https://www.npmjs.com/package/@mirawision/colorize' },
+  { name: '@mirawision/usa-map-react', url: 'https://www.npmjs.com/package/@mirawision/usa-map-react' },
 ];
 
 const NpmToolsSection: React.FC = () => {

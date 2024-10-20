@@ -30,15 +30,14 @@ const ImageExamples: React.FC<ImageExamplesProps> = ({ images, onImageSelect }) 
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin-top: 1rem;
 `;
 
 const ImageWrapper = styled.div`
   width: 100%;
-  height: auto;
-  overflow: hidden;
+  max-width: 150px;
   cursor: pointer;
   padding-bottom: 1rem;
 `;

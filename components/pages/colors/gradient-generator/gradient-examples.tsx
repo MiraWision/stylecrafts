@@ -54,7 +54,7 @@ const GradientExamples: Gradient[] = [
   },
   {
     name: 'Aurora Borealis',
-    colors: ['#0f2027', 3, '#203a43', 3, '#2c5364']
+    colors: ['#3a1c71', 3, '#ffaf7b', 3, '#ff7e5f']
   },
   {
     name: 'Desert Dawn',

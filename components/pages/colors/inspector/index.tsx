@@ -1,10 +1,9 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Color } from '@mirawision/colorize';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-import { GAService } from '@/services/google-analytics-service';
-import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 import { ColorExamples } from './color-examples';
 import { ColorExample } from './types';
@@ -21,6 +20,8 @@ interface BaseColor {
 
 const ColorInspectorMain: React.FC = () => {
   const router = useRouter();
+  const { color: queryColor } = router.query;
+
   const [baseColors, setBaseColors] = useState<BaseColor[]>([
     { color: '#ff0000', weight: 0 },
     { color: '#ffff00', weight: 0 },
@@ -33,31 +34,17 @@ const ColorInspectorMain: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState<Color>(new Color('#ffffff'));
 
   useEffect(() => {
-    const hashColor = router.asPath.split('#')[1];
-    if (hashColor) {
-      setSelectedColor(new Color(`#${hashColor}`));
+    if (queryColor) {
+      try {
+        setSelectedColor(new Color(queryColor as string));
+      } catch {
+        setSelectedColor(new Color('#ffffff'));
+      }
     } else {
-      setSelectedColor(new Color(rybslColorsMixing(baseColors)));
+      const currentColor = new Color(rybslColorsMixing(baseColors));
+      setSelectedColor(currentColor);
     }
-  }, [router.asPath]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.location.hash = selectedColor.hex();
-    }
-  }, [selectedColor]);
-
-  const currentColor = useMemo<Color>(() => {
-    try {
-      return new Color(rybslColorsMixing(baseColors));
-    } catch {
-      return new Color('#ffffff');
-    }
-  }, [baseColors]);
-
-  useEffect(() => {
-    setSelectedColor(currentColor);
-  }, [currentColor]);
+  }, [queryColor, baseColors]);
 
   const updateWeight = (index: number, weight: number) => {
     if (weight < 0) {
@@ -86,13 +73,19 @@ const ColorInspectorMain: React.FC = () => {
   };
 
   const handleColorInputChange = (newColor: string) => {
-    const updatedColor = new Color(newColor);
-    setSelectedColor(updatedColor);
+    try {
+      const updatedColor = new Color(newColor);
+      setSelectedColor(updatedColor);
+    } catch (error) {
+      console.error('Invalid color format:', error);
+      alert('Invalid color format. Please enter a valid color.');
+    }
   };
+
 
   return (
     <MainContainer>
-      <TwoColumnsContainer>
+      <TwoColumnsContainer ratio="1fr 2fr">
         <Column>
           <ColorInputBig
             value={selectedColor.hex()}
@@ -108,6 +101,11 @@ const ColorInspectorMain: React.FC = () => {
       <ColorListContainer>
         <ColorExamples onColorSelect={selectColorExample} />
       </ColorListContainer>
+      <LinkContainer>
+        <Link href="/cheatsheets/colors-swatches" passHref>
+          <StyledLink>View Color Swatches</StyledLink>
+        </Link>
+      </LinkContainer>
     </MainContainer>
   );
 };
@@ -129,6 +127,21 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const LinkContainer = styled.div`
+  margin-top: 2rem;
+`;
+
+const StyledLink = styled.a`
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 export { ColorInspectorMain };

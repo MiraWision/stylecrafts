@@ -7,57 +7,90 @@ import { CrossCircleIcon } from '@/components/icons/cross-circle';
 interface ContrastStatusProps {
   textColor: string;
   bgColor: string;
-  isDescription: boolean;
-  isBackground: boolean;
 }
 
-const ContrastStatus: React.FC<ContrastStatusProps> = ({
-  textColor,
-  bgColor,
-  isDescription,
-}) => {
-  const { contrast } = checkContrast(textColor, bgColor);
-  
-  const aaThreshold = isDescription ? 4.5 : 3.0;
-  const aaaThreshold = isDescription ? 7.0 : 4.5;
+const ContrastStatus: React.FC<ContrastStatusProps> = ({ textColor, bgColor }) => {
+  const { contrast, isHeaderSuitableForAA, isHeaderSuitableForAAA, isTextSuitableForAA, isTextSuitableForAAA, isObjectSuitable } = checkContrast(textColor, bgColor);
 
-  const isAA = contrast >= aaThreshold;
-  const isAAA = contrast >= aaaThreshold;
-
-  const getStatusMessage = () => {
-    if (isDescription) {
-      return isAA && isAAA ? 'Suitable for description!' : 'Not suitable for description!';
-    }
-    return isAA && isAAA ? 'Suitable for the title!' : 'Not suitable for the title!';
-  };
-
-  const getContrastRatios = () => (
+  const getTitleStatus = () => (
     <>
       <Ratio>
-        {isAA ? (
-          <CheckmarkIcon stroke='green' /> 
+        {isHeaderSuitableForAA ? (
+          <CheckmarkIcon stroke="green" />
         ) : (
-          <CrossCircleIcon stroke='red' />
+          <CrossCircleIcon stroke="red" />
         )}
-        
-        <RatioText>AA — {aaThreshold}:1</RatioText>
+        <RatioText>Title AA — 3:1</RatioText>
       </Ratio>
       <Ratio>
-        {isAAA ? (
-          <CheckmarkIcon stroke='green' /> 
+        {isHeaderSuitableForAAA ? (
+          <CheckmarkIcon stroke="green" />
         ) : (
-          <CrossCircleIcon stroke='red' />
+          <CrossCircleIcon stroke="red" />
         )}
+        <RatioText>Title AAA — 4.5:1</RatioText>
+      </Ratio>
+    </>
+  );
 
-        <RatioText>AAA — {aaaThreshold}:1</RatioText>
+  const getDescriptionStatus = () => (
+    <>
+      <Ratio>
+        {isTextSuitableForAA ? (
+          <CheckmarkIcon stroke="green" />
+        ) : (
+          <CrossCircleIcon stroke="red" />
+        )}
+        <RatioText>Description AA — 4.5:1</RatioText>
+      </Ratio>
+      <Ratio>
+        {isTextSuitableForAAA ? (
+          <CheckmarkIcon stroke="green" />
+        ) : (
+          <CrossCircleIcon stroke="red" />
+        )}
+        <RatioText>Description AAA — 7:1</RatioText>
+      </Ratio>
+    </>
+  );
+
+  const getObjectStatus = () => (
+    <>
+      <Ratio>
+        {isObjectSuitable ? (
+          <CheckmarkIcon stroke="green" />
+        ) : (
+          <CrossCircleIcon stroke="red" />
+        )}
+        <RatioText>Object AA — 3:1</RatioText>
+      </Ratio>
+      <Ratio>
+        {contrast >= 4.5 ? (
+          <CheckmarkIcon stroke="green" />
+        ) : (
+          <CrossCircleIcon stroke="red" />
+        )}
+        <RatioText>Object AAA — 4.5:1</RatioText>
       </Ratio>
     </>
   );
 
   return (
     <ContrastStatusContainer>
-      <StatusMessage $isSuitable={isAA && isAAA}>{getStatusMessage()}</StatusMessage>
-      <ContrastRatios>{getContrastRatios()}</ContrastRatios>
+      <ContrastSection>
+        <SectionTitle>Title Contrast</SectionTitle>
+        {getTitleStatus()}
+      </ContrastSection>
+
+      <ContrastSection>
+        <SectionTitle>Description Contrast</SectionTitle>
+        {getDescriptionStatus()}
+      </ContrastSection>
+
+      <ContrastSection>
+        <SectionTitle>Object Contrast</SectionTitle>
+        {getObjectStatus()}
+      </ContrastSection>
     </ContrastStatusContainer>
   );
 };
@@ -67,25 +100,22 @@ const ContrastStatusContainer = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
   width: 100%;
 `;
 
-const StatusMessage = styled.p.attrs<{ $isSuitable: boolean }>(({ $isSuitable }) => ({
-  style: {
-    color: $isSuitable ? 'green' : 'red',
-  },
-}))`
-  font-size: 1rem;
-  font-weight: bold;
-  margin: 0;
+const ContrastSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 
-const ContrastRatios = styled.div`
-  display: flex;
-  gap: 2rem;
-  margin-top: 0.5rem;
+const SectionTitle = styled.h4`
+  margin: 0;
+  font-size: 1rem;
+  color: #333333;
+  font-weight: bold;
 `;
 
 const Ratio = styled.div`
@@ -94,17 +124,9 @@ const Ratio = styled.div`
   gap: 0.5rem;
 `;
 
-const RatioIcon = styled.i.attrs<{ $isSuitable: boolean }>(({ $isSuitable }) => ({
-  style: {
-    color: $isSuitable ? 'green' : 'red',
-  },
-}))`
-  font-size: 1.5rem;
-`;
-
 const RatioText = styled.span`
   font-size: 1rem;
   color: #333333;
 `;
 
-export  { ContrastStatus };
+export { ContrastStatus };

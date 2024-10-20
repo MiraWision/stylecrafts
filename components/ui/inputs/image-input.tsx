@@ -147,6 +147,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
       className={className} 
       onMouseEnter={() => setIsHovered(true)} 
       onMouseLeave={() => setIsHovered(false)}
+      onClick={triggerFileInputClick}
     >
       {isDragging && (
         <Overlay>
@@ -156,12 +157,7 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
 
       {value && isHovered && (
         <Overlay>
-          <Button 
-            className="p-button-rounded p-button-primary" 
-            onClick={triggerFileInputClick}
-          >
-            <UploadIcon width="36" height="36" />
-          </Button>
+          <Text>Click to upload another image</Text>
         </Overlay>
       )}
 
@@ -234,28 +230,6 @@ const Overlay = styled.div`
   align-items: center;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.5);
-
-  .p-button {
-    width: 4rem;
-    height: 4rem;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--primary-color);
-    border: none;
-  }
-
-  .icon * {
-    stroke: #ffffff;
-  }
-
-  @media (max-width: 768px) {
-    .p-button {
-      width: 2rem;
-      height: 2rem;
-    }
-  }
 `;
 
 const Image = styled.img`

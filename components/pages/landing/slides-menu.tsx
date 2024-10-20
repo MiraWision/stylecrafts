@@ -7,20 +7,21 @@ interface Props {
   onSlideChange: (index: number) => void;
 }
 
-const SlidesMenu: React.FC<Props> = ({ slidesCount, currentSlideIndex, onSlideChange }) => {
+const SlidesMenu: React.FC<Props> = ({
+  slidesCount,
+  currentSlideIndex,
+  onSlideChange,
+}) => {
   return (
     <Container>
       {Array.from({ length: slidesCount }).map((_, index) => (
-        <SlideWrapper
-          key={index}
-          onClick={() => index !== currentSlideIndex && onSlideChange(index)}
-        >
+        <SlideWrapper key={index} onClick={() => onSlideChange(index)}>
           <Slide $isActive={index === currentSlideIndex} />
         </SlideWrapper>
       ))}
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   display: flex;
@@ -42,7 +43,7 @@ const SlideWrapper = styled.div`
 
 const Slide = styled.div.attrs<{ $isActive: boolean }>(({ $isActive }) => ({
   className: $isActive ? 'active' : '',
-}))`
+}))<{ $isActive: boolean }>`
   width: 0.25rem;
   height: 0.25rem;
   border-radius: 0.25rem;
@@ -62,6 +63,5 @@ const Slide = styled.div.attrs<{ $isActive: boolean }>(({ $isActive }) => ({
     }
   }
 `;
-
 
 export { SlidesMenu };

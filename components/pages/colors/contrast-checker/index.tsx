@@ -1,115 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { checkContrast } from '@/utils/check-contrast';
-import { ColorCard } from '@/components/pages/colors/contrast-checker/color-card';
-import { ContrastStatus } from '@/components/pages/colors/contrast-checker/contrast-status';
-import { TemplateCard } from '@/components/pages/colors/contrast-checker/template-card';
+import { ColorCard } from './color-card';
+import { ContrastStatus } from './contrast-status';
+import { TemplateCard } from './template-card';
 import { ColorPalette } from './example-palette';
-import { colorPalettes } from './examples';
-
-const getRandomColorFromPalettes = () => {
-  let textColor, bgColor, contrastRatio;
-
-  do {
-    const textGroup = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
-    const bgGroup = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
-
-    textColor = textGroup.colors[Math.floor(Math.random() * textGroup.colors.length)].hex;
-    bgColor = bgGroup.colors[Math.floor(Math.random() * bgGroup.colors.length)].hex;
-
-    contrastRatio = checkContrast(textColor, bgColor).contrast;
-  } while (contrastRatio <= 5);
-
-  return { textColor, bgColor };
-};
-
-const getValidTextColor = (bgColor: string) => {
-  let textColor, contrastRatio;
-
-  do {
-    const textGroup = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
-    textColor = textGroup.colors[Math.floor(Math.random() * textGroup.colors.length)].hex;
-    contrastRatio = checkContrast(textColor, bgColor).contrast;
-  } while (contrastRatio <= 5);
-
-  return textColor;
-};
-
-const getValidBgColor = (textColor: string) => {
-  let bgColor, contrastRatio;
-
-  do {
-    const bgGroup = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
-    bgColor = bgGroup.colors[Math.floor(Math.random() * bgGroup.colors.length)].hex;
-    contrastRatio = checkContrast(textColor, bgColor).contrast;
-  } while (contrastRatio <= 5);
-
-  return bgColor;
-};
+import { adjustColorForContrast } from '@/utils/adjust-color-for-contrast';
 
 const ColorContrast: React.FC = () => {
-  const [{ textColor, bgColor }, setColors] = useState<{ textColor: string, bgColor: string }>({ textColor: '', bgColor: '' });
+  const [{ textColor, bgColor }, setColors] = useState<{ textColor: string; bgColor: string }>({
+    textColor: '#000000',
+    bgColor: '#FFFFFF',
+  });
 
-  useEffect(() => {
-    setColors(getRandomColorFromPalettes());
-  }, []);
-
-  const handleTextColorChange = () => {
-    setColors(prev => ({ ...prev, textColor: getValidTextColor(prev.bgColor) }));
+  const handleTextColorChange = (color: string) => {
+    setColors((prev) => ({ ...prev, textColor: color }));
   };
 
-  const handleBgColorChange = () => {
-    setColors(prev => ({ ...prev, bgColor: getValidBgColor(prev.textColor) }));
+  const handleBgColorChange = (color: string) => {
+    setColors((prev) => ({ ...prev, bgColor: color }));
   };
 
   const handleColorPaletteSelect = (background: string, text: string) => {
     setColors({ bgColor: background, textColor: text });
   };
 
-  const handleReverseColors = () => {
-    setColors(prev => ({ textColor: prev.bgColor, bgColor: prev.textColor }));
+  const handleSelectContrastForTextColor = () => {
+    const newTextColor = adjustColorForContrast(textColor, bgColor);
+    setColors((prev) => ({ ...prev, textColor: newTextColor }));
+  };
+
+  const handleSelectContrastForBgColor = () => {
+    const newBgColor = adjustColorForContrast(bgColor, textColor);
+    setColors((prev) => ({ ...prev, bgColor: newBgColor }));
   };
 
   return (
     <>
       <GridContainer>
-        <ColorCardWrapper>
-          <ColorCard 
-            color={bgColor} 
-            label="Change background color" 
-            onRandomColor={handleBgColorChange} 
-            onColorChange={handleBgColorChange} 
+        <ColumnContainer>
+          <ColorCard
+            color={bgColor}
+            label="Change background color"
+            onColorChange={handleBgColorChange}
+            onSelectContrastColor={handleSelectContrastForBgColor}
           />
+          <ColorCard
+            color={textColor}
+            label="Change text color"
+            onColorChange={handleTextColorChange}
+            onSelectContrastColor={handleSelectContrastForTextColor}
+          />
+        </ColumnContainer>
 
-          <ContrastStatus 
-            textColor={bgColor} 
-            bgColor={textColor} 
-            isDescription={false} 
-            isBackground={true} 
-          />
-        </ColorCardWrapper>
-
-        <ColorCardWrapper>
-          <ColorCard 
-            color={textColor} 
-            label="Change text color" 
-            onRandomColor={handleTextColorChange} 
-            onColorChange={handleTextColorChange} 
-          />
-
-          <ContrastStatus 
-            textColor={textColor} 
-            bgColor={bgColor} 
-            isDescription={true} 
-            isBackground={false} 
-          />
-        </ColorCardWrapper>
+        <ColumnContainer>
+          <ContrastStatus textColor={textColor} bgColor={bgColor} />
+        </ColumnContainer>
       </GridContainer>
 
       <PreviewContainer>
         <TemplateCard textColor={textColor} backgroundColor={bgColor} />
       </PreviewContainer>
-      
+
       <ColorPalette onSelect={handleColorPaletteSelect} />
     </>
   );
@@ -122,33 +73,17 @@ const GridContainer = styled.div`
   margin-top: 2rem;
 `;
 
-const PreviewContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-`;
-
-const ColorCardWrapper = styled.div`
+const ColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-top: 1.5rem;
 `;
 
-const InfoText = styled.p`
+const PreviewContainer = styled.div`
+  display: flex;
+  justify-content: center;
   margin-top: 2rem;
-  font-size: 1rem;
-  color: #6c757d;
-  text-align: center;
-`;
-
-const WCAGLink = styled.a`
-  color: blue;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 export default ColorContrast;

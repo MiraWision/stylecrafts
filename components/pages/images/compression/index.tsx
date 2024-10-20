@@ -1,15 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
-
 import { compressImage } from '@/api/images';
-
-import { Button } from 'primereact/button';
 import { ImageWithDownload } from '@/components/ui/images/image-with-download';
 import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 import { ImageInput, ImageData } from '@/components/ui/inputs/image-input';
 import { ImageType } from '@/types/image-types';
 import { Label } from '@/components/ui/texts/label';
 import { DownloadTextButton } from '@/components/ui/text-buttons/download-text-button';
+import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button';
 
 interface CompressedImage {
   content: string;
@@ -42,18 +40,14 @@ type CompressionLevel = 'minimal' | 'optimal' | 'maximum';
 
 const ImageCompressionMain: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<ImageData | null>(null);
-
   const [compressedImage, setCompressedImage] = useState<CompressedImage | null>(null);
-
   const [compressionLevel, setCompressionLevel] = useState<CompressionLevel>('optimal');
-
   const [loading, setLoading] = useState<boolean>(false);
 
   const compressionPercentage = useMemo(() => {
     if (originalImage?.fileMetaData?.size && compressedImage?.size) {
       return Math.round((1 - (compressedImage.size / originalImage.fileMetaData.size)) * 100);
     }
-
     return null;
   }, [originalImage, compressedImage]);
 
@@ -72,31 +66,16 @@ const ImageCompressionMain: React.FC = () => {
   }, [compressionLevel]);
 
   const handleImageCompression = async (compressionLevel: string) => {
-    if (!originalImage) {
-      return;
-    }
-
+    if (!originalImage) return;
     const imageFile = convertImageToFile();
-
-    if (!imageFile) {
-      return;
-    }
-
+    if (!imageFile) return;
+    
     try {
       setLoading(true);
-
-      const response = await compressImage(
-        imageFile,
-        originalImage.fileMetaData?.type as ImageType,
-        compressionLevel,
-      );
-
+      const response = await compressImage(imageFile, originalImage.fileMetaData?.type as ImageType, compressionLevel);
       setLoading(false);
-
       const { image, size } = response;
-
       const content = `data:${originalImage.fileMetaData?.type};base64,${image}`;
-
       setCompressedImage({ content, size });
     } catch (error) {
       console.error('Error compressing image:', error);
@@ -104,40 +83,48 @@ const ImageCompressionMain: React.FC = () => {
   };
 
   const convertImageToFile = (): File | null => {
-    if (!originalImage || !originalImage.content || !originalImage.fileMetaData?.type) {
-      return null;
-    }
-
+    if (!originalImage || !originalImage.content || !originalImage.fileMetaData?.type) return null;
     const byteString = atob(originalImage.content.split(',')[1]);
-
     const mimeString = originalImage.content.split(',')[0].split(':')[1].split(';')[0];
-    
     const ab = new ArrayBuffer(byteString.length);
-    
     const ia = new Uint8Array(ab);
-
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    
     const blob = new Blob([ab], { type: mimeString });
-
-    const file = new File([blob], originalImage?.fileMetaData?.name, { type: originalImage?.fileMetaData?.type });
-    
-    return file;
+    return new File([blob], originalImage?.fileMetaData?.name, { type: originalImage?.fileMetaData?.type });
   };
 
-  const handleDownloadImage = () => {
-    if (!compressedImage?.content) {
-      return;
+  const handleFileSelect = (file: File | null) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const content = reader.result as string;
+  
+        if (Object.values(ImageType).includes(file.type as ImageType)) {
+          setOriginalImage({
+            content,
+            fileMetaData: {
+              name: file.name,
+              size: file.size,
+              type: file.type as ImageType, 
+              lastModified: file.lastModified,
+            },
+          });
+        } else {
+          console.error("Unsupported file type:", file.type);
+        }
+      };
+      reader.readAsDataURL(file);
     }
-
+  };
+  
+  
+  const handleDownloadImage = () => {
+    if (!compressedImage?.content) return;
     const link = document.createElement('a');
-
     link.href = compressedImage.content;
-
-    link.download = originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-compressd$&') ?? 'compressd-image';
-
+    link.download = originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-compressed$&') ?? 'compressed-image';
     link.click();
   };
 
@@ -154,9 +141,7 @@ const ImageCompressionMain: React.FC = () => {
               onClick={() => setCompressionLevel(option.value)}
             >
               <h4>{option.label}</h4>
-
               <p>~{option.compression}% Compression</p>
-
               <RadioCircle 
                 $checked={compressionLevel === option.value}
               />
@@ -174,7 +159,6 @@ const ImageCompressionMain: React.FC = () => {
               value={originalImage?.content ?? null} 
               onChange={setOriginalImage} 
             />
-
             {originalImage?.content && (
               <>
                 <TextOverlayTop>{originalImage?.fileMetaData?.size ? `${(originalImage?.fileMetaData?.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayTop>
@@ -187,11 +171,9 @@ const ImageCompressionMain: React.FC = () => {
               <>
                 <ImageWithDownloadStyled
                   image={compressedImage.content}
-                  fileName={originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-compressd$&')}
+                  fileName={originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-compressed$&')}
                 />
-
                 <TextOverlayTop>{compressedImage.size ? `${(compressedImage.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayTop>
-                
                 {compressionPercentage !== null && (
                   <CompressionTag>{compressionPercentage}% Saved</CompressionTag>
                 )}
@@ -203,8 +185,11 @@ const ImageCompressionMain: React.FC = () => {
         </ImagesContainer>
 
         <ImagesContainer>
-
           <DownloadButtonContainer>
+            <UploadTextButton 
+              text='Upload Image'
+              onFileSelect={handleFileSelect}
+            />
             {compressedImage?.content && (
               <DownloadTextButton
                 text='Download Image'
@@ -217,6 +202,8 @@ const ImageCompressionMain: React.FC = () => {
     </Container>
   );
 };
+
+// Стили
 
 const Container = styled.div`
   width: 100%;
@@ -255,9 +242,11 @@ const ImagePlaceholderStyled = styled(ImagePlaceholder)`
 `;
 
 const DownloadButtonContainer = styled.div`
-  width: 50%;
-  display: flex;
-  justify-content: center;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
 `;
 
 const TextOverlay = styled.div`

@@ -8,6 +8,7 @@ interface HeaderProps {
   backgroundColor: string;
   contrastRatio: string;
   onReverseColors: () => void;
+  title: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -15,11 +16,12 @@ const Header: React.FC<HeaderProps> = ({
   backgroundColor,
   contrastRatio,
   onReverseColors,
+  title,
 }) => {
   return (
     <Container>
       <Content>
-        <Title $color={textColor}>This is a preview</Title>
+        <Title $color={textColor}>{title}</Title>
         <Subtitle $color={textColor}>
           Here is a preview of a color combination applied to a real-life example.
         </Subtitle>

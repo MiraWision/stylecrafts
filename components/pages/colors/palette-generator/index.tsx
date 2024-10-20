@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
-
 import { PaletteColor, Shade } from './types';
-
 import { ColorSelector } from './color-selector';
 import { ShadesList } from './shades-list';
 import { Palette } from './palette';
-import { Examples } from './examples';
-import { ContrastChecker } from './contrast-checker';
-import { TemplateCard } from './palette-preview';
-import { ColorPicker } from '@/components/ui/inputs/color-picker';
+import { ContrastChecker } from './preview/contrast-checker';
+import { Preview } from './preview/preview';
 
 const initialColors: PaletteColor[] = [
   { baseColor: '#f5f5f5', title: 'Background', shades: [] },
@@ -34,14 +30,43 @@ const PaletteGeneratorMain: React.FC = () => {
     setSelectedColors(updatedColors);
   };
 
-  const handleExampleClick = (exampleColors: PaletteColor[]) => {
-    setSelectedColors(exampleColors);
+  const handleAddColor = () => {
+    if (selectedColors.length < 7) {
+      setSelectedColors([
+        ...selectedColors,
+        { baseColor: '#ff6600', title: 'Additional Color', shades: [] },
+      ]);
+    }
   };
 
-  const backgroundColor = selectedColors.find(color => color.title === 'Background')?.baseColor || '#ffffff';
-  const textColor = selectedColors.find(color => color.title === 'Text')?.baseColor || '#000000';
-  const accentColor = selectedColors.find(color => color.title === 'Accent')?.baseColor || '#ff0000';
-  const primaryColor = selectedColors.find(color => color.title === 'Primary')?.baseColor || '#00ff00';
+  const handleRemoveColor = (index: number) => {
+    const updatedColors = selectedColors.filter((_, i) => i !== index);
+    setSelectedColors(updatedColors);
+  };
+
+  const downloadFile = (filename: string, content: string, contentType: string) => {
+    const blob = new Blob([content], { type: contentType });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  };
+
+  const exportToCSS = () => {
+    const cssVariables = selectedColors.map(
+      color => `--${color.title.toLowerCase()}: ${color.baseColor};`
+    ).join('\n');
+    downloadFile('palette.css', `:root {\n${cssVariables}\n}`, 'text/css');
+  };
+
+  const exportToJSON = () => {
+    const json = JSON.stringify(selectedColors, null, 2);
+    downloadFile('palette.json', json, 'application/json');
+  };
+
+  const exportToSVG = () => {
+    // Export logic as before...
+  };
 
   return (
     <Container>
@@ -50,32 +75,37 @@ const PaletteGeneratorMain: React.FC = () => {
           <ColorSelector
             selectedColors={selectedColors}
             onColorChange={handleColorChange}
+            onRemoveColor={handleRemoveColor}
           />
+          {selectedColors.length < 7 && (
+            <AddColorButton onClick={handleAddColor}>
+              +
+            </AddColorButton>
+          )}
         </Column>
 
         <Column>
-          <ShadesList 
-            selectedColors={selectedColors} 
+          <ShadesList
+            selectedColors={selectedColors}
             onAddShade={handleAddShade}
           />
         </Column>
       </MainContent>
 
-      <Palette 
+      <Palette
         selectedColors={selectedColors}
+        onRemoveColor={handleRemoveColor}
       />
 
-      <ContrastChecker 
-        selectedColors={selectedColors} 
-      />
+      <ExportButtons>
+        <ExportButton onClick={exportToCSS}>Export to CSS</ExportButton>
+        <ExportButton onClick={exportToJSON}>Export to JSON</ExportButton>
+        <ExportButton onClick={exportToSVG}>Export to SVG</ExportButton>
+      </ExportButtons>
 
-      <TemplateCard 
-        bgColor={backgroundColor}
-        textColor={textColor}
-        accentColor={accentColor}
-        additionalColor={primaryColor}
-      />
-      
+      <ContrastChecker selectedColors={selectedColors} />
+
+      <Preview palette={selectedColors} />
     </Container>
   );
 };
@@ -94,6 +124,46 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+`;
+
+const AddColorButton = styled.button`
+  background-color: #f5f5f5;
+  color: black;
+  padding: 7px;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 10px;
+  border: none;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
+
+const ExportButtons = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+`;
+
+const ExportButton = styled.button`
+  padding: 10px 15px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #c0392b;
+  }
 `;
 
 export { PaletteGeneratorMain };

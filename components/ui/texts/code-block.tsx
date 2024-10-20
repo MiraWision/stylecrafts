@@ -95,6 +95,7 @@ const Container = styled.div.attrs<{ $isDark: boolean }>(({ $isDark }) => ({
 
 const Text = styled.pre`
   margin: 0;
+  font-size: 0.9rem;
 `;
 
 export { CodeBlock };

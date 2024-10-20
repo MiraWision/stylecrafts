@@ -2,15 +2,12 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import { calculateSimilarity } from '@mirawision/colorize/calculate-similarity';
 
-import {
-  getDifficulty,
-  getRandomColor
-} from './utils';
+import { getDifficulty, getRandomColor } from './utils';
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 import { Level, Difficulty, SelectedColor } from './types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { PaletteColors, PracticeLevelOptions, ChallengeLevelOptions } from './data';
+import { PaletteColors, PracticeLevelOptions } from './data';
 
 import { ColorsPreview } from '@/components/pages/games/guess-color-blend/colors-preview';
 import { Label } from '@/components/ui/texts/label';
@@ -45,7 +42,9 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
       return '';
     }
 
-    return rybslColorsMixing(selectedColors.filter((color) => color.weight > 0).map((color) => ({ color: color.hex, weight: color.weight })));
+    return rybslColorsMixing(
+      selectedColors.filter((color) => color.weight > 0).map((color) => ({ color: color.hex, weight: color.weight }))
+    );
   }, [selectedColors]);
 
   const matchPercentage = useMemo<number>(() => {
@@ -93,7 +92,7 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
       handleTime.adjustTime(currentDropsCount.current);
       setTimeout(() => {
         nextGame();
-      }, 500); // Auto-continue after 0.5 seconds
+      }, 500); // Автоматический переход через 0.5 секунды
     }
 
     if (isMatched) {
@@ -197,17 +196,15 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
         </DifficultyButtonsContainer>
       )}
 
-      <ChallengeContainer>
-        {isChallenge && (
-          <>
-            <ScoreContainer>
-              Score: {score}
-              {topScore > 0 && <TopScore>Top Score: {topScore}</TopScore>}
-            </ScoreContainer>
-            <Time>{formatTime(remainingTime)}</Time>
-          </>
-        )}
-      </ChallengeContainer>
+      {isChallenge && (
+        <ChallengeContainer>
+          <ScoreContainer>
+            Score: {score}
+            {topScore > 0 && <TopScore>Top Score: {topScore}</TopScore>}
+          </ScoreContainer>
+          <Time>{formatTime(remainingTime)}</Time>
+        </ChallengeContainer>
+      )}
 
       <ContentContainer>
         <ColorsPreview

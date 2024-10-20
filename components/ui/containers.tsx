@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+interface TwoColumnsContainerProps {
+  ratio?: string;
+}
+
+
 const FullSizeContainer = styled.div`
   width: 100%;
   display: flex;
@@ -25,10 +30,10 @@ const SingleColumnContainer = styled.div`
   gap: 1rem;
 `;
 
-const TwoColumnsContainer = styled.div`
+const TwoColumnsContainer = styled.div<TwoColumnsContainerProps>`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: ${({ ratio }) => ratio || '1fr 1fr'};
   grid-column-gap: 2rem;
   margin: 2rem auto;
 
@@ -36,6 +41,7 @@ const TwoColumnsContainer = styled.div`
     grid-template-columns: 1fr;
   }
 `;
+
 
 export {
   FullSizeContainer,

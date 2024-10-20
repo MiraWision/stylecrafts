@@ -46,13 +46,46 @@ const HomePage: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSection, setCurrentSection] = useState(0);
 
+  const handleScroll = () => {
+    const sections = containerRef.current?.children;
+    if (sections) {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const viewportHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+  
+      let newCurrentSection = 0;
+  
+      Array.from(sections).forEach((section, index) => {
+        const sectionTop = section.getBoundingClientRect().top + scrollTop;
+        const sectionHeight = section.clientHeight;
+  
+        if (scrollTop >= sectionTop - sectionHeight / 2) {
+          newCurrentSection = index;
+        }
+      });
+  
+      if (scrollTop + viewportHeight >= documentHeight) {
+        newCurrentSection = Sections.length - 1;
+      }
+  
+      setCurrentSection(newCurrentSection);
+    }
+  };
+  
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const scrollToSection = (index: number) => {
     if (index >= 0 && index < Sections.length + 1) {
       const targetSection = containerRef.current?.children?.[index];
 
       if (targetSection) {
         targetSection.scrollIntoView({ behavior: 'smooth' });
-
         setCurrentSection(index);
       }
     }
@@ -62,25 +95,29 @@ const HomePage: React.FC = () => {
     <>
       <MetaTags {...metaTags} />
 
-        <MainContainer ref={containerRef}>      
-          <Section id='Hero' $isFullHeight>
-            <HeroSection />
+      <MainContainer ref={containerRef}>
+        <Section id='Hero' $isFullHeight>
+          <HeroSection />
+        </Section>
+
+        {Sections.map((section, index) => (
+          <Section 
+            key={section.title} 
+            id={section.title} 
+            $isFullHeight={false} 
+            $isLast={index === Sections.length - 1}
+          >
+            {section.renderComponent()}
           </Section>
+        ))}
+      </MainContainer>
 
-          {Sections.map((section) => (
-            <Section key={section.title} id={section.title} $isFullHeight={false}>
-              {section.renderComponent()}
-            </Section>
-          ))}
-        </MainContainer>
-
-        <SlidesMenu 
-          slidesCount={Sections.length + 1}
-          currentSlideIndex={currentSection}
-          onSlideChange={scrollToSection}
-        />
-
-    </> 
+      <SlidesMenu 
+        slidesCount={Sections.length}
+        currentSlideIndex={currentSection}
+        onSlideChange={scrollToSection}
+      />
+    </>
   );
 };
 
@@ -91,14 +128,14 @@ const MainContainer = styled.div`
   margin: -1.5rem;
 `;
 
-const Section = styled.section.attrs<{ $isFullHeight?: boolean }>(({ $isFullHeight = true }) => ({
+const Section = styled.section.attrs<{ $isFullHeight?: boolean; $isLast?: boolean }>(({ $isFullHeight = true }) => ({
   style: {
     height: $isFullHeight ? '100vh' : 'auto',
   },
-}))`
+}))<{ $isLast?: boolean }>`
   width: 100%;
   display: flex;
-  padding: 1.5rem;
+  padding: ${({ $isLast }) => ($isLast ? '1.5rem 1.5rem 0 1.5rem' : '1.5rem')};
   justify-content: center;
   overflow: hidden;
 `;

@@ -48,7 +48,7 @@ const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
       </Sidebar>
 
       <Content>
-        <ThemeButton />
+        {/* <ThemeButton /> */}
         
         <Overlay $isOpen={isSidebarOpen} onClick={toggleSidebar} />
         

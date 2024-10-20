@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-import { checkContrast } from '@/utils/check-contrast';
-
 import { Button } from 'primereact/button';
-import { TemplateReview } from './template-review';
 import { Header } from '@/components/pages/colors/contrast-checker/header';
+import { checkContrast } from '@/utils/check-contrast';
 
 interface TemplateCardProps {
   textColor: string;
@@ -33,30 +30,39 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ textColor, backgroundColor 
       <Header
         textColor={currentTextColor}
         backgroundColor={currentBackgroundColor}
+        title="Contact Us"
         contrastRatio={contrastRatio}
         onReverseColors={handleReverseColors}
       />
-      <Divider $color={currentTextColor} />
       <Paragraph $color={currentTextColor}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        We would love to hear from you! Please fill out the form below and we will get in touch with you shortly.
       </Paragraph>
-      <Row>
-        <StyledButtonFill label='Button' $color={currentBackgroundColor} $backgroundColor={currentTextColor} />
-        <StyledButtonOutline label='Button' $color={currentTextColor} />
-      </Row>
-      <Quote $color={currentTextColor}>
-        The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a footer or cite element.
-        <cite>
-          Someone famous in <a href='#' style={{ color: currentTextColor }}>Source Title</a>
-        </cite>
-      </Quote>
-      <TemplateReview
-        textColor={currentTextColor}
-        backgroundColor={currentBackgroundColor}
-        title='Gradients.app'
-        date='23.06.2024'
-        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'
-      />
+      <Form>
+        <InputWrapper>
+          <Label $color={currentTextColor}>Name</Label>
+          <StyledInput type="text" placeholder="Your name" $backgroundColor={currentBackgroundColor} $color={currentTextColor} />
+        </InputWrapper>
+        <InputWrapper>
+          <Label $color={currentTextColor}>Email</Label>
+          <StyledInput type="email" placeholder="Your email" $backgroundColor={currentBackgroundColor} $color={currentTextColor} />
+        </InputWrapper>
+        <InputWrapper>
+          <Label $color={currentTextColor}>Recipient</Label>
+          <StyledInput type="text" placeholder="Recipient" $backgroundColor={currentBackgroundColor} $color={currentTextColor} />
+        </InputWrapper>
+        <InputWrapper>
+          <Label $color={currentTextColor}>Subject</Label>
+          <StyledInput type="text" placeholder="Subject" $backgroundColor={currentBackgroundColor} $color={currentTextColor} />
+        </InputWrapper>
+        <InputWrapper>
+          <Label $color={currentTextColor}>Message</Label>
+          <StyledTextarea placeholder="Your message" $backgroundColor={currentBackgroundColor} $color={currentTextColor}></StyledTextarea>
+        </InputWrapper>
+        <ButtonRow>
+          <StyledButtonFill label="Send" $color={currentBackgroundColor} $backgroundColor={currentTextColor} />
+          <StyledButtonOutline label="Cancel" $color={currentTextColor} />
+        </ButtonRow>
+      </Form>
     </Card>
   );
 };
@@ -68,23 +74,13 @@ const Card = styled.div.attrs<{ $backgroundColor: string, $color: string }>(({ $
   },
 }))`
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 2rem;
   width: 100%;
+  max-width: 500px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 20px 40px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Divider = styled.hr.attrs<{ $color: string }>(({ $color }) => ({
-  style: {
-    borderTopColor: $color,
-  },
-}))`
-  border: none;
-  border-top: 1px solid;
-  margin: 1rem 0;
-  width: 100%;
 `;
 
 const Paragraph = styled.p.attrs<{ $color: string }>(({ $color }) => ({
@@ -93,22 +89,63 @@ const Paragraph = styled.p.attrs<{ $color: string }>(({ $color }) => ({
   },
 }))`
   margin: 1rem 0;
-  position: relative;
-
-  &::first-letter {
-    font-size: 4rem;
-    font-weight: bold;
-    float: left;
-    margin-right: 0.5rem;
-    line-height: 1;
-  }
+  text-align: center;
 `;
 
-const Row = styled.div`
+const Form = styled.div`
+  width: 100%;
+  margin-top: 1rem;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   gap: 1rem;
-  margin: 1rem 0;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Label = styled.label.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    color: $color,
+  },
+}))`
+  margin-bottom: 0.5rem;
+`;
+
+const StyledInput = styled.input.attrs<{ $backgroundColor: string; $color: string }>(({ $backgroundColor, $color }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    color: $color,
+  },
+}))`
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  width: 100%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledTextarea = styled.textarea.attrs<{ $backgroundColor: string; $color: string }>(({ $backgroundColor, $color }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    color: $color,
+  },
+}))`
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  width: 100%;
+  height: 150px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
   width: 100%;
 `;
 
@@ -119,6 +156,7 @@ const StyledButtonFill = styled(Button).attrs<{ $color: string, $backgroundColor
   },
 }))`
   border: none !important;
+  width: 48%;
 `;
 
 const StyledButtonOutline = styled(Button).attrs<{ $color: string }>(({ $color }) => ({
@@ -128,29 +166,7 @@ const StyledButtonOutline = styled(Button).attrs<{ $color: string }>(({ $color }
   },
 }))`
   background: none !important;
-`;
-
-const Quote = styled.blockquote.attrs<{ $color: string }>(({ $color }) => ({
-  style: {
-    borderLeftColor: $color,
-    color: $color,
-  },
-}))`
-  border-left: 4px solid;
-  padding-left: 1rem;
-  margin: 1rem 0;
-  font-style: italic;
-  width: 100%;
-
-  cite {
-    display: block;
-    margin-top: 0.5rem;
-    font-style: normal;
-  }
-
-  a {
-    text-decoration: underline;
-  }
+  width: 48%;
 `;
 
 export { TemplateCard };

@@ -20,18 +20,21 @@ const featureCardData = [
     Icon: PaletteGenerationIcon,
     title: 'Palette Generator',
     description: 'Instantly create beautiful and harmonious color palettes or simply find inspiration',
+    iconSize: '3rem',
   },
   {
     href: Routes.ColorsGradientGeneratorTool,
     Icon: GradientGenerationIcon,
     title: 'Gradient Generator',
     description: 'Create stunning gradients for heatmaps, charts, and visual designs',
+    iconSize: '3rem',
   },
   {
     href: Routes.ColorsPaletteFromImageTool,
     Icon: PaletteFromImageIcon,
     title: 'Palette From Image',
     description: 'Instantly create beautiful and harmonious color palettes or simply find inspiration',
+    iconSize: '3rem',
   },
 ];
 
@@ -41,18 +44,21 @@ const moreFeatureCardData = [
     Icon: ContrastCheckerIcon,
     title: 'Color Mixer',
     description: 'Blend colors seamlessly to find the perfect shade for your designs',
+    iconSize: '3rem',
   },
   {
     href: Routes.ColorsConverterTool,
     Icon: ColorConversionIcon,
     title: 'Color Converter',
     description: 'Convert colors between HEX, RGB, HSL, and CMYK formats with ease',
+    iconSize: '3rem',
   },
   {
     href: Routes.ColorsInspectorTool,
     Icon: ColorInspectorIcon,
     title: 'Color Inspector',
     description: 'Inspect colors on your screen and get detailed color information',
+    iconSize: '3rem',
   },
 ];
 
@@ -77,6 +83,7 @@ const ColorsSection: React.FC = () => {
             Icon={feature.Icon}
             title={feature.title}
             description={feature.description}
+            iconSize={feature.iconSize}
           />
         ))}
       </StyledFeaturesRow>
@@ -91,6 +98,7 @@ const ColorsSection: React.FC = () => {
               Icon={feature.Icon}
               title={feature.title}
               description={feature.description}
+              iconSize={feature.iconSize}
             />
           ))}
         </StyledFeaturesRow>

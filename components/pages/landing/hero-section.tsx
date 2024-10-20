@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 
-import TopMenu from '../../menu/top-menu';
+import { TopMenu } from '../../menu/top-menu';
 import { ExploreMoreButton } from './explore-more-button';
 import { GoToAppButton } from './go-to-app-button';
 import { Routes } from '@/content/routes';
@@ -13,16 +13,30 @@ const HeroSection: React.FC<Props> = () => (
     <TopMenu />
     <Container>
       <HeroContainer>
-        <StyledImage src="./landing/main.png" alt="Hero Image" />
-        <TextContainer>
-          <TopLeftText>DESIGN<br />GETS<br />EASIER</TopLeftText>
+        <CentralContainer>
+          <TopContainer>
+            <TopLeftText>DESIGN<br />GETS<br />EASIER</TopLeftText>
+            <StyledImageTop src="./landing/hero-top.png" alt="Hero Top Image" />
+            <div />
+          </TopContainer>
           <CenterText>STYLE CRAFTS</CenterText>
-          <ParagraphContainer>
-            <Paragrapgh>optimize images, create vibrant palettes, generate heatmaps, and many more with our free tools and libraries</Paragrapgh>
-            <GoToAppButton href={Routes.ImageCompressionTool} fontSize="1.5rem" iconSize="1.5rem" />
-          </ParagraphContainer>
-        </TextContainer>
-        <ExploreMoreButton href="#explore-more"/>
+          <BottomContainer>
+            <BottomLeftPlaceholder />
+            
+            <StyledImageBottom src="./landing/hero-bottom.png" alt="Hero Bottom Image" />
+            <ParagraphContainer>
+              <Paragraph>
+                Optimize images, create vibrant palettes, generate heatmaps, and many more with our free tools and libraries
+              </Paragraph>
+              <GoToAppButton
+                href={Routes.ImageCompressionTool}
+                fontSize="1.5vw"
+                iconSize="1.5vw"
+              />
+            </ParagraphContainer>
+          </BottomContainer>
+        </CentralContainer>
+        <ExploreMoreButton href="#explore-more" />
       </HeroContainer>
     </Container>
   </MainContainer>
@@ -31,7 +45,7 @@ const HeroSection: React.FC<Props> = () => (
 const fadeInSlideUp = keyframes`
   from {
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(5vh);
   }
   to {
     opacity: 1;
@@ -46,151 +60,114 @@ const fadeInAnimation = css`
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 0 3rem;
+  padding-bottom: 3vw;
 `;
 
 const Container = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
   display: flex;
 `;
 
 const HeroContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  @media (max-width: 1024px) {
-    padding-bottom: 14rem;
-  }
 `;
 
-const TextContainer = styled.div`
-  display: grid;
-  grid-template-rows: auto auto auto;
-  gap: 1rem;
-  width: 60%;
-  padding-top: 8rem;
+const CentralContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  
-  @media (max-width: 1024px) {
-    padding-top: 0rem;
-  }
+  width: 63%;
+  padding-top: 10vw;
+`;
+
+const TopContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  width: 100%;
+`;
+
+const BottomContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  width: 100%;
 `;
 
 const TopLeftText = styled.div`
-  grid-row: 1;
-  justify-self: start;
-  font-size: 2rem;
-  font-weight: 100;
+  font-family: 'Montagu Slab', serif;
+  grid-column: 1;
+  font-size: 2.5vw;
+  font-weight: 50;
   color: #75468A;
   text-align: left;
   line-height: 0.9;
   letter-spacing: 0.1em;
+  width: 100%;
   ${fadeInAnimation}
-
-  @media (max-width: 1024px) {
-    font-size: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.2rem;
-  }
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
 `;
 
-const StyledImage = styled.img`
-  position: absolute;
-  top: 15%;
-  left: 36%;
-  transform: translateX(-50%);
-  max-width: 30vw;
-  max-height: 30vw;
+const StyledImageTop = styled.img`
+  grid-column: 2;
+  width: 25vw;
+  height: auto;
   object-fit: contain;
-  ${fadeInAnimation}
-  animation-delay: 0.2s;
-  animation-fill-mode: both;
+`;
 
-  @media (max-width: 1024px) {
-    top: 20%;
-    left: 34%;
-    transform: translateX(-50%);
-    max-width: 40vw;
-    max-height: 40vw;
-  }
+const StyledImageBottom = styled.img`
+  grid-column: 2;
+  width: 25vw;
+  height: auto;
+  object-fit: contain;
+`;
 
-  @media (max-width: 480px) {
-    top: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 50vw;
-    max-height: 50vw;
-  }
+const BottomLeftPlaceholder = styled.div`
+  grid-column: 1;
+  width: 100%;
+  height: 100%;
 `;
 
 const CenterText = styled.div`
-  grid-row: 2;
-  justify-self: center;
-  font-size: 4rem;
-  font-weight: 700;
+  font-family: 'Montagu Slab', serif;
+  font-size: 4.5vw;
+  font-weight: 450;
   color: #75468A;
   text-align: center;
-  ${fadeInAnimation}
-  animation-delay: 0.4s;
-  animation-fill-mode: both;
-  letter-spacing: 0.7em;
+  letter-spacing: 0.5em;
   white-space: nowrap;
-
-  @media (max-width: 1024px) {
-    font-size: 3rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 2rem;
-  }
+  margin: 0.4vw 0;
+  ${fadeInAnimation}
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
 `;
 
 const ParagraphContainer = styled.div`
-  grid-row: 3;
-  justify-self: right;
+  grid-column: 3;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  grid-row: 3;
-  margin-top: 6rem;
-  margin-right: 3rem; 
-  width: 15rem;
 
-  @media (max-width: 1024px) {
-    margin-right: 0rem; 
-    width: 13rem;
-    margin-top: 4rem;
-  }
-`;
-
-const Paragrapgh = styled.div`
-  font-size: 1.2rem;
-  font-weight: 300;
-  color: #4b5563;
-  text-align: left;
   ${fadeInAnimation}
   animation-delay: 0.6s;
   animation-fill-mode: both;
+  margin-left: 5vw;
+`;
 
-  @media (max-width: 1024px) {
-    font-size: 1rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.8rem;
-  }
+const Paragraph = styled.div`
+  font-size: 1.2vw;
+  font-weight: 300;
+  color: #4b5563;
+  text-align: left;
+  margin-bottom: 0.8vw;
 `;
 
 export { HeroSection };

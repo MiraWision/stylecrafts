@@ -1,25 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button } from 'primereact/button';
 import { ColorPicker } from 'primereact/colorpicker';
-import { randomColor } from '@mirawision/colorize';
-import { checkContrast } from '@/utils/check-contrast';
-import { colorPalettes } from './examples';
 
 interface ColorCardProps {
   color: string;
   label: string;
-  onRandomColor: () => void;
   onColorChange: (color: string) => void;
+  onSelectContrastColor?: () => void;
 }
 
-const ColorCard: React.FC<ColorCardProps> = ({ color, label, onRandomColor, onColorChange }) => {
+const ColorCard: React.FC<ColorCardProps> = ({ color, label, onColorChange, onSelectContrastColor }) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
 
   const handleColorChange = (e: any) => {
-    const hexColor = `#${e.value.toUpperCase()}`;
-    onColorChange(hexColor);
+    const selectedColor = `#${e.value.toUpperCase()}`;
+    onColorChange(selectedColor);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -55,13 +51,13 @@ const ColorCard: React.FC<ColorCardProps> = ({ color, label, onRandomColor, onCo
       <Column>
         <ColorLabel>
           <ChangeText>{label}</ChangeText>
-
           <ColorCode>{color}</ColorCode>
+          {onSelectContrastColor && (
+            <ContrastButton onClick={onSelectContrastColor}>
+              Select Contrast Color
+            </ContrastButton>
+          )}
         </ColorLabel>
-
-        <IconWrapper>
-          <Label>Random color</Label>
-        </IconWrapper>
       </Column>
     </CardContainer>
   );
@@ -120,37 +116,18 @@ const ChangeText = styled.div`
   color: #6c757d;
 `;
 
-const RandomColorButton = styled(Button)`
-  border-radius: 50%;
-  height: 2rem;
-  width: 2rem;
-  color: #fff !important;
+const ContrastButton = styled.button`
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
   border: none;
-  background-color: #007bff !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 0.25rem;
+  cursor: pointer;
 
-  &:focus {
-    box-shadow: none;
+  &:hover {
+    background-color: #0056b3;
   }
-
-  .pi {
-    color: #fff !important;
-  }
-`;
-
-const IconWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const Label = styled.span`
-  font-size: 0.9rem;
-  margin-top: 0.4rem;
-  color: #6c757d;
-  margin-left: 0.4rem;
 `;
 
 export { ColorCard };

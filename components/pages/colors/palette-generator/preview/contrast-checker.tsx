@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { checkContrast } from '@/utils/check-contrast';
-import { PaletteColor } from './types';
+import { PaletteColor } from '../types';
 
 import { ErrorIcon } from '@/components/icons/error';
 import { WarningIcon } from '@/components/icons/warning';

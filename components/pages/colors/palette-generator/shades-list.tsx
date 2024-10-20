@@ -9,19 +9,27 @@ const generateShades = (color: string): Shade[] => {
   
   try {
     return [
+      { shade: -300, hex: baseColor.withBrightness(-30) },
       { shade: -200, hex: baseColor.withBrightness(-20) },
       { shade: -100, hex: baseColor.withBrightness(-10) },
+      { shade: -50, hex: baseColor.withBrightness(-5) },
       { shade: 0, hex: baseColor.get() },
+      { shade: 50, hex: baseColor.withBrightness(5) },
       { shade: 100, hex: baseColor.withBrightness(10) },
       { shade: 200, hex: baseColor.withBrightness(20) },
+      { shade: 300, hex: baseColor.withBrightness(30) },
     ];
   } catch (error) {
     return [
+      { shade: -300, hex: baseColor.get() },
       { shade: -200, hex: baseColor.get() },
       { shade: -100, hex: baseColor.get() },
+      { shade: -50, hex: baseColor.get() },
       { shade: 0, hex: baseColor.get() },
+      { shade: 50, hex: baseColor.get() },
       { shade: 100, hex: baseColor.get() },
       { shade: 200, hex: baseColor.get() },
+      { shade: 300, hex: baseColor.get() },
     ];
   }
 };
@@ -31,6 +39,7 @@ interface Props {
   onAddShade: (colorIndex: number, shade: Shade) => void;
 }
 
+// Компонент ShadesList для отображения списка оттенков
 const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
   const shadesList = useMemo(() => {
     return selectedColors.map((color) => generateShades(color.baseColor));
@@ -45,6 +54,7 @@ const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
               key={shadeIndex}
               $color={shade.hex}
               onClick={() => onAddShade(index, shade)}
+              title={`Shade: ${shade.shade}`}
             />
           ))}
         </ShadesRow>

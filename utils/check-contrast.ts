@@ -3,6 +3,7 @@ import { calculateContrast } from '@mirawision/colorize';
 interface CheckContrast {
   contrast: number;
   isObjectSuitable: boolean;
+  isBackgroundSuitable: boolean;
   isHeaderSuitableForAA: boolean;
   isHeaderSuitableForAAA: boolean;
   isTextSuitableForAA: boolean;
@@ -16,6 +17,7 @@ const checkContrast = (color1: string, color2: string): CheckContrast => {
     return {
       contrast,
       isObjectSuitable: contrast >= 3,
+      isBackgroundSuitable: contrast >= 3,
       isHeaderSuitableForAA: contrast >= 3,
       isHeaderSuitableForAAA: contrast >= 4.5,
       isTextSuitableForAA: contrast >= 4.5,
@@ -25,6 +27,7 @@ const checkContrast = (color1: string, color2: string): CheckContrast => {
     return {
       contrast: 0,
       isObjectSuitable: false,
+      isBackgroundSuitable: false,
       isHeaderSuitableForAA: false,
       isHeaderSuitableForAAA: false,
       isTextSuitableForAA: false,

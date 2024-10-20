@@ -7,31 +7,9 @@ interface ShadesGridProps {
   onShadeSelect: (shade: string) => void;
 }
 
-const getRgbArray = (color: string): number[] => {
-  const rgbString = convertColor(color, ColorFormat.RGB);
-  const rgbArray = rgbString.match(/\d+/g)?.map(Number);
-  if (!rgbArray || rgbArray.length !== 3) {
-    throw new Error('Invalid RGB color format');
-  }
-  return rgbArray;
-};
-
-export const adjustLuminosity = (color: string, amount: number) => {
-  const rgb = getRgbArray(color);
-  const adjustedRgb = rgb.map(value => Math.min(Math.max(value + amount, 0), 255));
-  const adjustedColor = `rgb(${adjustedRgb[0]}, ${adjustedRgb[1]}, ${adjustedRgb[2]})`;
-  return convertColor(adjustedColor, ColorFormat.HEX);
-};
-
-export const adjustTemperature = (color: string, amount: number) => {
-  const rgb = getRgbArray(color);
-  const adjustedRgb = [
-    Math.min(Math.max(rgb[0] + amount, 0), 255),
-    rgb[1],
-    Math.min(Math.max(rgb[2] - amount, 0), 255)
-  ];
-  const adjustedColor = `rgb(${adjustedRgb[0]}, ${adjustedRgb[1]}, ${adjustedRgb[2]})`;
-  return convertColor(adjustedColor, ColorFormat.HEX);
+const generateHues = (baseColor: string, hues: number[]): string[] => {
+  const [h, s, l] = convertColor(baseColor, ColorFormat.HSL).match(/\d+/g)?.map(Number) || [0, 0, 0];
+  return hues.map(hue => convertColor(`hsl(${hue}, ${s}%, ${l}%)`, ColorFormat.HEX));
 };
 
 const generateShades = (color: string, adjustmentFunc: (color: string, amount: number) => string, steps: number) => {
@@ -44,18 +22,19 @@ const generateShades = (color: string, adjustmentFunc: (color: string, amount: n
 };
 
 const ShadesGrid: React.FC<ShadesGridProps> = ({ baseColor, onShadeSelect }) => {
-  const tintShades = generateShades(baseColor, (color, amount) => adjustBrightness(color, amount), 5);
-  const shadeShades = generateShades(baseColor, (color, amount) => adjustBrightness(color, -amount), 5);
-  const toneShades = generateShades(baseColor, (color, amount) => adjustSaturation(color, -amount), 5);
-  const luminosityShades = generateShades(baseColor, adjustLuminosity, 5);
-  const temperatureShades = generateShades(baseColor, adjustTemperature, 5);
+
+  const tintShades = generateShades(baseColor, (color, amount) => adjustBrightness(color, amount), 7);
+  const shadeShades = generateShades(baseColor, (color, amount) => adjustBrightness(color, -amount), 7);
+  const toneShades = generateShades(baseColor, (color, amount) => adjustSaturation(color, -amount), 7);
+
+  const hueAngles = [30, 90, 150, 210, 270, 330];
+  const hueVariations = generateHues(baseColor, hueAngles);
 
   const shadeTypes = [
     { name: 'Tint (more white)', shades: tintShades },
     { name: 'Shade (more black)', shades: shadeShades },
     { name: 'Tone (more grey)', shades: toneShades },
-    { name: 'Luminosity', shades: luminosityShades },
-    { name: 'Temperature', shades: temperatureShades }
+    { name: 'Hue Variations', shades: hueVariations }
   ];
 
   return (

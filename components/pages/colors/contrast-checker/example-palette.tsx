@@ -7,25 +7,22 @@ interface ColorPaletteProps {
 }
 
 const ColorPalette: React.FC<ColorPaletteProps> = ({ onSelect }) => {
+  const allColors = contrastColors.flatMap(group => group.colors);
+
   return (
     <PaletteContainer>
-      {contrastColors.map(group => (
-        <div key={group.groupName}>
-          <h2>{group.groupName}</h2>
-          <PaletteGrid>
-            {group.colors.map((color, index) => (
-              <PaletteItem
-                key={index}
-                onClick={() => onSelect(color.background, color.text)}
-                $backgroundColor={color.background}
-                $color={color.text}
-              >
-                Az
-              </PaletteItem>
-            ))}
-          </PaletteGrid>
-        </div>
-      ))}
+      <PaletteGrid>
+        {allColors.slice(0, 24).map((color, index) => (
+          <PaletteItem
+            key={index}
+            onClick={() => onSelect(color.background, color.text)}
+            $backgroundColor={color.background}
+            $color={color.text}
+          >
+            Az
+          </PaletteItem>
+        ))}
+      </PaletteGrid>
     </PaletteContainer>
   );
 };
@@ -34,13 +31,14 @@ const PaletteContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 const PaletteGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.5rem;
 `;
 
 const PaletteItem = styled.div.attrs<{$backgroundColor: string; $color: string }>(({ $backgroundColor, $color }) => ({
@@ -52,10 +50,10 @@ const PaletteItem = styled.div.attrs<{$backgroundColor: string; $color: string }
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

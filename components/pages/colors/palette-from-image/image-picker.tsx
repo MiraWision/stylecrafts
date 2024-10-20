@@ -6,13 +6,13 @@ import { getPaletteWithCoordinates } from '@/utils/colors-palette-from-image';
 interface Props {
   selectedImage: string | null;
   onPaletteChange: (autoPalette: string[], userPalette: string[]) => void;
-};
+}
 
 const ImageColorPicker: React.FC<Props> = ({ selectedImage, onPaletteChange }) => {
   const [autoPalette, setAutoPalette] = useState<string[]>([]);
   const [userPalette, setUserPalette] = useState<string[]>([]);
   const [colorPickers, setColorPickers] = useState<{ color: string; x: number; y: number }[]>([]);
-  const [movedPickers, setMovedPickers] = useState<boolean[]>([]);
+  const [zoomStyle, setZoomStyle] = useState<{ backgroundImage: string; backgroundPosition: string } | null>(null);
   
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -20,21 +20,34 @@ const ImageColorPicker: React.FC<Props> = ({ selectedImage, onPaletteChange }) =
     if (imageRef.current) {
       const imgWidth = imageRef.current.width;
       const imgHeight = imageRef.current.height;
-      const colorsWithCoordinates = getPaletteWithCoordinates(imageRef.current, 10, imgWidth, imgHeight);
+      const colorsWithCoordinates = getPaletteWithCoordinates(imageRef.current, 10, imgWidth, imgHeight).slice(0, 10);
       const colors = colorsWithCoordinates.map((color) => color.color);
       setAutoPalette(colors);
       setColorPickers(colorsWithCoordinates);
-      setMovedPickers(Array(colorsWithCoordinates.length).fill(false));
       onPaletteChange(colors, []);
     }
   };
 
-  const handleColorPickerMove = (index: number, x: number, y: number) => {
+  const handleMouseMove = (event: React.MouseEvent<HTMLImageElement>) => {
     if (!imageRef.current) return;
 
     const rect = imageRef.current.getBoundingClientRect();
-    const constrainedX = Math.min(Math.max(0, x), rect.width);
-    const constrainedY = Math.min(Math.max(0, y), rect.height);
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    
+    const backgroundPosition = `${(x / rect.width) * 100}% ${(y / rect.height) * 100}%`;
+    setZoomStyle({
+      backgroundImage: `url(${imageRef.current.src})`,
+      backgroundPosition: backgroundPosition,
+    });
+  };
+
+  const handleImageClick = (event: React.MouseEvent<HTMLImageElement>) => {
+    if (!imageRef.current) return;
+
+    const rect = imageRef.current.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
 
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
@@ -44,50 +57,21 @@ const ImageColorPicker: React.FC<Props> = ({ selectedImage, onPaletteChange }) =
     canvas.height = imageRef.current.height;
     context.drawImage(imageRef.current, 0, 0, canvas.width, canvas.height);
 
-    const imageData = context.getImageData(constrainedX, constrainedY, 1, 1).data;
+    const imageData = context.getImageData(x, y, 1, 1).data;
     const r = imageData[0];
     const g = imageData[1];
     const b = imageData[2];
 
     const newColor = `rgb(${r},${g},${b})`;
     const hexColor = convertColor(newColor, ColorFormat.HEX);
-    const newColorPickers = [...colorPickers];
-    newColorPickers[index] = { color: hexColor, x: constrainedX, y: constrainedY };
-    setColorPickers(newColorPickers);
-
-    const newUserPalette = [...userPalette];
-    if (!movedPickers[index]) {
-      // First move, add color to the palette
-      newUserPalette.push(hexColor);
-      setMovedPickers((prev) => {
-        const newMovedPickers = [...prev];
-        newMovedPickers[index] = true;
-        return newMovedPickers;
-      });
-    } else {
-      // Update existing color in the palette
-      const colorIndex = movedPickers.reduce((acc, moved, idx) => (moved && idx <= index ? acc + 1 : acc), 0) - 1;
-      newUserPalette[colorIndex] = hexColor;
-    }
+    const newUserPalette = [...userPalette, hexColor];
     setUserPalette(newUserPalette);
+    setColorPickers([...colorPickers, { color: hexColor, x, y }]);
     onPaletteChange(autoPalette, newUserPalette);
   };
 
-  const handleMouseDown = (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const onMouseMove = (moveEvent: MouseEvent) => {
-      const rect = imageRef.current!.getBoundingClientRect();
-      const x = moveEvent.clientX - rect.left;
-      const y = moveEvent.clientY - rect.top;
-      handleColorPickerMove(index, x, y);
-    };
-
-    const onMouseUp = () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
-
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+  const handleMouseLeave = () => {
+    setZoomStyle(null);
   };
 
   useEffect(() => {
@@ -101,19 +85,26 @@ const ImageColorPicker: React.FC<Props> = ({ selectedImage, onPaletteChange }) =
       <ImageWrapper>
         {selectedImage && (
           <>
-            <img src={selectedImage as string} alt='Uploaded' ref={imageRef} onLoad={handleImageLoad} />
-
+            <img 
+              src={selectedImage as string} 
+              alt='Uploaded' 
+              ref={imageRef} 
+              onLoad={handleImageLoad} 
+              onMouseMove={handleMouseMove} 
+              onClick={handleImageClick}
+              onMouseLeave={handleMouseLeave}
+            />
             {colorPickers.map((picker, index) => (
               <ColorPicker
                 key={index}
                 $backgroundColor={picker.color}
                 $x={picker.x}
                 $y={picker.y}
-                onMouseDown={(event) => handleMouseDown(index, event)}
               />
             ))}
           </>
         )}
+        {zoomStyle && <Zoom style={zoomStyle} />}
       </ImageWrapper>
     </Container>
   );
@@ -127,12 +118,38 @@ const Container = styled.div`
 
 const ImageWrapper = styled.div`
   position: relative;
+  width: 100%;
+  height: auto;
 
   img {
     max-width: 100%;
     cursor: crosshair;
     border-radius: 0.5rem;
     user-select: none;
+  }
+`;
+
+const Zoom = styled.div`
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background-repeat: no-repeat;
+  background-size: 10000%;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 0, 0, 0.6);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 `;
 

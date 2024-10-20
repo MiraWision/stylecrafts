@@ -9,11 +9,11 @@ import { Label } from '@/components/ui/texts/label';
 
 interface Props {
   selectedColors: SelectedColor[];
-  totalWeight: number; 
+  totalWeight: number;
   isMatched: boolean;
   gameOver: boolean;
   onWeightChange: (color: string, increment: number) => void;
-  onResetAll: () => void; 
+  onResetAll: () => void;
 }
 
 const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatched, gameOver, onWeightChange, onResetAll }) => {
@@ -29,26 +29,30 @@ const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatche
             key={color.hex}
             $backgroundColor={color.hex}
             $width={`${color.weight / totalWeight * 100}%`}
-          />  
+          />
         ))}
       </ColorBar>
 
-      <ColorCirclesContainer>
+      <ColorCirclesRow>
         {hasSelectedColors && (
-          <RefreshIconButtonStyled onClick={onResetAll} />
+          <RefreshButtonContainer>
+            <RefreshIconButton onClick={onResetAll} />
+          </RefreshButtonContainer>
         )}
-        {selectedColors.map((color) => (
-          <ColorCircle
-            key={color.hex}
-            color={color}
-            totalWeight={totalWeight}
-            onWeightChange={(!isMatched && !gameOver) ? onWeightChange : undefined}
-          />
-        ))}
-      </ColorCirclesContainer>
+        <ColorCirclesContainer>
+          {selectedColors.map((color) => (
+            <ColorCircle
+              key={color.hex}
+              color={color}
+              totalWeight={totalWeight}
+              onWeightChange={(!isMatched && !gameOver) ? onWeightChange : undefined}
+            />
+          ))}
+        </ColorCirclesContainer>
+      </ColorCirclesRow>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   display: flex;
@@ -85,15 +89,26 @@ const ColorBarSegment = styled.div.attrs<{ $backgroundColor: string; $width: str
   transition: width 0.5s;
 `;
 
+const ColorCirclesRow = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 1rem;
+  position: relative;
+`;
+
 const ColorCirclesContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.75rem;
-  margin-top: 1rem;
 `;
 
-const RefreshIconButtonStyled = styled(RefreshIconButton)`
+const RefreshButtonContainer = styled.div`
+  position: absolute;
+  left: -2.5rem;
+  bottom: -0.2rem;
 `;
 
 export { ColorSelection };

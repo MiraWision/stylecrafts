@@ -30,7 +30,7 @@ const ColorExamples: React.FC<Props> = ({ onColorSelect }) => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 1rem 1rem;
   margin-bottom: 2rem;
 `;

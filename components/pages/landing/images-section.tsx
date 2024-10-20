@@ -17,18 +17,21 @@ const featureCardData = [
     Icon: ImageCompressionIcon,
     title: 'Image Compression',
     description: 'Achieve up to 99% image compression for faster website loading and improved performance',
+    iconSize: '3rem',
   },
   {
     href: Routes.ImageToBase64Tool,
     Icon: ImageToBase64Icon,
     title: 'Image to Base64 Converter',
     description: 'Convert images to Base64 format for easy embedding in your code',
+    iconSize: '3rem',
   },
   {
     href: Routes.Base64ToImageTool,
     Icon: Base64ToImageIcon,
     title: 'Base64 to Image Converter',
     description: 'Decode Base64 strings to view and download the original images',
+    iconSize: '3rem',
   },
 ];
 
@@ -48,6 +51,7 @@ const ImagesSection: React.FC = () => {
             Icon={feature.Icon}
             title={feature.title}
             description={feature.description}
+            iconSize={feature.iconSize}
           />
         ))}
       </StyledFeaturesRow>

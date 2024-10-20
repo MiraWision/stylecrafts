@@ -9,11 +9,13 @@ import { ColorInput } from '@/components/ui/inputs/color-input';
 interface Props {
   selectedColors: PaletteColor[];
   onColorChange: (index: number, newBaseColor: string) => void;
+  onRemoveColor: (index: number) => void;
 }
 
 const ColorSelector: React.FC<Props> = ({
   selectedColors,
   onColorChange,
+  onRemoveColor,
 }) => {
   return (
     <>
@@ -26,6 +28,12 @@ const ColorSelector: React.FC<Props> = ({
               value={color.baseColor}
               onChange={(newColor) => onColorChange(index, newColor)}
             />
+
+            {color.title === 'Additional Color' && (
+              <RemoveButton onClick={() => onRemoveColor(index)}>
+                x
+              </RemoveButton>
+            )}
           </ColorInputContainer>
         </ColorPickerContainer>
       ))}
@@ -42,6 +50,23 @@ const ColorInputContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+`;
+
+const RemoveButton = styled.button`
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #c0392b;
+  }
 `;
 
 export { ColorSelector };

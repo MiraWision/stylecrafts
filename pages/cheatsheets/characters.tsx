@@ -10,16 +10,17 @@ import { Title } from '@/components/ui/texts/typography';
 import { CharactersCheatSheetMain } from '@/components/pages/cheatsheets/characters';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
+import { MainContainer } from '@/components/ui/containers';
 
 const CharacterCheatSheetPage = () => {
   return (
     <BaseLayout>
       <MetaTags {...metaTags} />
+      <MainContainer>
+        <StyledTitle>Ultimate HTML Character Entities Cheatsheet</StyledTitle>
 
-      <StyledTitle>Ultimate HTML Character Entities Cheatsheet</StyledTitle>
-
-      <CharactersCheatSheetMain />
-
+        <CharactersCheatSheetMain />
+      </MainContainer>
       <BlogContainer>
         <Markdown 
           markdownText={content}

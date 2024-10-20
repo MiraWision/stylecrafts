@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Routes } from '@/content/routes';
 
 const TopMenu: React.FC = () => {
   return (
     <Container>
       <Left>
-        <MenuItem href="/about">about</MenuItem>
-        <MenuItem href="/support">support</MenuItem>
+        <MenuItem href="/about">about us</MenuItem>
+        <MenuItem href="/support">support us</MenuItem>
       </Left>
       <Center>
         <Icon href="/">
@@ -14,8 +15,8 @@ const TopMenu: React.FC = () => {
         </Icon>
       </Center>
       <Right>
-        <MenuItem href="/contact">contact</MenuItem>
-        <MenuItem href="/go-to-app">go to app</MenuItem>
+        <MenuItem href="/contact">contact us</MenuItem>
+        <MenuItem  href={Routes.ImageCompressionTool}>go to app</MenuItem>
       </Right>
     </Container>
   );
@@ -63,4 +64,4 @@ const IconImage = styled.img`
   height: 40px;
 `;
 
-export default TopMenu;
+export { TopMenu };

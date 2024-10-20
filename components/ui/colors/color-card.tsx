@@ -30,8 +30,8 @@ const Container = styled.div`
   position: relative;
   padding: 0.25rem;
   border-radius: 0.5rem;
-  min-width: 8.125rem;
-  max-width: 8.125rem;
+  min-width: 6.625rem;
+  max-width: 6.625rem;
   overflow: hidden;
   border: 0.0625rem solid var(--surface-border);
   cursor: pointer;
@@ -42,8 +42,8 @@ const ColorRectangle = styled.div.attrs<{ $backgroundColor: string }>(({ $backgr
     backgroundColor: $backgroundColor,
   },
 }))`
-  width: 7.5rem;
-  height: 7.5rem;
+  width: 6rem;
+  height: 6rem;
   border-radius: 0.25rem;
   transition: width 0.3s;
 `;

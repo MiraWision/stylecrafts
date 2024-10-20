@@ -6,6 +6,7 @@ import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
 
 interface PaletteProps {
   selectedColors: PaletteColor[];
+  onRemoveColor: (index: number) => void;
 }
 
 const Palette: React.FC<PaletteProps> = ({ selectedColors }) => {
@@ -42,7 +43,7 @@ const PaletteRow = styled.div`
   width: fit-content;
   display: grid;
   gap: 0.5rem;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(8, 1fr);
 `;
 
 const ColorBoxContainer = styled.div`

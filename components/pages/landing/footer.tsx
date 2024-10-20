@@ -119,7 +119,7 @@ const Container = styled.footer`
   flex-direction: column;
   background-color: var(--surface-100);
   color: var(--text-color);
-  padding: 2rem;
+  padding: 2rem 2rem 0 2rem;
 
   @media (max-width: 768px) {
     flex-direction: column;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
@@ -9,41 +11,67 @@ import { Label } from '@/components/ui/texts/label';
 import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
-import { CustomColorPicker } from '@/components/ui/inputs/custom-color-picker';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
-}
+};
 
-interface Props {
-}
+interface Props {}
 
-const ColorConverter: React.FC<Props> = ({}) => {
+const ColorConverter: React.FC<Props> = () => {
   const [color, setColor] = useState('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
+  const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
+  const { color: queryColor } = router.query;
 
+  // Функция для генерации случайного цвета
   const generateRandomColor = () => {
-    return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0');
+    return (
+      '#' +
+      Math.floor(Math.random() * 0xffffff)
+        .toString(16)
+        .padStart(6, '0')
+    );
   };
 
+  // Устанавливаем флаг, что рендеринг происходит на клиенте
   useEffect(() => {
-    setColor(generateRandomColor());
+    setIsClient(true);
   }, []);
 
+  // Обрабатываем цвет из query параметров, если он доступен
   useEffect(() => {
+    if (queryColor && typeof queryColor === 'string') {
+      try {
+        setColor(queryColor);
+      } catch (error) {
+        setColor(generateRandomColor());
+      }
+    } else {
+      setColor(generateRandomColor());
+    }
+  }, [queryColor]);
+
+  // Конвертируем цвет во все нужные форматы
+  useEffect(() => {
+    if (!color) return;
+
     const newConvertedColors: ConvertedColors = {};
 
     Object.values(ColorFormat).forEach((format) => {
       try {
         newConvertedColors[format] = convertColor(color, format);
 
-        GAService.logEvent(analyticsEvents.colors.converter.colorConverted(color));
+        GAService.logEvent(
+          analyticsEvents.colors.converter.colorConverted(color)
+        );
       } catch (error) {
         console.error('Error converting color:', error);
         newConvertedColors[format] = '';
       }
     });
-    
+
     setConvertedColors(newConvertedColors);
   }, [color]);
 
@@ -55,42 +83,53 @@ const ColorConverter: React.FC<Props> = ({}) => {
     GAService.logEvent(analyticsEvents.colors.converter.colorCopied(text));
   };
 
+  if (!isClient) {
+    return null;
+  }
+
   return (
-    <TwoColumnsContainer>
-      <ColorPickerContainer>
-        <Label>Enter color</Label>
+    <MainContainer>
+      <TwoColumnsContainer>
+        <ColorPickerContainer>
+          <Label fontSize="1rem">Enter color</Label>
+          <ColorInputBig value={color} onChange={handleColorChange} />
+        </ColorPickerContainer>
 
-        <ColorInputBig
-          value={color}
-          onChange={handleColorChange}
-        />
+        <FormatsContainer>
+          <FlexContainer>
+            {Object.values(ColorFormat).map((format) => (
+              <ResultColorContainer key={format}>
+                <ColorTitle>{format.toUpperCase()}</ColorTitle>
 
-        <CustomColorPicker
-          color={color}
-          onChange={handleColorChange}
-        />
-        
-      </ColorPickerContainer>
+                <ColorValue>{convertedColors[format]}</ColorValue>
 
-      <FormatsContainer>
-        <FlexContainer>
-          {Object.values(ColorFormat).map((format) => (
-            <ResultColorContainer key={format}>
-              <ColorTitle>{format.toUpperCase()}</ColorTitle>
+                <CopyIconButton
+                  text={convertedColors[format] || ''}
+                  onCopyCallback={() =>
+                    handleCopy(convertedColors[format] ?? '')
+                  }
+                />
+              </ResultColorContainer>
+            ))}
+          </FlexContainer>
+        </FormatsContainer>
+      </TwoColumnsContainer>
 
-              <ColorValue>{convertedColors[format]}</ColorValue>
-              
-              <CopyIconButton 
-                text={convertedColors[format] || ''}
-                onCopyCallback={() => handleCopy(convertedColors[format] ?? '')} 
-              />
-            </ResultColorContainer>
-          ))}
-        </FlexContainer>
-      </FormatsContainer>
-    </TwoColumnsContainer>
+      <LinkContainer>
+        <Link href={`/colors/inspector?color=${encodeURIComponent(color)}`} passHref>
+          <StyledLink>Inspect this color in Color Inspector</StyledLink>
+        </Link>
+      </LinkContainer>
+    </MainContainer>
   );
-}
+};
+
+// Стили
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const ColorPickerContainer = styled.div`
   display: flex;
@@ -126,15 +165,30 @@ const ResultColorContainer = styled.div`
 `;
 
 const ColorTitle = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 400;
   color: var(--surface-900);
 `;
 
 const ColorValue = styled.div`
-  font-size: 0.75rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--surface-900);
+`;
+
+const LinkContainer = styled.div`
+  margin-top: 2rem;
+`;
+
+const StyledLink = styled.a`
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 export { ColorConverter };
