@@ -1,6 +1,6 @@
 {
-  "name": "csscraft",
-  "version": "0.1.0",
+  "name": "stylecrafts",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,7 +13,7 @@
     "@mirawision/colorize": "1.4.1",
     "@mirawision/usa-map-react": "1.0.6",
     "formidable": "3.5.1",
-    "gifsicle": "^7.0.1",
+    "gifsicle": "7.0.1",
     "marked": "12.0.2",
     "next": "14.2.3",
     "next-sitemap": "4.2.3",
