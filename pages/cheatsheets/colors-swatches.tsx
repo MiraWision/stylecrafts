@@ -17,7 +17,7 @@ const CharacterCheatSheetPage = () => {
     <BaseLayout>
       <MetaTags {...metaTags} />
       <MainContainer>
-        <StyledTitle>Comprehensive Color Swatches</StyledTitle>
+        <Title>Comprehensive Color Swatches</Title>
         <ColorSwatchesCheatSheetMain />
       </MainContainer>
       <BlogContainer>
@@ -28,9 +28,5 @@ const CharacterCheatSheetPage = () => {
     </BaseLayout>
   );
 };
-
-const StyledTitle = styled(Title)`
-  text-align: center;
-`;
 
 export default CharacterCheatSheetPage;

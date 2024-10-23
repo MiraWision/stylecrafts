@@ -16,8 +16,6 @@ const ImageToBase64ToolPage = () => {
       
       <MainContainer>
         <Title>Image to Base64 Converter</Title>
-
-        <Subtitle>Encode Your Images to Base64</Subtitle>
   
         <ImageToBase64 />
       </MainContainer>   

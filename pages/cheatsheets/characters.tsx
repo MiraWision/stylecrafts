@@ -17,7 +17,7 @@ const CharacterCheatSheetPage = () => {
     <BaseLayout>
       <MetaTags {...metaTags} />
       <MainContainer>
-        <StyledTitle>Ultimate HTML Character Entities Cheatsheet</StyledTitle>
+        <Title>Ultimate HTML Character Entities Cheatsheet</Title>
 
         <CharactersCheatSheetMain />
       </MainContainer>
@@ -29,9 +29,5 @@ const CharacterCheatSheetPage = () => {
     </BaseLayout>
   );
 };
-
-const StyledTitle = styled(Title)`
-  text-align: center;
-`;
 
 export default CharacterCheatSheetPage;

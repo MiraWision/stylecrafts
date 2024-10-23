@@ -208,7 +208,7 @@ const Match = styled.div.attrs<{ $isMatched: boolean; $gameOver: boolean }>(({ $
 
   @media (max-width: 768px) {
     top: calc(100% + 0.5rem);
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -250%);
     width: 6rem;
     height: 4rem;
   }

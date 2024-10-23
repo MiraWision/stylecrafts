@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { GAService } from '@/services/google-analytics-service';
@@ -11,6 +10,7 @@ import { Label } from '@/components/ui/texts/label';
 import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
+import { IconLink } from '@/components/ui/links/icon-link';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -89,6 +89,13 @@ const ColorConverter: React.FC<Props> = () => {
         <ColorPickerContainer>
           <Label fontSize="1rem">Enter color</Label>
           <ColorInputBig value={color} onChange={handleColorChange} />
+
+          <IconLinkContainer>
+            <IconLink
+              href={`/colors/inspector?color=${encodeURIComponent(color)}`}
+              text="Inspect in Color Inspector"
+            />
+          </IconLinkContainer>
         </ColorPickerContainer>
 
         <FormatsContainer>
@@ -110,12 +117,6 @@ const ColorConverter: React.FC<Props> = () => {
           </FlexContainer>
         </FormatsContainer>
       </TwoColumnsContainer>
-
-      <LinkContainer>
-        <Link href={`/colors/inspector?color=${encodeURIComponent(color)}`} passHref>
-          <StyledLink>Inspect this color in Color Inspector</StyledLink>
-        </Link>
-      </LinkContainer>
     </MainContainer>
   );
 };
@@ -135,6 +136,10 @@ const ColorPickerContainer = styled.div`
   @media (max-width: 768px) {
     align-items: center;
   }
+`;
+
+const IconLinkContainer = styled.div`
+  margin-top: 1rem; /* Отступ между ColorInputBig и IconLink */
 `;
 
 const FlexContainer = styled.div`
@@ -170,21 +175,6 @@ const ColorValue = styled.div`
   font-size: 1rem;
   font-weight: 600;
   color: var(--surface-900);
-`;
-
-const LinkContainer = styled.div`
-  margin-top: 2rem;
-`;
-
-const StyledLink = styled.a`
-  color: var(--color-primary);
-  text-decoration: underline;
-  font-size: 1rem;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: none;
-  }
 `;
 
 export { ColorConverter };

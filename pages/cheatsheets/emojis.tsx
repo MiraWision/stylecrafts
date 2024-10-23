@@ -17,7 +17,7 @@ const CharacterCheatSheetPage = () => {
     <BaseLayout>
     <MainContainer>
       <MetaTags {...metaTags} />
-        <StyledTitle>Emojis Cheatsheet</StyledTitle>
+        <Title>Emojis Cheatsheet</Title>
         <EmojisCheatSheetMain />
       </MainContainer>
       <BlogContainer>
@@ -28,9 +28,5 @@ const CharacterCheatSheetPage = () => {
     </BaseLayout>
   );
 };
-
-const StyledTitle = styled(Title)`
-  text-align: center;
-`;
 
 export default CharacterCheatSheetPage;

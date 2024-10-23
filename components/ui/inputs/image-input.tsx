@@ -19,9 +19,10 @@ interface Props {
   value: string | null;
   onChange: (image: ImageData) => void;
   className?: string;
+  onUpload?: () => void;
 }
 
-const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
+const ImageInput: React.FC<Props> = ({ value, onChange, className, onUpload }) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
@@ -156,15 +157,25 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
       )}
 
       {value && isHovered && (
-        <Overlay>
-          <Text>Click to upload another image</Text>
-        </Overlay>
+        <>
+          <Overlay />
+          <ButtonWrapper>
+            <Button 
+              onClick={onUpload} 
+              className="p-button-rounded p-button-primary"
+            >
+              <UploadIcon width="36" height="36" />
+            </Button>
+          </ButtonWrapper>
+        </>
       )}
 
       {!isDragging && (
         <Label>
           {value && (
-            <Image src={value} alt='uploaded' />
+            <ImageWrapper>
+              <Image src={value} alt='uploaded' />
+            </ImageWrapper>
           )}
 
           {!value && (
@@ -232,6 +243,45 @@ const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ButtonWrapper = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .p-button {
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-color);
+    border: none;
+  }
+
+  .icon * {
+    stroke: #ffffff;
+  }
+`;
+
 const Image = styled.img`
   width: 100%;
   height: auto;
@@ -239,5 +289,4 @@ const Image = styled.img`
 `;
 
 export { ImageInput };
-
 export type { ImageData };

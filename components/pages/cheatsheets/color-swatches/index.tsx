@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
 import { colorPalettes } from './data';
-
 import { generateSlug } from '@/utils/text';
-
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { FloatingMenu } from '../floating-menu';
 import { ColorCard } from '@/components/ui/colors/color-card';
@@ -13,6 +11,13 @@ import { ColorCard } from '@/components/ui/colors/color-card';
 interface Props {}
 
 const ColorSwatchesCheatSheetMain: React.FC<Props> = () => {
+  const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    alert(`Copied: ${text}`);
+  };
+
   return (
     <MainContainer>
       <FloatingMenu
@@ -31,16 +36,13 @@ const ColorSwatchesCheatSheetMain: React.FC<Props> = () => {
 
             <Container>
               {colors.map((color) => (
-                <Link
-                  href={`/colors/inspector?color=${encodeURIComponent(color.hex)}`}
+                <ColorCard
                   key={color.title}
-                  passHref
-                  legacyBehavior
-                >
-                  <StyledLink>
-                    <ColorCard color={color.hex} title={color.title} />
-                  </StyledLink>
-                </Link>
+                  color={color.hex}
+                  title={color.title}
+                  onCopy={() => handleCopy(color.hex)}
+                  onClick={() => setHoveredColor(color.hex)}
+                />
               ))}
             </Container>
           </React.Fragment>
@@ -64,14 +66,6 @@ const GroupTitle = styled.h2`
   margin: 0;
   text-transform: capitalize;
   align-self: flex-start;
-`;
-
-const StyledLink = styled.div`
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  width: 100%;
-  cursor: pointer;
 `;
 
 export { ColorSwatchesCheatSheetMain };

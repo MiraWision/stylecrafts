@@ -293,7 +293,7 @@ const ChallengeContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 30rem;
-  height: 1.5rem;
+  height: 3.15rem;
   margin: 1.5rem auto 1rem;
 
   @media (max-width: 768px) {

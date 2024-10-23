@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
@@ -7,6 +7,7 @@ import { ImageWithDownload } from '@/components/ui/images/image-with-download';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { TextareaWithCopy } from '@/components/ui/inputs/textarea-with-copy';
 import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
+import { DownloadTextButton } from '@/components/ui/text-buttons/download-text-button';
 
 interface Props {
 }
@@ -23,6 +24,11 @@ const Base64ToImage: React.FC<Props> = ({}) => {
   };
 
   const onDownload = () => {
+    const link = document.createElement('a');
+    link.href = `data:image/png;base64,${base64Text.split(',')[1]}`;
+    link.download = `image.${base64Text.split(';')[0].split('/')[1]}`;
+    link.click();
+
     GAService.logEvent(analyticsEvents.images.base64ToImage.imageDownloaded(base64Text.length.toString()));
   };
 
@@ -36,11 +42,19 @@ const Base64ToImage: React.FC<Props> = ({}) => {
 
       {base64Text.length > 0 
         ? (
-          <ImageWithDownload 
-            image={base64Text} 
-            fileName={`image.${base64Text.split(';')[0].split('/')[1]}`}
-            onDownloadCallback={onDownload}
-          />
+          <ImageContainer>
+            <ImageWithDownload 
+              image={base64Text} 
+              fileName={`image.${base64Text.split(';')[0].split('/')[1]}`}
+              onDownloadCallback={onDownload}
+            />
+            <DownloadButtonContainer>
+              <DownloadTextButton
+                text='Download Image'
+                onClick={onDownload}
+              />
+            </DownloadButtonContainer>
+          </ImageContainer>
         )
         : (
           <ImagePlaceholder />
@@ -49,5 +63,16 @@ const Base64ToImage: React.FC<Props> = ({}) => {
     </TwoColumnsContainer>
   );
 }
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const DownloadButtonContainer = styled.div`
+  margin-top: 1rem;
+  text-align: center;
+`;
 
 export { Base64ToImage };

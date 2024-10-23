@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { CopyTextButton } from '../text-buttons/copy-text-button';
+import { SplitButton } from 'primereact/splitbutton';
 
 interface CopyOption {
   name: string;
@@ -20,6 +20,29 @@ interface Props {
 }
 
 const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyOptions, width = '100%', height = '10rem' }) => {
+  const handleCopyBase64 = () => {
+    const base64Option = copyOptions?.find(option => option.name === 'Copy Base64');
+    if (base64Option) {
+      navigator.clipboard.writeText(base64Option.getValue(value)).then(() => {
+        base64Option.onSuccess?.();
+      }).catch(() => {
+        base64Option.onFail?.();
+      });
+    }
+  };
+
+  const otherCopyOptions = copyOptions?.filter(option => option.name !== 'Copy Base64').map(option => ({
+    label: option.name,
+    icon: 'pi pi-copy',
+    command: () => {
+      navigator.clipboard.writeText(option.getValue(value)).then(() => {
+        option.onSuccess?.();
+      }).catch(() => {
+        option.onFail?.();
+      });
+    }
+  }));
+
   return (
     <Container width={width} height={height}>
       <InputTextareaStyled
@@ -30,14 +53,13 @@ const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyO
 
       {copyOptions && (
         <ActionsContainer>
-          {copyOptions.map((option, index) => (
-            <CopyTextButton
-              key={index}
-              text={option.name}
-              copyText={option.getValue(value)}
-              onCopyCallback={option.onSuccess}
-            />
-          ))}
+          <StyledSplitButton
+            label="Copy Base64"
+            icon="pi pi-copy"
+            model={otherCopyOptions}
+            onClick={handleCopyBase64}
+            severity="secondary" raised
+          />
         </ActionsContainer>
       )}
     </Container>
@@ -68,8 +90,46 @@ const ActionsContainer = styled.div`
   border-top: 0.0625rem solid var(--surface-border);
   display: flex;
   justify-content: flex-end;
-  gap: 0.5rem;
   padding: 0.5rem;
+`;
+
+const StyledSplitButton = styled(SplitButton)`
+  width: 100%; /* Makes the button take full width */
+  
+  .p-button {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    height: 2.5rem;
+  }
+
+  .p-menuitem-text {
+    color: var(--text-color);
+  }
+
+  .p-button .pi {
+    color: var(--text-color);
+  }
+
+  /* .p-button:hover, .p-button:active, .p-button:focus {
+    background-color: var(--primary-color-hover);
+  } */
+
+  .p-button-menu {
+    background-color: var(--primary-color);
+  }
+
+  .p-splitbutton-menu {
+    background-color: var(--primary-color);
+  }
+
+  .p-menuitem-link:hover {
+    background-color: var(--primary-color-hover);
+  }
+
+  .p-splitbutton-menubutton .pi {
+    color: var(--text-color);
+  }
 `;
 
 export { TextareaWithCopy };

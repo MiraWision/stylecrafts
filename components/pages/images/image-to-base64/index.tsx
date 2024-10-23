@@ -8,6 +8,7 @@ import { useToast } from '@/components/ui/toast';
 import { ImageData, ImageInput } from '@/components/ui/inputs/image-input';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { TextareaWithCopy } from '@/components/ui/inputs/textarea-with-copy';
+import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button'; // Assuming you have this component
 
 interface Props {
 }
@@ -28,14 +29,33 @@ const ImageToBase64: React.FC<Props> = ({}) => {
     if (image.content?.length) {
       GAService.logEvent(analyticsEvents.images.imageToBase64.imageConverted(image.content.length.toString()));
     }
-  }
+  };
+
+  // Updated handleFileSelect to handle File | null
+  const handleFileSelect = (file: File | null) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <TwoColumnsContainer>
-      <ImageInputStyled 
-        value={image}
-        onChange={handleImageChange} 
-      />
+      <ImageInputContainer>
+        <ImageInputStyled 
+          value={image}
+          onChange={handleImageChange} 
+        />
+        <UploadButtonContainer>
+          <UploadTextButton 
+            text='Upload Image'
+            onFileSelect={handleFileSelect}
+          />
+        </UploadButtonContainer>
+      </ImageInputContainer>
 
       <TextareaWithCopy
         value={image ?? ''}
@@ -76,6 +96,12 @@ const ImageToBase64: React.FC<Props> = ({}) => {
   );
 }
 
+const ImageInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const ImageInputStyled = styled(ImageInput)`
   width: 20rem;
   min-height: 10rem;
@@ -83,6 +109,11 @@ const ImageInputStyled = styled(ImageInput)`
   @media (max-width: 768px) {
     width: 100%;
   }
+`;
+
+const UploadButtonContainer = styled.div`
+  margin-top: 1rem;
+  text-align: center;
 `;
 
 export { ImageToBase64 };

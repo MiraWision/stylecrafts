@@ -103,7 +103,7 @@ const ColorInspectorMain: React.FC = () => {
       </ColorListContainer>
       <LinkContainer>
         <Link href="/cheatsheets/colors-swatches" passHref>
-          <StyledLink>View Color Swatches</StyledLink>
+          <StyledLink>View More Colors</StyledLink>
         </Link>
       </LinkContainer>
     </MainContainer>
@@ -134,12 +134,17 @@ const LinkContainer = styled.div`
 `;
 
 const StyledLink = styled.a`
-  color: var(--color-primary);
-  text-decoration: underline;
+  color: #808080;
+  border: 1px solid #808080;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
   font-size: 1rem;
+  border-radius: 4px;
   cursor: pointer;
+  transition: all 0.3s ease;
 
   &:hover {
+    background-color: #f0f0f0;
     text-decoration: none;
   }
 `;

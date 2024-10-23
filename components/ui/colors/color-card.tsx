@@ -1,6 +1,7 @@
-import { CopyIcon } from '@/components/icons/copy';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { CopyIcon } from '@/components/icons/copy';
+import Link from 'next/link';
 
 interface Props {
   color: string;
@@ -10,22 +11,40 @@ interface Props {
 }
 
 const ColorCard: React.FC<Props> = ({ color, title, onCopy, onClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleCopy = () => {
+    if (onCopy) {
+      onCopy(color);
+      navigator.clipboard.writeText(color);
+    }
+  };
+
   return (
-    <Container onClick={onClick}>
-      <ColorRectangle $backgroundColor={color} />
+    <Container>
+      <ColorRectangle
+        $backgroundColor={color}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {isHovered && (
+          <InspectLink href={`/colors/inspector?color=${encodeURIComponent(color)}`}>
+            Inspect
+          </InspectLink>
+        )}
+      </ColorRectangle>
 
-      {title && (
-        <ColorTitle>{title}</ColorTitle>
-      )}
+      {title && <ColorTitle>{title}</ColorTitle>}
 
-      <ColorText>
+      <ColorText onClick={handleCopy}>
         {color}
-        <CopyIcon width='16' height='16' />
+        <CopyIcon className="icon" width="16" height="16" />
       </ColorText>
     </Container>
   );
-}
+};
 
+// Стилизация компонентов
 const Container = styled.div`
   position: relative;
   padding: 0.25rem;
@@ -45,7 +64,31 @@ const ColorRectangle = styled.div.attrs<{ $backgroundColor: string }>(({ $backgr
   width: 6rem;
   height: 6rem;
   border-radius: 0.25rem;
+  position: relative;
   transition: width 0.3s;
+
+  &:hover a {
+    opacity: 1;
+  }
+`;
+
+const InspectLink = styled(Link)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 0.25rem 0.5rem;
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
 `;
 
 const ColorTitle = styled.div`
