@@ -19,19 +19,16 @@ const Icon: React.FC<Props> = ({
   width = '24',
   height = '24',
   fill = 'none',
-  stroke = undefined,
-  strokeWidth = '1',
   className,
   onClick,
 }) => {
   return (
     <svg
       width={width} 
-      height={height} 
+      height={height}
       viewBox='0 0 24 24' 
       fill={fill}
-      stroke={stroke}
-      strokeWidth={strokeWidth} 
+      strokeWidth={0}
       xmlns='http://www.w3.org/2000/svg'
       className={`${className ? className : ''} icon`}
       onClick={onClick}
@@ -39,7 +36,7 @@ const Icon: React.FC<Props> = ({
       <style>
         {`
           * {
-            transition: stroke 0.3s;
+            transition: fill 0.3s;
           }
         `}
       </style>
