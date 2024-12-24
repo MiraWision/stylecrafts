@@ -7,17 +7,12 @@ import { Button } from 'primereact/button';
 import { CopyIcon } from '@/components/icons/copy';
 import { CheckmarkIcon } from '@/components/icons/checkmark';
 
-import { useTheme } from '@/services/theme-service/use-theme';
-import { Theme } from '@/services/theme-service/types';
-
 interface Props {
   code: string;
 }
 
 const CodeBlock: React.FC<Props> = ({ code }) => {
   const [icon, setIcon] = useState('copy');
-
-  const [theme] = useTheme();
 
   const copyText = async () => {
     copyToClipboard(code, {
@@ -32,7 +27,7 @@ const CodeBlock: React.FC<Props> = ({ code }) => {
   };
 
   return (
-    <Container $isDark={theme === Theme.Dark}>
+    <Container>
       <Text>
         {code}
       </Text>
@@ -55,8 +50,8 @@ const CopyButton = styled(Button)`
   border-radius: 0.4rem;
   height: 2rem;
   width: 2rem;
+  padding: 0.5rem;
   border: none;
-  color: var(--primary-color);
   background: none;
   transition: opacity 0.3s;
   opacity: 0;
@@ -65,22 +60,19 @@ const CopyButton = styled(Button)`
     box-shadow: none;
   }
 
-  .pi {
-    color: var(--primary-color);
+  .icon * {
+    fill: var(--primary-color);
   }
 `;
 
-const Container = styled.div.attrs<{ $isDark: boolean }>(({ $isDark }) => ({
-  style: {
-    backgroundColor: $isDark ? '#2d2d2d' : '#f8f8f2',
-    color: $isDark ? '#f8f8f2' : '#2d2d2d',
-  },
-}))`
+const Container = styled.div`
   position: relative;
   margin: 1rem 0;
   padding: 1rem;
   border-radius: 0.25rem;
   overflow: auto;
+  background-color: #f8f8f2;
+  color: #2d2d2d;
 
   ${CopyButton} {
     opacity: 0;

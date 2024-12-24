@@ -1,22 +1,18 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-import { useObserver } from '@/hooks/use-observer';
-
-import { Column, Container, Headline, TextColumn, fadeInSlideUp } from './common';
+import { Column, Container, Headline, TextColumn } from './common';
 import { Routes } from '@/content/routes';
 import { CheckmarkCircleIcon } from '@/components/icons/checkmark-circle';
 import { CrossCircleIcon } from '@/components/icons/cross-circle';
 
 const ColorMixingSection: React.FC = () => {
-  const [observerRef, isVisible] = useObserver<HTMLDivElement>();
- 
   return (
-    <StyledContainer ref={observerRef}>
-      <StyledHeadline>{'{DISCOVER REALICTIC COLOR MIXING}'}</StyledHeadline>
+    <Container>
+      <Headline>{'{ DISCOVER REALICTIC COLOR MIXING }'}</Headline>
 
       <Row>
-        <TextColumn $isVisible={isVisible}>
+        <TextColumn>
           <p>
             Most programmatic color mixing algorithms often produce unrealistic results.
             Considering this, we've developed an innovative color model and mixing algorithm that
@@ -26,7 +22,7 @@ const ColorMixingSection: React.FC = () => {
           <p>
             Whether you're working on digital art, web design, or any creative project,
             our advanced algorithm will provide a true-to-life color blending experience.
-            Ready to see it in action? Try the <a href={Routes.ColorsInspectorTool} target='_blank'>Color Mixer Tool</a> now!
+            Ready to see it in action? Try the <a href={Routes.GuessColorBlendGame} target='_blank'>Guess Color Blend game</a> now!
           </p>
           
           <p className='accent'>
@@ -36,7 +32,7 @@ const ColorMixingSection: React.FC = () => {
           </p>
         </TextColumn>
 
-        <ExamplesColumn $isVisible={isVisible}>
+        <ExamplesColumn>
           <MainExample>
             <figure>
               <img src='/landing/mix-best.png' alt='Correct Color Mixing Example' />
@@ -60,19 +56,9 @@ const ColorMixingSection: React.FC = () => {
           </WrongExamples>
         </ExamplesColumn>
       </Row>
-    </StyledContainer>
+    </Container>
   );
 };
-
-const StyledContainer = styled(Container)`
-  display: flex;
-  flex-direction: column;
-  padding: 5rem;
-`;
-
-const StyledHeadline = styled(Headline)`
-  color: #75468A;
-`;
 
 const Row = styled.div`
   display: flex;

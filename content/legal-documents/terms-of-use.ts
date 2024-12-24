@@ -1,9 +1,9 @@
 const content = `
-# Terms of Use for CSSCraft
+# Terms of Use for StyleCrafts
 
-Welcome to CSSCraft! Here’s what you need to know to enjoy our site safely and fairly.
+Welcome to StyleCrafts! Here’s what you need to know to enjoy our site safely and fairly.
 
-1. **Who We Are**: CSSCraft ([csscraft.dev](https://csscraft.dev)).
+1. **Who We Are**: StyleCrafts ([stylecrafts.app](https://stylecrafts.app)).
 2. **Get in Touch**: Questions or issues? Email us at yelysei277@gmail.com.
 3. **Using Our Site**: Feel free to use our site as intended. Just don’t try to mess with it or use it in harmful ways.
 4. **Content and Ownership**: We built the tools and features here, but the results you create with them are yours to use freely. You’re responsible for anything you input.
@@ -12,7 +12,7 @@ Welcome to CSSCraft! Here’s what you need to know to enjoy our site safely and
 7. **Legal Stuff**: We follow the laws of the European Union, as we’re based in Poland.
 8. **Updates to These Terms**: We might update these terms occasionally. If we do, we’ll let you know through a notice on our site.
 
-Enjoy using CSSCraft!
+Enjoy using StyleCrafts!
 `;
 
 export { content };

@@ -1,63 +1,99 @@
 import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
+import Link from 'next/link';
 
-import { TopMenu } from '../../menu/top-menu';
-import { ExploreMoreButton } from './explore-more-button';
-import { GoToAppButton } from './go-to-app-button';
+import { TopMenu } from './top-menu';
 import { Routes } from '@/content/routes';
+import { GoToAppIcon } from '@/components/icons/go-to-app';
+import { ExpandIcon } from '@/components/icons/expand';
+import { fadeInAnimation } from './common';
 
 interface Props {}
 
-const HeroSection: React.FC<Props> = () => (
-  <MainContainer>
-    <TopMenu />
-    <Container>
-      <HeroContainer>
-        <CentralContainer>
-          <TopContainer>
-            <TopLeftText>DESIGN<br />GETS<br />EASIER</TopLeftText>
-            <StyledImageTop src="./landing/hero-top.png" alt="Hero Top Image" />
-            <div />
-          </TopContainer>
-          <CenterText>STYLE CRAFTS</CenterText>
-          <BottomContainer>
-            <BottomLeftPlaceholder />
-            
-            <StyledImageBottom src="./landing/hero-bottom.png" alt="Hero Bottom Image" />
-            <ParagraphContainer>
-              <Paragraph>
-                Optimize images, create vibrant palettes, generate heatmaps, and many more with our free tools and libraries
-              </Paragraph>
-              <GoToAppButton
-                href={Routes.ImageCompressionTool}
-                fontSize="1.5vw"
-                iconSize="1.5vw"
-              />
-            </ParagraphContainer>
-          </BottomContainer>
-        </CentralContainer>
-        <ExploreMoreButton href="#explore-more" />
-      </HeroContainer>
-    </Container>
-  </MainContainer>
-);
+const HeroSection: React.FC<Props> = () => {
+  const onScroll = () => {
+    window.scrollBy({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  };
 
-const fadeInSlideUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(5vh);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  return (
+    <MainContainer>
+      <TopMenu />
+
+      <Container>
+        <HeroContainer>
+          <CentralContainer>
+            <TopContainer>
+              <TopLeftText>DESIGN<br />GETS<br />EASIER</TopLeftText>
+              
+              <StyledImageTop src="./landing/hero-top.png" alt="Hero Top Image" />
+              
+              <div />
+            </TopContainer>
+
+            <CenterText>STYLE CRAFTS</CenterText>
+            
+            <BottomContainer>
+              <BottomLeftPlaceholder />
+              
+              <StyledImageBottom src="./landing/hero-bottom.png" alt="Hero Bottom Image" />
+              
+              <ParagraphContainer>
+                <Paragraph>
+                  Optimize images, create vibrant palettes, generate heatmaps, and many more with our free tools and libraries
+                </Paragraph>
+              
+                <GoToAppLink href={Routes.ImageCompressionTool}>
+                  GO TO APP <GoToAppIcon width='2.5vw' height='2.5vw' />
+                </GoToAppLink>
+              </ParagraphContainer>
+            </BottomContainer>
+          </CentralContainer>
+        </HeroContainer>
+      </Container>
+
+      <ExploreContainer onClick={onScroll}>
+        <ExploreLink>EXPLORE MORE</ExploreLink>
+        
+        <ExpandIcon
+          width='2.5rem'
+          height='2.5rem'
+        />
+      </ExploreContainer>
+    </MainContainer>
+  );
+};
+
+const ExploreContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  cursor: pointer;
+
+  .icon {
+    margin-left: -1rem;
+
+    * {
+      fill: var(--primary-color);
+    }
+  }  
 `;
 
-const fadeInAnimation = css`
-  animation: ${fadeInSlideUp} 1s ease-out;
+const ExploreLink = styled.div`
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--primary-color);
+  text-align: center;
 `;
 
 const MainContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,13 +102,12 @@ const MainContainer = styled.div`
 `;
 
 const Container = styled.div`
-  position: relative;
   width: 100%;
   display: flex;
+  ${fadeInAnimation}
 `;
 
 const HeroContainer = styled.div`
-  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -85,20 +120,22 @@ const CentralContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 63%;
-  padding-top: 10vw;
+  position: absolute;
+  top: 50vh;
+  transform: translateY(-55%);
 `;
 
 const TopContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
 `;
 
 const BottomContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
 `;
 
@@ -107,14 +144,14 @@ const TopLeftText = styled.div`
   grid-column: 1;
   font-size: 2.5vw;
   font-weight: 50;
-  color: #75468A;
+  color: var(--primary-color);
   text-align: left;
   line-height: 0.9;
   letter-spacing: 0.1em;
   width: 100%;
-  ${fadeInAnimation}
   animation-delay: 0.3s;
   animation-fill-mode: both;
+  user-select: none;
 `;
 
 const StyledImageTop = styled.img`
@@ -139,33 +176,53 @@ const BottomLeftPlaceholder = styled.div`
 
 const CenterText = styled.div`
   font-family: 'Montagu Slab', serif;
-  font-size: 4.5vw;
+  font-size: 5.25vw;
+  line-height: 5vw;
   font-weight: 450;
-  color: #75468A;
+  color: var(--primary-color);
   text-align: center;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.35em;
   white-space: nowrap;
   margin: 0.4vw 0;
-  ${fadeInAnimation}
-  animation-delay: 0.5s;
-  animation-fill-mode: both;
+  user-select: none;
 `;
 
 const ParagraphContainer = styled.div`
   grid-column: 3;
   display: flex;
   flex-direction: column;
-
-  ${fadeInAnimation}
-  animation-delay: 0.6s;
-  animation-fill-mode: both;
   margin-left: 5vw;
+`;
+
+const GoToAppLink = styled(Link)`
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ff4500;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  .icon * {
+    fill: #ff4500;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.6rem;
+  }
 `;
 
 const Paragraph = styled.div`
   font-size: 1.2vw;
   font-weight: 300;
-  color: #4b5563;
+  color: var(--text-color);
   text-align: left;
   margin-bottom: 0.8vw;
 `;

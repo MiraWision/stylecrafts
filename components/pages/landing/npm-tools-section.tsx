@@ -1,7 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-
-import { useObserver } from '@/hooks/use-observer';
+import styled from 'styled-components';
 
 import { CodeBlock } from '@/components/ui/texts/code-block';
 import { Column, Container, Headline, TextColumn } from './common';
@@ -12,14 +10,12 @@ const libraries = [
 ];
 
 const NpmToolsSection: React.FC = () => {
-  const [observerRef, isVisible] = useObserver<HTMLDivElement>();
- 
   return (
-    <StyledContainer ref={observerRef}>
-      <StyledHeadline>{'{OUR SOLUTIONS}'}</StyledHeadline>
+    <Container>
+      <Headline>{'{ OUR SOLUTIONS }'}</Headline>
 
       <Row>
-        <TextColumn $isVisible={isVisible}>
+        <TextColumn>
           <p>
             At MiraWision, we’re passionate about creating tools that enhance web development and design. 
             The same innovative solutions that power our website are available for you to use in your own projects.
@@ -30,7 +26,7 @@ const NpmToolsSection: React.FC = () => {
           </p>
         </TextColumn>
 
-        <CardColumn $isVisible={isVisible}>
+        <CardColumn>
           <Header>
             <ServiceLogo href='https://github.com/MiraWision' target='_blank' rel='noopener noreferrer'>
               <img src='/icons/github.svg' alt='github' />
@@ -54,19 +50,9 @@ const NpmToolsSection: React.FC = () => {
           </LibraryList>
         </CardColumn>
       </Row>
-    </StyledContainer>
+    </Container>
   );
 };
-
-const StyledContainer = styled(Container)`
-  display: flex;
-  flex-direction: column;
-  padding: 5rem;
-`;
-
-const StyledHeadline = styled(Headline)`
-  color: #75468A;
-`;
 
 const Row = styled.div`
   display: flex;

@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 const config = {
-  siteUrl: 'https://csscraft.dev',
+  siteUrl: 'https://stylecrafts.app',
   generateRobotsTxt: true,
   priority: 0.5,
   transform: async (config, path) => {

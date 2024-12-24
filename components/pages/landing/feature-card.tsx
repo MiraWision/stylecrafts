@@ -1,67 +1,62 @@
 import React from 'react';
+import Link from 'next/link';
 import styled, { css } from 'styled-components';
 
-import { fadeInSlideUp } from './common';
-import { GoToAppButton } from './go-to-app-button';
-import { IconProps } from '@/components/icons/icon';
+import { Icon, IconProps } from '@/components/icons/icon';
 
 interface Props {
   href: string;
-  isVisible: boolean;
-  Icon: React.FC<IconProps>;
+  icon: React.FC<IconProps>;
   title: string;
   description: string;
-  iconSize?: string;
 }
 
 const FeatureCard: React.FC<Props> = ({
   href,
-  isVisible,
-  Icon,
+  icon: Icon,
   title,
   description,
-  iconSize
 }) => {
   return (
-    <Card $isVisible={isVisible}>
+    <Card href={href}>
       <IconWrapper>
-        <Icon width={iconSize} height={iconSize} />
+        <Icon width='6rem' height='6rem' />
       </IconWrapper>
       <Content>
         <Title>{title}</Title>
         <Description>{description}</Description>
-        <GoToAppButton href={href} />
       </Content>
     </Card>
   );
 };
 
-const fadeInAnimation = css`
-  animation: ${fadeInSlideUp} 1s ease-out;
-`;
-
-const Card = styled.div<{ $isVisible: boolean }>`
+const Card = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-self: center;
   width: 18rem;
   height: 100%;
   padding: 1rem;
   text-align: left;
-  opacity: 0;
   animation-fill-mode: both;
   text-decoration: none;
   color: var(--text-primary);
   border-radius: 1rem;
   transition: all 0.3s ease-out;
 
-  ${({ $isVisible }) =>
-    $isVisible &&
-    css`
-      ${fadeInAnimation}
-      opacity: 1;
-      transform: translateY(0);
-    `}
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+
+    .icon * {
+      fill: url(#landing);
+    }
+  }
+
+  &:active {
+    transform: scale(1.025);
+  }
 
   @media (max-width: 768px) {
     width: 15rem;
@@ -70,14 +65,13 @@ const Card = styled.div<{ $isVisible: boolean }>`
 `;
 
 const IconWrapper = styled.div`
-  width: 3rem;
-  height: 3rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   align-self: center;
+  position: relative;
+  width: 6rem;
+  height: 6rem;
 
   @media (max-width: 768px) {
-    width: 3rem;
-    height: 3rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
   }

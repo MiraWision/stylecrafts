@@ -9,7 +9,7 @@ const defaultImage = '/meta-data/default.jpg';
 const MetaTags: React.FC<IMetaTags> = ({ title, description, keywords, image, url }) => {
   const router = useRouter();
 
-  const siteTitle = `${title} | CSSCraft`;
+  const siteTitle = `${title} | StyleCrafts`;
 
   return (
     <Head>

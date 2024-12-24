@@ -5,6 +5,7 @@ import { Routes } from '@/content/routes';
 
 import { LinkedInIcon } from '@/components/icons/linked-in';
 import { XIcon } from '@/components/icons/x';
+import { InstagramIcon } from '@/components/icons/instagram';
 
 const footerData = [
   // {
@@ -100,6 +101,10 @@ const Footer: React.FC<Props> = ({ className }) => {
         </Description>
 
         <SocialNetworks>
+          <FooterLink href='https://www.instagram.com/stylecrafts.app' target='_blank' rel='noopener noreferrer'>
+            <InstagramIcon />
+          </FooterLink>
+
           <FooterLink href='https://www.linkedin.com/company/mirawision' target='_blank' rel='noopener noreferrer'>
             <LinkedInIcon />
           </FooterLink>

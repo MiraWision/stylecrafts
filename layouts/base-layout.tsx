@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { Button } from 'primereact/button';
 import { Logo } from '@/components/ui/logo';
 import { SideMenu } from '@/components/menu/side-menu';
-import { ThemeButton } from '@/components/ui/theme-button';
 import { Footer } from '@/components/pages/landing/footer';
 
 import 'primereact/resources/primereact.min.css';

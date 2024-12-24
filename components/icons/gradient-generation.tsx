@@ -5,20 +5,7 @@ import { Icon, IconProps } from './icon';
 const GradientGenerationIcon: React.FC<IconProps> = (props) => {
   return (
     <Icon {...props}>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M18 5H6C5.44772 5 5 5.44772 5 6V18C5 18.5523 5.44772 19 6 19H18C18.5523 19 19 18.5523 19 18V6C19 5.44772 18.5523 5 18 5ZM6 4C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4H6Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M5 17V19H7V17H5Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M7 15V17H9V15H7Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M15 11V13H17V11H15Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M5 13V15H7V13H5Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M7 11V13H9V11H7Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M9 17V19H11V17H9Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M11 15V17H13V15H11Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M13 13V15H15V13H13Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M15 15V17H17V15H15Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M17 17V19H19V17H17Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M13 17V19H15V17H13Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M11 11V13H13V11H11Z" fill="#9CA3AF"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M9 9V11H11V9H9Z" fill="#9CA3AF"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M4 6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V6ZM6 5H18C18.5523 5 19 5.44772 19 6V17H17V15H15V13H17V11H15V13H13V11H11V9H9V11H7V13H5V6C5 5.44772 5.44772 5 6 5ZM7 15V13H9V11H11V13H13V15H11V17H9V15H7ZM7 17H5V15H7V17ZM7 17V19H9V17H7ZM13 17V15H15V17H13ZM13 17H11V19H13V17ZM15 17H17V19H15V17Z" fill="#9CA3AF"/>
     </Icon>
   );
 }

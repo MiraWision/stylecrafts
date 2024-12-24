@@ -41,6 +41,14 @@ const Icon: React.FC<Props> = ({
         `}
       </style>
 
+      <defs>
+        <linearGradient id="landing" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FE8667" />
+          <stop offset="70%" stop-color="#F72687" />
+          <stop offset="100%" stop-color="#3B2391" />
+        </linearGradient>
+      </defs>
+
       {children}
     </svg>
   );

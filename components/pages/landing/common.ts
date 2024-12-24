@@ -1,9 +1,10 @@
 import styled, { css, keyframes } from 'styled-components';
+import { ObservableSlider } from './observable-slider';
 
 const fadeInSlideUp = keyframes`
   from {
     opacity: 0;
-    transform: translateY(250px);
+    transform: translateY(5vh);
   }
   to {
     opacity: 1;
@@ -11,10 +12,16 @@ const fadeInSlideUp = keyframes`
   }
 `;
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 3rem 2rem;
+const fadeInAnimation = css`
+  animation: ${fadeInSlideUp} 1s ease-out;
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
+`;
+
+const Container = styled(ObservableSlider)`
+  width: 100vw;
+  height: auto;
+  padding: 3rem 6rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -27,9 +34,10 @@ const Container = styled.div`
 const Headline = styled.h2`
   font-size: 2.25rem;
   font-weight: 400;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   margin-left: 1rem;
   animation: ${fadeInSlideUp} 1s ease-out;
+  color: var(--primary-color);
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -38,36 +46,18 @@ const Headline = styled.h2`
 `;
 
 const FeaturesRow = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
   gap: 2rem;
   margin-bottom: 2rem;
-  width: 100%;
 
   @media (max-width: 768px) {
     width: 90vw;
   }
 `;
 
-const Column = styled.div.attrs<{ $isVisible: boolean }>(({ $isVisible }) => ({
-  className: $isVisible ? 'visible' : '',
-}))`
-  opacity: 0;
-  animation-fill-mode: both;
-  max-width: 25rem;
-
-  &.visible {
-    animation: ${fadeInSlideUp} 1s ease-out;
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+const Column = styled.div`
 `;
 
 const TextColumn = styled(Column)`
@@ -112,4 +102,5 @@ export {
   Column,
   TextColumn,
   fadeInSlideUp,
+  fadeInAnimation,
 };

@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import { metaTags } from '@/content/meta-data/default';
 
-import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';
 import { HeroSection } from '@/components/pages/landing/hero-section';
 import { ImagesSection } from '@/components/pages/landing/images-section';
 import { ColorsSection } from '@/components/pages/landing/colors-section';
+import { GeneratorsSection } from '@/components/pages/landing/generators-section';
 import { NpmToolsSection } from '@/components/pages/landing/npm-tools-section';
 import { Footer } from '@/components/pages/landing/footer';
 import { CheatsheetsSection } from '@/components/pages/landing/cheatsheets-section';
@@ -22,6 +22,10 @@ const Sections = [
   {
     title: 'Images',
     renderComponent: () => (<ImagesSection />),
+  },
+  {
+    title: 'Generators',
+    renderComponent: () => (<GeneratorsSection />),
   },
   {
     title: 'Cheatsheets',
@@ -75,6 +79,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
