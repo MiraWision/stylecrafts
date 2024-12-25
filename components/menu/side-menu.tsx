@@ -19,6 +19,8 @@ import { CharactersIcon } from '../icons/characters';
 import { EmojisIcon } from '../icons/emojis';
 import { GameIcon } from '../icons/game';
 import { BlogIcon } from '../icons/blog';
+import { QRCodeGeneratorIcon } from '../icons/qr-code-generator';
+import { LoremIpsumGeneratorIcon } from '../icons/lorem-ipsum-generator';
 
 interface Props {}
 
@@ -26,16 +28,6 @@ const MenuItems = [
   {
     name: 'Images',
     items: [
-      // {
-      //   icon: faImages,
-      //   name: 'Master Tool',
-      //   url: Routes.ImageMasterTool,
-      // },
-      // {
-      //   icon: faImages,
-      //   name: 'Cropping',
-      //   url: Routes.ImageCroppingTool,
-      // },
       {
         icon: ImageCompressionIcon,
         name: 'Compression',
@@ -85,6 +77,21 @@ const MenuItems = [
         icon: ColorInspectorIcon,
         name: 'Color Inspector',
         url: Routes.ColorsInspectorTool,
+      },
+    ],
+  },
+  {
+    name: 'Generators',
+    items: [
+      {
+        icon: QRCodeGeneratorIcon,
+        name: 'QR Code Generator',
+        url: Routes.GeneratorsQRCode,
+      },
+      {
+        icon: LoremIpsumGeneratorIcon,
+        name: 'Lorem Ipsum Generator',
+        url: Routes.GeneratorsLoremIpsum,
       },
     ],
   },
