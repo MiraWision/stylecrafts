@@ -208,7 +208,7 @@ const Container = styled.div`
   }
 
   .icon * {
-    stroke: var(--surface-500);
+    fill: var(--surface-500);
   }
 `;
 
@@ -278,7 +278,7 @@ const ButtonWrapper = styled.div`
   }
 
   .icon * {
-    stroke: #ffffff;
+    fill: #ffffff;
   }
 `;
 

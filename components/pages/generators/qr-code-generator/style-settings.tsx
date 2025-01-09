@@ -168,7 +168,7 @@ const Example = styled.div<{ $foregroudndColor: string, $backgroundColor: string
 
   .icon {
     path, circle {
-      stroke: ${({ $foregroudndColor }) => $foregroudndColor};
+      fill: ${({ $foregroudndColor }) => $foregroudndColor};
     }
   }
 `;
@@ -183,7 +183,7 @@ const Warning = styled.div`
     min-width: 1.5rem;
 
     path {
-      stroke: var(--yellow-500);
+      fill: var(--yellow-500);
     }
   }
 `;

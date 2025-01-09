@@ -137,7 +137,7 @@ const Header = styled.div`
   align-items: center;
 
   .icon * {
-    stroke: var(--text-color);
+    fill: var(--text-color);
   }
 
   h3 {

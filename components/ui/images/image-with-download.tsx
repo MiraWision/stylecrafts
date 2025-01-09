@@ -96,7 +96,7 @@ const DownloadContainer = styled.div`
   }
 
   .icon * {
-    stroke: #ffffff;
+    fill: #ffffff;
   }
 
   @media (max-width: 768px) {

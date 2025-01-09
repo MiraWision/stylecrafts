@@ -144,7 +144,7 @@ const ToggleContainer = styled.div`
     margin-right: 0.5rem;
 
     * {
-      stroke: var(--text-color);
+      fill: var(--text-color);
     }
   }
 `;

@@ -59,7 +59,7 @@ const ButtonStyled = styled(Button)<{ $isPrimary: boolean }>`
   }
 
   .icon * {
-    stroke: ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-500)'};
+    fill: ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-500)'};
   }
 `;
 

@@ -206,14 +206,14 @@ const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
   }
 
   .icon * {
-    stroke: var(--surface-500);
+    fill: var(--surface-500);
   }
 
   &:hover {
     font-weight: 700;
 
     .icon * {
-      stroke: var(--surface-900);
+      fill: var(--surface-900);
     }
   }
 
@@ -221,13 +221,13 @@ const MenuItem = styled(Link).attrs<{ $active: boolean }>(({ $active }) => ({
     font-weight: 700;
 
     .icon * {
-      stroke: var(--primary-color);
+      fill: var(--primary-color);
     }
 
     &:hover {
 
       .icon * {
-        stroke: var(--primary-color);
+        fill: var(--primary-color);
       }
     }
   }

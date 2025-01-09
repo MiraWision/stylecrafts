@@ -61,7 +61,7 @@ const Button = styled.div<{ $isActive: boolean }>`
     color: var(--primary-color);
 
     svg path, svg circle {
-      stroke: var(--primary-color);
+      fill: var(--primary-color);
     }
   `}
 `;

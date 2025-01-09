@@ -140,7 +140,7 @@ const Field = styled.div.attrs<{ $isHighlighted: boolean, $canCopy: boolean, $is
     transition: opacity 0.3s;
 
     * {
-      stroke: var(--primary-color);
+      fill: var(--primary-color);
     }
   }
 

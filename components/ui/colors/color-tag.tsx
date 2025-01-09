@@ -44,7 +44,7 @@ const CopyIconContainer = styled.div`
 
   .icon {
     * {
-      stroke: var(--primary-color);
+      fill: var(--primary-color);
     }
   }
 `;

@@ -206,7 +206,7 @@ const FooterLink = styled.a`
   color: var(--text-color);
 
   .icon * {
-    stroke: var(--text-color);
+    fill: var(--text-color);
   }
 
   &:hover {

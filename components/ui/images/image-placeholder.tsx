@@ -31,7 +31,7 @@ const Container = styled.div`
   align-items: center;
 
   .icon * {
-    stroke: var(--surface-500);
+    fill: var(--surface-500);
   }
 
   @media (max-width: 768px) {

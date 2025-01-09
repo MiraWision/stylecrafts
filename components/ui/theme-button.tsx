@@ -64,7 +64,7 @@ const ButtonStyled = styled(Button)`
   border: 0.0625rem dashed var(--surface-500);
 
   .icon * {
-    stroke: var(--surface-500);
+    fill: var(--surface-500);
   }
 
   @media (max-width: 768px) {

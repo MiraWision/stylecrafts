@@ -117,13 +117,13 @@ const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severit
 
   &.error {
     .icon * {
-      stroke: var(--red-700);
+      fill: var(--red-700);
     }
   }
 
   &.warning {
     .icon * {
-      stroke: var(--yellow-700);
+      fill: var(--yellow-700);
     }
   }
 `;

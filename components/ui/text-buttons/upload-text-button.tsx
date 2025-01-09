@@ -28,7 +28,6 @@ const UploadTextButton: React.FC<Props> = ({ text = 'Upload', onFileSelect, styl
       <BaseTextButton
         text={text}
         icon={<UploadIcon width="20" height="20" />}
-        isPrimary
         onClick={handleButtonClick}
         className={className}
         style={style}
