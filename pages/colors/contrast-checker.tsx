@@ -17,7 +17,7 @@ const ContrastChecker: React.FC = () => {
       <MetaTags {...metaTags} />
 
       <MainContainer>
-        <Title>Color contrast checker</Title>
+        <Title>Color Contrast Checker</Title>
 
         <Subtitle>Check the contrast between two colors to ensure that your text is readable</Subtitle>
 

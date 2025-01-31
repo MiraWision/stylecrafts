@@ -19,7 +19,7 @@ const ImageExamples: React.FC<ImageExamplesProps> = ({ images, onImageSelect }) 
           <ExampleImage src={image.src} alt={`Example ${index + 1}`} />
           <ColorPalette>
             {image.colors.map((color, colorIndex) => (
-              <ColorSquare key={colorIndex} style={{ backgroundColor: color }} />
+              <ColorStrip key={colorIndex} style={{ backgroundColor: color }} />
             ))}
           </ColorPalette>
         </ImageWrapper>
@@ -36,14 +36,13 @@ const GridContainer = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  width: 100%;
-  max-width: 150px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  padding-bottom: 1rem;
 `;
 
 const ExampleImage = styled.img`
-  width: 100%;
+  width: 8rem;
   height: 8rem;
   border-radius: 0.25rem;
   object-fit: cover;
@@ -51,14 +50,16 @@ const ExampleImage = styled.img`
 
 const ColorPalette = styled.div`
   display: flex;
-  gap: 0.2rem;
+  flex-direction: column;
+  height: 8rem;
+  margin-left: 0.5rem;
 `;
 
-const ColorSquare = styled.div`
+const ColorStrip = styled.div`
+  flex: 1;
   width: 1rem;
-  height: 1rem;
-  border-radius: 0.2rem; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  border-radius: 0.1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
 export { ImageExamples };

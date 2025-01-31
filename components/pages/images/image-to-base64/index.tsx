@@ -8,7 +8,7 @@ import { useToast } from '@/components/ui/toast';
 import { ImageData, ImageInput } from '@/components/ui/inputs/image-input';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { TextareaWithCopy } from '@/components/ui/inputs/textarea-with-copy';
-import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button'; // Assuming you have this component
+import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button';
 
 interface Props {
 }
@@ -31,7 +31,6 @@ const ImageToBase64: React.FC<Props> = ({}) => {
     }
   };
 
-  // Updated handleFileSelect to handle File | null
   const handleFileSelect = (file: File | null) => {
     if (file) {
       const reader = new FileReader();

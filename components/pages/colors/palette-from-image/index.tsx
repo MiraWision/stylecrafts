@@ -8,18 +8,12 @@ import { ImageColorPicker } from './image-picker';
 import { useToast } from '@/components/ui/toast';
 import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 import { ImageInputMini, ImageData } from '@/components/ui/inputs/image-input-mini';
-import { ColorTag } from '@/components/ui/colors/color-tag';
 import { ImageExamples } from './image-examples';
-import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
 import { Label } from '@/components/ui/texts/label';
 
-interface PaletteFromImageProps {
-  autoPalette: string[];
-  userPalette: string[];
-  handlePaletteChange: (newAutoPalette: string[], newUserPalette: string[]) => void;
-  handleRemoveColor: (index: number, paletteType: 'auto' | 'user') => void;
-  handleRefreshPalette: () => void;
-}
+import { Palette } from './palette';
+
+interface Props {}
 
 const exampleImages = [
   {
@@ -56,39 +50,27 @@ const exampleImages = [
   }
 ];
 
-const PaletteFromImageMain: React.FC<PaletteFromImageProps> = ({}) => {
+const PaletteFromImageMain: React.FC<Props> = () => {
   const { toast } = useToast();
 
-  const [autoPalette, setAutoPalette] = useState<string[]>([]);
-  const [userPalette, setUserPalette] = useState<string[]>([]);
+  const [palette, setPalette] = useState<string[]>([]);
+  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
 
-  const handlePaletteChange = (newAutoPalette: string[], newUserPalette: string[]) => {
-    setAutoPalette(newAutoPalette);
-    setUserPalette(newUserPalette);
+  const handlePaletteChange = (newPalette: string[]) => {
+    setPalette(newPalette);
   };
 
-  const handleColorChange = (index: number, newColor: string) => {
-    const newUserPalette = [...userPalette];
-    newUserPalette[index] = newColor;
-    setUserPalette(newUserPalette);
-  };
-
-  const handleAddUserColor = (newColor: string) => {
-    setUserPalette([...userPalette, newColor]);
-  };
-
-  const onCopy = () => {
-    const text = autoPalette.length > 0 ? autoPalette.join(', ') : userPalette.join(', ');
-    toast.success('Colors copied to clipboard', text);
-
-    GAService.logEvent(analyticsEvents.colors.gradient.gradientCopied(text));
+  const handleRemoveColor = (index: number) => {
+    setPalette(prev => {
+      const updated = [...prev];
+      updated.splice(index, 1);
+      return updated;
+    });
   };
 
   const handleRefreshPalette = () => {
-    setUserPalette([]);
+    setPalette([]);
   };
-
-  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
 
   const handleImageSelect = (imageSrc: string) => {
     const imageData: ImageData = { content: imageSrc };
@@ -96,95 +78,70 @@ const PaletteFromImageMain: React.FC<PaletteFromImageProps> = ({}) => {
   };
 
   return (
-    <GridContainer>
-      <Column>
-        <ImageInputMini
-          value={selectedImage?.content || null}
-          onChange={setSelectedImage}
-        />
+    <>
+      <GridContainer>
 
-        {selectedImage ? (
-          <ImageColorPicker
-            onPaletteChange={handlePaletteChange}
-            selectedImage={selectedImage.content}
-          /> 
-        ) : (
-          <ImagePlaceholder />
-        )}
-      </Column>
-
-      <Column>
-        {(autoPalette.length > 0 || userPalette.length > 0) && (
-          <CopyTextButton
-            text='Copy Colors'
-            copyText={autoPalette.length > 0 ? autoPalette.join(', ') : userPalette.join(', ')}
-            onCopyCallback={onCopy}
+        <PaletteColumn>
+          <StyledLabel fontSize='14'>Palette</StyledLabel>
+          
+          <Palette
+            palette={palette}
+            onRemoveColor={handleRemoveColor}
+            onRefreshPalette={handleRefreshPalette}
           />
-        )}
-        <PaletteContainer>
-          {autoPalette.length > 0 && (
-            <PaletteColumn>
-              <Label>Auto Palette</Label>
-              <ColorsGrid>
-                {autoPalette.map((color, index) => (
-                  <ColorTag
-                    key={index}
-                    color={color}
-                  />
-                ))}
-              </ColorsGrid>
-            </PaletteColumn>
-          )}
-          {userPalette.length > 0 && (
-            <PaletteColumn>
-              <Label>User Palette</Label>
-              <ColorsGrid>
-                {userPalette.map((color, index) => (
-                  <ColorTag
-                    key={index}
-                    color={color}
-                  />
-                ))}
-              </ColorsGrid>
-            </PaletteColumn>
-          )}
-        </PaletteContainer>
-      </Column>
+        </PaletteColumn>
 
-      <ImageExamples images={exampleImages} onImageSelect={handleImageSelect} />
-    </GridContainer>
+        <ImageColumn>
+          <ImageInputMini
+            value={selectedImage?.content || null}
+            onChange={setSelectedImage}
+          />
+
+          {selectedImage ? (
+            <ImageColorPicker
+              selectedImage={selectedImage.content}
+              onPaletteChange={handlePaletteChange}
+            />
+          ) : (
+            <ImagePlaceholder />
+          )}
+        </ImageColumn>
+
+      </GridContainer>
+
+      <ImageExamplesContainer>
+        <ImageExamples images={exampleImages} onImageSelect={handleImageSelect} />
+      </ImageExamplesContainer>
+    </>
   );
 };
 
+const StyledLabel = styled(Label)`
+  height: 1.5rem;
+`;
+
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 1fr 2fr;
   gap: 1rem;
-`;
-
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const PaletteContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 `;
 
 const PaletteColumn = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  gap: 1rem;
 `;
 
-const ColorsGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
+const ImageColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const ImageExamplesContainer = styled.div`
+  margin-top: 1rem;
 `;
 
 export { PaletteFromImageMain };

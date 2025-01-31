@@ -1,35 +1,26 @@
 import React from 'react';
-import styled from 'styled-components';
+
+import { BaseTextButton } from './base-text-button';
 import { AdjustIcon } from '@/components/icons/adjust';
 
-interface ContrastButtonProps {
+interface Props {
+  text: string;
   onClick: () => void;
+  style?: React.CSSProperties;
+  className?: string;
 }
 
-const ContrastButton: React.FC<ContrastButtonProps> = ({ onClick }) => {
+const ContrastTextButton: React.FC<Props> = ({ text, onClick, style, className }) => {
   return (
-    <Button onClick={onClick}>
-      <AdjustIcon width="16" height="16" fill="white"/>
-    </Button>
+    <BaseTextButton
+      text={text}
+      icon={<AdjustIcon width="20" height="20" />}
+      isPrimary={false}
+      onClick={onClick}
+      className={className}
+      style={style}
+    />
   );
 };
 
-const Button = styled.button`
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-export { ContrastButton };
+export { ContrastTextButton };

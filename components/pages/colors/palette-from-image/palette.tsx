@@ -17,28 +17,25 @@ interface Props {
 
 const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) => {
   const { toast } = useToast();
-  
-  const rowsCount = useMemo(() => {
-    const count = Math.ceil((palette.length + 1) / 4);
 
-    return count < 2 ? 2 : count;
+  const rowsCount = useMemo(() => {
+    if (palette.length === 0) {
+      return 2;
+    }
+
+    return Math.ceil((palette.length + 1) / 4);
   }, [palette]);
 
   const copyColor = (color: string) => {
     navigator.clipboard.writeText(color);
-
     toast.success('Color copied to clipboard', color);
-
     GAService.logEvent(analyticsEvents.colors.blender.colorCopied(color));
   };
 
   const onCopy = () => {
     const text = JSON.stringify(palette).replace(/,/g, ', ');
-
     navigator.clipboard.writeText(text);
-
     toast.success('Colors copied to clipboard', text);
-
     GAService.logEvent(analyticsEvents.colors.blender.colorsCopied(text));
   };
 
@@ -58,9 +55,9 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
 
           if (!color) {
             return (
-              <EmptyColorSquare 
-                key={index} 
-                $backgroundColor='#ffffff' 
+              <EmptyColorSquare
+                key={index}
+                $backgroundColor='#ffffff'
               />
             );
           }
@@ -74,7 +71,6 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
             >
               <Overlay>
                 <ColorTooltip>{color}</ColorTooltip>
-
                 <CopyIcon />
               </Overlay>
             </ColorSquare>
@@ -171,7 +167,7 @@ const RefreshButton = styled.button`
 
   &:hover {
     border-color: var(--primary-color);
-
+    
     > i {
       color: var(--primary-color);
     }

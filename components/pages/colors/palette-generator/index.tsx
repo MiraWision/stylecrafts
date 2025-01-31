@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { PaletteColor, Shade } from './types';
 import { ColorSelector } from './color-selector';
 import { ShadesList } from './shades-list';
-import { Palette } from './palette';
 import { ContrastChecker } from './preview/contrast-checker';
 import { Preview } from './preview/preview';
 import { Examples } from './examples';
+import { DownloadTextButton } from '@/components/ui/text-buttons/download-text-button';
+import { exportToSVG } from './export-to-svg';
 
 const initialColors: PaletteColor[] = [
   { baseColor: '#f5f5f5', title: 'Background', shades: [] },
@@ -19,30 +20,31 @@ const PaletteGeneratorMain: React.FC = () => {
   const [selectedColors, setSelectedColors] = useState<PaletteColor[]>(initialColors);
 
   const handleColorChange = (index: number, newBaseColor: string) => {
-    const updatedColors = [...selectedColors];
-    updatedColors[index].baseColor = newBaseColor;
-    updatedColors[index].shades = [];
-    setSelectedColors(updatedColors);
+    const updated = [...selectedColors];
+    updated[index].baseColor = newBaseColor;
+    updated[index].shades = [];
+    setSelectedColors(updated);
   };
 
   const handleAddShade = (colorIndex: number, shade: Shade) => {
-    const updatedColors = [...selectedColors];
-    updatedColors[colorIndex].baseColor = shade.hex;
-    setSelectedColors(updatedColors);
+    const updated = [...selectedColors];
+    updated[colorIndex].baseColor = shade.hex;
+    setSelectedColors(updated);
   };
 
   const handleAddColor = () => {
     if (selectedColors.length < 7) {
-      setSelectedColors([
-        ...selectedColors,
-        { baseColor: '#ff6600', title: 'Additional Color', shades: [] },
-      ]);
+      setSelectedColors([...selectedColors, {
+        baseColor: '#ff6600',
+        title: 'Additional Color',
+        shades: [],
+      }]);
     }
   };
 
   const handleRemoveColor = (index: number) => {
-    const updatedColors = selectedColors.filter((_, i) => i !== index);
-    setSelectedColors(updatedColors);
+    const updated = selectedColors.filter((_, i) => i !== index);
+    setSelectedColors(updated);
   };
 
   const downloadFile = (filename: string, content: string, contentType: string) => {
@@ -54,9 +56,9 @@ const PaletteGeneratorMain: React.FC = () => {
   };
 
   const exportToCSS = () => {
-    const cssVariables = selectedColors.map(
-      color => `--${color.title.toLowerCase()}: ${color.baseColor};`
-    ).join('\n');
+    const cssVariables = selectedColors
+      .map(c => `--${c.title.toLowerCase()}: ${c.baseColor};`)
+      .join('\n');
     downloadFile('palette.css', `:root {\n${cssVariables}\n}`, 'text/css');
   };
 
@@ -65,8 +67,8 @@ const PaletteGeneratorMain: React.FC = () => {
     downloadFile('palette.json', json, 'application/json');
   };
 
-  const exportToSVG = () => {
-    // Export logic as before...
+  const exportSVG = () => {
+    exportToSVG(selectedColors);
   };
 
   const handleExampleClick = (exampleColors: PaletteColor[]) => {
@@ -83,9 +85,7 @@ const PaletteGeneratorMain: React.FC = () => {
             onRemoveColor={handleRemoveColor}
           />
           {selectedColors.length < 7 && (
-            <AddColorButton onClick={handleAddColor}>
-              +
-            </AddColorButton>
+            <AddColorButton onClick={handleAddColor}>+</AddColorButton>
           )}
         </Column>
 
@@ -97,19 +97,13 @@ const PaletteGeneratorMain: React.FC = () => {
         </Column>
       </MainContent>
 
-      <Palette
-        selectedColors={selectedColors}
-        onRemoveColor={handleRemoveColor}
-      />
-
       <ExportButtons>
-        <ExportButton onClick={exportToCSS}>Export to CSS</ExportButton>
-        <ExportButton onClick={exportToJSON}>Export to JSON</ExportButton>
-        <ExportButton onClick={exportToSVG}>Export to SVG</ExportButton>
+        <DownloadTextButton text="Export to CSS" onClick={exportToCSS} />
+        <DownloadTextButton text="Export to JSON" onClick={exportToJSON} />
+        <DownloadTextButton text="Export to SVG" onClick={exportSVG} />
       </ExportButtons>
 
       <ContrastChecker selectedColors={selectedColors} />
-
       <Preview palette={selectedColors} />
       <Examples onExampleClick={handleExampleClick} />
     </Container>
@@ -123,7 +117,7 @@ const Container = styled.div`
 
 const MainContent = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr; 
+  grid-template-columns: 1fr 2fr;
 `;
 
 const Column = styled.div`
@@ -157,19 +151,6 @@ const ExportButtons = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 20px;
-`;
-
-const ExportButton = styled.button`
-  padding: 10px 15px;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #c0392b;
-  }
 `;
 
 export { PaletteGeneratorMain };

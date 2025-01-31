@@ -76,7 +76,6 @@ const Card = styled.div.attrs<{ $backgroundColor: string, $color: string }>(({ $
   border-radius: 0.5rem;
   padding: 2rem;
   width: 100%;
-  max-width: 500px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 20px 40px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;

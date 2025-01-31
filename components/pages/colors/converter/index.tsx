@@ -93,7 +93,7 @@ const ColorConverter: React.FC<Props> = () => {
           <IconLinkContainer>
             <IconLink
               href={`/colors/inspector?color=${encodeURIComponent(color)}`}
-              text="Inspect in Color Inspector"
+              text="Inspect Color"
             />
           </IconLinkContainer>
         </ColorPickerContainer>
@@ -139,7 +139,7 @@ const ColorPickerContainer = styled.div`
 `;
 
 const IconLinkContainer = styled.div`
-  margin-top: 1rem; /* Отступ между ColorInputBig и IconLink */
+  margin-top: 1rem;
 `;
 
 const FlexContainer = styled.div`

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Chart } from 'primereact/chart';
 import { TrandUp } from '@/components/icons/trand-up';
 import { TrandDown } from '@/components/icons/trand-down';
 import { PaletteColor } from '../types';
@@ -32,7 +32,10 @@ interface DashboardPreviewProps {
 const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const timeSlots = ['9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM'];
 
-const DashboardPreview: React.FC<DashboardPreviewProps> = ({ data, palette }) => {
+const Heatmap: React.FC<{
+  primaryColor: string;
+  textColor: string;
+}> = React.memo(({ primaryColor, textColor }) => {
   const [hoveredCell, setHoveredCell] = useState<{ row: number; col: number } | null>(null);
 
   const handleMouseEnter = (row: number, col: number) => {
@@ -43,17 +46,64 @@ const DashboardPreview: React.FC<DashboardPreviewProps> = ({ data, palette }) =>
     setHoveredCell(null);
   };
 
-  const getIntensity = (row: number, col: number, hoveredRow: number | null, hoveredCol: number | null) => {
-    if (hoveredRow === null || hoveredCol === null) return 0.1;
-
-    const distance = Math.abs(row - hoveredRow) + Math.abs(col - hoveredCol);
+  const getIntensity = (row: number, col: number) => {
+    if (!hoveredCell) return 0.1;
+    const distance = Math.abs(row - hoveredCell.row) + Math.abs(col - hoveredCell.col);
     const maxDistance = 3;
     if (distance > maxDistance) return 0.1;
-
-    const intensity = 1 - distance / maxDistance;
-    return Math.max(0.1, intensity);
+    return Math.max(0.1, 1 - distance / maxDistance);
   };
 
+  return (
+    <HeatmapContainer>
+      <InteractiveHeatmap>
+        <GridContainer>
+          <TimeLabels>
+            {timeSlots.map((time, rowIndex) => (
+              <TimeLabel key={rowIndex} style={{ color: textColor }}>
+                {time}
+              </TimeLabel>
+            ))}
+          </TimeLabels>
+          <Grid>
+            {Array.from({ length: 7 }, (_, rowIndex) => (
+              <Row key={rowIndex}>
+                {Array.from({ length: 7 }, (_, colIndex) => {
+                  const intensity = getIntensity(rowIndex, colIndex);
+                  const [r, g, b] = [
+                    parseInt(primaryColor.slice(1, 3), 16),
+                    parseInt(primaryColor.slice(3, 5), 16),
+                    parseInt(primaryColor.slice(5, 7), 16),
+                  ];
+                  return (
+                    <HeatmapCell
+                      key={colIndex}
+                      intensity={intensity}
+                      onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
+                      onMouseLeave={handleMouseLeave}
+                      style={{
+                        backgroundColor: `rgba(${r}, ${g}, ${b}, ${intensity})`,
+                      }}
+                    />
+                  );
+                })}
+              </Row>
+            ))}
+          </Grid>
+        </GridContainer>
+        <DaysOfWeekContainer>
+          {daysOfWeek.map((day, i) => (
+            <DayLabel key={i} style={{ color: textColor }}>
+              {day}
+            </DayLabel>
+          ))}
+        </DaysOfWeekContainer>
+      </InteractiveHeatmap>
+    </HeatmapContainer>
+  );
+});
+
+const DashboardPreview: React.FC<DashboardPreviewProps> = ({ data, palette }) => {
   const primaryColor = palette.find(color => color.title === 'Primary')?.baseColor || '#3468db';
   const accentColor = palette.find(color => color.title === 'Accent')?.baseColor || '#e74c3c';
   const textColor = palette.find(color => color.title === 'Text')?.baseColor || '#333333';
@@ -83,11 +133,62 @@ const DashboardPreview: React.FC<DashboardPreviewProps> = ({ data, palette }) =>
     },
   ];
 
+  const lineData = {
+    labels: data.transactionData.map((entry) => entry.month),
+    datasets: [
+      {
+        label: 'Total',
+        data: data.transactionData.map((entry) => entry.total),
+        borderColor: primaryColor,
+        backgroundColor: `${primaryColor}33`,
+        fill: true,
+      },
+      {
+        label: 'Success',
+        data: data.transactionData.map((entry) => entry.success),
+        borderColor: accentColor,
+        backgroundColor: `${accentColor}33`,
+        fill: true,
+      },
+    ],
+  };
+
+  const lineOptions: any = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        titleColor: textColor,
+        bodyColor: textColor,
+        backgroundColor: backgroundColor,
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: textColor },
+        grid: { color: '#E0E0E0' },
+      },
+      y: {
+        ticks: { color: textColor },
+        grid: { color: '#E0E0E0' },
+      },
+    },
+  };
+
   return (
     <DashboardContainer>
       <TopRow>
         {cardData.map((card, index) => (
-          <Card key={index} positive={card.positive}  style={{ backgroundColor: card.positive ? `${primaryColor}1A` : `${accentColor}1A` }}>
+          <Card
+            key={index}
+            positive={card.positive}
+            style={{
+              backgroundColor: card.positive ? `${primaryColor}1A` : `${accentColor}1A`,
+            }}
+          >
             <CardTop>
               <CardValue style={{ color: textColor }}>{card.value}</CardValue>
               <CardChange positive={card.positive}>
@@ -103,55 +204,87 @@ const DashboardPreview: React.FC<DashboardPreviewProps> = ({ data, palette }) =>
 
       <BottomRow>
         <HeatmapSection>
-          <HeatmapContainer>
-            <InteractiveHeatmap>
-              <GridContainer>
-                <TimeLabels>
-                  {timeSlots.map((time, rowIndex) => (
-                    <TimeLabel key={rowIndex} style={{ color: textColor }}>{time}</TimeLabel>
-                  ))}
-                </TimeLabels>
-                <Grid>
-                  {Array.from({ length: 7 }, (_, rowIndex) => (
-                    <Row key={rowIndex}>
-                      {Array.from({ length: 7 }, (_, colIndex) => (
-                        <HeatmapCell
-                          key={colIndex}
-                          intensity={getIntensity(rowIndex, colIndex, hoveredCell?.row || null, hoveredCell?.col || null)}
-                          onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
-                          onMouseLeave={handleMouseLeave}
-                          style={{ backgroundColor: `rgba(${parseInt(primaryColor.slice(1, 3), 16)}, ${parseInt(primaryColor.slice(3, 5), 16)}, ${parseInt(primaryColor.slice(5, 7), 16)}, ${getIntensity(rowIndex, colIndex, hoveredCell?.row || null, hoveredCell?.col || null)})` }}
-                        />
-                      ))}
-                    </Row>
-                  ))}
-                </Grid>
-              </GridContainer>
-              <DaysOfWeekContainer>
-                {daysOfWeek.map((day, index) => (
-                  <DayLabel key={index} style={{ color: textColor }}>{day}</DayLabel>
-                ))}
-              </DaysOfWeekContainer>
-            </InteractiveHeatmap>
-          </HeatmapContainer>
+          <Heatmap primaryColor={primaryColor} textColor={textColor} />
         </HeatmapSection>
 
         <ChartSection>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={data.transactionData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" stroke={textColor} />
-              <YAxis stroke={textColor} />
-              <Tooltip />
-              <Line type="monotone" dataKey="total" stroke={primaryColor} activeDot={{ r: 8 }} />
-              <Line type="monotone" dataKey="success" stroke={accentColor} />
-            </LineChart>
-          </ResponsiveContainer>
+          <ChartWrapper>
+            <Chart
+              type="line"
+              data={lineData}
+              options={lineOptions}
+              style={{ height: '200px' }}
+            />
+          </ChartWrapper>
         </ChartSection>
       </BottomRow>
     </DashboardContainer>
   );
 };
+
+const HeatmapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 240px;
+`;
+
+const InteractiveHeatmap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const GridContainer = styled.div`
+  display: flex;
+`;
+
+const TimeLabels = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 8px;
+`;
+
+const Grid = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const Row = styled.div`
+  display: flex;
+  gap: 2px;
+`;
+
+const HeatmapCell = styled.div<{ intensity: number }>`
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  transition: background-color 0.1s ease;
+`;
+
+const DaysOfWeekContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-left: 40px;
+  width: 12.2rem;
+`;
+
+const DayLabel = styled.div`
+  font-size: 12px;
+  text-align: center;
+  width: 24px;
+`;
+
+const TimeLabel = styled.div`
+  font-size: 13px;
+  text-align: right;
+`;
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -179,6 +312,10 @@ const ChartSection = styled.div`
   flex: 1;
 `;
 
+const ChartWrapper = styled.div`
+  width: 100%;
+`;
+
 const Card = styled.div<{ positive: boolean }>`
   padding: 20px;
   border-radius: 10px;
@@ -199,19 +336,9 @@ const CardTop = styled.div`
   align-items: center;
 `;
 
-const CardTitle = styled.h3`
-  font-size: 16px;
-  margin-bottom: 10px;
-`;
-
 const CardValue = styled.div`
   font-size: 24px;
   font-weight: bold;
-`;
-
-const CardSubText = styled.div`
-  font-size: 12px;
-  color: gray;
 `;
 
 const CardChange = styled.div<{ positive: boolean }>`
@@ -222,68 +349,14 @@ const CardChange = styled.div<{ positive: boolean }>`
   font-weight: bold;
 `;
 
-const HeatmapContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 320px;
+const CardTitle = styled.h3`
+  font-size: 16px;
+  margin-bottom: 10px;
 `;
 
-const InteractiveHeatmap = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-`;
-
-const GridContainer = styled.div`
-  display: flex;
-`;
-
-const TimeLabels = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-right: 10px;
-`;
-
-const Grid = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-`;
-
-const Row = styled.div`
-  display: flex;
-  gap: 2px;
-`;
-
-const HeatmapCell = styled.div<{ intensity: number }>`
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
-  transition: background-color 0.1s ease;
-`;
-
-const DaysOfWeekContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  padding-left: 40px;
-  width: 17rem;
-`;
-
-const DayLabel = styled.div`
-  font-size: 14px;
-  text-align: center;
-  width: 30px;
-`;
-
-const TimeLabel = styled.div`
-  font-size: 14px;
-  text-align: right;
+const CardSubText = styled.div`
+  font-size: 12px;
+  color: gray;
 `;
 
 export { DashboardPreview };

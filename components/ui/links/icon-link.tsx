@@ -36,6 +36,7 @@ const StyledIconLink = styled.a`
   &:hover {
     color: var(--color-primary-hover);
     transform: translateY(-2px);
+    text-decoration: underline;
   }
 
   span {

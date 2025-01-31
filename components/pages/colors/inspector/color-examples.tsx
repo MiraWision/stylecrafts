@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-
+import { useRouter } from 'next/router';
 import { ColorExample } from './types';
 import { colorsExamples } from './examples';
 
@@ -9,24 +9,24 @@ interface Props {
 }
 
 const ColorExamples: React.FC<Props> = ({ onColorSelect }) => {
-  useEffect(() => {
-    onColorSelect(colorsExamples[Math.floor(Math.random() * colorsExamples.length)]);
-  }, []);
+  const router = useRouter();
+
+  const handleColorSelect = (color: ColorExample) => {
+    router.push(`/colors/inspector?color=${encodeURIComponent(color.color)}`, undefined, { shallow: true });
+    onColorSelect(color);
+  };
 
   return (
     <Container>
       {colorsExamples.map((color) => (
-        <ColorCard key={color.name} onClick={() => onColorSelect(color)}>          
-          <ColorName>
-            {color.name}
-          </ColorName>
-
-          <ColorSquare $backgroundColor={color.color} />
+        <ColorCard key={color.name} onClick={() => handleColorSelect(color)}>
+          <ColorName>{color.name}</ColorName>
+          <ColorSquare backgroundColor={color.color} />
         </ColorCard>
       ))}
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   display: grid;
@@ -43,15 +43,12 @@ const ColorCard = styled.div`
   max-width: 6rem;
 `;
 
-const ColorSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
-  style: {
-    backgroundColor: $backgroundColor,
-  },
-}))`
+const ColorSquare = styled.div<{ backgroundColor: string }>`
   width: 6rem;
   height: 2rem;
   border-radius: 0.25rem;
   border: 0.0625rem solid var(--surface-border);
+  background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const ColorName = styled.div`

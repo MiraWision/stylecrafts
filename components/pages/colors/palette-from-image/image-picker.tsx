@@ -2,110 +2,232 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
 import { getPaletteWithCoordinates } from '@/utils/colors-palette-from-image';
+import { Zoom } from './zoom';
+
+const PIXEL_WINDOW = 11;
+
+interface ZoomData {
+  x: number;
+  y: number;
+}
 
 interface Props {
   selectedImage: string | null;
-  onPaletteChange: (autoPalette: string[], userPalette: string[]) => void;
+  onPaletteChange: (palette: string[]) => void;
 }
 
 const ImageColorPicker: React.FC<Props> = ({ selectedImage, onPaletteChange }) => {
-  const [autoPalette, setAutoPalette] = useState<string[]>([]);
-  const [userPalette, setUserPalette] = useState<string[]>([]);
-  const [colorPickers, setColorPickers] = useState<{ color: string; x: number; y: number }[]>([]);
-  const [zoomStyle, setZoomStyle] = useState<{ backgroundImage: string; backgroundPosition: string } | null>(null);
-  
+  const [palette, setPalette] = useState<string[]>([]);
+  const [pixelationMode, setPixelationMode] = useState<boolean>(false);
+  const [normalZoomLevel, setNormalZoomLevel] = useState<number>(5);
+  const [zoomData, setZoomData] = useState<ZoomData | null>(null);
+  const [pixelMatrix, setPixelMatrix] = useState<string[][] | null>(null);
+  const [displaySize, setDisplaySize] = useState<{ w: number; h: number } | null>(null);
+
   const imageRef = useRef<HTMLImageElement>(null);
+  const offscreenCanvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    if (!selectedImage) {
+      setPixelMatrix(null);
+      setZoomData(null);
+    }
+  }, [selectedImage]);
 
   const handleImageLoad = () => {
-    if (imageRef.current) {
-      const imgWidth = imageRef.current.width;
-      const imgHeight = imageRef.current.height;
-      const colorsWithCoordinates = getPaletteWithCoordinates(imageRef.current, 10, imgWidth, imgHeight).slice(0, 10);
-      const colors = colorsWithCoordinates.map((color) => color.color);
-      setAutoPalette(colors);
-      setColorPickers(colorsWithCoordinates);
-      onPaletteChange(colors, []);
+    if (!imageRef.current) return;
+    const img = imageRef.current;
+
+    const colorsWithCoordinates = getPaletteWithCoordinates(
+      img,
+      10,
+      img.width,
+      img.height
+    ).slice(0, 10);
+    const colors = colorsWithCoordinates.map((c) => c.color);
+    setPalette(colors);
+    onPaletteChange(colors);
+
+    offscreenCanvasRef.current = document.createElement('canvas');
+    offscreenCanvasRef.current.width = img.naturalWidth;
+    offscreenCanvasRef.current.height = img.naturalHeight;
+    const ctx = offscreenCanvasRef.current.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
     }
   };
 
   const handleMouseMove = (event: React.MouseEvent<HTMLImageElement>) => {
     if (!imageRef.current) return;
+    const img = imageRef.current;
+    const rect = img.getBoundingClientRect();
 
-    const rect = imageRef.current.getBoundingClientRect();
+    if (!displaySize || displaySize.w !== rect.width || displaySize.h !== rect.height) {
+      setDisplaySize({ w: rect.width, h: rect.height });
+    }
+
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    
-    const backgroundPosition = `${(x / rect.width) * 100}% ${(y / rect.height) * 100}%`;
-    setZoomStyle({
-      backgroundImage: `url(${imageRef.current.src})`,
-      backgroundPosition: backgroundPosition,
-    });
+    setZoomData({ x, y });
+
+    if (!pixelationMode) {
+      setPixelMatrix(null);
+    } else {
+
+      if (!offscreenCanvasRef.current) return;
+      const ctx = offscreenCanvasRef.current.getContext('2d');
+      if (!ctx) return;
+
+      const scaleX = img.naturalWidth / rect.width;
+      const scaleY = img.naturalHeight / rect.height;
+      const realX = Math.round(x * scaleX);
+      const realY = Math.round(y * scaleY);
+
+      const half = Math.floor(PIXEL_WINDOW / 2);
+      const startX = Math.max(0, realX - half);
+      const startY = Math.max(0, realY - half);
+      const w = Math.min(PIXEL_WINDOW, img.naturalWidth - startX);
+      const h = Math.min(PIXEL_WINDOW, img.naturalHeight - startY);
+
+      const imageData = ctx.getImageData(startX, startY, w, h).data;
+      let index = 0;
+      const rowColors: string[][] = [];
+
+      for (let row = 0; row < h; row++) {
+        const rowArr: string[] = [];
+        for (let col = 0; col < w; col++) {
+          const r = imageData[index];
+          const g = imageData[index + 1];
+          const b = imageData[index + 2];
+          // alpha = imageData[index + 3];
+          index += 4;
+          const rgbColor = `rgb(${r},${g},${b})`;
+          const hexColor = convertColor(rgbColor, ColorFormat.HEX);
+          rowArr.push(hexColor);
+        }
+
+        while (rowArr.length < PIXEL_WINDOW) {
+          rowArr.push('#000000');
+        }
+        rowColors.push(rowArr);
+      }
+
+      while (rowColors.length < PIXEL_WINDOW) {
+        rowColors.push(Array(PIXEL_WINDOW).fill('#000000'));
+      }
+
+      setPixelMatrix(rowColors);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setZoomData(null);
+    setPixelMatrix(null);
   };
 
   const handleImageClick = (event: React.MouseEvent<HTMLImageElement>) => {
     if (!imageRef.current) return;
-
-    const rect = imageRef.current.getBoundingClientRect();
+    const img = imageRef.current;
+    const rect = img.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
     const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    if (!context) return;
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
 
-    canvas.width = imageRef.current.width;
-    canvas.height = imageRef.current.height;
-    context.drawImage(imageRef.current, 0, 0, canvas.width, canvas.height);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    const imageData = context.getImageData(x, y, 1, 1).data;
+    ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+
+    const scaleX = img.naturalWidth / rect.width;
+    const scaleY = img.naturalHeight / rect.height;
+    const realX = Math.floor(x * scaleX);
+    const realY = Math.floor(y * scaleY);
+
+    const imageData = ctx.getImageData(realX, realY, 1, 1).data;
     const r = imageData[0];
     const g = imageData[1];
     const b = imageData[2];
 
-    const newColor = `rgb(${r},${g},${b})`;
-    const hexColor = convertColor(newColor, ColorFormat.HEX);
-    const newUserPalette = [...userPalette, hexColor];
-    setUserPalette(newUserPalette);
-    setColorPickers([...colorPickers, { color: hexColor, x, y }]);
-    onPaletteChange(autoPalette, newUserPalette);
+    const rgbColor = `rgb(${r}, ${g}, ${b})`;
+    const hexColor = convertColor(rgbColor, ColorFormat.HEX);
+
+    const newPalette = [...palette, hexColor];
+    setPalette(newPalette);
+    onPaletteChange(newPalette);
   };
 
-  const handleMouseLeave = () => {
-    setZoomStyle(null);
-  };
-
-  useEffect(() => {
-    if (imageRef.current && selectedImage) {
-      handleImageLoad();
+  const togglePixelationMode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPixelationMode(e.target.checked);
+    if (!e.target.checked) {
+      setPixelMatrix(null);
     }
-  }, [selectedImage]);
+  };
+
+  const handleZoomLevelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNormalZoomLevel(Number(e.target.value));
+  };
 
   return (
     <Container>
       <ImageWrapper>
         {selectedImage && (
-          <>
-            <img 
-              src={selectedImage as string} 
-              alt='Uploaded' 
-              ref={imageRef} 
-              onLoad={handleImageLoad} 
-              onMouseMove={handleMouseMove} 
-              onClick={handleImageClick}
-              onMouseLeave={handleMouseLeave}
-            />
-            {colorPickers.map((picker, index) => (
-              <ColorPicker
-                key={index}
-                $backgroundColor={picker.color}
-                $x={picker.x}
-                $y={picker.y}
-              />
-            ))}
-          </>
+          <img
+            src={selectedImage}
+            alt="Uploaded"
+            ref={imageRef}
+            onLoad={handleImageLoad}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleImageClick}
+            style={{ cursor: 'crosshair' }}
+          />
         )}
-        {zoomStyle && <Zoom style={zoomStyle} />}
+
+        {zoomData && displaySize && (
+          <Zoom
+            zoomData={zoomData}
+            imageUrl={selectedImage || ''}
+            pixelationMode={pixelationMode}
+            pixelMatrix={pixelMatrix}
+            normalZoomLevel={normalZoomLevel}
+            displayWidth={displaySize.w}
+            displayHeight={displaySize.h}
+          />
+        )}
       </ImageWrapper>
+
+      {selectedImage && (
+        <ControlsContainer>
+          <label>
+            <input
+              type="checkbox"
+              checked={pixelationMode}
+              onChange={togglePixelationMode}
+            />
+            Pixelation Mode
+          </label>
+
+          {!pixelationMode && (
+            <div>
+              <label>
+                Zoom: {normalZoomLevel}x
+                <input
+                  type="range"
+                  min={5}
+                  max={50}
+                  step={1}
+                  value={normalZoomLevel}
+                  onChange={handleZoomLevelChange}
+                  style={{ marginLeft: '6px' }}
+                />
+              </label>
+            </div>
+          )}
+        </ControlsContainer>
+      )}
     </Container>
   );
 };
@@ -119,59 +241,19 @@ const Container = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: auto;
-
+  max-width: 700px;
   img {
     max-width: 100%;
-    cursor: crosshair;
-    border-radius: 0.5rem;
-    user-select: none;
+    display: block;
   }
 `;
 
-const Zoom = styled.div`
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  background-repeat: no-repeat;
-  background-size: 10000%;
-  border: 2px solid #ccc;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  
-  &::after {
-    content: '';
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: rgba(255, 0, 0, 0.6);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-`;
-
-const ColorPicker = styled.div.attrs<{ $backgroundColor: string; $x: number; $y: number }>(({ $backgroundColor, $x, $y }) => ({
-  style: {
-    backgroundColor: $backgroundColor,
-    top: `${$y}px`,
-    left: `${$x}px`,
-  },
-}))`
-  position: absolute;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  border: 0.125rem solid white;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: translate(-50%, -50%) scale(1.2);
-  }
+const ControlsContainer = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
 `;
 
 export { ImageColorPicker };

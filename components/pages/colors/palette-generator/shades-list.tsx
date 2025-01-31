@@ -39,7 +39,6 @@ interface Props {
   onAddShade: (colorIndex: number, shade: Shade) => void;
 }
 
-// Компонент ShadesList для отображения списка оттенков
 const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
   const shadesList = useMemo(() => {
     return selectedColors.map((color) => generateShades(color.baseColor));

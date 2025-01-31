@@ -9,24 +9,34 @@ interface ContrastStatusProps {
   bgColor: string;
 }
 
+const successColor = '#28a745';
+const errorColor = '#dc3545';
+
 const ContrastStatus: React.FC<ContrastStatusProps> = ({ textColor, bgColor }) => {
-  const { contrast, isHeaderSuitableForAA, isHeaderSuitableForAAA, isTextSuitableForAA, isTextSuitableForAAA, isObjectSuitable } = checkContrast(textColor, bgColor);
+  const {
+    contrast,
+    isHeaderSuitableForAA,
+    isHeaderSuitableForAAA,
+    isTextSuitableForAA,
+    isTextSuitableForAAA,
+    isObjectSuitable
+  } = checkContrast(textColor, bgColor);
 
   const getTitleStatus = () => (
     <>
       <Ratio>
         {isHeaderSuitableForAA ? (
-          <CheckmarkIcon stroke="green" />
+          <CheckmarkIcon fill={successColor} />
         ) : (
-          <CrossCircleIcon stroke="red" />
+          <CrossCircleIcon fill={errorColor} />
         )}
         <RatioText>Title AA — 3:1</RatioText>
       </Ratio>
       <Ratio>
         {isHeaderSuitableForAAA ? (
-          <CheckmarkIcon stroke="green" />
+          <CheckmarkIcon fill={successColor} />
         ) : (
-          <CrossCircleIcon stroke="red" />
+          <CrossCircleIcon fill={errorColor} />
         )}
         <RatioText>Title AAA — 4.5:1</RatioText>
       </Ratio>
@@ -37,40 +47,32 @@ const ContrastStatus: React.FC<ContrastStatusProps> = ({ textColor, bgColor }) =
     <>
       <Ratio>
         {isTextSuitableForAA ? (
-          <CheckmarkIcon stroke="green" />
+          <CheckmarkIcon fill={successColor} />
         ) : (
-          <CrossCircleIcon stroke="red" />
+          <CrossCircleIcon fill={errorColor} />
         )}
         <RatioText>Description AA — 4.5:1</RatioText>
       </Ratio>
       <Ratio>
         {isTextSuitableForAAA ? (
-          <CheckmarkIcon stroke="green" />
+          <CheckmarkIcon fill={successColor} />
         ) : (
-          <CrossCircleIcon stroke="red" />
+          <CrossCircleIcon fill={errorColor} />
         )}
         <RatioText>Description AAA — 7:1</RatioText>
       </Ratio>
     </>
   );
-
+  
   const getObjectStatus = () => (
     <>
       <Ratio>
         {isObjectSuitable ? (
-          <CheckmarkIcon stroke="green" />
+          <CheckmarkIcon fill={successColor} />
         ) : (
-          <CrossCircleIcon stroke="red" />
+          <CrossCircleIcon fill={errorColor} />
         )}
         <RatioText>Object AA — 3:1</RatioText>
-      </Ratio>
-      <Ratio>
-        {contrast >= 4.5 ? (
-          <CheckmarkIcon stroke="green" />
-        ) : (
-          <CrossCircleIcon stroke="red" />
-        )}
-        <RatioText>Object AAA — 4.5:1</RatioText>
       </Ratio>
     </>
   );

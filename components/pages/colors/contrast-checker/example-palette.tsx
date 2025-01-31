@@ -39,6 +39,7 @@ const PaletteGrid = styled.div`
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(3, 1fr);
   gap: 0.5rem;
+  place-items: center;
 `;
 
 const PaletteItem = styled.div.attrs<{$backgroundColor: string; $color: string }>(({ $backgroundColor, $color }) => ({

@@ -40,21 +40,8 @@ const ColorInspectorMain: React.FC = () => {
       } catch {
         setSelectedColor(new Color('#ffffff'));
       }
-    } else {
-      const currentColor = new Color(rybslColorsMixing(baseColors));
-      setSelectedColor(currentColor);
     }
-  }, [queryColor, baseColors]);
-
-  const updateWeight = (index: number, weight: number) => {
-    if (weight < 0) {
-      weight = 0;
-    }
-
-    const newBaseColors = [...baseColors];
-    newBaseColors[index].weight = weight;
-    setBaseColors(newBaseColors);
-  };
+  }, [queryColor]);
 
   const selectColorExample = (colorExample: ColorExample) => {
     setBaseColors([
@@ -70,22 +57,23 @@ const ColorInspectorMain: React.FC = () => {
 
   const selectShade = (shade: string) => {
     setSelectedColor(new Color(shade));
+    router.push(`/colors/inspector?color=${encodeURIComponent(shade)}`, undefined, { shallow: true });
   };
 
   const handleColorInputChange = (newColor: string) => {
     try {
       const updatedColor = new Color(newColor);
       setSelectedColor(updatedColor);
+      router.push(`/colors/inspector?color=${encodeURIComponent(newColor)}`, undefined, { shallow: true });
     } catch (error) {
       console.error('Invalid color format:', error);
       alert('Invalid color format. Please enter a valid color.');
     }
   };
 
-
   return (
     <MainContainer>
-      <TwoColumnsContainer ratio="1fr 2fr">
+      <TwoColumnsContainer ratio="1fr 1fr">
         <Column>
           <ColorInputBig
             value={selectedColor.hex()}

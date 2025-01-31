@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
-import { ContrastButton } from '@/components/ui/text-buttons/contrast-button';
+import { ContrastTextButton } from '@/components/ui/text-buttons/contrast-button';
 import { ContrastStatus } from './contrast-status';
 import { TemplateCard } from './template-card';
 import { ColorPalette } from './example-palette';
@@ -38,28 +38,37 @@ const ColorContrast: React.FC = () => {
   return (
     <>
       <MainGridContainer>
-
-
         <ColumnContainer>
+
           <LocalGridContainer>
-            <ColorInputBig
-              value={bgColor}
-              onChange={handleBgColorChange}
-            />
             <div>
               <Label>Background Color</Label>
-              <ContrastButton onClick={handleSelectContrastForBgColor} />
-            </div>     
-          </LocalGridContainer>
-          <LocalGridContainer>
-            <ColorInputBig
-              value={textColor}
-              onChange={handleTextColorChange}
+              <ColorInputBig
+                value={bgColor}
+                onChange={handleBgColorChange}
+              />
+            </div>
+
+            <ContrastTextButton
+              onClick={handleSelectContrastForBgColor}
+              text="Fix background color"
             />
+          </LocalGridContainer>
+
+
+          <LocalGridContainer>
             <div>
               <Label>Text Color</Label>
-              <ContrastButton onClick={handleSelectContrastForTextColor} />
+              <ColorInputBig
+                value={textColor}
+                onChange={handleTextColorChange}
+              />
             </div>
+
+            <ContrastTextButton
+              onClick={handleSelectContrastForTextColor}
+              text="Fix text color"
+            />
           </LocalGridContainer>
         </ColumnContainer>
 

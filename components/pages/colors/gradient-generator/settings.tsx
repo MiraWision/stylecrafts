@@ -25,7 +25,7 @@ interface Props {
   onUpdateSteps: (index: number, steps: number) => void;
 }
 
-const GradientSettings: React.FC<Props> = ({ 
+const GradientSettings: React.FC<Props> = ({
   gradientSettings,
   gradient,
   onAddColor,
@@ -34,58 +34,58 @@ const GradientSettings: React.FC<Props> = ({
   onUpdateSteps,
 }) => {
   const { toast } = useToast();
-  
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onCopy = () => {
     const text = JSON.stringify(gradient).replace(/,/g, ', ');
-
     toast.success('Colors copied to clipboard', text);
-
     GAService.logEvent(analyticsEvents.colors.gradient.gradientCopied(text));
   };
-  
+
   return (
     <Container>
       <Header>
         <ToggleContainer onClick={() => setIsOpen(!isOpen)}>
           <AdjustIcon />
-
           Adjust Colors
         </ToggleContainer>
+
+        {gradient && (
+          <CopyTextButton
+            text="Copy Colors"
+            copyText={JSON.stringify(gradient).replace(/,/g, ', ')}
+            onCopyCallback={onCopy}
+          />
+        )}
       </Header>
 
       <SettingsContainer $isOpen={isOpen}>
         <FormColumn>
           {gradientSettings.map((item, index) => {
             const colorIndex = Math.floor(index / 2);
-
             const type = index % 2 === 0 ? 'color' : 'steps';
 
             if (type === 'color') {
               return (
                 <Field key={index}>
                   <Label>Color {colorIndex + 1}</Label>
-
                   <ColorInputContainer>
                     <ColorInput
                       value={item as string}
                       onChange={(newColor) => onUpdateColor(colorIndex, newColor)}
                     />
-
-                    <RemoveIconButton 
+                    <RemoveIconButton
                       onClick={() => onRemoveColor(colorIndex)}
-                      disabled={gradientSettings.length <= 3} 
+                      disabled={gradientSettings.length <= 3}
                     />
                   </ColorInputContainer>
                 </Field>
-              )
+              );
             }
 
             return (
               <Field key={index}>
                 <Label>Steps to Color {colorIndex + 2}</Label>
-
                 <NumberInput
                   value={item as number}
                   onChange={(newSteps) => onUpdateSteps(colorIndex, newSteps)}
@@ -97,27 +97,16 @@ const GradientSettings: React.FC<Props> = ({
             );
           })}
 
-          <AddTextButton 
-            text='Add Color' 
-            onClick={onAddColor}
-          />
+          <AddTextButton text="Add Color" onClick={onAddColor} />
         </FormColumn>
 
         <ResultsColumn>
-          {gradient && (
-            <ColorsOutput colors={gradient} />
-          )}
-          <CopyTextButton
-            text='Copy Colors'
-            copyText={JSON.stringify(gradient).replace(/,/g, ', ')}
-            onCopyCallback={onCopy}
-          />
-          
+          {gradient && <ColorsOutput colors={gradient} />}
         </ResultsColumn>
       </SettingsContainer>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   display: flex;

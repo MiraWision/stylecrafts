@@ -2,18 +2,14 @@ const contrastColors = [
   {
     groupName: "Dark Contrasts",
     colors: [
-      { background: "#000000", text: "#FFFFFF" },
       { background: "#2C3E50", text: "#ECF0F1" },
       { background: "#34495E", text: "#F1C40F" },
-      { background: "#8E44AD", text: "#F8C471" },
       { background: "#2C3E50", text: "#AED6F1" },
-      { background: "#1B2631", text: "#ABB2B9" },
       { background: "#1C2833", text: "#D4E6F1" },
       { background: "#212F3C", text: "#FDEDEC" },
       { background: "#4A235A", text: "#E8DAEF" },
       { background: "#0B5345", text: "#A9DFBF" },
       { background: "#2E4053", text: "#FAD7A0" },
-      { background: "#283747", text: "#D5DBDB" }
     ]
   },
   {
@@ -23,14 +19,10 @@ const contrastColors = [
       { background: "#F0F8FF", text: "#2C3E50" },
       { background: "#FAFAD2", text: "#34495E" },
       { background: "#F5FFFA", text: "#8E44AD" },
-      { background: "#FFFAFA", text: "#2C3E50" },
-      { background: "#FDF5E6", text: "#1B2631" },
-      { background: "#FFF8DC", text: "#1C2833" },
-      { background: "#FFFFF0", text: "#212F3C" },
-      { background: "#FFF5EE", text: "#4A235A" },
-      { background: "#FAEBD7", text: "#0B5345" },
-      { background: "#FFFFE0", text: "#34495E" },
-      { background: "#FFFDD0", text: "#2E4053" }
+      { background: "#F0F4C3", text: "#37474F" },
+      { background: "#FCE4EC", text: "#4A148C" },
+      { background: "#FFF3E0", text: "#4E342E" },
+      { background: "#F9FBE7", text: "#3E2723" }
     ]
   }
 ];
