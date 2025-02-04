@@ -11,9 +11,7 @@ interface ZoomProps {
   imageUrl: string;
   pixelationMode: boolean;
   pixelMatrix: string[][] | null;
-  normalZoomLevel: number; // от 5 до 50
-  
-  // Новый проп: размер видимой (отображённой) картинки, чтобы вычислить background-size
+  normalZoomLevel: number;
   displayWidth: number;
   displayHeight: number;
 }
