@@ -59,8 +59,11 @@ const Card = styled(Link)`
   }
 
   @media (max-width: 768px) {
-    width: 15rem;
+    width: 100%;
+    min-width: 0;
+    flex-basis: 0;
     padding: 0.5rem;
+    justify-self: stretch;
   }
 `;
 

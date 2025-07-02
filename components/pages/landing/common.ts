@@ -49,11 +49,12 @@ const FeaturesRow = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
-  gap: 2rem;
+  gap: 1rem;
   margin-bottom: 2rem;
 
   @media (max-width: 768px) {
-    width: 90vw;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
   }
 `;
 

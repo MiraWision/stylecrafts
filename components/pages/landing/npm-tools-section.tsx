@@ -17,12 +17,12 @@ const NpmToolsSection: React.FC = () => {
       <Row>
         <TextColumn>
           <p>
-            At MiraWision, we’re passionate about creating tools that enhance web development and design. 
+            At MiraWision, we're passionate about creating tools that enhance web development and design. 
             The same innovative solutions that power our website are available for you to use in your own projects.
           </p>
           <p>
             We believe in giving back to the community and are excited to share these tools with you. 
-            Explore our resources, join the conversation, and let’s build a better web together.
+            Explore our resources, join the conversation, and let's build a better web together.
           </p>
         </TextColumn>
 
@@ -64,6 +64,7 @@ const Row = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
+    margin-top: 2rem;
   }
 `;
 

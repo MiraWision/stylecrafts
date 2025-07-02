@@ -121,7 +121,7 @@ const CentralContainer = styled.div`
   align-items: center;
   width: 63%;
   position: absolute;
-  top: 50vh;
+  top: 45vh;
   transform: translateY(-55%);
 `;
 
