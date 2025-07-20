@@ -1,0 +1,312 @@
+import React, { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import { convertColor, ColorFormat } from '@mirawision/colorize';
+
+const PIXEL_WINDOW = 11;
+
+interface ZoomData {
+  x: number;
+  y: number;
+}
+
+interface Props {
+  selectedImage: string | null;
+  onPaletteChange: (palette: string[]) => void;
+  clearedPaletteVersion?: number;
+}
+
+const ImageColorPicker: React.FC<Props> = ({
+  selectedImage,
+  onPaletteChange,
+  clearedPaletteVersion,
+}) => {
+  const [palette, setPalette] = useState<string[]>([]);
+  const pixelationMode = true;
+  const [zoomData, setZoomData] = useState<ZoomData | null>(null);
+  const [pixelMatrix, setPixelMatrix] = useState<string[][] | null>(null);
+  const [displaySize, setDisplaySize] = useState<{ w: number; h: number } | null>(null);
+
+  const isTouchRef = useRef(false);
+
+  const imageRef = useRef<HTMLImageElement>(null);
+  const offscreenCanvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    if (!selectedImage) {
+      setPixelMatrix(null);
+      setZoomData(null);
+    }
+    setPalette([]);
+    onPaletteChange([]);
+  }, [selectedImage]);
+
+  useEffect(() => {
+    setPalette([]);
+    onPaletteChange([]);
+  }, [clearedPaletteVersion]);
+
+  const handleImageLoad = () => {
+    if (!imageRef.current) return;
+    const img = imageRef.current;
+
+    offscreenCanvasRef.current = document.createElement('canvas');
+    offscreenCanvasRef.current.width = img.naturalWidth;
+    offscreenCanvasRef.current.height = img.naturalHeight;
+    const ctx = offscreenCanvasRef.current.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+    }
+  };
+
+  const getCoordinatesFromEvent = (
+    event: React.MouseEvent<HTMLImageElement> | React.TouchEvent<HTMLImageElement>
+  ) => {
+    if (!imageRef.current) return null;
+    const img = imageRef.current;
+    const rect = img.getBoundingClientRect();
+
+    if (!displaySize || displaySize.w !== rect.width || displaySize.h !== rect.height) {
+      setDisplaySize({ w: rect.width, h: rect.height });
+    }
+
+    let clientX: number;
+    let clientY: number;
+
+    if ('touches' in event || 'changedTouches' in event) {
+      const touchEvent = event as React.TouchEvent<HTMLImageElement>;
+      const touchList =
+        touchEvent.touches.length > 0 ? touchEvent.touches : touchEvent.changedTouches;
+      if (touchList.length === 0) return null;
+      clientX = touchList[0].clientX;
+      clientY = touchList[0].clientY;
+    } else {
+      const mouseEvent = event as React.MouseEvent<HTMLImageElement>;
+      clientX = mouseEvent.clientX;
+      clientY = mouseEvent.clientY;
+    }
+
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    return { x, y };
+  };
+
+  const updatePixelMatrix = (x: number, y: number) => {
+    if (!imageRef.current || !offscreenCanvasRef.current) return;
+    const img = imageRef.current;
+    const ctx = offscreenCanvasRef.current.getContext('2d');
+    if (!ctx) return;
+
+    const scaleX = img.naturalWidth / (displaySize?.w || img.offsetWidth);
+    const scaleY = img.naturalHeight / (displaySize?.h || img.offsetHeight);
+    const realX = Math.round(x * scaleX);
+    const realY = Math.round(y * scaleY);
+
+    const half = Math.floor(PIXEL_WINDOW / 2);
+    const startX = Math.max(0, realX - half);
+    const startY = Math.max(0, realY - half);
+    const w = Math.min(PIXEL_WINDOW, img.naturalWidth - startX);
+    const h = Math.min(PIXEL_WINDOW, img.naturalHeight - startY);
+
+    const imageData = ctx.getImageData(startX, startY, w, h).data;
+    let index = 0;
+    const rowColors: string[][] = [];
+
+    for (let row = 0; row < h; row++) {
+      const rowArr: string[] = [];
+      for (let col = 0; col < w; col++) {
+        const r = imageData[index];
+        const g = imageData[index + 1];
+        const b = imageData[index + 2];
+        index += 4;
+        const rgbColor = `rgb(${r},${g},${b})`;
+        const hexColor = convertColor(rgbColor, ColorFormat.HEX);
+        rowArr.push(hexColor);
+      }
+
+      while (rowArr.length < PIXEL_WINDOW) {
+        rowArr.push('#000000');
+      }
+      rowColors.push(rowArr);
+    }
+    while (rowColors.length < PIXEL_WINDOW) {
+      rowColors.push(Array(PIXEL_WINDOW).fill('#000000'));
+    }
+    setPixelMatrix(rowColors);
+  };
+
+  const extractColorFromCoordinates = (x: number, y: number) => {
+    if (!imageRef.current) return;
+    const img = imageRef.current;
+    const rect = img.getBoundingClientRect();
+
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+
+    const scaleX = img.naturalWidth / rect.width;
+    const scaleY = img.naturalHeight / rect.height;
+    const realX = Math.floor(x * scaleX);
+    const realY = Math.floor(y * scaleY);
+
+    const imageData = ctx.getImageData(realX, realY, 1, 1).data;
+    const r = imageData[0];
+    const g = imageData[1];
+    const b = imageData[2];
+
+    const rgbColor = `rgb(${r}, ${g}, ${b})`;
+    const hexColor = convertColor(rgbColor, ColorFormat.HEX);
+
+    const newPalette = [...palette, hexColor];
+    setPalette(newPalette);
+    onPaletteChange(newPalette);
+  };
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLImageElement>) => {
+    const coords = getCoordinatesFromEvent(event);
+    if (!coords) return;
+    setZoomData(coords);
+    if (pixelationMode) {
+      updatePixelMatrix(coords.x, coords.y);
+    } else {
+      setPixelMatrix(null);
+    }
+  };
+
+  const handleTouchMove = (event: React.TouchEvent<HTMLImageElement>) => {
+    event.preventDefault();
+    const coords = getCoordinatesFromEvent(event);
+    if (!coords) return;
+    setZoomData(coords);
+    if (pixelationMode) {
+      updatePixelMatrix(coords.x, coords.y);
+    } else {
+      setPixelMatrix(null);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setZoomData(null);
+    setPixelMatrix(null);
+  };
+
+  const handleImageClick = (event: React.MouseEvent<HTMLImageElement>) => {
+
+    if (isTouchRef.current) {
+      isTouchRef.current = false;
+      return;
+    }
+    const coords = getCoordinatesFromEvent(event);
+    if (coords) {
+      extractColorFromCoordinates(coords.x, coords.y);
+    }
+  };
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLImageElement>) => {
+    isTouchRef.current = true;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLImageElement>) => {
+    event.preventDefault();
+    const coords = getCoordinatesFromEvent(event);
+    if (coords) {
+      extractColorFromCoordinates(coords.x, coords.y);
+    }
+    isTouchRef.current = false;
+    setZoomData(null);
+    setPixelMatrix(null);
+  };
+
+  const handleTouchCancel = (event: React.TouchEvent<HTMLImageElement>) => {
+    event.preventDefault();
+    isTouchRef.current = false;
+    setZoomData(null);
+    setPixelMatrix(null);
+  };
+
+  return (
+    <Container>
+      <ImageWrapper>
+        {selectedImage && (
+          <img
+            src={selectedImage}
+            alt="Uploaded"
+            ref={imageRef}
+            onLoad={handleImageLoad}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleImageClick}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchCancel}
+            style={{ cursor: 'crosshair' }}
+          />
+        )}
+        {zoomData && displaySize && pixelMatrix && (
+          <PixelWindow pixelMatrix={pixelMatrix} mouse={zoomData} />
+        )}
+      </ImageWrapper>
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  img {
+    max-width: 100%;
+    display: block;
+    touch-action: manipulation; 
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+`;
+
+const PixelWindow: React.FC<{
+  pixelMatrix: string[][];
+  mouse: { x: number; y: number };
+}> = ({ pixelMatrix, mouse }) => {
+  const size = 22;
+  const half = Math.floor(pixelMatrix.length / 2);
+  const color = pixelMatrix[half]?.[half] || '#ffffff';
+  const offsetX = 12;
+  const offsetY = 12;
+
+  return (
+    <SinglePixelWrapper
+      style={{
+        left: mouse.x + offsetX,
+        top: mouse.y + offsetY,
+        width: size,
+        height: size,
+        pointerEvents: 'none',
+      }}
+      $color={color}
+    />
+  );
+};
+
+const SinglePixelWrapper = styled.div<{ $color: string }>`
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: ${({ $color }) => $color};
+  border: 2.5px solid #e53935;
+  box-shadow: 0 0 0 2px #fff, 0 2px 8px rgba(0,0,0,0.12);
+`;
+
+export { ImageColorPicker };
