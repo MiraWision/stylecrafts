@@ -43,7 +43,7 @@ const ContactUsSection: React.FC = () => {
 
 const SectionContainer = styled.section`
   width: 100%;
-  min-height: 80vh;
+  min-height: calc(100vh - 3rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +55,7 @@ const ContentContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: stretch;
-  width: 80vw;
+  width: 80%;
   max-width: 900px;
   background: rgba(255,255,255,0.95);
   border-radius: 1.5rem;
@@ -66,7 +66,7 @@ const ContentContainer = styled.div`
 
   @media (max-width: 900px) {
     flex-direction: column;
-    width: 95vw;
+    width: 95%;
     padding: 2rem 1rem;
     gap: 1.5rem;
   }

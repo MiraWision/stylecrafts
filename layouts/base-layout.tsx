@@ -25,7 +25,15 @@ const LayoutWrapper = styled.div`
 
 const Content = styled.main`
   flex: 1 0 auto;
-  width: 100%;
+  width: calc(100vw - 15rem);
+  margin-left: 15rem;
+  padding: 1.5rem;
+
+  @media (max-width: 768px) {
+    width: 100vw;
+    margin-left: 0;
+    padding: 1rem;
+  }
 
   @media (max-width: 600px) {
     padding: 0 1rem;

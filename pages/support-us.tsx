@@ -108,7 +108,7 @@ const SupportUs = () => {
 
 const SectionContainer = styled.section`
   width: 100%;
-  min-height: 80vh;
+  min-height: calc(100vh - 3rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,7 +119,7 @@ const ContentContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: stretch;
-  width: 80vw;
+  width: 80%;
   max-width: 700px;
   border-radius: 1.5rem;
   box-shadow: 0 0 2rem 0 rgba(0,0,0,0.07);
@@ -129,7 +129,7 @@ const ContentContainer = styled.div`
 
   @media (max-width: 900px) {
     flex-direction: column;
-    width: 95vw;
+    width: 95%;
     padding: 2rem 1rem;
     gap: 1.5rem;
   }
