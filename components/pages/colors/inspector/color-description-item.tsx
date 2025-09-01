@@ -10,24 +10,19 @@ interface Props {
   copyable?: boolean;
   scaleValue?: number;
   scaleGradient?: string[];
-  singleColumn?: boolean;
 }
 
-const ColorDescriptionItem: React.FC<Props> = ({ label, value, copyable, scaleValue, scaleGradient, singleColumn }) => {
+const ColorDescriptionItem: React.FC<Props> = ({ label, value, copyable, scaleValue, scaleGradient }) => {
   return (
     <Container>
-      <Row singleColumn={singleColumn}>
-        <Label>{label}:</Label>
+      <Row>
+        <Label>{label}</Label>
         <Value>{value}</Value>
         {copyable && <CopyIconButton text={String(value)} />}
       </Row>
 
       {scaleValue !== undefined && scaleGradient?.length && (
         <ColorScale
-          labels={[
-            { value: 0, label: 'Low' },
-            { value: 1, label: 'High' }
-          ]}
           scaleGradient={scaleGradient}
           scaleValue={scaleValue}
           width={100}
@@ -43,31 +38,33 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 0.05rem 0;
+  margin: 0;
 `;
 
-const Row = styled.div<{ singleColumn?: boolean }>`
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: flex-start;
+const Row = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 4fr 2rem;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.1rem;
+  gap: 1rem;
+  width: 100%;
   min-width: 0;
 `;
 
 const Label = styled.div`
-  font-weight: bold;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--surface-900);
   flex-shrink: 0;
 `;
 
 const Value = styled.div`
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--surface-900);
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1;
   min-width: 0;
 `;
 

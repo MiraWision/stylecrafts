@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 import { ColorExamples } from './color-examples';
 import { ColorExample } from './types';
+import { colorsExamples } from './examples';
 import { ShadesGrid } from './shades';
 import { HarmonyCircles } from '@/components/pages/colors/inspector/harmony-circles';
 
@@ -18,6 +19,33 @@ interface BaseColor {
   color: string;
   weight: number;
 }
+
+// Helper function to safely create Color objects
+const createSafeColor = (colorString: string): Color => {
+  try {
+    return new Color(colorString);
+  } catch (error) {
+    console.warn('Failed to create Color object:', colorString, error);
+    // Return a default white color
+    return new Color('#ffffff');
+  }
+};
+
+// Helper function to safely get hex value
+const getSafeHex = (color: Color): string => {
+  try {
+    return color.hex();
+  } catch (error) {
+    console.warn('Failed to get hex value:', error);
+    return '#ffffff';
+  }
+};
+
+// Helper function to get a random color from examples
+const getRandomColor = (): ColorExample => {
+  const randomIndex = Math.floor(Math.random() * colorsExamples.length);
+  return colorsExamples[randomIndex];
+};
 
 const ColorInspectorMain: React.FC = () => {
   const router = useRouter();
@@ -31,7 +59,7 @@ const ColorInspectorMain: React.FC = () => {
     { color: '#000000', weight: 0 },
   ]);
 
-  const [selectedColor, setSelectedColor] = useState<Color>(new Color('#ffffff'));
+  const [selectedColor, setSelectedColor] = useState<Color>(createSafeColor('#ffffff'));
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -47,18 +75,37 @@ const ColorInspectorMain: React.FC = () => {
         const hash = window.location.hash.replace('#', '').trim();
         if (/^[0-9a-fA-F]{6}$/.test(hash)) {
           try {
-            setSelectedColor(new Color('#' + hash));
-          } catch {}
+            setSelectedColor(createSafeColor('#' + hash));
+          } catch (error) {
+            console.warn('Failed to load color from hash:', hash, error);
+            setSelectedColor(createSafeColor('#ffffff'));
+          }
         }
+      } else {
+        // No color provided in URL, select a random color
+        const randomColorExample = getRandomColor();
+        setSelectedColor(createSafeColor(randomColorExample.color));
+        setBaseColors([
+          { color: '#ff0000', weight: randomColorExample.red },
+          { color: '#ffff00', weight: randomColorExample.yellow },
+          { color: '#0000ff', weight: randomColorExample.blue },
+          { color: '#ffffff', weight: randomColorExample.white },
+          { color: '#808080', weight: randomColorExample.grey },
+          { color: '#000000', weight: randomColorExample.black },
+        ]);
       }
     }
   }, [router]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const hex = selectedColor.hex().replace('#', '');
-      if (window.location.hash !== '#' + hex) {
-        window.history.replaceState(null, '', `#${hex}`);
+      try {
+        const hex = getSafeHex(selectedColor).replace('#', '');
+        if (window.location.hash !== '#' + hex) {
+          window.history.replaceState(null, '', `#${hex}`);
+        }
+      } catch (error) {
+        console.warn('Failed to update URL hash:', error);
       }
     }
   }, [selectedColor]);
@@ -72,37 +119,40 @@ const ColorInspectorMain: React.FC = () => {
       { color: '#808080', weight: colorExample.grey },
       { color: '#000000', weight: colorExample.black },
     ]);
-    setSelectedColor(new Color(colorExample.color));
+    setSelectedColor(createSafeColor(colorExample.color));
   };
 
   const selectShade = (shade: string) => {
-    setSelectedColor(new Color(shade));
+    setSelectedColor(createSafeColor(shade));
   };
 
   const handleColorInputChange = (newColor: string) => {
     try {
-      const updatedColor = new Color(newColor);
+      const updatedColor = createSafeColor(newColor);
       setSelectedColor(updatedColor);
     } catch (error) {
       console.error('Invalid color format:', error);
-      alert('Invalid color format. Please enter a valid color.');
+      // Don't show alert, just log the error and keep the current color
     }
   };
+
+  // Safely get the current color's hex value
+  const currentColorHex = getSafeHex(selectedColor);
 
   return (
     <MainContainer>
       <TwoColumnsContainer ratio="1fr 1fr">
         <LeftColumn>
           <ColorInputBig
-            value={selectedColor.hex()}
+            value={currentColorHex}
             onChange={handleColorInputChange}
           />
           <ColorDescription color={selectedColor} />
         </LeftColumn>
 
         <Column>
-          <ShadesGrid baseColor={selectedColor.hex()} onShadeSelect={selectShade} />
-          <HarmonyCircles color={selectedColor.hex()} />
+          <ShadesGrid baseColor={currentColorHex} onShadeSelect={selectShade} />
+          <HarmonyCircles color={currentColorHex} />
         </Column>
       </TwoColumnsContainer>
 

@@ -10,8 +10,8 @@
     "postbuild": "npm run sitemap"
   },
   "dependencies": {
-    "@mirawision/colorize": "1.4.1",
-    "@mirawision/usa-map-react": "1.0.6",
+    "@mirawision/colorize": "1.5.0",
+    "@mirawision/usa-map-react": "2.0.0",
     "chart.js": "^4.4.7",
     "formidable": "3.5.1",
     "gifsicle": "7.0.1",

@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { convertColor, ColorFormat } from '@mirawision/colorize'
-import { CopyIcon } from '@/components/icons/copy'
-import { CheckmarkIcon } from '@/components/icons/checkmark'
+import { convertColor, ColorFormat, parseColorNumbers, HSL } from '@mirawision/colorize'
+
 import { useToast } from '@/components/ui/toast'
 
-const HARMONIES = [
+import { CopyIcon } from '@/components/icons/copy'
+import { CheckmarkIcon } from '@/components/icons/checkmark'
+
+const Harmonies = [
   { name: 'Complementary',       angles: [0, 180] },
   { name: 'Split-Complementary', angles: [0, 150, 210] },
   { name: 'Analogous',           angles: [330, 0, 30] },
@@ -15,17 +17,19 @@ const HARMONIES = [
 ]
 
 function parseHSL(hex: string) {
-  const hsl = convertColor(hex, ColorFormat.HSL)
-  const [h, s, l] = hsl.match(/\d+(\.\d+)?/g)!.map(Number)
-  return { h, s, l }
-}
-
-function toHex({ h, s, l }: { h: number; s: number; l: number }) {
-  const hue = ((h % 360) + 360) % 360
-  return convertColor(
-    `hsl(${Math.round(hue)}, ${Math.round(s)}%, ${Math.round(l)}%)`,
-    ColorFormat.HEX
-  )
+  try {
+    const hsl = convertColor(hex, ColorFormat.HSL)
+    const matches = hsl.match(/\d+(\.\d+)?/g)
+    if (!matches || matches.length < 3) {
+      throw new Error('Invalid HSL format')
+    }
+    const [h, s, l] = matches.map(Number)
+    return { h, s, l }
+  } catch (error) {
+    console.warn('Failed to parse color:', hex, error)
+    // Return default values for invalid colors
+    return { h: 0, s: 50, l: 50 }
+  }
 }
 
 interface Props {
@@ -33,16 +37,18 @@ interface Props {
 }
 
 export const HarmonyCircles: React.FC<Props> = ({ color }) => {
-  const { h: baseH, s: baseS, l: baseL } = parseHSL(color)
+  const { h: baseH, s: baseS, l: baseL } = parseColorNumbers(color, ColorFormat.HSL) as HSL;
+
   const [hoveredCircle, setHoveredCircle] = useState<string | null>(null)
   const [hoveredWheel, setHoveredWheel] = useState<string | null>(null)
   const [centerText, setCenterText] = useState<string | null>(null)
   const [copiedCircle, setCopiedCircle] = useState<string | null>(null)
+
   const { toast } = useToast()
 
   return (
     <Container>
-      {HARMONIES.map(({ name, angles }) => (
+      {Harmonies.map(({ name, angles }) => (
         <Block key={name}>
           <Title>{name}</Title>
           <WheelWrapper
@@ -78,11 +84,12 @@ export const HarmonyCircles: React.FC<Props> = ({ color }) => {
                 />
               )}
               {angles.map((a, i) => {
-                const hue = baseH + a
-                const colorHex = toHex({ h: hue, s: baseS, l: baseL })
-                const p = point(a)
-                const circleId = `${name}-${i}`
-                const isHovered = hoveredCircle === circleId
+                const hue = (baseH + a) % 360;
+                const colorHex = convertColor(`hsl(${hue}, ${baseS}%, ${baseL}%)`, ColorFormat.HEX);
+                const p = point(a);
+                const circleId = `${name}-${i}`;
+                const isHovered = hoveredCircle === circleId;
+
                 return (
                   <g key={i}>
                     <circle
@@ -162,17 +169,16 @@ const Block = styled.div`
 `
 
 const Title = styled.div`
-  margin-bottom: 6px;
-  font-size: 0.8em;
-  color: #666;
-  font-weight: 500;
+  margin-bottom: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--surface-500);
 `
 
 const WheelWrapper = styled.div`
   position: relative;
-  width: 100px;
-  height: 100px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  width: 8rem;
+  height: 8rem;
+  filter: drop-shadow(0 0.125rem 0.25rem rgba(0, 0, 0, 0.1));
 `
 
 const Gradient = styled.div<{ rotation: number; saturation: number; lightness: number }>`
@@ -194,7 +200,7 @@ const Gradient = styled.div<{ rotation: number; saturation: number; lightness: n
 
 const InnerMask = styled.div`
   position: absolute;
-  inset: 7px;
+  inset: 0.4375rem;
   background: #fff;
   border-radius: 50%;
   pointer-events: none;
@@ -220,11 +226,11 @@ const CenterTextBackground = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70px;
-  height: 24px;
+  width: 4.375rem;
+  height: 1.5rem;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--surface-300);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `
 
@@ -234,11 +240,11 @@ const CenterTextContent = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
-  color: #333;
+  color: var(--surface-900);
   white-space: nowrap;
-  padding: 2px 4px;
+  padding: 0.125rem 0.25rem;
 
   .icon * {
     fill: var(--primary-color);

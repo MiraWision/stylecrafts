@@ -10,13 +10,42 @@ interface Props {
   onColorChange?: (newColor: Color) => void;
 }
 
+// Helper function to safely get color values
+const getSafeColorValue = (color: Color, method: 'hex' | 'rgb' | 'hsl'): string => {
+  try {
+    switch (method) {
+      case 'hex':
+        return color.hex();
+      case 'rgb':
+        return color.rgb();
+      case 'hsl':
+        return color.hsl();
+      default:
+        return '#ffffff';
+    }
+  } catch (error) {
+    console.warn(`Failed to get ${method} value:`, error);
+    // Return default values based on method
+    switch (method) {
+      case 'hex':
+        return '#ffffff';
+      case 'rgb':
+        return 'rgb(255, 255, 255)';
+      case 'hsl':
+        return 'hsl(0, 0%, 100%)';
+      default:
+        return '#ffffff';
+    }
+  }
+};
+
 const CurrentColor: React.FC<Props> = ({ color, isInput = false, onColorChange }) => {
   const [currentColor, setCurrentColor] = useState<Color>(color);
-  const [inputValue, setInputValue] = useState<string>(color.hex());
+  const [inputValue, setInputValue] = useState<string>(getSafeColorValue(color, 'hex'));
 
   useEffect(() => {
     setCurrentColor(color);
-    setInputValue(color.hex());
+    setInputValue(getSafeColorValue(color, 'hex'));
   }, [color]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,11 +54,15 @@ const CurrentColor: React.FC<Props> = ({ color, isInput = false, onColorChange }
     if (/^#[0-9A-F]{6}$/i.test(newColor)) {
       const colorFormat = getColorFormat(newColor);
       if (colorFormat) {
-        const convertedColor = convertColor(newColor, colorFormat);
-        const updatedColor = new Color(convertedColor);
-        setCurrentColor(updatedColor);
-        if (onColorChange) {
-          onColorChange(updatedColor);
+        try {
+          const convertedColor = convertColor(newColor, colorFormat);
+          const updatedColor = new Color(convertedColor);
+          setCurrentColor(updatedColor);
+          if (onColorChange) {
+            onColorChange(updatedColor);
+          }
+        } catch (error) {
+          console.warn('Failed to convert color:', newColor, error);
         }
       }
     }
@@ -37,11 +70,15 @@ const CurrentColor: React.FC<Props> = ({ color, isInput = false, onColorChange }
 
   const handleColorPickerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = event.target.value;
-    const updatedColor = new Color(newColor);
-    setCurrentColor(updatedColor);
-    setInputValue(newColor);
-    if (onColorChange) {
-      onColorChange(updatedColor);
+    try {
+      const updatedColor = new Color(newColor);
+      setCurrentColor(updatedColor);
+      setInputValue(newColor);
+      if (onColorChange) {
+        onColorChange(updatedColor);
+      }
+    } catch (error) {
+      console.warn('Failed to create Color object:', newColor, error);
     }
   };
 
@@ -49,13 +86,18 @@ const CurrentColor: React.FC<Props> = ({ color, isInput = false, onColorChange }
     document.getElementById('colorPicker')?.click();
   };
 
+  // Safely get current color values
+  const currentHex = getSafeColorValue(currentColor, 'hex');
+  const currentRgb = getSafeColorValue(currentColor, 'rgb');
+  const currentHsl = getSafeColorValue(currentColor, 'hsl');
+
   return (
     <Container>
-      <ColorSquare $backgroundColor={currentColor.hex()} onClick={handleColorSquareClick} />
+      <ColorSquare $backgroundColor={currentHex} onClick={handleColorSquareClick} />
       <ColorPicker
         id="colorPicker"
         type="color"
-        value={currentColor.hex()}
+        value={currentHex}
         onChange={handleColorPickerChange}
       />
       {isInput && (
@@ -65,13 +107,13 @@ const CurrentColor: React.FC<Props> = ({ color, isInput = false, onColorChange }
       )}
       <Footer>
         {[
-          { title: 'HEX', value: currentColor.hex() },
-          { title: 'RGB', value: currentColor.rgb() },
-          { title: 'HSL', value: currentColor.hsl() },
+          { title: 'HEX', value: currentHex },
+          { title: 'RGB', value: currentRgb },
+          { title: 'HSL', value: currentHsl },
         ].map(({ title, value }) => (
           <ColorTitle key={title}>
-            <b>{title}: </b>
-            {value}
+            <ColorLabel>{title}:</ColorLabel>
+            <ColorValue>{value}</ColorValue>
             <CopyButtonStyled text={value} />
           </ColorTitle>
         ))}
@@ -108,23 +150,38 @@ const CopyButtonStyled = styled(CopyIconButton)`
 `;
 
 const ColorTitle = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 3rem 1fr 1rem;
   align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
   height: 2rem;
   font-size: 0.875rem;
   color: var(--text-color);
-
-  b {
-    color: var(--text-color);
-    font-weight: 500;
-    margin-right: 0.25rem;
-  }
 
   &:hover {
     ${CopyButtonStyled} {
       opacity: 1;
     }
   }
+`;
+
+const ColorLabel = styled.div`
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--surface-900);
+  flex-shrink: 0;
+`;
+
+const ColorValue = styled.div`
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--surface-900);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 `;
 
 const ColorSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
