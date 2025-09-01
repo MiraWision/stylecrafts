@@ -10,6 +10,7 @@ import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 import { ImageInputMini, ImageData } from '@/components/ui/inputs/image-input-mini';
 import { ImageExamples } from './image-examples';
 import { Label } from '@/components/ui/texts/label';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 import { Palette } from './palette';
 
@@ -118,6 +119,11 @@ const PaletteFromImageMain: React.FC<Props> = () => {
           onImageSelect={handleImageSelect}
         />
       </ImageExamplesContainer>
+
+      <ToolCrossLinks
+        toolKey="palette-from-image"
+        title="Explore More Color Tools"
+      />
     </>
   );
 };

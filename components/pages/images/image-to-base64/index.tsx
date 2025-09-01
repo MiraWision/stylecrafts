@@ -9,6 +9,7 @@ import { ImageData, ImageInput } from '@/components/ui/inputs/image-input';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { TextareaWithCopy } from '@/components/ui/inputs/textarea-with-copy';
 import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 interface Props {
 }
@@ -91,6 +92,11 @@ const ImageToBase64: React.FC<Props> = ({}) => {
           },
         ]}
       />          
+
+      <ToolCrossLinks
+        toolKey="image-to-base64"
+        title="Explore More Image Tools"
+      />
     </TwoColumnsContainer>
   );
 }

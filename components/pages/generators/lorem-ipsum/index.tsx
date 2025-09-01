@@ -10,6 +10,7 @@ import { GenerateIcon } from '@/components/icons/generate';
 import { CopyIcon } from '@/components/icons/copy';
 import { CheckmarkIcon } from '@/components/icons/checkmark';
 import { useToast } from '@/components/ui/toast';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 const MainLoremIpsumGenerator: React.FC = () => {
   const [type, setType] = useState<'sentences' | 'paragraphs'>('paragraphs');
@@ -91,6 +92,11 @@ const MainLoremIpsumGenerator: React.FC = () => {
           </LoremContent>
         </ContentBlock>
       )}
+
+      <ToolCrossLinks
+        toolKey="lorem-ipsum-generator"
+        title="Explore More Generator Tools"
+      />
     </Container>
   );
 };

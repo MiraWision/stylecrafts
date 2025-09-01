@@ -8,6 +8,7 @@ import { TwoColumnsContainer } from '@/components/ui/containers';
 import { TextareaWithCopy } from '@/components/ui/inputs/textarea-with-copy';
 import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 import { DownloadTextButton } from '@/components/ui/text-buttons/download-text-button';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 interface Props {
 }
@@ -60,6 +61,11 @@ const Base64ToImage: React.FC<Props> = ({}) => {
           <ImagePlaceholder />
         )
       }
+
+      <ToolCrossLinks
+        toolKey="base64-to-image"
+        title="Explore More Image Tools"
+      />
     </StyledTwoColumnsContainer>
   );
 }

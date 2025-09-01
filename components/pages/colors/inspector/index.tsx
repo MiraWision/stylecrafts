@@ -14,6 +14,7 @@ import { HarmonyCircles } from '@/components/pages/colors/inspector/harmony-circ
 import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
 import { ColorDescription } from './color-description';
 import { TwoColumnsContainer as BaseTwoColumnsContainer } from '@/components/ui/containers';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 interface BaseColor {
   color: string;
@@ -166,6 +167,11 @@ const ColorInspectorMain: React.FC = () => {
           </StyledTextButton>
         </Link>
       </LinkContainer>
+
+      <ToolCrossLinks
+        toolKey="color-inspector"
+        title="Explore More Color Tools"
+      />
     </MainContainer>
   );
 };

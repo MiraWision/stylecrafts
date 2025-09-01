@@ -11,6 +11,7 @@ import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
 import { Label } from '@/components/ui/texts/label';
 import { ImageInputMini, ImageData } from '@/components/ui/inputs/image-input-mini';
 import { GenerateIcon } from '@/components/icons/generate';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 const QRCodeGenerator = () => {
   const [content, setContent] = useState<string>('');
@@ -94,6 +95,11 @@ const QRCodeGenerator = () => {
           setSettings={setSettings}
         />
       </DisplaySection>
+
+      <ToolCrossLinks
+        toolKey="qr-code-generator"
+        title="Explore More Generator Tools"
+      />
     </Container>
   );
 };

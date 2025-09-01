@@ -11,6 +11,7 @@ import { exportToSVG } from './export-to-svg';
 import { AddTextButton } from '@/components/ui/text-buttons/add-text-button';
 import { DropdownTextButton } from '@/components/ui/text-buttons/dropdown-text-button';
 import { examplePalettes } from './example-data';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 const initialColors: PaletteColor[] = [
   { baseColor: '#f5f5f5', title: 'Background', shades: [] },
@@ -150,6 +151,11 @@ const PaletteGeneratorMain: React.FC = () => {
       <ContrastChecker selectedColors={selectedColors} />
       <Preview palette={selectedColors} />
       <Examples onExampleClick={handleExampleClick} />
+
+      <ToolCrossLinks
+        toolKey="palette-generator"
+        title="Explore More Color Tools"
+      />
     </Container>
   );
 };

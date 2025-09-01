@@ -24,18 +24,16 @@ const StyledLink = styled(Link)`
 `;
 
 const StyledIconLink = styled.a`
-  all: unset;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   color: var(--color-primary);
   font-size: 1rem;
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.2s ease;
+  transition: color 0.3s ease;
 
   &:hover {
     color: var(--color-primary-hover);
-    transform: translateY(-2px);
     text-decoration: underline;
   }
 
@@ -48,7 +46,7 @@ const StyledIconLink = styled.a`
     content: '';
     position: absolute;
     left: 0;
-    bottom: -2px;
+    bottom: -1px;
     width: 100%;
     height: 1px;
     background-color: var(--color-primary-hover);

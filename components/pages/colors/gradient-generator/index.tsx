@@ -7,6 +7,7 @@ import { analyticsEvents } from '@/services/google-analytics-service/analytics-e
 import { Gradient, GradientExamplesList } from '@/components/pages/colors/gradient-generator/gradient-examples';
 import { Preview } from './preview';
 import { GradientSettings } from './settings';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 interface Props {
 }
@@ -88,6 +89,11 @@ const GradientGenerator: React.FC<Props> = ({}) => {
 
       <GradientExamplesList
         onSelected={selectColors}
+      />
+
+      <ToolCrossLinks
+        toolKey="gradient-generator"
+        title="Explore More Color Tools"
       />
     </>
   );

@@ -6,6 +6,7 @@ import { ContrastStatus } from './contrast-status';
 import { TemplateCard } from './template-card';
 import { ColorPalette } from './example-palette';
 import { adjustColorForContrast } from '@/utils/adjust-color-for-contrast';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 const ColorContrast: React.FC = () => {
   const [{ textColor, bgColor }, setColors] = useState<{ textColor: string; bgColor: string }>({
@@ -84,6 +85,11 @@ const ColorContrast: React.FC = () => {
       <PreviewContainer>
         <TemplateCard textColor={textColor} backgroundColor={bgColor} />
       </PreviewContainer>
+
+      <ToolCrossLinks
+        toolKey="contrast-checker"
+        title="Explore More Color Tools"
+      />
     </>
   );
 };

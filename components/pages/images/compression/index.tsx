@@ -8,6 +8,7 @@ import { ImageType } from '@/types/image-types';
 import { Label } from '@/components/ui/texts/label';
 import { DownloadTextButton } from '@/components/ui/text-buttons/download-text-button';
 import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 interface CompressedImage {
   content: string;
@@ -201,6 +202,11 @@ const ImageCompressionMain: React.FC = () => {
           </DownloadButtonContainer>
         </ImagesContainer>
       </Form>
+
+      <ToolCrossLinks
+        toolKey="image-compression"
+        title="Explore More Image Tools"
+      />
     </Container>
   );
 };

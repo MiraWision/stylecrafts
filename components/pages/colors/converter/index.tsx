@@ -12,6 +12,7 @@ import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 import { TwoColumnsContainer } from '@/components/ui/containers';
 import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
 import { IconLink } from '@/components/ui/links/icon-link';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
@@ -85,13 +86,6 @@ const ColorConverter: React.FC<Props> = () => {
         <ColorPickerContainer>
           <Label fontSize="1rem">Enter color</Label>
           <ColorInputBig value={color} onChange={handleColorChange} />
-
-          <IconLinkContainer>
-            <InspectLink
-              href={`/colors/inspector#${color.replace(/^#/, '')}`}
-              text="Inspect Color"
-            />
-          </IconLinkContainer>
         </ColorPickerContainer>
 
         <FormatsContainer>
@@ -113,6 +107,12 @@ const ColorConverter: React.FC<Props> = () => {
           </FlexContainer>
         </FormatsContainer>
       </TwoColumnsContainer>
+
+      <ToolCrossLinks
+        toolKey="color-converter"
+        title="Explore More Color Tools"
+        dynamicData={{ color }}
+      />
     </MainContainer>
   );
 };
@@ -134,19 +134,20 @@ const ColorPickerContainer = styled.div`
   }
 `;
 
-const IconLinkContainer = styled.div`
-  margin-top: 1rem;
-`;
-
 const InspectLink = styled(IconLink)`
   display: inline-block;
-  color: var(--primary-500);
-  font-weight: 500;         
-  transition: color 0.2s ease;
+  color: var(--surface-500);
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--surface-border);
+  background-color: var(--surface-50);
+  border-radius: 0.4rem;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 
   &:hover {
-    color: var(--primary-600);
-    text-decoration: underline;  
+    color: var(--surface-600);
+    background-color: var(--surface-100);
+    border-color: var(--surface-300);
   }
 `;
 

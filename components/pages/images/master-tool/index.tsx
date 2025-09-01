@@ -10,6 +10,7 @@ import { SingleColumnContainer } from '@/components/ui/containers';
 import { ImageWithDownload } from '@/components/ui/images/image-with-download';
 import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
 import { DefaultQuality, ImageSettings, Settings } from '@/components/pages/images/master-tool/image-settings';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 interface OriginalImage {
   content: string;
@@ -229,6 +230,11 @@ const ImageCompression: React.FC<Props> = ({}) => {
           originalRatio={imageRatio}
         />
       )}
+
+      <ToolCrossLinks
+        toolKey="image-compression"
+        title="Explore More Image Tools"
+      />
     </SingleColumnContainer>
   );
 }
