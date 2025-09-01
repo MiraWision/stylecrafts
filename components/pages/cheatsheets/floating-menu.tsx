@@ -7,8 +7,20 @@ interface Props {
 
 const FloatingMenu: React.FC<Props> = ({ sections }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
   const [activeSection, setActiveSection] = useState<string | null>(sections[0]?.id);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,13 +50,16 @@ const FloatingMenu: React.FC<Props> = ({ sections }) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // On mobile, always show expanded view; on desktop, use hover state
+  const shouldShowExpanded = isMobile || isMenuVisible;
+
   return (
     <MenuContainer
-      $isMenuVisible={isMenuVisible}
-      onMouseEnter={() => setIsMenuVisible(true)}
-      onMouseLeave={() => setIsMenuVisible(false)}
+      $isMenuVisible={shouldShowExpanded}
+      onMouseEnter={() => !isMobile && setIsMenuVisible(true)}
+      onMouseLeave={() => !isMobile && setIsMenuVisible(false)}
     >
-      {isMenuVisible && sections.map((section) => (
+      {shouldShowExpanded && sections.map((section) => (
         <MenuItem
           key={section.id}
           $isActive={section.id === activeSection}
@@ -54,7 +69,7 @@ const FloatingMenu: React.FC<Props> = ({ sections }) => {
         </MenuItem>
       ))}
 
-      {!isMenuVisible && sections.map((section) => (
+      {!shouldShowExpanded && sections.map((section) => (
         <MenuDash
           key={section.id} 
           $isActive={section.id === activeSection}

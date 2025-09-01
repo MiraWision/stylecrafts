@@ -29,14 +29,12 @@ const ColorSwatchesCheatSheetMain: React.FC<Props> = () => {
 
   return (
     <MainContainer>
-      {/*
       <FloatingMenu
         sections={colorPalettes.map((group) => ({
           id: generateSlug(group.groupName),
           title: `${group.groupName} Shades`,
         }))}
       />
-*/}
 
       <MobileSingleColumnContainer>
         {colorPalettes.map(({ groupName, colors }) => (
