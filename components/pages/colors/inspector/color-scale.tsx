@@ -29,16 +29,16 @@ const ScaleContainer = styled.div<{ width: number }>`
   flex-direction: column;
   align-items: center;
   width: ${({ width }) => width}%;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 `;
 
 const ScaleBar = styled.div`
   position: relative;
   width: 100%;
-  height: 12px;
-  border-radius: 6px;
+  height: 8px;
+  border-radius: 4px;
   overflow: hidden;
-  border: 1.5px solid #444;
+  border: 1px solid #ddd;
 `;
 
 const ScaleGradient = styled.div<{ colors: string[] }>`
@@ -51,28 +51,29 @@ const Indicator = styled.div<{ position: number }>`
   position: absolute;
   top: 50%;
   left: ${({ position }) => position * 100}%;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   background-color: #fff;
   border-radius: 50%;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   transform: translate(-50%, -50%);
   pointer-events: none;
-  border: 1px solid black;
+  border: 1px solid #333;
 `;
 
 const LabelContainer = styled.div<{ columns: number }>`
   display: grid;
   grid-template-columns: repeat(${({ columns }) => columns}, 1fr);
   width: 100%;
-  margin-top: 5px;
+  margin-top: 3px;
 `;
 
 const Label = styled.div`
-  font-size: 0.8rem;
-  font-weight: bold;
+  font-size: 0.7rem;
+  font-weight: 500;
   text-align: center;
   white-space: nowrap;
+  color: #666;
 `;
 
 export { ColorScale };

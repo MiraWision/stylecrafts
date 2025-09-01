@@ -43,7 +43,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 0.2rem 0;
+  margin: 0.05rem 0;
 `;
 
 const Row = styled.div<{ singleColumn?: boolean }>`
@@ -53,7 +53,7 @@ const Row = styled.div<{ singleColumn?: boolean }>`
   justify-content: flex-start;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.1rem;
   min-width: 0;
 `;
 

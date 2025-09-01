@@ -12,7 +12,8 @@ const ColorExamples: React.FC<Props> = ({ onColorSelect }) => {
   const router = useRouter();
 
   const handleColorSelect = (color: ColorExample) => {
-    router.push(`/colors/inspector?color=${encodeURIComponent(color.color)}`, undefined, { shallow: true });
+    const hex = color.color.replace('#', '');
+    router.push(`/colors/inspector#${hex}`, undefined, { shallow: true });
     onColorSelect(color);
   };
 
@@ -32,7 +33,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 1rem 1rem;
-  margin-bottom: 2rem;
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem 1rem;
