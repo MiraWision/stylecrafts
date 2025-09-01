@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { CopyIcon } from '@/components/icons/copy';
 import Link from 'next/link';
 import { IconLink } from '@/components/ui/links/icon-link';
+import { ColorInspectorIcon } from '@/components/icons/color-inspector';
 
 interface Props {
   color: string;
@@ -31,9 +32,12 @@ const ColorCard: React.FC<Props> = ({ color, title, onCopy, onClick }) => {
   return (
     <Container>
       <ColorRectangle $backgroundColor={color}>
-        <CenteredIconLinkWrapper>
-          <IconLink href={`/colors/inspector#${color.replace('#', '')}`} text="Inspect" />
-        </CenteredIconLinkWrapper>
+        <OverlayLink href={`/colors/inspector#${color.replace('#', '')}`}>
+          <OverlayContent>
+            <ColorInspectorIcon width="16" height="16" />
+            <span>Inspect</span>
+          </OverlayContent>
+        </OverlayLink>
       </ColorRectangle>
 
       {title && <ColorTitle>{title}</ColorTitle>}
@@ -68,9 +72,39 @@ const ColorRectangle = styled.div.attrs<{ $backgroundColor: string }>(({ $backgr
   border-radius: 0.25rem;
   position: relative;
   transition: width 0.3s;
+`;
 
-  &:hover a {
+const OverlayLink = styled(Link)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255,255,255,0.85);
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+  text-decoration: none;
+  color: var(--color-primary);
+
+  ${ColorRectangle}:hover & {
     opacity: 1;
+  }
+`;
+
+const OverlayContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+
+  svg {
+    fill: var(--color-primary);
   }
 `;
 
@@ -100,20 +134,6 @@ const ColorText = styled.div`
   &:hover .icon {
     opacity: 1;
   }
-`;
-
-const CenteredIconLinkWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255,255,255,0.85);
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  padding: 0.3rem 0.8rem;
-  z-index: 2;
-  display: flex;
-  align-items: center;
 `;
 
 export { ColorCard };

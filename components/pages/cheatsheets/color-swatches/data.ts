@@ -1,14 +1,102 @@
+// Utility function to convert hex to HSL
+const hexToHSL = (hex: string): { h: number; s: number; l: number } => {
+  // Remove # if present
+  hex = hex.replace('#', '');
+  
+  // Convert hex to RGB
+  const r = parseInt(hex.substr(0, 2), 16) / 255;
+  const g = parseInt(hex.substr(2, 2), 16) / 255;
+  const b = parseInt(hex.substr(4, 2), 16) / 255;
+  
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
+  
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  
+  return {
+    h: h * 360,
+    s: s * 100,
+    l: l * 100
+  };
+};
+
+// Function to calculate distance from 50% for saturation and lightness
+const getDistanceFrom50 = (s: number, l: number): number => {
+  const sDistance = Math.abs(s - 50);
+  const lDistance = Math.abs(l - 50);
+  return sDistance + lDistance;
+};
+
+// Function to sort colors by saturation and lightness (closest to 50% first)
+const sortColorsBySaturationLightness = (colors: Array<{ title: string; hex: string }>) => {
+  return [...colors].sort((a, b) => {
+    const hslA = hexToHSL(a.hex);
+    const hslB = hexToHSL(b.hex);
+    
+    const distanceA = getDistanceFrom50(hslA.s, hslA.l);
+    const distanceB = getDistanceFrom50(hslB.s, hslB.l);
+    
+    return distanceA - distanceB;
+  });
+};
+
+// Special sorting functions for specific color groups
+const sortWhiteColors = (colors: Array<{ title: string; hex: string }>) => {
+  return [...colors].sort((a, b) => {
+    const hslA = hexToHSL(a.hex);
+    const hslB = hexToHSL(b.hex);
+    
+    // Sort by lightness (lighter first)
+    return hslB.l - hslA.l;
+  });
+};
+
+const sortBlackColors = (colors: Array<{ title: string; hex: string }>) => {
+  return [...colors].sort((a, b) => {
+    const hslA = hexToHSL(a.hex);
+    const hslB = hexToHSL(b.hex);
+    
+    // Sort by lightness (darker first)
+    return hslA.l - hslB.l;
+  });
+};
+
+const sortGrayColors = (colors: Array<{ title: string; hex: string }>) => {
+  return [...colors].sort((a, b) => {
+    const hslA = hexToHSL(a.hex);
+    const hslB = hexToHSL(b.hex);
+    
+    // Sort by saturation (greyer colors first - lower saturation)
+    return hslA.s - hslB.s;
+  });
+};
+
 const colorPalettes = [
   {
     groupName: 'Red',
     usage: 'Primary',
-    colors: [
+    colors: sortColorsBySaturationLightness([
       { title: 'Crimson', hex: '#FF0000' },
       { title: 'Firebrick', hex: '#E60000' },
       { title: 'Ruby Red', hex: '#CC0000' },
       { title: 'Garnet', hex: '#B30000' },
       { title: 'Maroon', hex: '#990000' },
       { title: 'Burgundy', hex: '#800000' },
+      { title: 'Cherry', hex: '#FF1A1A' },
+      { title: 'Flame', hex: '#FF3333' },
       { title: 'Tomato', hex: '#FF4C4C' },
       { title: 'Coral', hex: '#FF6666' },
       { title: 'Salmon', hex: '#FF7F7F' },
@@ -18,17 +106,15 @@ const colorPalettes = [
       { title: 'Blush', hex: '#FFD6D6' },
       { title: 'Misty', hex: '#FFEBEB' },
       { title: 'Pastel Red', hex: '#FFCCCC' },
-      { title: 'Cherry', hex: '#FF1A1A' },
-      { title: 'Flame', hex: '#FF3333' },
-      { title: 'Tangerine', hex: '#FF6666' },
-      { title: 'Candy Red', hex: '#FF9999' },
-      { title: 'Light Pink', hex: '#FFB6C1' },
-    ],
+      { title: 'Indian Red', hex: '#CD5C5C' },
+      { title: 'Dark Red', hex: '#8B0000' },
+      { title: 'Scarlet', hex: '#FF2400' },
+    ]),
   },
   {
     groupName: 'Pink',
     usage: 'Accent',
-    colors: [
+    colors: sortColorsBySaturationLightness([
       { title: 'Pink', hex: '#FFC0CB' },
       { title: 'Light Pink', hex: '#FFB6C1' },
       { title: 'Hot Pink', hex: '#FF69B4' },
@@ -48,12 +134,13 @@ const colorPalettes = [
       { title: 'Peach Pink', hex: '#FFCCD9' },
       { title: 'Misty Pink', hex: '#FFE4E1' },
       { title: 'Soft Pink', hex: '#FFDAE9' },
-    ],
+      { title: 'Rose Pink', hex: '#FFB7C5' },
+    ]),
   },
   {
     groupName: 'Yellow',
     usage: 'Accent',
-    colors: [
+    colors: sortColorsBySaturationLightness([
       { title: 'Yellow', hex: '#FFFF00' },
       { title: 'Canary Yellow', hex: '#FFFF33' },
       { title: 'Lemon Yellow', hex: '#FFFF66' },
@@ -73,12 +160,13 @@ const colorPalettes = [
       { title: 'Buttercup', hex: '#FFDD00' },
       { title: 'Dandelion', hex: '#FFEE00' },
       { title: 'Flaxen', hex: '#FFEB00' },
-    ],
+      { title: 'Golden Yellow', hex: '#FFD700' },
+    ]),
   },
   {
     groupName: 'Orange',
     usage: 'Primary',
-    colors: [
+    colors: sortColorsBySaturationLightness([
       { title: 'Orange', hex: '#FFA500' },
       { title: 'Dark Orange', hex: '#FF8C00' },
       { title: 'Pumpkin', hex: '#FF7F00' },
@@ -98,12 +186,13 @@ const colorPalettes = [
       { title: 'Blanched Almond', hex: '#FFE5B4' },
       { title: 'Desert Sand', hex: '#FFEB99' },
       { title: 'Papaya', hex: '#FFF0D4' },
-    ],
+      { title: 'Sandy Orange', hex: '#F4A460' },
+    ]),
   },
   {
     groupName: 'Green',
     usage: 'Primary',
-    colors: [
+    colors: sortColorsBySaturationLightness([
       { title: 'Lime', hex: '#00FF00' },
       { title: 'Lime Green', hex: '#32CD32' },
       { title: 'Forest Green', hex: '#228B22' },
@@ -120,16 +209,16 @@ const colorPalettes = [
       { title: 'Spring Green', hex: '#00FF7F' },
       { title: 'Medium Sea Green', hex: '#3CB371' },
       { title: 'Sea Green', hex: '#2E8B57' },
-      { title: 'Saddle Brown', hex: '#8B4513' },
+      { title: 'Olive Green', hex: '#6B8E23' },
       { title: 'Dark Olive Green', hex: '#556B2F' },
       { title: 'Olive Drab', hex: '#6B8E23' },
       { title: 'Olive', hex: '#808000' },
-    ],
+    ]),
   },
   {
     groupName: 'Blue',
     usage: 'Primary',
-    colors: [
+    colors: sortColorsBySaturationLightness([
       { title: 'Blue', hex: '#0000FF' },
       { title: 'Medium Blue', hex: '#0000CD' },
       { title: 'Dark Blue', hex: '#00008B' },
@@ -150,12 +239,12 @@ const colorPalettes = [
       { title: 'Pale Turquoise', hex: '#AFEEEE' },
       { title: 'Light Cyan', hex: '#E0FFFF' },
       { title: 'Light Steel Blue', hex: '#B0C4DE' },
-    ],
+    ]),
   },
   {
     groupName: 'Purple',
     usage: 'Accent',
-    colors: [
+    colors: sortColorsBySaturationLightness([
       { title: 'Purple', hex: '#800080' },
       { title: 'Blue Violet', hex: '#8A2BE2' },
       { title: 'Dark Violet', hex: '#9400D3' },
@@ -172,12 +261,16 @@ const colorPalettes = [
       { title: 'Lavender', hex: '#E6E6FA' },
       { title: 'Hot Pink Purple', hex: '#FF69B4' },
       { title: 'Deep Pink Purple', hex: '#FF1493' },
-    ],
+      { title: 'Medium Purple', hex: '#9370DB' },
+      { title: 'Slate Blue', hex: '#6A5ACD' },
+      { title: 'Dark Slate Blue', hex: '#483D8B' },
+      { title: 'Medium Slate Blue', hex: '#7B68EE' },
+    ]),
   },
   {
     groupName: 'Brown',
     usage: 'Background',
-    colors: [
+    colors: sortColorsBySaturationLightness([
       { title: 'Brown', hex: '#A52A2A' },
       { title: 'Saddle Brown', hex: '#8B4513' },
       { title: 'Sienna', hex: '#A0522D' },
@@ -198,12 +291,12 @@ const colorPalettes = [
       { title: 'Linen Brown', hex: '#FAF0E6' },
       { title: 'Cornsilk Brown', hex: '#FFF8DC' },
       { title: 'Old Lace Brown', hex: '#FDF5E6' },
-    ],
+    ]),
   },
   {
     groupName: 'White',
     usage: 'Background',
-    colors: [
+    colors: sortWhiteColors([
       { title: 'White', hex: '#FFFFFF' },
       { title: 'Alice Blue', hex: '#F0F8FF' },
       { title: 'Antique White', hex: '#FAEBD7' },
@@ -218,18 +311,13 @@ const colorPalettes = [
       { title: 'Ivory', hex: '#FFFFF0' },
       { title: 'Linen White', hex: '#FAF0E6' },
       { title: 'Floral White', hex: '#FFFAF0' },
-      { title: 'Mint', hex: '#F0FFF0' },
-      { title: 'Azure', hex: '#F0FFFF' },
-      { title: 'White Smoke', hex: '#F5F5F5' },
       { title: 'Snow', hex: '#FFFAFA' },
-      { title: 'Ghost White', hex: '#F8F8FF' },
-      { title: 'Lavender White', hex: '#E6E6FA' },
-    ],
+    ]),
   },
   {
     groupName: 'Gray',
     usage: 'Text',
-    colors: [
+    colors: sortGrayColors([
       { title: 'Gray', hex: '#808080' },
       { title: 'Dark Gray', hex: '#A9A9A9' },
       { title: 'Silver', hex: '#C0C0C0' },
@@ -245,16 +333,12 @@ const colorPalettes = [
       { title: 'Light Grey', hex: '#D3D3D3' },
       { title: 'Dark Grey', hex: '#A9A9A9' },
       { title: 'Dim Grey', hex: '#696969' },
-      { title: 'Light Slate Grey', hex: '#778899' },
-      { title: 'Slate Grey', hex: '#708090' },
-      { title: 'Grey Web', hex: '#BEBEBE' },
-      { title: 'Smoke', hex: '#CCCCCC' },
-    ],
+    ]),
   },
   {
     groupName: 'Black',
     usage: 'Text',
-    colors: [
+    colors: sortBlackColors([
       { title: 'Black', hex: '#000000' },
       { title: 'Jet Black', hex: '#0C0C0C' },
       { title: 'Charcoal', hex: '#181818' },
@@ -265,17 +349,12 @@ const colorPalettes = [
       { title: 'Granite', hex: '#5A5A5A' },
       { title: 'Slate Gray', hex: '#666666' },
       { title: 'Ash Gray', hex: '#737373' },
-      { title: 'Gray', hex: '#808080' },
       { title: 'Light Charcoal', hex: '#8D8D8D' },
       { title: 'Light Slate Gray', hex: '#9A9A9A' },
       { title: 'Pale Gray', hex: '#A6A6A6' },
       { title: 'Smoke Black', hex: '#B3B3B3' },
       { title: 'Light Gray', hex: '#BFBFBF' },
-      { title: 'Silver Black', hex: '#CCCCCC' },
-      { title: 'Light Silver', hex: '#D9D9D9' },
-      { title: 'Gainsboro Black', hex: '#E6E6E6' },
-      { title: 'Light Gainsboro', hex: '#F2F2F2' },
-    ],
+    ]),
   },
 ];
 
