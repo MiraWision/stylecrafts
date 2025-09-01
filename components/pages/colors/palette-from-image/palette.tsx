@@ -27,6 +27,8 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
     return Math.ceil((palette.length + 1) / 4);
   }, [palette]);
 
+  const colorCount = palette.length;
+
   const copyColor = (color: string) => {
     copyText(color);
     toast.success('Copied!', 'Color copied to clipboard');
@@ -42,48 +44,60 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
 
   return (
     <Container>
-      <PaletteGrid>
-        {Array.from({ length: rowsCount * 4 }).map((_, index) => {
-          if (index === rowsCount * 4 - 1) {
-            return (
-              <RefreshButton key={index} onClick={onRefreshPalette}>
-                <RefreshIcon />
-              </RefreshButton>
-            );
-          }
+      {palette.length === 0 ? (
+        <EmptyPaletteMessage>
+          <EmptyPaletteText>No colors yet</EmptyPaletteText>
+          <EmptyPaletteSubtext>Click on the image to add colors or wait for auto-generation</EmptyPaletteSubtext>
+        </EmptyPaletteMessage>
+      ) : (
+        <>
+          <ColorCountDisplay>
+            {colorCount} color{colorCount !== 1 ? 's' : ''} in palette
+          </ColorCountDisplay>
+          <PaletteGrid>
+            {Array.from({ length: rowsCount * 4 }).map((_, index) => {
+              if (index === rowsCount * 4 - 1) {
+                return (
+                  <RefreshButton key={index} onClick={onRefreshPalette}>
+                    <RefreshIcon />
+                  </RefreshButton>
+                );
+              }
 
-          const color = palette[index];
+              const color = palette[index];
 
-          if (!color) {
-            return (
-              <EmptyColorSquare
-                key={index}
-                $backgroundColor='#ffffff'
-              />
-            );
-          }
+              if (!color) {
+                return (
+                  <EmptyColorSquare
+                    key={index}
+                    $backgroundColor='#ffffff'
+                  />
+                );
+              }
 
-          return (
-            <ColorSquare
-              key={index}
-              $backgroundColor={color}
-              onClick={() => copyColor(color)}
-              onDoubleClick={() => onRemoveColor(index)}
-            >
-              <Overlay>
-                <ColorTooltip>{color}</ColorTooltip>
-                <CopyIcon />
-              </Overlay>
-            </ColorSquare>
-          );
-        })}
-      </PaletteGrid>
+              return (
+                <ColorSquare
+                  key={index}
+                  $backgroundColor={color}
+                  onClick={() => copyColor(color)}
+                  onDoubleClick={() => onRemoveColor(index)}
+                >
+                  <Overlay>
+                    <ColorTooltip>{color}</ColorTooltip>
+                    <CopyIcon />
+                  </Overlay>
+                </ColorSquare>
+              );
+            })}
+          </PaletteGrid>
 
-      <CopyTextButton
-        text='Copy All'
-        copyText={JSON.stringify(palette).replace(/,/g, ', ')}
-        onCopyCallback={onCopy}
-      />
+          <CopyTextButton
+            text='Copy All'
+            copyText={JSON.stringify(palette).replace(/,/g, ', ')}
+            onCopyCallback={onCopy}
+          />
+        </>
+      )}
     </Container>
   );
 };
@@ -92,6 +106,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  
+  @media (max-width: 768px) {
+    align-items: stretch;
+  }
 `;
 
 const PaletteGrid = styled.div`
@@ -99,6 +118,10 @@ const PaletteGrid = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+  
+  @media (max-width: 768px) {
+    gap: 0.375rem;
+  }
 `;
 
 const ColorSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
@@ -111,11 +134,32 @@ const ColorSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroun
   position: relative;
   border-radius: 0.25rem;
   cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    width: 3.5rem;
+    height: 3.5rem;
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
 `;
 
 const EmptyColorSquare = styled(ColorSquare)`
   border: 1px solid var(--surface-300);
-  background-color: transparent;
+  background-color: transparent !important;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.05) 2px,
+    rgba(0, 0, 0, 0.05) 4px
+  );
   cursor: default;
 `;
 
@@ -163,15 +207,65 @@ const RefreshButton = styled.button`
   border-radius: 0.25rem;
   background-color: transparent;
   cursor: pointer;
-  transition: border-color 0.3s;
+  transition: all 0.2s ease;
   color: var(--surface-300);
 
   &:hover {
     border-color: var(--primary-color);
+    transform: scale(1.05);
     
     > i {
       color: var(--primary-color);
     }
+  }
+
+  @media (max-width: 768px) {
+    width: 3.5rem;
+    height: 3.5rem;
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+`;
+
+const EmptyPaletteMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  min-height: 8rem;
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    min-height: 6rem;
+  }
+`;
+
+const EmptyPaletteText = styled.div`
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--surface-600);
+  margin-bottom: 0.5rem;
+`;
+
+const EmptyPaletteSubtext = styled.div`
+  font-size: 0.875rem;
+  color: var(--surface-500);
+  line-height: 1.4;
+`;
+
+const ColorCountDisplay = styled.div`
+  font-size: 0.875rem;
+  color: var(--surface-600);
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  
+  @media (max-width: 768px) {
+    text-align: center;
+    font-size: 0.8rem;
   }
 `;
 

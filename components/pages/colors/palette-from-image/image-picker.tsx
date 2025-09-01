@@ -21,6 +21,7 @@ const ImageColorPicker: React.FC<Props> = ({
   clearedPaletteVersion,
 }) => {
   const [palette, setPalette] = useState<string[]>([]);
+  const [isGenerating, setIsGenerating] = useState(false);
   const pixelationMode = true;
   const [zoomData, setZoomData] = useState<ZoomData | null>(null);
   const [pixelMatrix, setPixelMatrix] = useState<string[][] | null>(null);
@@ -35,15 +36,88 @@ const ImageColorPicker: React.FC<Props> = ({
     if (!selectedImage) {
       setPixelMatrix(null);
       setZoomData(null);
+      setPalette([]);
+      onPaletteChange([]);
+      return;
     }
+    
+    // Reset palette when image changes
     setPalette([]);
     onPaletteChange([]);
   }, [selectedImage]);
+
+  // Separate effect for auto-generation
+  useEffect(() => {
+    if (selectedImage && palette.length === 0 && imageRef.current && imageRef.current.complete) {
+      generateAutoPalette();
+    }
+  }, [selectedImage, palette.length]);
 
   useEffect(() => {
     setPalette([]);
     onPaletteChange([]);
   }, [clearedPaletteVersion]);
+
+  const generateAutoPalette = () => {
+    if (!imageRef.current || !offscreenCanvasRef.current) return;
+    
+    setIsGenerating(true);
+    
+    // Use setTimeout to avoid blocking the UI
+    setTimeout(() => {
+      const img = imageRef.current;
+      const canvas = offscreenCanvasRef.current;
+      if (!img || !canvas) {
+        setIsGenerating(false);
+        return;
+      }
+      
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        setIsGenerating(false);
+        return;
+      }
+
+      // Sample colors from different areas of the image
+      const samplePoints = [
+        { x: 0.1, y: 0.1 },
+        { x: 0.3, y: 0.2 },
+        { x: 0.5, y: 0.3 },
+        { x: 0.7, y: 0.4 },
+        { x: 0.9, y: 0.5 },
+        { x: 0.2, y: 0.6 },
+        { x: 0.4, y: 0.7 },
+        { x: 0.6, y: 0.8 },
+        { x: 0.8, y: 0.9 }
+      ];
+
+      const autoPalette: string[] = [];
+      
+      samplePoints.forEach(point => {
+        const x = Math.floor(point.x * img.naturalWidth);
+        const y = Math.floor(point.y * img.naturalHeight);
+        
+        const imageData = ctx.getImageData(x, y, 1, 1).data;
+        const r = imageData[0];
+        const g = imageData[1];
+        const b = imageData[2];
+        
+        const rgbColor = `rgb(${r}, ${g}, ${b})`;
+        const hexColor = convertColor(rgbColor, ColorFormat.HEX);
+        
+        // Avoid duplicate colors
+        if (!autoPalette.includes(hexColor)) {
+          autoPalette.push(hexColor);
+        }
+      });
+
+      // Limit to 8 colors
+      const finalPalette = autoPalette.slice(0, 8);
+      setPalette(finalPalette);
+      onPaletteChange(finalPalette);
+      setIsGenerating(false);
+    }, 100);
+  };
 
   const handleImageLoad = () => {
     if (!imageRef.current) return;
@@ -55,6 +129,10 @@ const ImageColorPicker: React.FC<Props> = ({
     const ctx = offscreenCanvasRef.current.getContext('2d');
     if (ctx) {
       ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+      // Only generate palette if none exists
+      if (palette.length === 0) {
+        generateAutoPalette();
+      }
     }
   };
 
@@ -231,20 +309,27 @@ const ImageColorPicker: React.FC<Props> = ({
     <Container>
       <ImageWrapper>
         {selectedImage && (
-          <img
-            src={selectedImage}
-            alt="Uploaded"
-            ref={imageRef}
-            onLoad={handleImageLoad}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleImageClick}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onTouchCancel={handleTouchCancel}
-            style={{ cursor: 'crosshair' }}
-          />
+          <>
+            <img
+              src={selectedImage}
+              alt="Uploaded"
+              ref={imageRef}
+              onLoad={handleImageLoad}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              onClick={handleImageClick}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchCancel}
+              style={{ cursor: 'crosshair' }}
+            />
+            {isGenerating && (
+              <LoadingOverlay>
+                <LoadingText>Generating palette...</LoadingText>
+              </LoadingOverlay>
+            )}
+          </>
         )}
         {zoomData && displaySize && pixelMatrix && (
           <PixelWindow pixelMatrix={pixelMatrix} mouse={zoomData} />
@@ -266,6 +351,8 @@ const ImageWrapper = styled.div`
   max-width: 700px;
   img {
     max-width: 100%;
+    width: 100%;
+    height: auto;
     display: block;
     touch-action: manipulation; 
     user-select: none;
@@ -307,6 +394,25 @@ const SinglePixelWrapper = styled.div<{ $color: string }>`
   background: ${({ $color }) => $color};
   border: 2.5px solid #e53935;
   box-shadow: 0 0 0 2px #fff, 0 2px 8px rgba(0,0,0,0.12);
+`;
+
+const LoadingOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+`;
+
+const LoadingText = styled.div`
+  color: var(--surface-600);
+  font-size: 0.875rem;
+  font-weight: 500;
 `;
 
 export { ImageColorPicker };

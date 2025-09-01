@@ -80,7 +80,17 @@ const PaletteFromImageMain: React.FC<Props> = () => {
     if (selectedImage?.content === imageSrc) {
       return;
     }
+    
+    // Find the example image to get predefined colors
+    const exampleImage = exampleImages.find(img => img.src === imageSrc);
+    if (exampleImage) {
+      setPalette(exampleImage.colors);
+    } else {
+      setPalette([]);
+    }
+    
     setSelectedImage({ content: imageSrc });
+    setClearedPaletteVersion(v => v + 1);
   };
 
   return (
@@ -89,7 +99,13 @@ const PaletteFromImageMain: React.FC<Props> = () => {
         <ImageColumn>
           <ImageInputMini
             value={selectedImage?.content || null}
-            onChange={setSelectedImage}
+            onChange={(newImage) => {
+              setSelectedImage(newImage);
+              // Clear palette for uploaded images to trigger auto-generation
+              if (newImage && !exampleImages.find(img => img.src === newImage.content)) {
+                setPalette([]);
+              }
+            }}
           />
 
           {selectedImage ? (
@@ -99,7 +115,11 @@ const PaletteFromImageMain: React.FC<Props> = () => {
               clearedPaletteVersion={clearedPaletteVersion}
             />
           ) : (
-            <ImagePlaceholder />
+            <ImagePlaceholder>
+              <PlaceholderText>
+                Upload an image or select from examples below to generate a color palette
+              </PlaceholderText>
+            </ImagePlaceholder>
           )}
         </ImageColumn>
 
@@ -149,6 +169,7 @@ const PaletteColumn = styled.div`
   align-items: flex-start;
   gap: 1rem;
   @media (max-width: 768px) {
+    order: 2;
     align-items: center;
     width: 100%;
     margin-bottom: 1.2rem;
@@ -167,9 +188,14 @@ const ImageColumn = styled.div`
     white-space: nowrap;
   }
   @media (max-width: 768px) {
-    order: 2;
+    order: 1;
     width: 100%;
     margin-bottom: 1.5rem;
+    
+    & > *:first-child {
+      min-width: 100%;
+      width: 100%;
+    }
   }
 `;
 
@@ -178,6 +204,14 @@ const ImageExamplesContainer = styled.div`
   @media (max-width: 768px) {
     margin-top: 0.5rem;
   }
+`;
+
+const PlaceholderText = styled.div`
+  color: var(--surface-600);
+  font-size: 0.875rem;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 300px;
 `;
 
 export { PaletteFromImageMain };

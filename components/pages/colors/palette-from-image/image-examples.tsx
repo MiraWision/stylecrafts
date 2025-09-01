@@ -49,6 +49,21 @@ const GridContainer = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
     padding: 0 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.75rem;
+    padding: 0 1rem;
+  }
+  
+  @media (max-width: 360px) {
+    padding: 0 0.5rem;
+    gap: 0.375rem;
+    max-width: 100%;
+    margin-top: 0.25rem;
+    grid-template-columns: repeat(1, 1fr);
   }
 `;
 
@@ -61,6 +76,12 @@ const ImageWrapper = styled.div`
   border-radius: 0.25rem;
   overflow: hidden;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
 
   @media (max-width: 768px) {
     margin-right: 0.5rem;
@@ -69,6 +90,19 @@ const ImageWrapper = styled.div`
     &:nth-child(2n) {
       margin-right: 0;
     }
+    
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    margin-right: 0;
+    margin-bottom: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 0.125rem;
+    min-height: 120px;
+    transition: all 0.15s ease;
   }
 `;
 
@@ -77,6 +111,10 @@ const ExampleImage = styled.img`
   width: 0;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+  
+  @media (max-width: 480px) {
+    aspect-ratio: 16 / 9;
+  }
 `;
 
 const ColorPalette = styled.div`
@@ -85,6 +123,10 @@ const ColorPalette = styled.div`
   width: 1rem;
   margin-left: 0;
   height: 100%;
+  
+  @media (max-width: 480px) {
+    width: 0.75rem;
+  }
 `;
 
 const ColorStrip = styled.div`
