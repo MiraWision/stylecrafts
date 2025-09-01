@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { copyToClipboard } from '@/utils/copy';
+import { useToast } from '@/components/ui/toast';
 
 import { CopyIcon } from '@/components/icons/copy';
 import { CheckmarkIcon } from '@/components/icons/checkmark';
@@ -15,6 +16,7 @@ interface Props {
 
 const CopyIconButton: React.FC<Props> = ({ text, onCopyCallback, className, style }) => {
   const [icon, setIcon] = useState('copy');
+  const { toast } = useToast();
 
   const copyText = async () => {
     copyToClipboard(text, {
@@ -22,6 +24,9 @@ const CopyIconButton: React.FC<Props> = ({ text, onCopyCallback, className, styl
         if (onCopyCallback) {
           onCopyCallback();
         }
+
+        // Show success toast notification
+        toast.success('Copied!', 'Text copied to clipboard');
 
         setIcon('check');
 

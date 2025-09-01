@@ -26,7 +26,7 @@ const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback
   const onCopy = (text: string) => {
     copyToClipboard(text, {
       onSuccess: () => {
-        toast.success('Character copied to clipboard', text);
+        toast.success('Copied!', 'Character copied to clipboard');
 
         if (onCopyCallback) {
           onCopyCallback(text);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { copyText } from '@mirawision/copily';
 import { CopyIcon } from '@/components/icons/copy';
 import Link from 'next/link';
 import { IconLink } from '@/components/ui/links/icon-link';
@@ -24,8 +25,8 @@ const ColorCard: React.FC<Props> = ({ color, title, onCopy, onClick }) => {
       onCopy(color);
     }
     
-    if (isClient && navigator.clipboard) {
-      navigator.clipboard.writeText(color);
+    if (isClient) {
+      copyText(color);
     }
   };
 

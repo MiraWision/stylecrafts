@@ -38,7 +38,7 @@ const GradientSettings: React.FC<Props> = ({
 
   const onCopy = () => {
     const text = JSON.stringify(gradient).replace(/,/g, ', ');
-    toast.success('Colors copied to clipboard', text);
+    toast.success('Copied!', 'Colors copied to clipboard');
     GAService.logEvent(analyticsEvents.colors.gradient.gradientCopied(text));
   };
 

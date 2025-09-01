@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import { copyText } from '@mirawision/copily';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
@@ -27,15 +28,15 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
   }, [palette]);
 
   const copyColor = (color: string) => {
-    navigator.clipboard.writeText(color);
-    toast.success('Color copied to clipboard', color);
+    copyText(color);
+    toast.success('Copied!', 'Color copied to clipboard');
     GAService.logEvent(analyticsEvents.colors.blender.colorCopied(color));
   };
 
   const onCopy = () => {
     const text = JSON.stringify(palette).replace(/,/g, ', ');
-    navigator.clipboard.writeText(text);
-    toast.success('Colors copied to clipboard', text);
+    copyText(text);
+    toast.success('Copied!', 'Colors copied to clipboard');
     GAService.logEvent(analyticsEvents.colors.blender.colorsCopied(text));
   };
 

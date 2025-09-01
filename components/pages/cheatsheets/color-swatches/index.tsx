@@ -23,7 +23,7 @@ const ColorSwatchesCheatSheetMain: React.FC<Props> = () => {
   const handleCopy = (text: string) => {
     if (isClient && navigator.clipboard) {
       navigator.clipboard.writeText(text);
-      toast.success('Copied!', text);
+      toast.success('Copied!', 'Color copied to clipboard');
     }
   };
 

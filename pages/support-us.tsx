@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { copyText } from '@mirawision/copily';
 import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/support-us';
@@ -38,7 +39,7 @@ const SupportUsSection: React.FC = () => {
 
   const handleCopy = async (value: string) => {
     try {
-      await navigator.clipboard.writeText(value);
+        await copyText(value);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch {}

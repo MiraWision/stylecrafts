@@ -112,7 +112,7 @@ export const HarmonyCircles: React.FC<Props> = ({ color }) => {
                       }}
                       onClick={() => {
                         navigator.clipboard.writeText(colorHex)
-                        toast.success('Color copied to clipboard', colorHex)
+                        toast.success('Copied!', 'Color copied to clipboard')
                         setCopiedCircle(circleId)
                         setTimeout(() => {
                           setCopiedCircle(null)

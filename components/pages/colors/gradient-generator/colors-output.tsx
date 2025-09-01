@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { copyText } from '@mirawision/copily';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
@@ -10,12 +11,13 @@ interface Props {
 }
 
 const ColorsOutput: React.FC<Props> = ({ colors }) => {
+
   const handleCopy = (color: string) => {
-    navigator.clipboard.writeText(color)
+    copyText(color)
       .then(() => {
         GAService.logEvent(analyticsEvents.colors.gradient.colorCopied(color));
       })
-      .catch(err => {
+      .catch((err: Error) => {
         console.error('Failed to copy the color: ', err);
       });
   }

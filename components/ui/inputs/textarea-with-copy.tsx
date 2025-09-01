@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { DropdownTextButton } from '../text-buttons/dropdown-text-button';
+import { copyText } from '@mirawision/copily';
 
 interface CopyOption {
   name: string;
@@ -24,7 +25,7 @@ const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyO
   const dropdownRef = React.useRef<HTMLDivElement>(null);
 
   const handleCopy = (option: CopyOption) => {
-    navigator.clipboard.writeText(option.getValue(value)).then(() => {
+    copyText(option.getValue(value)).then(() => {
       option.onSuccess?.();
     }).catch(() => {
       option.onFail?.();
@@ -53,7 +54,7 @@ const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyO
     label: option.name,
     icon: null,
     onClick: () => {
-      navigator.clipboard.writeText(option.getValue(value)).then(() => {
+      copyText(option.getValue(value)).then(() => {
         option.onSuccess?.();
       }).catch(() => {
         option.onFail?.();
