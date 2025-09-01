@@ -21,9 +21,9 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <Container>
       <Content>
-        <Title $color={textColor}>{title}</Title>
+        <Title $color={textColor}>Preview Example</Title>
         <Subtitle $color={textColor}>
-          Here is a preview of a color combination applied to a real-life example.
+          Here is a preview of your color combination applied to a real-life form example.
         </Subtitle>
         <FontWeights>
           <Weight $color={textColor} $weight={300}>Light</Weight>
@@ -33,32 +33,41 @@ const Header: React.FC<HeaderProps> = ({
         </FontWeights>
       </Content>
       <ReverseButtonContainer>
-        <StyledShuffleIconButton onClick={onReverseColors} />
-        <ReverseLabel $color={textColor}>Reverse Colors</ReverseLabel>
+        <ReverseButton onClick={onReverseColors}>
+          <StyledShuffleIconButton />
+          <ReverseLabel $color={textColor}>Reverse Colors</ReverseLabel>
+        </ReverseButton>
       </ReverseButtonContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   border-radius: 0.5rem;
+  width: 100%;
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
     padding: 1rem;
-    gap: 1.2rem;
+    gap: 1rem;
+  }
+  
+  @media (max-width: 600px) {
+    padding: 0.75rem;
+    gap: 0.75rem;
   }
 `;
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  width: 70%;
+  flex: 1;
+  gap: 0.75rem;
 `;
 
 const Title = styled.h1.attrs<{ $color: string }>(({ $color }) => ({
@@ -66,9 +75,14 @@ const Title = styled.h1.attrs<{ $color: string }>(({ $color }) => ({
     color: $color,
   },
 }))`
-  font-size: 1.6rem;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 700;
   margin: 0;
+  line-height: 1.2;
+  
+  @media (max-width: 600px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const Subtitle = styled.p.attrs<{ $color: string }>(({ $color }) => ({
@@ -76,14 +90,25 @@ const Subtitle = styled.p.attrs<{ $color: string }>(({ $color }) => ({
     color: $color,
   },
 }))`
-  font-size: 1rem;
-  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.9;
+  
+  @media (max-width: 600px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const FontWeights = styled.div`
   display: flex;
-  gap: 0.8rem;
-  margin-top: 0.8rem;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  
+  @media (max-width: 600px) {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
 `;
 
 const Weight = styled.span.attrs<{ $color: string; $weight: number }>(({ $color, $weight }) => ({
@@ -92,7 +117,15 @@ const Weight = styled.span.attrs<{ $color: string; $weight: number }>(({ $color,
     fontWeight: $weight,
   },
 }))`
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+  
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
+  }
 `;
 
 const ReverseButtonContainer = styled.div`
@@ -100,19 +133,43 @@ const ReverseButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 0.2rem;
-
-  @media (max-width: 600px) {
+  margin-top: 0.5rem;
+  
+  @media (max-width: 768px) {
     align-items: flex-start;
-    margin-top: 1rem;
+    margin-top: 0;
+  }
+`;
+
+const ReverseButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: row;
+    gap: 0.75rem;
+    padding: 0.75rem;
   }
 `;
 
 const StyledShuffleIconButton = styled(ShuffleIconButton)`
   & > .icon {
-    width: 36px !important;
-    height: 36px !important;
+    width: 32px !important;
+    height: 32px !important;
   }
+  
   @media (max-width: 600px) {
     & > .icon {
       width: 28px !important;
@@ -122,10 +179,15 @@ const StyledShuffleIconButton = styled(ShuffleIconButton)`
 `;
 
 const ReverseLabel = styled.div<{ $color: string }>`
-  margin-top: 0.3rem;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: ${({ $color }) => $color};
   font-weight: 500;
+  text-align: center;
+  
+  @media (max-width: 768px) {
+    text-align: left;
+  }
+  
   @media (max-width: 600px) {
     font-size: 0.85rem;
   }

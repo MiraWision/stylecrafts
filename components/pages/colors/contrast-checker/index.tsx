@@ -38,47 +38,49 @@ const ColorContrast: React.FC = () => {
 
   return (
     <>
-      <MainGridContainer>
-        <ColumnContainer>
+      <MainContainer>
+        <FormSection>
+          <FormTitle>Color Selection</FormTitle>
+          <FormContainer>
+            <FormRow>
+              <FormField>
+                <FormLabel>Background Color</FormLabel>
+                <ColorInputBig
+                  value={bgColor}
+                  onChange={handleBgColorChange}
+                />
+              </FormField>
+              <ImproveButton
+                onClick={handleSelectContrastForBgColor}
+              >
+                Improve Contrast
+              </ImproveButton>
+            </FormRow>
 
-          <LocalGridContainer>
-            <div>
-              <Label>Background Color</Label>
-              <ColorInputBig
-                value={bgColor}
-                onChange={handleBgColorChange}
-              />
-            </div>
+            <FormRow>
+              <FormField>
+                <FormLabel>Text Color</FormLabel>
+                <ColorInputBig
+                  value={textColor}
+                  onChange={handleTextColorChange}
+                />
+              </FormField>
+              <ImproveButton
+                onClick={handleSelectContrastForTextColor}
+              >
+                Improve Contrast
+              </ImproveButton>
+            </FormRow>
+          </FormContainer>
+        </FormSection>
 
-            <ContrastTextButton
-              onClick={handleSelectContrastForBgColor}
-              text="Improve Contrast"
-            />
-          </LocalGridContainer>
-
-
-          <LocalGridContainer>
-            <div>
-              <Label>Text Color</Label>
-              <ColorInputBig
-                value={textColor}
-                onChange={handleTextColorChange}
-              />
-            </div>
-
-            <ContrastTextButton
-              onClick={handleSelectContrastForTextColor}
-              text="Improve Contrast"
-            />
-          </LocalGridContainer>
-        </ColumnContainer>
-
-        <ColumnContainer>
+        <ResultsSection>
           <ContrastStatus textColor={textColor} bgColor={bgColor} />
-        </ColumnContainer>
-      </MainGridContainer>
+        </ResultsSection>
+      </MainContainer>
 
       <PaletteSection>
+        <PaletteTitle>Quick Color Presets</PaletteTitle>
         <ColorPalette onSelect={handleColorPaletteSelect} />
       </PaletteSection>
 
@@ -94,63 +96,115 @@ const ColorContrast: React.FC = () => {
   );
 };
 
-const MainGridContainer = styled.div`
+const MainContainer = styled.div`
   display: grid;
   grid-template-columns: minmax(340px, 1fr) minmax(260px, 1fr);
-  gap: 1rem;
+  gap: 2rem;
   margin-top: 2rem;
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
     margin-top: 1rem;
   }
 `;
 
-const ColumnContainer = styled.div`
+const FormSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
+`;
+
+const FormTitle = styled.h3`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+`;
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const FormRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: end;
 
   @media (max-width: 600px) {
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 `;
 
-const LocalGridContainer = styled.div`
-  display: grid;
-  width: 20rem;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: center;
+const FormField = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const FormLabel = styled.label`
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+`;
+
+const ImproveButton = styled.button`
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+  min-width: 140px;
+
+  &:hover {
+    background: #7e4fd4;
+  }
 
   @media (max-width: 600px) {
     width: 100%;
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    min-width: unset;
   }
 `;
 
-const Label = styled.div`
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-  text-align: left;
-  margin-bottom: 1rem;
+const ResultsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const PaletteSection = styled.div`
+  margin-top: 2.5rem;
+`;
+
+const PaletteTitle = styled.h3`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
 `;
 
 const PreviewContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 
-  @media (max-width: 600px) {
-    margin-top: 1rem;
+  @media (max-width: 768px) {
+    margin-top: 2rem;
   }
-`;
-
-const PaletteSection = styled.div`
-  margin-top: 2rem;
 `;
 
 export default ColorContrast;
