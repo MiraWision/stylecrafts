@@ -18,9 +18,9 @@ const ColorsInspectorToolPage = () => {
       <MetaTags {...metaTags} />
 
       <MainContainer>
-        <Title>Colors Palette Generator </Title>
+        <Title>Color Palette Generator</Title>
 
-        <Subtitle>Design Custom Color Palettes or Find Inspiration</Subtitle>
+        <Subtitle>Create beautiful color palettes and find inspiration for your designs</Subtitle>
 
         <PaletteGeneratorMain />
 

@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({
       </Content>
       <ReverseButtonContainer>
         <ReverseButton onClick={onReverseColors}>
-          <StyledShuffleIconButton />
+          <StyledShuffleIconButton onClick={onReverseColors} />
           <ReverseLabel $color={textColor}>Reverse Colors</ReverseLabel>
         </ReverseButton>
       </ReverseButtonContainer>

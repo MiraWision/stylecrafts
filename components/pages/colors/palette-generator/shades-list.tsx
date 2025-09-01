@@ -46,16 +46,21 @@ const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
 
   return (
     <Container>
+      <ShadesTitle>Color Shades</ShadesTitle>
       {shadesList.map((colors, index) => (
         <ShadesRow key={index}>
-          {colors.map((shade, shadeIndex) => (
-            <ShadeBox
-              key={shadeIndex}
-              $color={shade.hex}
-              onClick={() => onAddShade(index, shade)}
-              title={`Shade: ${shade.shade}`}
-            />
-          ))}
+          <ColorLabel>{selectedColors[index].title}</ColorLabel>
+          <ShadesContainer>
+            {colors.map((shade, shadeIndex) => (
+              <ShadeBox
+                key={shadeIndex}
+                $color={shade.hex}
+                onClick={() => onAddShade(index, shade)}
+                title={`Shade: ${shade.shade}`}
+                $isBase={shadeIndex === 4}
+              />
+            ))}
+          </ShadesContainer>
         </ShadesRow>
       ))}
     </Container>
@@ -65,27 +70,77 @@ const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+  width: 100%;
+`;
+
+const ShadesTitle = styled.h3`
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-color);
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const ShadesRow = styled.div`
   display: flex;
-  align-items: flex-end;
-  gap: 0.5rem;
-  height: 3.125rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;
 
-const ShadeBox = styled.div.attrs<{ $color: string }>(({ $color }) => ({
+const ColorLabel = styled.div`
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color);
+  text-align: center;
+`;
+
+const ShadesContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  height: 3.125rem;
+  overflow-x: auto;
+  padding: 0.25rem;
+  max-width: 100%;
+
+  @media (max-width: 768px) {
+    gap: 0.125rem;
+    height: 2.5rem;
+  }
+`;
+
+const ShadeBox = styled.div.attrs<{ $color: string; $isBase: boolean }>(({ $color, $isBase }) => ({
   style: {
     backgroundColor: $color,
-    borderColor: 'var(--surface-border)',
+    borderColor: $isBase ? 'var(--text-color)' : 'var(--surface-border)',
     cursor: 'pointer',
   },
 }))`
   width: 2rem;
   height: 2rem;
   border-radius: 0.25rem;
-  border: 0.0625rem solid;
+  border: 0.125rem solid;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
 `;
 
 export { ShadesList };

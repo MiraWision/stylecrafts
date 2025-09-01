@@ -115,11 +115,11 @@ const PaletteFromImageMain: React.FC<Props> = () => {
               clearedPaletteVersion={clearedPaletteVersion}
             />
           ) : (
-            <ImagePlaceholder>
+            <ImagePlaceholderContainer>
               <PlaceholderText>
                 Upload an image or select from examples below to generate a color palette
               </PlaceholderText>
-            </ImagePlaceholder>
+            </ImagePlaceholderContainer>
           )}
         </ImageColumn>
 
@@ -203,6 +203,24 @@ const ImageExamplesContainer = styled.div`
   margin-top: 1rem;
   @media (max-width: 768px) {
     margin-top: 0.5rem;
+  }
+`;
+
+const ImagePlaceholderContainer = styled.div`
+  width: 20rem;
+  height: 10rem;
+  border: 0.0625rem dashed var(--surface-border);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--surface-50);
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    min-height: 8rem;
   }
 `;
 

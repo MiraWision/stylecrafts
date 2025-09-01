@@ -78,25 +78,22 @@ const Preview: React.FC<Props> = ({ palette }) => {
   return (
     <Container>
       <Header>
-        <span onClick={previousPreview}>
+        <NavigationButton onClick={previousPreview}>
           <StyledChevronLeftIcon />
-
           {previews[selectedPreview - 1 < 0 ? previews.length - 1 : selectedPreview - 1]}
-        </span>
+        </NavigationButton>
 
-        <h3>
+        <PreviewTitle>
           {previews[selectedPreview]}
-
           <ShuffleIconButton
             onClick={() => setRefreshIndex(refreshIndex + 1)}
           />
-        </h3>
+        </PreviewTitle>
         
-        <span onClick={nextPreview}>
+        <NavigationButton onClick={nextPreview}>
           {previews[(selectedPreview + 1) % previews.length]}
-
           <StyledChevronRightIcon />
-        </span>
+        </NavigationButton>
       </Header>
 
       <SliderContainer>
@@ -113,7 +110,7 @@ const Preview: React.FC<Props> = ({ palette }) => {
           </ChartContainer>
 
           <StyleguideContainer>
-            <StyleguidePreview   palette={palette} />
+            <StyleguidePreview palette={palette} />
           </StyleguideContainer>
 
           <DashboardContainer>
@@ -132,49 +129,70 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
+  width: 100%;
 `;
 
 const Header = styled.div`
   width: 100%;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1rem;
 
-  .icon * {
-    fill: var(--text-color);
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+`;
+
+const NavigationButton = styled.span`
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
   }
 
-  h3 {
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0;
-    display: flex;
-    align-items: center;
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+  }
+`;
 
-    button {
-      margin-left: 0.5rem;
-    }
+const PreviewTitle = styled.h3`
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  color: var(--text-color);
+
+  button {
+    margin-left: 0.5rem;
   }
 
-  span {
-    display: flex;
-    align-items: center;
+  @media (max-width: 768px) {
     font-size: 0.875rem;
-    cursor: pointer;
-
-    .icon {
-      margin-right: 0.5rem;
-    }
   }
 `;
 
 const SliderContainer = styled.div`
-  width: 42rem;
+  width: 100%;
+  max-width: 42rem;
   height: 30rem;
   overflow: hidden;
   position: relative;
+
+  @media (max-width: 768px) {
+    height: 25rem;
+    max-width: 100%;
+  }
 `;
 
 const SliderContent = styled.div.attrs<{ $translateX: number }>(({ $translateX }) => ({
@@ -184,13 +202,19 @@ const SliderContent = styled.div.attrs<{ $translateX: number }>(({ $translateX }
 }))`
   display: flex;
   transition: transform 0.5s ease;
+  width: 400%;
 `;
 
 const PreviewContainer = styled.div`
-  min-width: 42rem;
-  height: 24rem;
+  min-width: 25%;
+  height: 100%;
   background: var(--surface-100);
   border-radius: 1rem;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    border-radius: 0.75rem;
+  }
 `;
 
 const StyleguideContainer = styled(PreviewContainer)`
@@ -199,18 +223,30 @@ const StyleguideContainer = styled(PreviewContainer)`
   align-items: center;
 `;
 
-const DashboardContainer = styled(PreviewContainer)`
-`;
+const DashboardContainer = styled(PreviewContainer)``;
 
-const ChartContainer = styled(PreviewContainer)`
-`;
+const ChartContainer = styled(PreviewContainer)``;
 
 const StyledChevronLeftIcon = styled(ChevronLeftIcon)`
   margin-right: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+
+  @media (max-width: 768px) {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
 `;
 
 const StyledChevronRightIcon = styled(ChevronRightIcon)`
   margin-left: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+
+  @media (max-width: 768px) {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
 `;
 
 export { Preview };

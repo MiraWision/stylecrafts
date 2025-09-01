@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from 'primereact/button';
 import { ChevronDownIcon } from '@/components/icons/chevron-down';
 
 interface DropdownOption {
@@ -49,28 +48,33 @@ const DropdownTextButton: React.FC<DropdownTextButtonProps> = ({
 
   return (
     <DropdownContainer ref={ref} className={className} style={style}>
-      <ButtonStyled
+      <MainButton
         $isPrimary={isPrimary}
-        disabled={disabled}
+        $disabled={disabled}
         onClick={(e) => {
           if (onClick) onClick();
         }}
+        disabled={disabled}
         type="button"
       >
-        {icon}
-        <span>{text}</span>
-      </ButtonStyled>
-      <DropdownButton
+        {icon && <IconWrapper>{icon}</IconWrapper>}
+        <ButtonText>{text}</ButtonText>
+      </MainButton>
+      
+      <DropdownToggle
         $isPrimary={isPrimary}
-        disabled={disabled}
+        $disabled={disabled}
         onClick={(e) => {
           e.stopPropagation();
           setOpen((prev) => !prev);
         }}
+        disabled={disabled}
         type="button"
+        aria-label="Toggle dropdown"
       >
         <ChevronDownIcon width="16" height="16" />
-      </DropdownButton>
+      </DropdownToggle>
+      
       {open && (
         <DropdownMenu>
           {options.map((option, idx) => (
@@ -81,8 +85,8 @@ const DropdownTextButton: React.FC<DropdownTextButtonProps> = ({
                 option.onClick();
               }}
             >
-              {option.icon}
-              {option.label}
+              {option.icon && <OptionIcon>{option.icon}</OptionIcon>}
+              <OptionLabel>{option.label}</OptionLabel>
             </DropdownMenuItem>
           ))}
         </DropdownMenu>
@@ -91,105 +95,205 @@ const DropdownTextButton: React.FC<DropdownTextButtonProps> = ({
   );
 };
 
-const ButtonStyled = styled(Button)<{ $isPrimary: boolean }>`
-  font-size: 0.875rem;
-  padding: 0.25rem 0.5rem;
-  flex: 1;
-  height: fit-content;
-  min-height: 2rem;
-  color: ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-500)'};
-  border: 0.0625rem solid ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-border)'};
-  border-right: none;
-  background-color: var(--surface-50);
-  border-radius: 0.25rem 0 0 0.25rem;
-
-  .p-button-label {
-    padding: 0;
-  }
-
-  .icon {
-    margin-right: 0.25rem;
-  }
-
-  .icon * {
-    fill: ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-500)'};
-  }
-
-  &:focus {
-    box-shadow: none;
-  }
-
-  &:active {
-    background-color: var(--surface-50);
-  }
-`;
-
-const DropdownButton = styled(Button)<{ $isPrimary: boolean }>`
-  font-size: 0.875rem;
-  padding: 0.25rem 0.5rem;
-  width: fit-content;
-  height: fit-content;
-  min-height: 2rem;
-  color: ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-500)'};
-  border: 0.0625rem solid ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-border)'};
-  border-left: 0.0625rem solid ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-border)'};
-  background-color: var(--surface-50);
-  border-radius: 0 0.25rem 0.25rem 0;
-
-  .p-button-label {
-    padding: 0;
-  }
-
-  .icon * {
-    fill: ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-500)'};
-  }
-
-  &:focus {
-    box-shadow: none;
-  }
-
-  &:active {
-    background-color: var(--surface-50);
-  }
-`;
-
 const DropdownContainer = styled.div`
   position: relative;
   display: flex;
-  width: 100%;
+  width: fit-content;
+`;
+
+const MainButton = styled.button<{ $isPrimary: boolean; $disabled: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: ${({ $isPrimary, $disabled }) => 
+    $disabled 
+      ? 'var(--surface-400)' 
+      : $isPrimary 
+        ? 'var(--primary-color)' 
+        : 'var(--text-color)'
+  };
+  background-color: ${({ $isPrimary, $disabled }) => 
+    $disabled 
+      ? 'var(--surface-200)' 
+      : $isPrimary 
+        ? 'var(--surface-0)' 
+        : 'var(--surface-100)'
+  };
+  border: 1px solid ${({ $isPrimary, $disabled }) => 
+    $disabled 
+      ? 'var(--surface-300)' 
+      : $isPrimary 
+        ? 'var(--primary-color)' 
+        : 'var(--surface-border)'
+  };
+  border-right: none;
+  border-radius: 0.5rem 0 0 0.5rem;
+  cursor: ${({ $disabled }) => $disabled ? 'not-allowed' : 'pointer'};
+  transition: all 0.2s ease;
+  min-height: 2.5rem;
+  white-space: nowrap;
+  font-family: inherit;
+
+  &:hover:not(:disabled) {
+    background-color: ${({ $isPrimary }) => 
+      $isPrimary 
+        ? 'var(--surface-50)' 
+        : 'var(--surface-200)'
+    };
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary-color-200, #c4b5fd);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+const DropdownToggle = styled.button<{ $isPrimary: boolean; $disabled: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 0.75rem;
+  font-size: 0.875rem;
+  color: ${({ $isPrimary, $disabled }) => 
+    $disabled 
+      ? 'var(--surface-400)' 
+      : $isPrimary 
+        ? 'var(--primary-color)' 
+        : 'var(--text-color)'
+  };
+  background-color: ${({ $isPrimary, $disabled }) => 
+    $disabled 
+      ? 'var(--surface-200)' 
+      : $isPrimary 
+        ? 'var(--surface-0)' 
+        : 'var(--surface-100)'
+  };
+  border: 1px solid ${({ $isPrimary, $disabled }) => 
+    $disabled 
+      ? 'var(--surface-300)' 
+      : $isPrimary 
+        ? 'var(--primary-color)' 
+        : 'var(--surface-border)'
+  };
+  border-left: none;
+  border-radius: 0 0.5rem 0.5rem 0;
+  cursor: ${({ $disabled }) => $disabled ? 'not-allowed' : 'pointer'};
+  transition: all 0.2s ease;
+  min-height: 2.5rem;
+  width: 2.5rem;
+
+  &:hover:not(:disabled) {
+    background-color: ${({ $isPrimary }) => 
+      $isPrimary 
+        ? 'var(--surface-50)' 
+        : 'var(--surface-200)'
+    };
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary-color-200, #c4b5fd);
+  }
+
+  .icon * {
+    fill: currentColor;
+  }
+`;
+
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .icon * {
+    fill: currentColor;
+  }
+`;
+
+const ButtonText = styled.span`
+  font-weight: 500;
+  line-height: 1;
 `;
 
 const DropdownMenu = styled.ul`
   position: absolute;
-  top: 110%;
+  top: calc(100% + 0.5rem);
   left: 0;
-  min-width: 100%;
+  min-width: 200px;
   background: var(--surface-0);
   border: 1px solid var(--surface-border);
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  z-index: 10;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
   margin: 0;
-  padding: 0.25rem 0;
+  padding: 0.5rem;
   list-style: none;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.95);
 `;
 
 const DropdownMenuItem = styled.li`
   width: 100%;
-  padding: 0.25rem 0.5rem;
+  padding: 0.75rem 1rem;
   background: none;
-  color: var(--text-color, #222);
+  color: var(--text-color);
   font-size: 0.875rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   cursor: pointer;
-  transition: background 0.2s;
-  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+  border-radius: 0.375rem;
+  font-weight: 500;
+
   &:hover {
-    background: var(--primary-color-hover, #f3e6f1);
-    color: var(--primary-color, #b83280);
+    background: var(--primary-color-50, #f3f4f6);
+    color: var(--primary-color);
+    transform: translateX(2px);
   }
+
+  &:active {
+    transform: translateX(1px);
+  }
+`;
+
+const OptionIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  
+  .icon * {
+    fill: currentColor;
+  }
+`;
+
+const OptionLabel = styled.span`
+  flex: 1;
+  white-space: nowrap;
 `;
 
 export { DropdownTextButton }; 

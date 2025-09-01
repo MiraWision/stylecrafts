@@ -117,7 +117,7 @@ const PaletteGrid = styled.div`
   }
 `;
 
-const PaletteItem = styled.div`
+const PaletteItem = styled.div<{ $backgroundColor: string; $color: string }>`
   display: flex;
   flex-direction: column;
   align-items: center;

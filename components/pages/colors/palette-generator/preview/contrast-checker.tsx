@@ -82,6 +82,7 @@ const ContrastChecker: React.FC<Props> = ({ selectedColors }) => {
 
   return (
     <CheckerContainer>
+      <CheckerTitle>Accessibility Check</CheckerTitle>
       {contrastIssues.map((issue, index) => (
         <Message key={index} $severity={issue.severity}>
           {issue.severity === 'error' ? (
@@ -90,7 +91,7 @@ const ContrastChecker: React.FC<Props> = ({ selectedColors }) => {
             <WarningIcon />
           )}
 
-          {issue.message}
+          <MessageText>{issue.message}</MessageText>
         </Message>
       ))}
     </CheckerContainer>
@@ -98,34 +99,80 @@ const ContrastChecker: React.FC<Props> = ({ selectedColors }) => {
 };
 
 const CheckerContainer = styled.div`
-  margin-top: 1rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 800px;
+  align-self: center;
+
+  @media (max-width: 768px) {
+    margin-top: 1.5rem;
+    gap: 0.5rem;
+    padding: 0 1rem;
+  }
+`;
+
+const CheckerTitle = styled.h3`
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-color);
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severity }) => ({
   className: $severity,
 }))`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   font-size: 0.875rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: var(--surface-100);
+  border-left: 4px solid;
 
   .icon {
-    margin-right: 0.5rem;
+    margin-right: 0.75rem;
+    margin-top: 0.125rem;
+    flex-shrink: 0;
   }
 
   &.error {
+    border-left-color: var(--red-700);
+    background: var(--red-50);
+    
     .icon * {
       fill: var(--red-700);
     }
   }
 
   &.warning {
+    border-left-color: var(--yellow-700);
+    background: var(--yellow-50);
+    
     .icon * {
       fill: var(--yellow-700);
     }
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    
+    .icon {
+      margin-right: 0.5rem;
+    }
+  }
+`;
+
+const MessageText = styled.span`
+  line-height: 1.4;
 `;
 
 export { ContrastChecker };

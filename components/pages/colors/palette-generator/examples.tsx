@@ -16,74 +16,55 @@ const Examples: React.FC<Props> = ({ onExampleClick }) => {
 
   return (
     <ExamplesContainer>
-      {examplePalettes.map((paletteData, index) => (
-        <PaletteExample
-          key={index} 
-          palette={{
-            name: paletteData.name,
-            colors: paletteData.colors.map(c => c.baseColor)
-          }}
-          onClick={() => handleExampleClick(paletteData)}
-        />
-      ))}
+      <ExamplesTitle>Ready-to-use Color Palettes</ExamplesTitle>
+      <ExamplesGrid>
+        {examplePalettes.map((paletteData, index) => (
+          <PaletteExample
+            key={index} 
+            palette={{
+              name: paletteData.name,
+              colors: paletteData.colors.map(c => c.baseColor)
+            }}
+            onClick={() => handleExampleClick(paletteData)}
+          />
+        ))}
+      </ExamplesGrid>
     </ExamplesContainer>
   );
 };
 
 const ExamplesContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-`;
-
-const ExamplePaletteContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.5rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
-  background-color: #fff;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  text-align: center;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
+  margin-top: 2rem;
+  width: 100%;
 `;
 
-const TitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const PaletteTitle = styled.h4`
-  font-size: 1rem;
+const ExamplesTitle = styled.h3`
+  font-size: 1.25rem;
   font-weight: 600;
-  margin: 1rem 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--text-color);
 `;
 
-const IconWrapper = styled.div`
-  margin-right: 2px;
+const ExamplesGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
 
-  img {
-    width: 20px;
-    height: 20px;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 1rem;
   }
-`;
 
-const ColorsContainer = styled.div`
-  display: flex;
-  gap: 5px;
-`;
-
-const ColorSquare = styled.div`
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 4px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  @media (min-width: 769px) and (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 export { Examples };

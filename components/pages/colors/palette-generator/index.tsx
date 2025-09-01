@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { copyText } from '@mirawision/copily';
 import { PaletteColor, Shade } from './types';
 import { ColorSelector } from './color-selector';
 import { ShadesList } from './shades-list';
 import { ContrastChecker } from './preview/contrast-checker';
 import { Preview } from './preview/preview';
 import { Examples } from './examples';
-import { DownloadTextButton } from '@/components/ui/text-buttons/download-text-button';
+import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
 import { exportToSVG } from './export-to-svg';
 import { AddTextButton } from '@/components/ui/text-buttons/add-text-button';
 import { DropdownTextButton } from '@/components/ui/text-buttons/dropdown-text-button';
 import { examplePalettes } from './example-data';
 import { ToolCrossLinks } from '@/components/ui/cross-links';
+import { useToast } from '@/components/ui/toast';
+import { CopyIcon } from '@/components/icons/copy';
+import { DownloadIcon } from '@/components/icons/download';
 
 const initialColors: PaletteColor[] = [
-  { baseColor: '#f5f5f5', title: 'Background', shades: [] },
-  { baseColor: '#333333', title: 'Text', shades: [] },
-  { baseColor: '#3468db', title: 'Primary', shades: [] },
-  { baseColor: '#e74c3c', title: 'Accent', shades: [] },
+  { baseColor: '#ffffff', title: 'Background', shades: [] },
+  { baseColor: '#1a1a1a', title: 'Text', shades: [] },
+  { baseColor: '#2563eb', title: 'Primary', shades: [] },
+  { baseColor: '#f59e0b', title: 'Accent', shades: [] },
 ];
 
 function encodePalette(colors: PaletteColor[]): string {
@@ -36,6 +40,7 @@ function decodePalette(hash: string, fallbackTitles: string[]): PaletteColor[] |
 
 const PaletteGeneratorMain: React.FC = () => {
   const [selectedColors, setSelectedColors] = useState<PaletteColor[]>(initialColors);
+  const { toast } = useToast();
 
   React.useEffect(() => {
     if (window.location.hash) {
@@ -77,24 +82,28 @@ const PaletteGeneratorMain: React.FC = () => {
     setSelectedColors(updated);
   };
 
-  const downloadFile = (filename: string, content: string, contentType: string) => {
-    const blob = new Blob([content], { type: contentType });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
+  const copyToClipboard = (text: string, format: string) => {
+    copyText(text)
+      .then(() => {
+        toast.success('Copied!', `${format} copied to clipboard`);
+      })
+      .catch((err: Error) => {
+        console.error('Failed to copy to clipboard: ', err);
+        toast.error('Failed to copy', 'Please try again');
+      });
   };
 
-  const exportToCSS = () => {
+  const copyToCSS = () => {
     const cssVariables = selectedColors
       .map(c => `--${c.title.toLowerCase()}: ${c.baseColor};`)
       .join('\n');
-    downloadFile('palette.css', `:root {\n${cssVariables}\n}`, 'text/css');
+    const cssContent = `:root {\n${cssVariables}\n}`;
+    copyToClipboard(cssContent, 'CSS');
   };
 
-  const exportToJSON = () => {
+  const copyToJSON = () => {
     const json = JSON.stringify(selectedColors, null, 2);
-    downloadFile('palette.json', json, 'application/json');
+    copyToClipboard(json, 'JSON');
   };
 
   const exportSVG = () => {
@@ -127,26 +136,27 @@ const PaletteGeneratorMain: React.FC = () => {
         </Column>
       </MainContent>
 
-      <ExportButtons>
+      <CopyButtons>
         <DropdownTextButton
-          text="Export to CSS"
-          icon={null}
+          text="Copy CSS"
+          icon={<CopyIcon width="16" height="16" />}
           options={[
             {
-              label: "Export to JSON",
-              icon: null,
-              onClick: exportToJSON
+              label: "Copy JSON",
+              icon: <CopyIcon width="16" height="16" />,
+              onClick: copyToJSON
             },
             {
               label: "Export to SVG", 
-              icon: null,
+              icon: <DownloadIcon width="16" height="16" />,
               onClick: exportSVG
             }
           ]}
-          onClick={exportToCSS}
-          style={{ width: 'fit-content', minWidth: '120px', marginBottom: '0.8rem' }}
+          onClick={copyToCSS}
+          isPrimary={true}
+          style={{ marginBottom: '0.8rem' }}
         />
-      </ExportButtons>
+      </CopyButtons>
 
       <ContrastChecker selectedColors={selectedColors} />
       <Preview palette={selectedColors} />
@@ -163,11 +173,19 @@ const PaletteGeneratorMain: React.FC = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const MainContent = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 `;
 
 const Column = styled.div`
@@ -176,12 +194,16 @@ const Column = styled.div`
   gap: 1rem;
 `;
 
-const ExportButtons = styled.div`
+const CopyButtons = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 20px;
+  justify-content: center;
+
   @media (max-width: 768px) {
     margin-bottom: 1.5rem;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 

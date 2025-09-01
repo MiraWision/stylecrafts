@@ -5,6 +5,7 @@ import { PaletteColor } from './types';
 
 import { Label } from '@/components/ui/texts/label';
 import { ColorInput } from '@/components/ui/inputs/color-input';
+import { RemoveIconButton } from '@/components/ui/icon-buttons/remove-icon-button';
 
 interface Props {
   selectedColors: PaletteColor[];
@@ -30,9 +31,10 @@ const ColorSelector: React.FC<Props> = ({
             />
 
             {color.title === 'Additional Color' && (
-              <RemoveButton onClick={() => onRemoveColor(index)}>
-                x
-              </RemoveButton>
+              <RemoveIconButton
+                onClick={() => onRemoveColor(index)}
+                disabled={selectedColors.length <= 2}
+              />
             )}
           </ColorInputContainer>
         </ColorPickerContainer>
@@ -44,29 +46,13 @@ const ColorSelector: React.FC<Props> = ({
 const ColorPickerContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 `;
 
 const ColorInputContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-`;
-
-const RemoveButton = styled.button`
-  background-color: #e74c3c;
-  border: none;
-  color: white;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #c0392b;
-  }
 `;
 
 export { ColorSelector };
