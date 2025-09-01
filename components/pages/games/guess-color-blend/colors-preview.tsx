@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -6,46 +6,9 @@ interface Props {
   targetColor: string;
   matchPercentage: number;
   isMatched: boolean;
-  isChallenge: boolean;
-  gameOver: boolean;
-  onClick?: () => void;
 }
 
-const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercentage, isMatched, isChallenge, gameOver, onClick }) => {
-  const text = useMemo(() => {
-    if (gameOver) {
-      return 'Game Over';
-    }
-
-    return `${matchPercentage.toFixed(2)}% Match`;
-  }, [gameOver, matchPercentage]);
-
-  const hoverText = useMemo(() => {
-    if (isChallenge) {
-      if (gameOver) {
-        return 'New Challenge';
-      }
-
-      if (isMatched) {
-        return 'Next Game';
-      }
-
-      return 'Keep Going!';
-    }
-
-    return 'New Game';
-  }, [isChallenge, gameOver, isMatched]);
-  
-  const handleOnClick = () => {
-    if (isChallenge) {
-      if (gameOver || isMatched) {
-        onClick?.();
-      }
-    } else {
-      onClick?.();
-    }
-  };
-
+const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercentage, isMatched }) => {
   return (
     <Container>
       <ColorSection $backgroundColor={currentColor}>
@@ -60,13 +23,8 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
         </Overlay>
       </ColorSection>
 
-      <Match
-        $isMatched={isMatched}
-        $gameOver={gameOver}
-        onClick={handleOnClick}
-      >
-        <MatchText $isMatched={isMatched} $gameOver={gameOver}>{text}</MatchText>
-        <HoverText $isMatched={isMatched} $gameOver={gameOver}>{hoverText}</HoverText>
+      <Match $isMatched={isMatched}>
+        {`${matchPercentage.toFixed(2)}% Match`}
       </Match>
 
       <ColorSection $backgroundColor={targetColor}>
@@ -164,29 +122,12 @@ const ColorCode = styled.p`
   text-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.8);
 `;
 
-const MatchText = styled.div<{ $isMatched: boolean; $gameOver: boolean }>`
-  display: ${({ $isMatched, $gameOver }) => ($isMatched || $gameOver ? 'none' : 'block')};
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-align: center;
-  line-height: 1.5;
-`;
-
-const HoverText = styled.div<{ $isMatched: boolean; $gameOver: boolean }>`
-  display: ${({ $isMatched, $gameOver }) => ($isMatched || $gameOver ? 'block' : 'none')};
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-align: center;
-  line-height: 1.5;
-  color: var(--primary-color);
-`;
-
-const Match = styled.div.attrs<{ $isMatched: boolean; $gameOver: boolean }>(({ $isMatched, $gameOver }) => ({
+const Match = styled.div.attrs<{ $isMatched: boolean }>(({ $isMatched }) => ({
   style: {
     borderColor: $isMatched ? 'var(--primary-color)' : 'var(--surface-border)',
     color: $isMatched ? 'var(--primary-color)' : 'var(--text-color)',
   },
-}))<{ $isMatched: boolean; $gameOver: boolean }>`
+}))<{ $isMatched: boolean }>`
   position: absolute;
   z-index: 1;
   top: 50%;
@@ -204,7 +145,10 @@ const Match = styled.div.attrs<{ $isMatched: boolean; $gameOver: boolean }>(({ $
   width: 5rem;
   height: 5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
-  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.5;
 
   @media (max-width: 768px) {
     top: calc(100% + 0.5rem);

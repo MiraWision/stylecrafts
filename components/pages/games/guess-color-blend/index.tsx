@@ -7,14 +7,15 @@ import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 import { Level, Difficulty, SelectedColor } from './types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { PaletteColors, PracticeLevelOptions } from './data';
+import { PaletteColors } from './data';
 
 import { ColorsPreview } from '@/components/pages/games/guess-color-blend/colors-preview';
-import { Label } from '@/components/ui/texts/label';
+
 import { ColorSelection } from './color-selection';
 import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 import { useTimer } from '@/hooks/use-timer';
 import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
+import { StartIcon } from './start-icon';
 
 interface Props {}
 
@@ -22,10 +23,10 @@ const DefaultSelectedColors = PaletteColors.map((color) => ({ ...color, weight: 
 
 const GuessColorBlendMain: React.FC<Props> = ({}) => {
   const [selectedColors, setSelectedColors] = useState<SelectedColor[]>(DefaultSelectedColors);
-  const [mode, setMode] = useState<'Practice' | 'Challenge'>('Practice');
-  const [level, setLevel] = useState<Level>(Level.Easy);
+  const [level, setLevel] = useState<Level>(Level.Challenge);
   const [score, setScore] = useState<number>(0);
   const [topScore, setTopScore] = useLocalStorage<number>('top-score', 0);
+  const [isClient, setIsClient] = useState<boolean>(false);
 
   const topScoreUpdated = useRef<boolean>(false);
   const [targetColor, setTargetColor] = useState<string>('');
@@ -59,9 +60,9 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   }, [currentColor, targetColor]);
 
   const isMatched = useMemo<boolean>(() => matchPercentage > 99, [matchPercentage]);
-  const isChallenge = useMemo<boolean>(() => mode === 'Challenge', [mode]);
 
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
 
   const [remainingTime, ellapsedTime, handleTime] = useTimer(60, () => {
     setGameOver(true);
@@ -76,20 +77,16 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   });
 
   useEffect(() => {
-    resetSelectedColors();
-    generateTargetColor();
-
-    if (isChallenge) {
-      setScore(0);
-      handleTime.reset();
-      handleTime.play();
-    } else {
-      handleTime.pause();
-    }
-  }, [level, mode]);
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
-    if (isMatched && isChallenge) {
+    resetSelectedColors();
+    generateTargetColor();
+  }, [level]);
+
+  useEffect(() => {
+    if (isMatched && gameStarted) {
       setScore((prev) => prev + currentDropsCount.current);
       handleTime.pause();
       handleTime.adjustTime(currentDropsCount.current);
@@ -136,19 +133,22 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
     resetSelectedColors();
   };
 
-  const handleLevelChange = (level: Level) => {
-    setLevel(level);
-  };
-
-  const handleModeChange = (mode: 'Practice' | 'Challenge') => {
-    setMode(mode);
+  const startGame = () => {
+    setGameStarted(true);
+    setGameOver(false);
+    setScore(0);
+    handleTime.reset();
+    handleTime.play();
+    resetSelectedColors();
+    generateTargetColor();
+    GAService.logEvent(analyticsEvents.games.challengeStarted());
   };
 
   const nextGame = () => {
     resetSelectedColors();
     generateTargetColor();
 
-    if (isChallenge) {
+    if (gameStarted) {
       handleTime.play();
 
       if (gameOver) {
@@ -157,8 +157,6 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
         handleTime.reset();
         handleTime.play();
       }
-
-      GAService.logEvent(analyticsEvents.games.challengeStarted());
     }
   };
 
@@ -169,36 +167,32 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   };
 
   return (
-    <>
-      <ModeButtonsContainer>
-        <Label>Select Mode</Label>
-        <ButtonsContainer>
-          <ModeButton
-            text="Practice"
-            className={mode === 'Practice' ? 'selected' : ''}
-            onClick={() => handleModeChange('Practice')}
+    <GameContainer>
+      <GameControlsContainer>
+        <GameStatsContainer>
+          <StatItem>
+            <StatLabel>Score</StatLabel>
+            <StatValue>{score}</StatValue>
+          </StatItem>
+          <StatItem>
+            <StatLabel>Top Score</StatLabel>
+            <StatValue>{isClient ? topScore : 0}</StatValue>
+          </StatItem>
+          <StatItem>
+            <StatLabel>Time</StatLabel>
+            <StatValue>{formatTime(remainingTime)}</StatValue>
+          </StatItem>
+        </GameStatsContainer>
+        
+        <StartButtonContainer>
+          <BaseTextButton
+            text={gameStarted ? 'Restart Game' : 'Start Game'}
+            icon={<StartIcon size={24} />}
+            onClick={gameStarted ? startGame : startGame}
+            isPrimary
           />
-          <ModeButton
-            text="Challenge"
-            className={mode === 'Challenge' ? 'selected' : ''}
-            onClick={() => handleModeChange('Challenge')}
-          />
-        </ButtonsContainer>
-      </ModeButtonsContainer>
-
-      <DifficultyButtonsContainer visible={mode === 'Practice'}>
-        <Label>Select Difficulty</Label>
-        <ButtonsContainer>
-          {PracticeLevelOptions.map((item) => (
-            <LevelButton
-              key={item.value}
-              text={item.label}
-              className={level === item.value ? 'selected' : ''}
-              onClick={() => handleLevelChange(item.value)}
-            />
-          ))}
-        </ButtonsContainer>
-      </DifficultyButtonsContainer>
+        </StartButtonContainer>
+      </GameControlsContainer>
 
       <ContentContainer>
         <ColorsPreview
@@ -206,9 +200,6 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
           targetColor={targetColor}
           matchPercentage={matchPercentage}
           isMatched={isMatched}
-          isChallenge={isChallenge}
-          gameOver={gameOver}
-          onClick={nextGame}
         />
       </ContentContainer>
 
@@ -220,67 +211,9 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
         onWeightChange={changeWeight}
         onResetAll={resetWeights}
       />
-    </>
+    </GameContainer>
   );
 };
-
-const ModeButtonsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-
-  @media (max-width: 768px) {
-    margin-bottom: 1rem;
-    margin-top: 0;
-  }
-`;
-
-interface DifficultyButtonsProps {
-  visible: boolean;
-}
-
-const DifficultyButtonsContainer = styled.div<DifficultyButtonsProps>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-
-  @media (max-width: 768px) {
-    margin-bottom: 1rem;
-  }
-
-  visibility: ${(p) => (p.visible ? 'visible' : 'hidden')};
-  pointer-events: ${(p) => (p.visible ? 'auto' : 'none')};
-`;
-
-const ButtonsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-`;
-
-const BaseButton = styled(BaseTextButton)`
-  border-color: var(--surface-border);
-
-  span {
-    color: var(--text-color);
-    font-weight: 400;
-  }
-
-  &.selected {
-    border-color: var(--primary-color);
-
-    span {
-      color: var(--primary-color);
-    }
-  }
-`;
-
-const LevelButton = styled(BaseButton)``;
-const ModeButton = styled(BaseButton)``;
 
 const ContentContainer = styled.div`
   display: flex;
@@ -288,6 +221,60 @@ const ContentContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-bottom: 1rem;
+`;
+
+const GameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30rem;
+  margin: 15vh auto 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 20vh auto 0;
+  }
+`;
+
+const GameControlsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface-50, #f5f5f5);
+  border-radius: 0.75rem;
+`;
+
+const GameStatsContainer = styled.div`
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+`;
+
+const StatItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+`;
+
+const StatLabel = styled.span`
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+`;
+
+const StatValue = styled.span`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+`;
+
+const StartButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export { GuessColorBlendMain };
