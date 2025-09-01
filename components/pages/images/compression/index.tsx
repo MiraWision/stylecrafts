@@ -39,8 +39,6 @@ const CompressionOptions: {
 
 type CompressionLevel = 'minimal' | 'optimal' | 'maximum';
 
-const IMAGE_BOX_SIZE = '20rem';
-
 const ImageCompressionMain: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<ImageData | null>(null);
   const [compressedImage, setCompressedImage] = useState<CompressedImage | null>(null);
@@ -167,6 +165,10 @@ const ImageCompressionMain: React.FC = () => {
                 <TextOverlayTop>{originalImage?.fileMetaData?.size ? `${(originalImage?.fileMetaData?.size / 1024).toFixed(2)} KB` : 'N/A'}</TextOverlayTop>
               </>
             )}
+            <UploadTextButton 
+              text='Upload Image'
+              onFileSelect={handleFileSelect}
+            />
           </ImageContainer>
           
           <ImageContainer>
@@ -184,22 +186,13 @@ const ImageCompressionMain: React.FC = () => {
             ) : (
               <ImagePlaceholderStyled isLoading={loading} />
             )}
-          </ImageContainer>
-        </ImagesContainer>
-
-        <ImagesContainer>
-          <DownloadButtonContainer>
-            <UploadTextButton 
-              text='Upload Image'
-              onFileSelect={handleFileSelect}
-            />
             {compressedImage?.content && (
               <DownloadTextButton
                 text='Download Image'
                 onClick={handleDownloadImage}
               />
             )}
-          </DownloadButtonContainer>
+          </ImageContainer>
         </ImagesContainer>
       </Form>
 
@@ -263,36 +256,27 @@ const ImagesContainer = styled.div`
 const ImageContainer = styled.div`
   position: relative;
   width: 48%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 
   @media (max-width: 600px) {
     width: 100%;
     min-width: 0;
-    margin-bottom: 0.5rem;
+    gap: 0.25rem;
   }
 `;
 
 const ImagePlaceholderStyled = styled(ImagePlaceholder)`
-  width: ${IMAGE_BOX_SIZE};
-  height: ${IMAGE_BOX_SIZE};
-  max-width: 100%;
+  width: 100%;
+  min-height: 10rem;
+  height: calc(100% - 2.5rem);
+  /* height: 100%; */
+
   @media (max-width: 600px) {
     width: 100%;
     height: auto;
-    min-height: 10rem;
-  }
-`;
-
-const DownloadButtonContainer = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
-  align-items: center;
-  gap: 1rem;
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
   }
 `;
 
@@ -309,14 +293,13 @@ const TextOverlay = styled.div`
 `;
 
 const TextOverlayTop = styled(TextOverlay)`
-  top: -1.5rem;
+  top: -2rem;
 `;
 
 const ImageInputStyled = styled(ImageInput)`
-  width: ${IMAGE_BOX_SIZE};
-  height: ${IMAGE_BOX_SIZE};
-  min-height: ${IMAGE_BOX_SIZE};
-  max-width: 100%;
+  width: 100%;
+  min-height: 10rem;
+
   @media (max-width: 600px) {
     width: 100%;
     height: auto;
@@ -325,21 +308,19 @@ const ImageInputStyled = styled(ImageInput)`
 `;
 
 const ImageWithDownloadStyled = styled(ImageWithDownload)`
-  width: ${IMAGE_BOX_SIZE};
-  height: ${IMAGE_BOX_SIZE};
-  max-width: 100%;
+  width: 100%;
+  min-height: 10rem;
+
   img {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
     border-radius: 0.5rem;
   }
+
   @media (max-width: 600px) {
     width: 100%;
-    height: auto;
+
     img {
       height: auto;
-      min-height: 10rem;
     }
   }
 `;
@@ -351,7 +332,7 @@ const CompressionTag = styled.div`
   border-radius: 0.25rem;
   font-size: 0.75rem;
   position: absolute;
-  top: 0.75rem;
+  top: 0.5rem;
   left: 50%;
   transform: translateX(-50%);
 `;

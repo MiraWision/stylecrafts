@@ -207,7 +207,6 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
 
 const Container = styled.div`
   width: 20rem;
-  min-height: 10rem;
   position: relative;
   border: 0.0625rem solid var(--surface-border);
   border-radius: 0.5rem;
