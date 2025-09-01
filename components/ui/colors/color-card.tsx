@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CopyIcon } from '@/components/icons/copy';
 import Link from 'next/link';
@@ -12,22 +12,25 @@ interface Props {
 }
 
 const ColorCard: React.FC<Props> = ({ color, title, onCopy, onClick }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleCopy = () => {
     if (onCopy) {
       onCopy(color);
+    }
+    
+    if (isClient && navigator.clipboard) {
       navigator.clipboard.writeText(color);
     }
   };
 
   return (
     <Container>
-      <ColorRectangle
-        $backgroundColor={color}
-        // onMouseEnter={() => setIsHovered(true)}
-        // onMouseLeave={() => setIsHovered(false)}
-      >
+      <ColorRectangle $backgroundColor={color}>
         <CenteredIconLinkWrapper>
           <IconLink href={`/colors/inspector#${color.replace('#', '')}`} text="Inspect" />
         </CenteredIconLinkWrapper>

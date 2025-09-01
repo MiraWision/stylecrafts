@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
@@ -13,11 +13,18 @@ interface Props {}
 
 const ColorSwatchesCheatSheetMain: React.FC<Props> = () => {
   const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success('Copied!', text);
+    if (isClient && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      toast.success('Copied!', text);
+    }
   };
 
   return (
@@ -44,7 +51,7 @@ const ColorSwatchesCheatSheetMain: React.FC<Props> = () => {
                   key={color.title}
                   color={color.hex}
                   title={color.title}
-                  onCopy={handleCopy}
+                  onCopy={isClient ? handleCopy : undefined}
                   onClick={() => setHoveredColor(color.hex)}
                 />
               ))}
