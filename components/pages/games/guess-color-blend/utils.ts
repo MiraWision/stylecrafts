@@ -1,10 +1,10 @@
 import { LevelDifficulty, ChallengeDifficulty } from './data';
 import { Difficulty, Level } from './types';
 import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
-import { number } from '@mirawision/imagine/number';
+import imagineNumber from '@mirawision/imagine/number';
 
 const getRandomNumber = (min: number, max: number) => {
-  return number.int(min, max);
+  return imagineNumber.int(min, max);
 };
 
 const getRandomColor = (colors: string[], difficulty: Difficulty): { color: string, dropsCount: number } => {

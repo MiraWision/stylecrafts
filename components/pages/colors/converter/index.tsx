@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { convertColor, ColorFormat } from '@mirawision/colorize';
 import { useRouter } from 'next/router';
-import { color as imagineColor } from '@mirawision/imagine/color';
+import imagineColor from '@mirawision/imagine/color';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
