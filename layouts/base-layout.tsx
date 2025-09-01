@@ -6,9 +6,10 @@ import { Button } from 'primereact/button';
 import { Logo } from '@/components/ui/logo';
 import { SideMenu } from '@/components/menu/side-menu';
 import { Footer } from '@/components/pages/landing/footer';
-
-import 'primereact/resources/primereact.min.css';
 import { BurgerIcon } from '@/components/icons/burger';
+
+import { GlobalDropdownStyles } from '@/components/ui/inputs/select';
+import 'primereact/resources/primereact.min.css';
 
 interface Props {
   includeFooter?: boolean;
@@ -100,6 +101,8 @@ const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
         {children}
       </Content>
       {includeFooter && <BaseFooter />}
+
+      <GlobalDropdownStyles />
     </LayoutWrapper>
   );
 };

@@ -59,9 +59,10 @@ const Container = styled.div`
   align-items: center;
   width: fit-content;
   background: var(--surface-0);
-  border: 1.5px solid var(--surface-border);
+  border: 1px solid var(--surface-border);
   border-radius: 0.4rem;
   overflow: hidden;
+  height: 2rem;
 `;
 
 const InputNumberStyled = styled(InputNumber)`
@@ -72,6 +73,7 @@ const InputNumberStyled = styled(InputNumber)`
   box-shadow: none;
   input {
     width: 50px;
+    height: 2rem;
     border: none;
     border-radius: 0;
     background: transparent;
@@ -81,7 +83,9 @@ const InputNumberStyled = styled(InputNumber)`
     color: var(--surface-900);
     box-shadow: none;
     outline: none;
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.25rem 0.5rem;
+    display: flex;
+    align-items: center;
   }
 `;
 

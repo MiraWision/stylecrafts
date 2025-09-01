@@ -39,14 +39,17 @@ const BaseTextButton: React.FC<Props> = ({
 
 const ButtonStyled = styled(Button)<{ $isPrimary: boolean }>`
   font-size: 0.875rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   width: fit-content;
-  height: fit-content;
+  height: 2rem;
   min-height: 2rem;
   color: ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-500)'};
-  border: 0.0625rem solid ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-border)'};
-  background-color: var(--surface-50);
-  border-radius: 0.25rem;
+  border: 1px solid ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-border)'};
+  background-color: var(--surface-0);
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .p-button-label {
     padding: 0;

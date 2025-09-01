@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Dropdown } from 'primereact/dropdown';
 
 import { generateLoremIpsum } from '@/utils/lorem-ipsum';
 import { NumberInput } from '@/components/ui/inputs/number-input';
+import { Select } from '@/components/ui/inputs/select';
+import { Label } from '@/components/ui/texts/label';
 import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
-import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
-import { RefreshIconButton } from '@/components/ui/icon-buttons/refresh-icon-button';
 import { GenerateIcon } from '@/components/icons/generate';
+import { CopyIcon } from '@/components/icons/copy';
+import { CheckmarkIcon } from '@/components/icons/checkmark';
+import { useToast } from '@/components/ui/toast';
 
 const MainLoremIpsumGenerator: React.FC = () => {
   const [type, setType] = useState<'sentences' | 'paragraphs'>('paragraphs');
   const [count, setCount] = useState<number>(3);
   const [content, setContent] = useState<string>('');
+  const [showCheckmark, setShowCheckmark] = useState(false);
+  const { toast } = useToast();
 
   const handleGenerate = () => {
     const generated = generateLoremIpsum(type, count);
@@ -24,7 +28,15 @@ const MainLoremIpsumGenerator: React.FC = () => {
   }, []);
 
   const copyContent = () => {
-    navigator.clipboard.writeText(content);
+    navigator.clipboard.writeText(content).then(() => {
+      toast.success('Copied!', 'Lorem ipsum text copied to clipboard');
+      setShowCheckmark(true);
+      setTimeout(() => {
+        setShowCheckmark(false);
+      }, 2000);
+    }).catch(() => {
+      toast.error('Failed to copy', 'Unable to copy text to clipboard');
+    });
   };
 
   const typeOptions = [
@@ -36,22 +48,26 @@ const MainLoremIpsumGenerator: React.FC = () => {
     <Container>
       <Toolbar>
         <ToolbarGroup>
-          <Label>Type:</Label>
-          <Dropdown
-            value={type}
-            options={typeOptions}
-            onChange={(e) => setType(e.value)}
-            placeholder="Select type"
-          />
+          <Field>
+            <Label>Type</Label>
+            <Select
+              value={type}
+              options={typeOptions}
+              onChange={setType}
+              placeholder="Select type"
+            />
+          </Field>
         </ToolbarGroup>
         <ToolbarGroup>
-          <Label>Count:</Label>
-          <NumberInput
-            value={count}
-            onChange={setCount}
-            min={1}
-            max={100}
-          />
+          <Field>
+            <Label>Count</Label>
+            <NumberInput
+              value={count}
+              onChange={setCount}
+              min={1}
+              max={100}
+            />
+          </Field>
         </ToolbarGroup>
         <BaseTextButton
           text="Generate"
@@ -63,13 +79,14 @@ const MainLoremIpsumGenerator: React.FC = () => {
       
       {content && (
         <ContentBlock>
-          <LoremContent>
-            <TopBar>
-              <TopBarActions>
-                <CopyIconButton text={content} className="action-icon" />
-                <RefreshIconButton onClick={handleGenerate} />
-              </TopBarActions>
-            </TopBar>
+          <LoremContent onClick={copyContent}>
+            <CopyIconWrapper>
+              {showCheckmark ? (
+                <CheckmarkIcon width="16" height="16" />
+              ) : (
+                <CopyIcon width="16" height="16" />
+              )}
+            </CopyIconWrapper>
             {content}
           </LoremContent>
         </ContentBlock>
@@ -81,18 +98,16 @@ const MainLoremIpsumGenerator: React.FC = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.75rem;
 `;
 
 const Toolbar = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 1rem;
   flex-wrap: wrap;
-  padding: 1rem;
   background: var(--surface-50, #f5f5f5);
   border-radius: 0.75rem;
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
 `;
 
 const ToolbarGroup = styled.div`
@@ -101,65 +116,63 @@ const ToolbarGroup = styled.div`
   gap: 0.5rem;
 `;
 
-const Label = styled.label`
-  font-weight: 500;
-  color: var(--surface-700, #555);
-  white-space: nowrap;
+const Field = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 `;
 
-
+const CopyIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  
+  .icon * {
+    fill: var(--primary-color);
+  }
+`;
 
 const ContentBlock = styled.div`
   position: relative;
   width: 100%;
 `;
 
-const TopBar = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--surface-200, #e5e5e5);
-  margin-bottom: 1rem;
-`;
-
-const TopBarActions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  .action-icon {
-    width: 20px !important;
-    height: 20px !important;
-    color: var(--primary-color);
-    svg, .icon * {
-      width: 20px !important;
-      height: 20px !important;
-      fill: var(--primary-color);
-    }
-  }
-`;
-
 const LoremContent = styled.div`
-  background: var(--surface-50, #f5f5f5);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  font-size: 1.08rem;
+  position: relative;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1rem;
   font-family: inherit;
-  color: var(--surface-900, #222);
+  color: var(--surface-900);
   line-height: 1.7;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.07);
   white-space: pre-wrap;
   word-break: break-word;
   transition: background 0.2s;
+  cursor: pointer;
+
+  ${CopyIconWrapper} {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+
+  &:hover ${CopyIconWrapper} {
+    opacity: 1;
+  }
 
   p, pre {
-    margin: 0 0 1.1em 0;
+    margin: 0 0 1rem 0;
   }
 
   @media (max-width: 600px) {
     padding: 1rem;
-    font-size: 0.98rem;
+    font-size: 1rem;
   }
 `;
 
