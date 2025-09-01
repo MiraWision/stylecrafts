@@ -4,6 +4,8 @@ import { copyText } from '@mirawision/copily';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+import { useToast } from '@/components/ui/toast';
+
 import { ColorTag } from '@/components/ui/colors/color-tag';
 
 interface Props {
@@ -11,11 +13,13 @@ interface Props {
 }
 
 const ColorsOutput: React.FC<Props> = ({ colors }) => {
+  const { toast } = useToast();
 
   const handleCopy = (color: string) => {
     copyText(color)
       .then(() => {
         GAService.logEvent(analyticsEvents.colors.gradient.colorCopied(color));
+        toast.success('Copied!', 'Color copied to clipboard')
       })
       .catch((err: Error) => {
         console.error('Failed to copy the color: ', err);

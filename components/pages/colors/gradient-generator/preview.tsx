@@ -7,14 +7,13 @@ import { ChartPreview } from './chart-preview';
 import { HeatmapPreview } from './heatmap-preview';
 import { ChevronLeftIcon } from '@/components/icons/chevron-left';
 import { ChevronRightIcon } from '@/components/icons/chevron-right';
-import { ShuffleIcon } from '@/components/icons/shuffle';
 import { ShuffleIconButton } from '@/components/ui/icon-buttons/shuffle-icon-button';
 
 interface Props {
   gradient: string[];
 }
 
-type MapSettings = Record<string, { fill: string }>;
+type MapSettings = Record<string, { fill: string, label: { enabled: boolean }, tooltip: { enabled: boolean } }>;
 
 const HeatmapCols = 18;
 const HeatmapRows = 7;
@@ -42,7 +41,13 @@ const Preview: React.FC<Props> = ({ gradient }) => {
 
     StateAbbreviations.forEach((state) => {
       settings[state] = {
-        fill: gradient[imagineNumber.int(0, gradient.length - 1)]
+        fill: gradient[imagineNumber.int(0, gradient.length - 1)],
+        label: {
+          enabled: false,
+        },
+        tooltip: {
+          enabled: false,
+        },
       };
     });
 

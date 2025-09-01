@@ -1,5 +1,6 @@
 import { CopyIcon } from '@/components/icons/copy';
-import React from 'react';
+import { CheckmarkIcon } from '@/components/icons/checkmark';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -8,12 +9,29 @@ interface Props {
 }
 
 const ColorTag: React.FC<Props> = ({ color, onCopy }) => {
+  const [icon, setIcon] = useState('copy');
+
+  const handleCopy = () => {
+    if (onCopy) {
+      onCopy(color);
+      setIcon('check');
+      
+      setTimeout(() => {
+        setIcon('copy');
+      }, 3000);
+    }
+  };
+
   return (
-    <Container onClick={() => onCopy && onCopy(color)}>
+    <Container onClick={handleCopy}>
       <ColorRectangle $backgroundColor={color} />
 
       <CopyIconContainer>
-        <CopyIcon width='16' height='16' />
+        {icon === 'copy' ? (
+          <CopyIcon width='16' height='16' />
+        ) : (
+          <CheckmarkIcon width='16' height='16' />
+        )}
       </CopyIconContainer>
 
       <ColorText>{color}</ColorText>
