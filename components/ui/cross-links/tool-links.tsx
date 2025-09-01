@@ -284,7 +284,8 @@ export const getDynamicToolCrossLinks = (toolKey: string, dynamicData?: any): Cr
     });
   }
   
-  return baseLinks;
+  // Ensure no duplicate links
+  return ensureUniqueLinks(baseLinks);
 };
 
 // Helper function to ensure unique links
