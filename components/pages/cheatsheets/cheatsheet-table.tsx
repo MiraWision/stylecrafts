@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { generateSlug } from '@/utils/text';
 import { copyToClipboard } from '@/utils/copy';
 import { useToast } from '@/components/ui/toast';
 import { CopyIcon } from '@/components/icons/copy';
+import { CheckmarkIcon } from '@/components/icons/checkmark';
 
 interface Column {
   header: string;
@@ -22,8 +23,9 @@ interface Props {
 
 const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback }) => {
   const { toast } = useToast();
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  const onCopy = (text: string) => {
+  const onCopy = (text: string, fieldKey: string) => {
     copyToClipboard(text, {
       onSuccess: () => {
         toast.success('Copied!', 'Character copied to clipboard');
@@ -31,6 +33,14 @@ const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback
         if (onCopyCallback) {
           onCopyCallback(text);
         }
+
+        // Set the copied field to show checkmark
+        setCopiedField(fieldKey);
+
+        // Reset after 3 seconds
+        setTimeout(() => {
+          setCopiedField(null);
+        }, 3000);
       }
     });
   };
@@ -48,21 +58,30 @@ const CheatSheetTable: React.FC<Props> = ({ title, columns, data, onCopyCallback
 
         {data.map((row, index) => (
           <React.Fragment key={index}>
-            {row.map((field, fieldIndex) => (
-              <Field
-                key={fieldIndex}
-                $isHighlighted={index % 2 !== 0}
-                $canCopy={columns[fieldIndex].canCopy}
-                $isLarge={columns[fieldIndex].isLarge}
-                onClick={columns[fieldIndex].canCopy ? () => onCopy(field) : undefined}
-              >
-                {field}
-        
-                {columns[fieldIndex].canCopy && 
-                  <CopyIcon width='16' height='16' />
-                }
-              </Field>
-            ))}
+            {row.map((field, fieldIndex) => {
+              const fieldKey = `${index}-${fieldIndex}`;
+              const isCopied = copiedField === fieldKey;
+              
+              return (
+                <Field
+                  key={fieldIndex}
+                  $isHighlighted={index % 2 !== 0}
+                  $canCopy={columns[fieldIndex].canCopy}
+                  $isLarge={columns[fieldIndex].isLarge}
+                  onClick={columns[fieldIndex].canCopy ? () => onCopy(field, fieldKey) : undefined}
+                >
+                  {field}
+          
+                  {columns[fieldIndex].canCopy && (
+                    isCopied ? (
+                      <CheckmarkIcon width='16' height='16' />
+                    ) : (
+                      <CopyIcon width='16' height='16' />
+                    )
+                  )}
+                </Field>
+              );
+            })}
           </React.Fragment>
         ))}
       </CharactersList>
