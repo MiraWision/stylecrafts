@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { USAMap, StateAbbreviations } from '@mirawision/usa-map-react';
-import imagineNumber from '@mirawision/imagine/number';
+import number from '@mirawision/imagine/number';
 
 import { ChartPreview } from './chart-preview';
 import { HeatmapPreview } from './heatmap-preview';
@@ -33,15 +33,15 @@ const Preview: React.FC<Props> = ({ gradient }) => {
   const [refreshIndex, setRefreshIndex] = useState<number>(0);
 
   const heatmapIndexes = useMemo<number[]>(() => {
-    return Array.from({ length: HeatmapTotalCells }).map(() => imagineNumber.int(0, gradient.length - 1));
+    return Array.from({ length: HeatmapTotalCells }).map(() => number.int(0, gradient.length - 1));
   }, [gradient, refreshIndex]);
 
   const mapSettings = useMemo<MapSettings>(() => {
     const settings: MapSettings = {};
 
-    StateAbbreviations.forEach((state) => {
+    StateAbbreviations?.forEach((state: string) => {
       settings[state] = {
-        fill: gradient[imagineNumber.int(0, gradient.length - 1)],
+        fill: gradient[number.int(0, gradient.length - 1)],
         label: {
           enabled: false,
         },
@@ -56,7 +56,7 @@ const Preview: React.FC<Props> = ({ gradient }) => {
 
   const chartData = useMemo<{ percentage: number, color: string }[]>(() => {
     return Array.from({ length: BarsCount }).map(() => {
-      const percentage = imagineNumber.int(-100, 100);
+      const percentage = number.int(-100, 100);
       const colorIndex = Math.floor((percentage + 100) / 200 * (gradient.length));
       
       return {
