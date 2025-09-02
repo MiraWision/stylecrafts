@@ -9,6 +9,7 @@ enum Routes {
   ImageCompressionTool = '/images/compression',
   ImageToBase64Tool = '/images/image-to-base64',
   Base64ToImageTool = '/images/base64-to-image',
+  ImagesMasterTool = '/images/master-tool',
   
   GeneratorsQRCode = '/generators/qr-code',
   GeneratorsLoremIpsum = '/generators/lorem-ipsum',

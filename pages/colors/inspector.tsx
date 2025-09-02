@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { content } from '@/content/function-descriptions/colors-mixer';
-import { metaTags } from '@/content/meta-data/function-colors-mixer';
+import { content } from '@/content/function-descriptions/colors-inspector';
+import { metaTags } from '@/content/meta-data/function-colors-inspector';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';

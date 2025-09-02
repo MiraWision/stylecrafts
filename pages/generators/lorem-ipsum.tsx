@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { content } from '@/content/function-descriptions/colors-palette';
-import { metaTags } from '@/content/meta-data/function-colors-palette';
+import { content } from '@/content/function-descriptions/generators-lorem-ipsum';
+import { metaTags } from '@/content/meta-data/function-generators-lorem-ipsum';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Title, Subtitle } from '@/components/ui/texts/typography';

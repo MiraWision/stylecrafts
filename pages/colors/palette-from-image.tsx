@@ -1,6 +1,6 @@
 import React from 'react';
-import { content } from '@/content/function-descriptions/colors-palette';
-import { metaTags } from '@/content/meta-data/function-colors-palette';
+import { content } from '@/content/function-descriptions/colors-palette-from-image';
+import { metaTags } from '@/content/meta-data/function-colors-palette-from-image';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';
@@ -20,8 +20,8 @@ const PaletteFromImage: React.FC = () => {
       <MetaTags {...metaTags} />
 
       <MainContainer>
-        <Title>Colors Palette from Image</Title>
-        <Subtitle>Design Custom Color Palettes or Find Inspiration</Subtitle>
+        <Title>Extract Color Palettes from Images</Title>
+        <Subtitle>Generate beautiful color palettes by analyzing your images for design inspiration</Subtitle>
 
         <PaletteFromImageMain />
 

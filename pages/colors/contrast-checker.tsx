@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { content } from '@/content/function-descriptions/colors-palette';
-import { metaTags } from '@/content/meta-data/function-colors-palette';
+import { content } from '@/content/function-descriptions/colors-contrast-checker';
+import { metaTags } from '@/content/meta-data/function-colors-contrast-checker';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';

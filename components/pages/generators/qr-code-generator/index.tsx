@@ -42,65 +42,67 @@ const QRCodeGenerator = () => {
   };
 
   return (
-    <Container>
-      <ControlsSection>
-        <ContentSettings
-          setContent={setContent}
-        />
+    <>
+      <Container>
+        <ControlsSection>
+          <ContentSettings
+            setContent={setContent}
+          />
 
-        <BaseTextButton
-          icon={<GenerateIcon width='24' height='24' />}
-          text='Generate QR Code'
-          onClick={generateQRCode}
-          isPrimary
-        />
-      </ControlsSection>
+          <BaseTextButton
+            icon={<GenerateIcon width='24' height='24' />}
+            text='Generate QR Code'
+            onClick={generateQRCode}
+            isPrimary
+          />
+        </ControlsSection>
 
-      <DisplaySection>
-        <Powered>
-          Powered by QR8
+        <DisplaySection>
+          <Powered>
+            Powered by QR8
 
-          <img src='/logo/qr8-logo.png' alt='QR8 Logo' />  
-        </Powered>
+            <img src='/logo/qr8-logo.png' alt='QR8 Logo' />  
+          </Powered>
 
-        <QRCodeRenderer
-          qrMatrix={qrMatrix}
-          settings={settings}
-          logo={logo?.content ?? undefined}
-        />
-        
-        <LogoField>
-          <Label>Logo</Label>
-
-          {logo ? (
-            <SelectedLogo>
-              <img src={logo.content ?? undefined} alt='Logo' />
-              
-              <RemoveLogoButton
-                text='Remove'
-                onClick={() => setLogo(null)}
-              />
-            </SelectedLogo>  
-          ) : (
-            <ImageInputMini
-              value={null}
-              onChange={setLogo}
-            />
-          )}
+          <QRCodeRenderer
+            qrMatrix={qrMatrix}
+            settings={settings}
+            logo={logo?.content ?? undefined}
+          />
           
-        </LogoField>
+          <LogoField>
+            <Label>Logo</Label>
 
-        <StyleSettings
-          settings={settings}
-          setSettings={setSettings}
-        />
-      </DisplaySection>
+            {logo ? (
+              <SelectedLogo>
+                <img src={logo.content ?? undefined} alt='Logo' />
+                
+                <RemoveLogoButton
+                  text='Remove'
+                  onClick={() => setLogo(null)}
+                />
+              </SelectedLogo>  
+            ) : (
+              <ImageInputMini
+                value={null}
+                onChange={setLogo}
+              />
+            )}
+            
+          </LogoField>
+
+          <StyleSettings
+            settings={settings}
+            setSettings={setSettings}
+          />
+        </DisplaySection>
+      </Container>
 
       <ToolCrossLinks
         toolKey="qr-code-generator"
         title="Explore More Generator Tools"
       />
-    </Container>
+    </>
   );
 };
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { metaTags } from '@/content/meta-data/cheatsheet-characters';
-import { content } from '@/content/function-descriptions/cheatsheat-characters';
+import { metaTags } from '@/content/meta-data/cheatsheet-colors-swatches';
+import { content } from '@/content/function-descriptions/cheatsheet-colors-swatches';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';
