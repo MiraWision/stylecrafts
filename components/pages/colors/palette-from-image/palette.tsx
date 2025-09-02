@@ -1,14 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { copyText } from '@mirawision/copily';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
-
 import { useToast } from '@/components/ui/toast';
+
 import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
 import { RefreshIcon } from '@/components/icons/refresh';
 import { CopyIcon } from '@/components/icons/copy';
+import { CheckmarkIcon } from '@/components/icons/checkmark';
 
 interface Props {
   palette: string[];
@@ -19,19 +20,23 @@ interface Props {
 const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) => {
   const { toast } = useToast();
 
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+
   const rowsCount = useMemo(() => {
-    return Math.ceil((palette.length + 1) / 4);
+    return Math.max(Math.ceil((palette.length + 1) / 3), 5);
   }, [palette]);
 
-  const colorCount = palette.length;
-
-  const copyColor = (color: string) => {
+  const onCopyColor = (color: string) => {
     copyText(color);
     toast.success('Copied!', 'Color copied to clipboard');
     GAService.logEvent(analyticsEvents.colors.blender.colorCopied(color));
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 3000);
   };
 
-  const onCopy = () => {
+  const onCopyAllColors = () => {
     const text = JSON.stringify(palette).replace(/,/g, ', ');
     copyText(text);
     toast.success('Copied!', 'Colors copied to clipboard');
@@ -40,19 +45,9 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
 
   return (
     <Container>
-      <ColorCountDisplay>
-        {colorCount === 0 ? 'No colors yet' : `${colorCount} color${colorCount !== 1 ? 's' : ''} in palette`}
-      </ColorCountDisplay>
-      
-      {palette.length === 0 && (
-        <EmptyPaletteMessage>
-          <EmptyPaletteText>Click on the image to add colors or wait for auto-generation</EmptyPaletteText>
-        </EmptyPaletteMessage>
-      )}
-      
       <PaletteGrid>
-        {Array.from({ length: rowsCount * 4 }).map((_, index) => {
-          if (index === rowsCount * 4 - 1) {
+        {Array.from({ length: rowsCount * 3 }).map((_, index) => {
+          if (index === rowsCount * 3 - 1) {
             return (
               <RefreshButton key={index} onClick={onRefreshPalette}>
                 <RefreshIcon />
@@ -75,25 +70,27 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
             <ColorSquare
               key={index}
               $backgroundColor={color}
-              onClick={() => copyColor(color)}
+              onClick={() => onCopyColor(color)}
               onDoubleClick={() => onRemoveColor(index)}
             >
               <Overlay>
                 <ColorTooltip>{color}</ColorTooltip>
-                <CopyIcon />
+                {isCopied ? (
+                  <CheckmarkIcon width="16" height="16" />
+                ) : (
+                  <CopyIcon width="16" height="16" />
+                )}
               </Overlay>
             </ColorSquare>
           );
         })}
       </PaletteGrid>
 
-      {palette.length > 0 && (
-        <CopyTextButton
-          text='Copy All'
-          copyText={JSON.stringify(palette).replace(/,/g, ', ')}
-          onCopyCallback={onCopy}
-        />
-      )}
+      <CopyTextButton
+        text='Copy All'
+        copyText={JSON.stringify(palette).replace(/,/g, ', ')}
+        onCopyCallback={onCopyAllColors}
+      />
     </Container>
   );
 };
@@ -111,7 +108,7 @@ const Container = styled.div`
 
 const PaletteGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   
@@ -130,6 +127,7 @@ const ColorSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroun
   position: relative;
   border-radius: 0.25rem;
   cursor: pointer;
+  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease;
 
   &:hover {
@@ -157,6 +155,10 @@ const EmptyColorSquare = styled(ColorSquare)`
     rgba(0, 0, 0, 0.05) 4px
   );
   cursor: default;
+
+  &:hover {
+    transform: scale(1);
+  }
 `;
 
 const Overlay = styled.div`
@@ -168,16 +170,15 @@ const Overlay = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 0.25rem;
   flex-direction: column;
-  padding: 0.5rem;
-  background: var(--maskbg);
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 0.25rem;
+  cursor: pointer;
 
-  i {
-    font-size: 1rem;
-    color: var(--primary-color);
-    margin-top: 0.25rem;
+  .icon * {
+    fill: var(--primary-color);
   }
 
   ${ColorSquare}:hover & {
@@ -186,7 +187,7 @@ const Overlay = styled.div`
 `;
 
 const ColorTooltip = styled.div`
-  color: var(--gray-50);
+  color: var(--color-text);
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   font-size: 0.75rem;
@@ -222,42 +223,6 @@ const RefreshButton = styled.button`
     &:active {
       transform: scale(0.95);
     }
-  }
-`;
-
-const EmptyPaletteMessage = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  text-align: center;
-  min-height: 8rem;
-  
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-    min-height: 6rem;
-  }
-`;
-
-const EmptyPaletteText = styled.div`
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--surface-600);
-  margin-bottom: 0.5rem;
-`;
-
-
-
-const ColorCountDisplay = styled.div`
-  font-size: 0.875rem;
-  color: var(--surface-600);
-  margin-bottom: 0.75rem;
-  font-weight: 500;
-  
-  @media (max-width: 768px) {
-    text-align: center;
-    font-size: 0.8rem;
   }
 `;
 

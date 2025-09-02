@@ -33,13 +33,13 @@ const ImageExamples: React.FC<ImageExamplesProps> = ({ images, onImageSelect }) 
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin-top: 1rem;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 1rem;
+  padding: 0;
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
@@ -109,20 +109,21 @@ const ImageWrapper = styled.div`
 const ExampleImage = styled.img`
   flex: 1 1 0;
   width: 0;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   
   @media (max-width: 480px) {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 4 / 3;
   }
 `;
 
 const ColorPalette = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 3rem;
   margin-left: 0;
   height: 100%;
+  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.15);
   
   @media (max-width: 480px) {
     width: 0.75rem;

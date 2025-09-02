@@ -9,6 +9,13 @@ interface ZoomData {
   y: number;
 }
 
+interface LabColor {
+  L: number;
+  a: number;
+  b: number;
+  hex: string;
+}
+
 interface Props {
   selectedImage: string | null;
   onPaletteChange: (palette: string[]) => void;
@@ -58,6 +65,157 @@ const ImageColorPicker: React.FC<Props> = ({
     onPaletteChange([]);
   }, [clearedPaletteVersion]);
 
+  // Convert RGB to LAB color space for better color distance calculations
+  const rgbToLab = (r: number, g: number, b: number): LabColor => {
+    // Normalize RGB values
+    const rNorm = r / 255;
+    const gNorm = g / 255;
+    const bNorm = b / 255;
+
+    // Convert to sRGB
+    const rSrgb = rNorm > 0.04045 ? Math.pow((rNorm + 0.055) / 1.055, 2.4) : rNorm / 12.92;
+    const gSrgb = gNorm > 0.04045 ? Math.pow((gNorm + 0.055) / 1.055, 2.4) : gNorm / 12.92;
+    const bSrgb = bNorm > 0.04045 ? Math.pow((bNorm + 0.055) / 1.055, 2.4) : bNorm / 12.92;
+
+    // Convert to XYZ
+    const x = rSrgb * 0.4124 + gSrgb * 0.3576 + bSrgb * 0.1805;
+    const y = rSrgb * 0.2126 + gSrgb * 0.7152 + bSrgb * 0.0722;
+    const z = rSrgb * 0.0193 + gSrgb * 0.1192 + bSrgb * 0.9505;
+
+    // Convert to LAB
+    const xn = 0.95047;
+    const yn = 1.00000;
+    const zn = 1.08883;
+
+    const xr = x > 0.008856 ? Math.pow(x / xn, 1/3) : (7.787 * x / xn) + (16/116);
+    const yr = y > 0.008856 ? Math.pow(y / yn, 1/3) : (7.787 * y / yn) + (16/116);
+    const zr = z > 0.008856 ? Math.pow(z / zn, 1/3) : (7.787 * z / zn) + (16/116);
+
+    const L = (116 * yr) - 16;
+    const a = 500 * (xr - yr);
+    const bLab = 200 * (yr - zr);
+
+    return { L, a, b: bLab, hex: '' };
+  };
+
+  // Calculate LAB color distance (perceptually uniform)
+  const labDistance = (color1: LabColor, color2: LabColor): number => {
+    const dL = color1.L - color2.L;
+    const da = color1.a - color2.a;
+    const db = color1.b - color2.b;
+    return Math.sqrt(dL * dL + da * da + db * db);
+  };
+
+  // Sample colors from a comprehensive grid (e.g., 50x50) for complete coverage
+  const sampleGridColors = (ctx: CanvasRenderingContext2D, img: HTMLImageElement, gridSize: number = 50): LabColor[] => {
+    const colors: LabColor[] = [];
+    const stepX = img.naturalWidth / gridSize;
+    const stepY = img.naturalHeight / gridSize;
+    
+    // Sample every pixel in the grid
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const px = Math.floor(x * stepX);
+        const py = Math.floor(y * stepY);
+        
+        // Ensure we don't go out of bounds
+        if (px >= img.naturalWidth || py >= img.naturalHeight) continue;
+        
+        const imageData = ctx.getImageData(px, py, 1, 1).data;
+        const r = imageData[0];
+        const g = imageData[1];
+        const b = imageData[2];
+        
+        const labColor = rgbToLab(r, g, b);
+        labColor.hex = convertColor(`rgb(${r}, ${g}, ${b})`, ColorFormat.HEX);
+        colors.push(labColor);
+      }
+    }
+    
+    return colors;
+  };
+
+  // Simple K-means clustering to find representative colors
+  const kMeansClustering = (colors: LabColor[], k: number, maxIterations: number = 10): LabColor[] => {
+    if (colors.length <= k) {
+      return colors;
+    }
+    
+    // Initialize centroids with random colors
+    const centroids: LabColor[] = [];
+    for (let i = 0; i < k; i++) {
+      const randomIndex = Math.floor((i * 137.5) % colors.length);
+      centroids.push({ ...colors[randomIndex] });
+    }
+    
+    let iterations = 0;
+    let hasChanged = true;
+    
+    while (hasChanged && iterations < maxIterations) {
+      hasChanged = false;
+      iterations++;
+      
+      // Assign each color to nearest centroid
+      const clusters: LabColor[][] = Array.from({ length: k }, () => []);
+      
+      colors.forEach(color => {
+        let minDistance = Infinity;
+        let nearestCentroid = 0;
+        
+        centroids.forEach((centroid, index) => {
+          const distance = labDistance(color, centroid);
+          if (distance < minDistance) {
+            minDistance = distance;
+            nearestCentroid = index;
+          }
+        });
+        
+        clusters[nearestCentroid].push(color);
+      });
+      
+      // Update centroids
+      clusters.forEach((cluster, index) => {
+        if (cluster.length === 0) return;
+        
+        // Calculate average LAB values
+        let avgL = 0, avgA = 0, avgB = 0;
+        cluster.forEach(color => {
+          avgL += color.L;
+          avgA += color.a;
+          avgB += color.b;
+        });
+        
+        avgL /= cluster.length;
+        avgA /= cluster.length;
+        avgB /= cluster.length;
+        
+        // Find the color closest to the average (centroid)
+        let closestColor = cluster[0];
+        let minDistance = Infinity;
+        
+        cluster.forEach(color => {
+          const distance = Math.sqrt(
+            Math.pow(color.L - avgL, 2) + 
+            Math.pow(color.a - avgA, 2) + 
+            Math.pow(color.b - avgB, 2)
+          );
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestColor = color;
+          }
+        });
+        
+        // Check if centroid changed
+        if (closestColor.hex !== centroids[index].hex) {
+          hasChanged = true;
+          centroids[index] = closestColor;
+        }
+      });
+    }
+    
+    return centroids;
+  };
+
   const generateAutoPalette = () => {
     if (!imageRef.current || !offscreenCanvasRef.current) return;
     
@@ -78,43 +236,22 @@ const ImageColorPicker: React.FC<Props> = ({
         return;
       }
 
-      // Sample colors from different areas of the image
-      const samplePoints = [
-        { x: 0.1, y: 0.1 },
-        { x: 0.3, y: 0.2 },
-        { x: 0.5, y: 0.3 },
-        { x: 0.7, y: 0.4 },
-        { x: 0.9, y: 0.5 },
-        { x: 0.2, y: 0.6 },
-        { x: 0.4, y: 0.7 },
-        { x: 0.6, y: 0.8 },
-        { x: 0.8, y: 0.9 }
-      ];
-
-      const autoPalette: string[] = [];
+      try {
+        const gridColors = sampleGridColors(ctx, img, 100);
+        
+        const clusteredColors = kMeansClustering(gridColors, 12);
+        const finalPalette = clusteredColors.map(c => c.hex);
+        
+        setPalette(finalPalette);
+        onPaletteChange(finalPalette);
+      } catch (error) {
+        console.error('Error generating palette:', error);
+        const fallbackColors = sampleGridColors(ctx, img, 30);
+        const fallbackPalette = kMeansClustering(fallbackColors, 12).map(c => c.hex);
+        setPalette(fallbackPalette);
+        onPaletteChange(fallbackPalette);
+      }
       
-      samplePoints.forEach(point => {
-        const x = Math.floor(point.x * img.naturalWidth);
-        const y = Math.floor(point.y * img.naturalHeight);
-        
-        const imageData = ctx.getImageData(x, y, 1, 1).data;
-        const r = imageData[0];
-        const g = imageData[1];
-        const b = imageData[2];
-        
-        const rgbColor = `rgb(${r}, ${g}, ${b})`;
-        const hexColor = convertColor(rgbColor, ColorFormat.HEX);
-        
-        // Avoid duplicate colors
-        if (!autoPalette.includes(hexColor)) {
-          autoPalette.push(hexColor);
-        }
-      });
-
-      // Limit to 10 colors
-      const finalPalette = autoPalette.slice(0, 10);
-      setPalette(finalPalette);
-      onPaletteChange(finalPalette);
       setIsGenerating(false);
     }, 100);
   };
@@ -324,11 +461,6 @@ const ImageColorPicker: React.FC<Props> = ({
               onTouchCancel={handleTouchCancel}
               style={{ cursor: 'crosshair' }}
             />
-            {isGenerating && (
-              <LoadingOverlay>
-                <LoadingText>Generating palette...</LoadingText>
-              </LoadingOverlay>
-            )}
           </>
         )}
         {zoomData && displaySize && pixelMatrix && (

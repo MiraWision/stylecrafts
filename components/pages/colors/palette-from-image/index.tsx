@@ -22,35 +22,35 @@ interface Props {}
 const exampleImages = [
   {
     src: '/image-examples/orange-nature.jpeg',
-    colors: ["#ffdac0", "#c76948", "#b88f63", "#7c534b", "#4f2100", "#9a4f29", "#220b00", "#8a391a"]
+    colors: ["#572e1a","#89512a","#2f170c","#fde3bf","#b4581f","#b8774e","#e0ad85","#de9855","#f6ca79","#752f0d","#7e5040","#fff8e5"]
   },
   {
     src: '/image-examples/green-nature.jpeg',
-    colors: ["#5083b0","#85a5ba","#c0ded6","#f9ffd6","#727a85","#3a442b","#212725","#5f5939"]
+    colors: ["#2b2d22","#7b8187","#a69073","#4577a2","#474f4d","#5a6033","#647d91","#cfd6cc","#6a93b7","#a7a49c","#f4cc91","#91adb9"]
   },
   {
     src: '/image-examples/green-blue-nature.jpeg',
-    colors: ["#2b5023", "#a6c0e0", "#6f9dcb", "#668c51", "#aca12f", "#4a79aa", "#ac392d", "#95709f"]
+    colors: ["#193818","#8cacd5","#76a3d3","#1f3739","#bdd0e8","#be4951","#5b8cbf","#ebe4e4","#4e7023","#95b9e1","#a7c2e3","#60805a"]
   },
   {
     src: '/image-examples/purple-nature.jpeg',
-    colors: ["#505caa", "#463350", "#a565a0", "#d39cba", "#6a8bce", "#8f5f6e"]
+    colors: ["#433b6d","#b16ba1","#8887cc","#414095","#635c98","#eaa0a8","#79529c","#4562b8","#503544","#4e65b3","#5a7ac5","#4951a4"]
   },
   {
     src: '/image-examples/orange-pink-blue-nature.jpeg',
-    colors: ["#302747", "#b85347", "#fa9a16", "#494285", "#8a548d"]
+    colors: ["#13130a","#974948","#39254f","#0c1a35","#563470","#072351","#342966","#753e63","#542c35","#e57137","#1c3275","#092a65"]
   },
   {
     src: '/image-examples/white-animal.jpeg',
-    colors: ["#6b5e85", "#cbafaa", "#e3cab8", "#443d70", "#ead2c9", "#3d3a70", "#4c3d3e", "#1f1a21", "#3f4077", "#d7b0c7"]
+    colors: ["#907b88","#423f78","#514a84","#47437d","#615583","#4c4782","#494583","#4f487d","#4e404f","#574f86","#c4aaa9","#6f6181"]
   },
   {
     src: '/image-examples/horvatia-example.jpg',
-    colors: ["#176f94", "#b8c8d8", "#225260", "#408eb3", "#b88b71", "#9e745b", "#619078"]
+    colors: ["#cb9c81","#ece0d2","#2e3225","#267ba2","#c0cee3","#c9d5e4","#97c0db","#6f7064","#becfe2","#b2cbe0","#5c9bbd","#10597a"]
   },
   {
     src: '/image-examples/canoe-example.jpg',
-    colors: ["#cddce5", "#485349", "#70a2a8", "#5a7698", "#cc5d67", "#778e62", "#879b69", "#a86588"]
+    colors: ["#df7381","#bdceb6","#6a8c9f","#f5f7fb","#91c6c7","#b7c0d6","#f9fcfe","#758765","#39423d","#fefefe","#e4eaf4","#d1eef4"]
   }
 ];
 
@@ -63,15 +63,6 @@ const PaletteFromImageMain: React.FC<Props> = () => {
 
   const handlePaletteChange = (newPalette: string[]) => {
     setPalette(newPalette);
-    
-    // Log extracted colors when palette changes (for example images)
-    if (selectedImage && exampleImages.find(img => img.src === selectedImage.content)) {
-      const colorsString = JSON.stringify(newPalette);
-      console.log(`Extracted colors for ${selectedImage.content}:`, colorsString);
-      
-      // Log in the exact format requested
-      console.log(colorsString);
-    }
   };
 
   const handleRemoveColor = (index: number) => {
@@ -97,51 +88,12 @@ const PaletteFromImageMain: React.FC<Props> = () => {
     const exampleImage = exampleImages.find(img => img.src === imageSrc);
     if (exampleImage) {
       setPalette(exampleImage.colors);
-      
-      // Log the predefined colors for the selected example
-      const colorsString = JSON.stringify(exampleImage.colors);
-      console.log(`Selected example image: ${imageSrc}`);
-      console.log(`Predefined colors:`, colorsString);
-      console.log(colorsString);
     } else {
       setPalette([]);
     }
     
     setSelectedImage({ content: imageSrc });
     setClearedPaletteVersion(v => v + 1);
-  };
-
-  // Function to update example colors with extracted values
-  const updateExampleColors = (imageSrc: string, newColors: string[]) => {
-    const exampleIndex = exampleImages.findIndex(img => img.src === imageSrc);
-    if (exampleIndex !== -1) {
-      // This would update the example colors in a real scenario
-      // For now, we'll just log the update
-      console.log(`Would update colors for ${imageSrc} to:`, JSON.stringify(newColors));
-      console.log(JSON.stringify(newColors));
-    }
-  };
-
-  const handleLogCurrentColors = () => {
-    if (palette.length > 0) {
-      const colorsString = JSON.stringify(palette);
-      console.log('Current extracted colors:', colorsString);
-      console.log(colorsString);
-      
-      // Copy to clipboard
-      navigator.clipboard.writeText(colorsString).then(() => {
-        toast.success('Copied!', 'Colors copied to clipboard in the exact format');
-      }).catch(() => {
-        // Fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = colorsString;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        toast.success('Copied!', 'Colors copied to clipboard in the exact format');
-      });
-    }
   };
 
   const handleFileSelect = (file: File | null) => {
@@ -191,22 +143,11 @@ const PaletteFromImageMain: React.FC<Props> = () => {
         </ImageColumn>
 
         <PaletteColumn>
-          <StyledLabel fontSize='14'>Palette</StyledLabel>
           <Palette
             palette={palette}
             onRemoveColor={handleRemoveColor}
             onRefreshPalette={handleRefreshPalette}
           />
-          
-          {palette.length > 0 && (
-            <LogColorsButtonContainer>
-              <BaseTextButton
-                text="Log & Copy Colors"
-                icon={<CopyIcon width="20" height="20" />}
-                onClick={handleLogCurrentColors}
-              />
-            </LogColorsButtonContainer>
-          )}
         </PaletteColumn>
       </GridContainer>
 
@@ -225,14 +166,11 @@ const PaletteFromImageMain: React.FC<Props> = () => {
   );
 };
 
-const StyledLabel = styled(Label)`
-  height: 1.5rem;
-`;
-
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 17.5rem;
+  grid-template-columns: 1fr 13rem;
   gap: 2rem;
+
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
@@ -244,14 +182,15 @@ const PaletteColumn = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1rem;
-  width: 17.5rem;
+  gap: 0.5rem;
+  width: 13rem;
   flex-shrink: 0;
+
   @media (max-width: 768px) {
     order: 2;
     align-items: center;
     width: 100%;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
