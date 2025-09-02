@@ -140,6 +140,7 @@ const FooterContent = styled.div`
 
   @media (min-width: 769px) {
     margin-left: 15rem;
+    width: calc(100% - 15rem);
   }
 
   @media (max-width: 768px) {
