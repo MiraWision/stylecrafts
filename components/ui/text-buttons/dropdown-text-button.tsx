@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+
 import { ChevronDownIcon } from '@/components/icons/chevron-down';
 
 interface DropdownOption {
@@ -30,9 +31,9 @@ const DropdownTextButton: React.FC<DropdownTextButtonProps> = ({
   style,
 }) => {
   const [open, setOpen] = React.useState(false);
-  const ref = React.useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         setOpen(false);
@@ -105,22 +106,16 @@ const MainButton = styled.button<{ $isPrimary: boolean; $disabled: boolean }>`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
+  padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
+  background: var(--surface-0);
   color: ${({ $isPrimary, $disabled }) => 
     $disabled 
       ? 'var(--surface-400)' 
       : $isPrimary 
         ? 'var(--primary-color)' 
-        : 'var(--text-color)'
-  };
-  background-color: ${({ $isPrimary, $disabled }) => 
-    $disabled 
-      ? 'var(--surface-200)' 
-      : $isPrimary 
-        ? 'var(--surface-0)' 
-        : 'var(--surface-100)'
+        : 'var(--surface-500)'
   };
   border: 1px solid ${({ $isPrimary, $disabled }) => 
     $disabled 
@@ -130,31 +125,16 @@ const MainButton = styled.button<{ $isPrimary: boolean; $disabled: boolean }>`
         : 'var(--surface-border)'
   };
   border-right: none;
-  border-radius: 0.5rem 0 0 0.5rem;
+  border-radius: 0.4rem 0 0 0.4rem;
   cursor: ${({ $disabled }) => $disabled ? 'not-allowed' : 'pointer'};
   transition: all 0.2s ease;
-  min-height: 2.5rem;
+  height: 2rem;
+  min-height: 2rem;
   white-space: nowrap;
   font-family: inherit;
 
-  &:hover:not(:disabled) {
-    background-color: ${({ $isPrimary }) => 
-      $isPrimary 
-        ? 'var(--surface-50)' 
-        : 'var(--surface-200)'
-    };
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--primary-color-200, #c4b5fd);
   }
 
   &:disabled {
@@ -167,22 +147,8 @@ const DropdownToggle = styled.button<{ $isPrimary: boolean; $disabled: boolean }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 0.75rem;
-  font-size: 0.875rem;
-  color: ${({ $isPrimary, $disabled }) => 
-    $disabled 
-      ? 'var(--surface-400)' 
-      : $isPrimary 
-        ? 'var(--primary-color)' 
-        : 'var(--text-color)'
-  };
-  background-color: ${({ $isPrimary, $disabled }) => 
-    $disabled 
-      ? 'var(--surface-200)' 
-      : $isPrimary 
-        ? 'var(--surface-0)' 
-        : 'var(--surface-100)'
-  };
+  padding: 0.25rem;
+  background-color: var(--surface-0);
   border: 1px solid ${({ $isPrimary, $disabled }) => 
     $disabled 
       ? 'var(--surface-300)' 
@@ -191,34 +157,19 @@ const DropdownToggle = styled.button<{ $isPrimary: boolean; $disabled: boolean }
         : 'var(--surface-border)'
   };
   border-left: none;
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 0.4rem 0.4rem 0;
   cursor: ${({ $disabled }) => $disabled ? 'not-allowed' : 'pointer'};
   transition: all 0.2s ease;
-  min-height: 2.5rem;
-  width: 2.5rem;
-
-  &:hover:not(:disabled) {
-    background-color: ${({ $isPrimary }) => 
-      $isPrimary 
-        ? 'var(--surface-50)' 
-        : 'var(--surface-200)'
-    };
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
+  height: 2rem;
+  min-height: 2rem;
+  width: 2rem;
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--primary-color-200, #c4b5fd);
   }
 
   .icon * {
-    fill: currentColor;
+    fill: ${({ $isPrimary }) => $isPrimary ? 'var(--primary-color)' : 'var(--surface-500)'};
   }
 `;
 
@@ -239,16 +190,16 @@ const ButtonText = styled.span`
 
 const DropdownMenu = styled.ul`
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: calc(100% + 0.25rem);
   left: 0;
-  min-width: 200px;
+  min-width: 10rem;
   background: var(--surface-0);
   border: 1px solid var(--surface-border);
   border-radius: 0.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   margin: 0;
-  padding: 0.5rem;
+  padding: 0.25rem;
   list-style: none;
   backdrop-filter: blur(8px);
   background: rgba(255, 255, 255, 0.95);
@@ -256,7 +207,7 @@ const DropdownMenu = styled.ul`
 
 const DropdownMenuItem = styled.li`
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.25rem 0.75rem;
   background: none;
   color: var(--text-color);
   font-size: 0.875rem;
@@ -267,15 +218,16 @@ const DropdownMenuItem = styled.li`
   transition: all 0.2s ease;
   border-radius: 0.375rem;
   font-weight: 500;
+  height: 2rem;
+  min-height: 2rem;
 
   &:hover {
     background: var(--primary-color-50, #f3f4f6);
     color: var(--primary-color);
-    transform: translateX(2px);
   }
 
   &:active {
-    transform: translateX(1px);
+    /* No transform effect */
   }
 `;
 

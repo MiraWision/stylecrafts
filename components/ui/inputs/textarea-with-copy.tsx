@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { copyText } from '@mirawision/copily';
+
 import { InputTextarea } from 'primereact/inputtextarea';
 import { DropdownTextButton } from '../text-buttons/dropdown-text-button';
-import { copyText } from '@mirawision/copily';
+import { CopyIcon } from '@/components/icons/copy';
 
 interface CopyOption {
   name: string;
@@ -21,8 +23,8 @@ interface Props {
 }
 
 const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyOptions, width = '100%', height = '10rem' }) => {
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
-  const dropdownRef = React.useRef<HTMLDivElement>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleCopy = (option: CopyOption) => {
     copyText(option.getValue(value)).then(() => {
@@ -33,7 +35,7 @@ const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyO
     setDropdownOpen(false);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
@@ -48,7 +50,6 @@ const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyO
   }, [dropdownOpen]);
 
   const mainOption = copyOptions?.[0];
-  const otherOptions = copyOptions?.slice(1) || [];
 
   const otherCopyOptions = copyOptions?.filter(option => option.name !== 'Copy Base64').map(option => ({
     label: option.name,
@@ -79,8 +80,9 @@ const TextareaWithCopy: React.FC<Props> = ({ value, placeholder, onChange, copyO
         <ActionsContainer>
           <DropdownTextButton
             text="Copy Base64"
-            icon={null}
+            icon={<CopyIcon width="20" height="20" />}
             options={otherCopyOptions}
+            isPrimary
             onClick={handleCopyBase64}
           />
         </ActionsContainer>
@@ -97,6 +99,7 @@ const Container = styled.div<{ width: string; height: string }>`
   border: 0.0625rem solid var(--surface-border);
   border-radius: 0.5rem;
   background: var(--surface-0);
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -116,75 +119,4 @@ const ActionsContainer = styled.div`
   padding: 0.5rem;
 `;
 
-const DropdownCopyButtonContainer = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const CopyButton = styled.button<{ $hasDropdown: boolean }>`
-  width: 100%;
-  background: var(--primary-color);
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  transition: background 0.2s;
-  font-weight: 500;
-  box-shadow: 0 2px 8px rgba(80, 40, 120, 0.08);
-  gap: 0.5rem;
-  letter-spacing: 0.01em;
-  &:hover, &:focus {
-    background: var(--primary-color-hover, #b83280);
-  }
-  ${({ $hasDropdown }) => $hasDropdown && `padding-right: 2.5rem;`}
-`;
-
-const DropdownArrow = styled.span<{ $open: boolean }>`
-  margin-left: 1rem;
-  font-size: 1.2em;
-  user-select: none;
-  transform: ${({ $open }) => ($open ? 'rotate(180deg)' : 'none')};
-  transition: transform 0.2s;
-`;
-
-const DropdownMenu = styled.ul`
-  position: absolute;
-  top: 110%;
-  left: 0;
-  width: 100%;
-  background: var(--surface-0);
-  border: 1px solid var(--surface-border);
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  z-index: 10;
-  margin: 0;
-  padding: 0.25rem 0;
-  list-style: none;
-`;
-
-const DropdownMenuItem = styled.li`
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: none;
-  color: var(--text-color, #fff);
-  font-size: 1.05rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  letter-spacing: 0.01em;
-  &:hover {
-    background: var(--primary-color-hover, #f3e6f1);
-    color: var(--primary-color, #b83280);
-  }
-`;
-
 export { TextareaWithCopy };
-

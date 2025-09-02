@@ -25,48 +25,45 @@ const Base64ToImage: React.FC<Props> = ({}) => {
   };
 
   const onDownload = () => {
-    const link = document.createElement('a');
-    link.href = `data:image/png;base64,${base64Text.split(',')[1]}`;
-    link.download = `image.${base64Text.split(';')[0].split('/')[1]}`;
-    link.click();
-
     GAService.logEvent(analyticsEvents.images.base64ToImage.imageDownloaded(base64Text.length.toString()));
   };
 
   return (
-    <StyledTwoColumnsContainer>
-      <TextareaWithCopy
-        value={base64Text}
-        onChange={onChange}
-        placeholder='Paste Base64 text here...'
-      />
+    <>
+      <StyledTwoColumnsContainer>
+        <TextareaWithCopy
+          value={base64Text}
+          onChange={onChange}
+          placeholder='Paste Base64 text here...'
+        />
 
-      {base64Text.length > 0 
-        ? (
-          <ImageContainer>
-            <ImageWithDownload 
-              image={base64Text} 
-              fileName={`image.${base64Text.split(';')[0].split('/')[1]}`}
-              onDownloadCallback={onDownload}
-            />
-            <DownloadButtonContainer>
-              <DownloadTextButton
-                text='Download Image'
-                onClick={onDownload}
+        {base64Text.length > 0 
+          ? (
+            <ImageContainer>
+              <ImageWithDownload 
+                image={base64Text} 
+                fileName={`image.${base64Text.split(';')[0].split('/')[1]}`}
+                onDownloadCallback={onDownload}
               />
-            </DownloadButtonContainer>
-          </ImageContainer>
-        )
-        : (
-          <ImagePlaceholder />
-        )
-      }
-
+              <DownloadButtonContainer>
+                <DownloadTextButton
+                  text='Download Image'
+                  onClick={onDownload}
+                />
+              </DownloadButtonContainer>
+            </ImageContainer>
+          )
+          : (
+            <ImagePlaceholder />
+          )
+        }
+      </StyledTwoColumnsContainer>
+      
       <ToolCrossLinks
         toolKey="base64-to-image"
         title="Explore More Image Tools"
       />
-    </StyledTwoColumnsContainer>
+    </>
   );
 }
 
@@ -76,7 +73,6 @@ const StyledTwoColumnsContainer = styled(TwoColumnsContainer)`
   & > * {
     min-width: 0;
     width: 100%;
-    min-height: 16rem;
     box-sizing: border-box;
   }
 
@@ -93,7 +89,7 @@ const ImageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  min-height: 16rem;
+  min-height: 10rem;
 `;
 
 const DownloadButtonContainer = styled.div`

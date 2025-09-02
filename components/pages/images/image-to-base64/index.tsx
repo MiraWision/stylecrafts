@@ -14,7 +14,7 @@ import { ToolCrossLinks } from '@/components/ui/cross-links';
 interface Props {
 }
 
-const ImageToBase64: React.FC<Props> = ({}) => {
+export const ImageToBase64: React.FC<Props> = ({}) => {
   const { toast } = useToast();
 
   const [image, setImage] = useState<string | null>(null);
@@ -43,61 +43,63 @@ const ImageToBase64: React.FC<Props> = ({}) => {
   };
 
   return (
-    <TwoColumnsContainer>
-      <ImageInputContainer>
-        <ImageInputStyled 
-          value={image}
-          onChange={handleImageChange} 
-        />
-        <UploadButtonContainer>
-          <UploadTextButton 
-            text='Upload Image'
-            onFileSelect={handleFileSelect}
+    <>
+      <TwoColumnsContainer>
+        <ImageInputContainer>
+          <ImageInputStyled 
+            value={image}
+            onChange={handleImageChange} 
           />
-        </UploadButtonContainer>
-      </ImageInputContainer>
+          <UploadButtonContainer>
+            <UploadTextButton 
+              text='Upload Image'
+              onFileSelect={handleFileSelect}
+            />
+          </UploadButtonContainer>
+        </ImageInputContainer>
 
-      <TextareaWithCopy
-        value={image ?? ''}
-        copyOptions={[
-          { 
-            name: 'Copy Base64', 
-            getValue: (text) => text, 
-            onSuccess: () => {
-              callback.onSuccess('Base64 copied to clipboard');
+        <TextareaWithCopy
+          value={image ?? ''}
+          copyOptions={[
+            { 
+              name: 'Copy Base64', 
+              getValue: (text) => text, 
+              onSuccess: () => {
+                callback.onSuccess('Base64 copied to clipboard');
 
-              GAService.logEvent(analyticsEvents.images.imageToBase64.imageCopied(image?.length?.toString() ?? '0'));
+                GAService.logEvent(analyticsEvents.images.imageToBase64.imageCopied(image?.length?.toString() ?? '0'));
+              },
+              onFail: callback.onFail,
             },
-            onFail: callback.onFail,
-          },
-          { 
-            name: 'Copy to HTML', 
-            getValue: (text) => `<img src="${text}" alt="Image"/>`, 
-            onSuccess: () => {
-              callback.onSuccess('HTML copied to clipboard');
+            { 
+              name: 'Copy to HTML', 
+              getValue: (text) => `<img src="${text}" alt="Image"/>`, 
+              onSuccess: () => {
+                callback.onSuccess('HTML copied to clipboard');
 
-              GAService.logEvent(analyticsEvents.images.imageToBase64.imageCopiedToHTML(image?.length?.toString() ?? '0'));
+                GAService.logEvent(analyticsEvents.images.imageToBase64.imageCopiedToHTML(image?.length?.toString() ?? '0'));
+              },
+              onFail: callback.onFail,
             },
-            onFail: callback.onFail,
-          },
-          { 
-            name: 'Copy to CSS', 
-            getValue: (text) => `background-image: url('${text}');`, 
-            onSuccess: () => {
-              callback.onSuccess('CSS copied to clipboard');
+            { 
+              name: 'Copy to CSS', 
+              getValue: (text) => `background-image: url('${text}');`, 
+              onSuccess: () => {
+                callback.onSuccess('CSS copied to clipboard');
 
-              GAService.logEvent(analyticsEvents.images.imageToBase64.imageCopiedToCSS(image?.length?.toString() ?? '0'));
+                GAService.logEvent(analyticsEvents.images.imageToBase64.imageCopiedToCSS(image?.length?.toString() ?? '0'));
+              },
+              onFail: callback.onFail,
             },
-            onFail: callback.onFail,
-          },
-        ]}
-      />          
+          ]}
+        />          
+      </TwoColumnsContainer>
 
       <ToolCrossLinks
         toolKey="image-to-base64"
         title="Explore More Image Tools"
       />
-    </TwoColumnsContainer>
+    </>
   );
 }
 
@@ -118,12 +120,5 @@ const ImageInputStyled = styled(ImageInput)`
 
 const UploadButtonContainer = styled.div`
   text-align: center;
-  @media (max-width: 768px) {
-    margin: 1.5rem 0;
-  }
-  @media (min-width: 769px) {
-    margin-top: 1rem;
-  }
+  margin: 0.5rem 0;
 `;
-export { ImageToBase64 };
-
