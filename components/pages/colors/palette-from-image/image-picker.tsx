@@ -111,8 +111,8 @@ const ImageColorPicker: React.FC<Props> = ({
         }
       });
 
-      // Limit to 8 colors
-      const finalPalette = autoPalette.slice(0, 8);
+      // Limit to 10 colors
+      const finalPalette = autoPalette.slice(0, 10);
       setPalette(finalPalette);
       onPaletteChange(finalPalette);
       setIsGenerating(false);
@@ -348,7 +348,6 @@ const Container = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  max-width: 700px;
   img {
     max-width: 100%;
     width: 100%;

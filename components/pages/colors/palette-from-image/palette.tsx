@@ -20,10 +20,6 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
   const { toast } = useToast();
 
   const rowsCount = useMemo(() => {
-    if (palette.length === 0) {
-      return 2;
-    }
-
     return Math.ceil((palette.length + 1) / 4);
   }, [palette]);
 
@@ -44,59 +40,59 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
 
   return (
     <Container>
-      {palette.length === 0 ? (
+      <ColorCountDisplay>
+        {colorCount === 0 ? 'No colors yet' : `${colorCount} color${colorCount !== 1 ? 's' : ''} in palette`}
+      </ColorCountDisplay>
+      
+      {palette.length === 0 && (
         <EmptyPaletteMessage>
-          <EmptyPaletteText>No colors yet</EmptyPaletteText>
-          <EmptyPaletteSubtext>Click on the image to add colors or wait for auto-generation</EmptyPaletteSubtext>
+          <EmptyPaletteText>Click on the image to add colors or wait for auto-generation</EmptyPaletteText>
         </EmptyPaletteMessage>
-      ) : (
-        <>
-          <ColorCountDisplay>
-            {colorCount} color{colorCount !== 1 ? 's' : ''} in palette
-          </ColorCountDisplay>
-          <PaletteGrid>
-            {Array.from({ length: rowsCount * 4 }).map((_, index) => {
-              if (index === rowsCount * 4 - 1) {
-                return (
-                  <RefreshButton key={index} onClick={onRefreshPalette}>
-                    <RefreshIcon />
-                  </RefreshButton>
-                );
-              }
+      )}
+      
+      <PaletteGrid>
+        {Array.from({ length: rowsCount * 4 }).map((_, index) => {
+          if (index === rowsCount * 4 - 1) {
+            return (
+              <RefreshButton key={index} onClick={onRefreshPalette}>
+                <RefreshIcon />
+              </RefreshButton>
+            );
+          }
 
-              const color = palette[index];
+          const color = palette[index];
 
-              if (!color) {
-                return (
-                  <EmptyColorSquare
-                    key={index}
-                    $backgroundColor='#ffffff'
-                  />
-                );
-              }
+          if (!color) {
+            return (
+              <EmptyColorSquare
+                key={index}
+                $backgroundColor='#ffffff'
+              />
+            );
+          }
 
-              return (
-                <ColorSquare
-                  key={index}
-                  $backgroundColor={color}
-                  onClick={() => copyColor(color)}
-                  onDoubleClick={() => onRemoveColor(index)}
-                >
-                  <Overlay>
-                    <ColorTooltip>{color}</ColorTooltip>
-                    <CopyIcon />
-                  </Overlay>
-                </ColorSquare>
-              );
-            })}
-          </PaletteGrid>
+          return (
+            <ColorSquare
+              key={index}
+              $backgroundColor={color}
+              onClick={() => copyColor(color)}
+              onDoubleClick={() => onRemoveColor(index)}
+            >
+              <Overlay>
+                <ColorTooltip>{color}</ColorTooltip>
+                <CopyIcon />
+              </Overlay>
+            </ColorSquare>
+          );
+        })}
+      </PaletteGrid>
 
-          <CopyTextButton
-            text='Copy All'
-            copyText={JSON.stringify(palette).replace(/,/g, ', ')}
-            onCopyCallback={onCopy}
-          />
-        </>
+      {palette.length > 0 && (
+        <CopyTextButton
+          text='Copy All'
+          copyText={JSON.stringify(palette).replace(/,/g, ', ')}
+          onCopyCallback={onCopy}
+        />
       )}
     </Container>
   );
@@ -251,11 +247,7 @@ const EmptyPaletteText = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-const EmptyPaletteSubtext = styled.div`
-  font-size: 0.875rem;
-  color: var(--surface-500);
-  line-height: 1.4;
-`;
+
 
 const ColorCountDisplay = styled.div`
   font-size: 0.875rem;

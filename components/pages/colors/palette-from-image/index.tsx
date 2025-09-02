@@ -11,6 +11,9 @@ import { ImageInputMini, ImageData } from '@/components/ui/inputs/image-input-mi
 import { ImageExamples } from './image-examples';
 import { Label } from '@/components/ui/texts/label';
 import { ToolCrossLinks } from '@/components/ui/cross-links';
+import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
+import { CopyIcon } from '@/components/icons/copy';
+import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button';
 
 import { Palette } from './palette';
 
@@ -19,11 +22,11 @@ interface Props {}
 const exampleImages = [
   {
     src: '/image-examples/orange-nature.jpeg',
-    colors: ["#632d13", "#935429", "#da965c", "#2c1707", "#a1694c", "#d37029", "#f6d18e", "#fcf5e3", "#6a3945", "#c53209"]
+    colors: ["#ffdac0", "#c76948", "#b88f63", "#7c534b", "#4f2100", "#9a4f29", "#220b00", "#8a391a"]
   },
   {
     src: '/image-examples/green-nature.jpeg',
-    colors: ["#454a37", "#aeb3ac", "#6c8fa8", "#60778d", "#b9996f", "#778646", "#8b7a65"]
+    colors: ["#5083b0","#85a5ba","#c0ded6","#f9ffd6","#727a85","#3a442b","#212725","#5f5939"]
   },
   {
     src: '/image-examples/green-blue-nature.jpeg',
@@ -60,6 +63,15 @@ const PaletteFromImageMain: React.FC<Props> = () => {
 
   const handlePaletteChange = (newPalette: string[]) => {
     setPalette(newPalette);
+    
+    // Log extracted colors when palette changes (for example images)
+    if (selectedImage && exampleImages.find(img => img.src === selectedImage.content)) {
+      const colorsString = JSON.stringify(newPalette);
+      console.log(`Extracted colors for ${selectedImage.content}:`, colorsString);
+      
+      // Log in the exact format requested
+      console.log(colorsString);
+    }
   };
 
   const handleRemoveColor = (index: number) => {
@@ -85,6 +97,12 @@ const PaletteFromImageMain: React.FC<Props> = () => {
     const exampleImage = exampleImages.find(img => img.src === imageSrc);
     if (exampleImage) {
       setPalette(exampleImage.colors);
+      
+      // Log the predefined colors for the selected example
+      const colorsString = JSON.stringify(exampleImage.colors);
+      console.log(`Selected example image: ${imageSrc}`);
+      console.log(`Predefined colors:`, colorsString);
+      console.log(colorsString);
     } else {
       setPalette([]);
     }
@@ -93,21 +111,64 @@ const PaletteFromImageMain: React.FC<Props> = () => {
     setClearedPaletteVersion(v => v + 1);
   };
 
+  // Function to update example colors with extracted values
+  const updateExampleColors = (imageSrc: string, newColors: string[]) => {
+    const exampleIndex = exampleImages.findIndex(img => img.src === imageSrc);
+    if (exampleIndex !== -1) {
+      // This would update the example colors in a real scenario
+      // For now, we'll just log the update
+      console.log(`Would update colors for ${imageSrc} to:`, JSON.stringify(newColors));
+      console.log(JSON.stringify(newColors));
+    }
+  };
+
+  const handleLogCurrentColors = () => {
+    if (palette.length > 0) {
+      const colorsString = JSON.stringify(palette);
+      console.log('Current extracted colors:', colorsString);
+      console.log(colorsString);
+      
+      // Copy to clipboard
+      navigator.clipboard.writeText(colorsString).then(() => {
+        toast.success('Copied!', 'Colors copied to clipboard in the exact format');
+      }).catch(() => {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = colorsString;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        toast.success('Copied!', 'Colors copied to clipboard in the exact format');
+      });
+    }
+  };
+
+  const handleFileSelect = (file: File | null) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const newImage = {
+          content: reader.result as string,
+          fileMetaData: {
+            name: file.name,
+            type: file.type as any,
+            size: file.size,
+            lastModified: file.lastModified,
+          }
+        };
+        setSelectedImage(newImage);
+        // Clear palette for uploaded images to trigger auto-generation
+        setPalette([]);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <>
       <GridContainer>
         <ImageColumn>
-          <ImageInputMini
-            value={selectedImage?.content || null}
-            onChange={(newImage) => {
-              setSelectedImage(newImage);
-              // Clear palette for uploaded images to trigger auto-generation
-              if (newImage && !exampleImages.find(img => img.src === newImage.content)) {
-                setPalette([]);
-              }
-            }}
-          />
-
           {selectedImage ? (
             <ImageColorPicker
               selectedImage={selectedImage.content}
@@ -121,6 +182,12 @@ const PaletteFromImageMain: React.FC<Props> = () => {
               </PlaceholderText>
             </ImagePlaceholderContainer>
           )}
+          <UploadButtonContainer>
+            <UploadTextButton 
+              text='Upload Image'
+              onFileSelect={handleFileSelect}
+            />
+          </UploadButtonContainer>
         </ImageColumn>
 
         <PaletteColumn>
@@ -130,6 +197,16 @@ const PaletteFromImageMain: React.FC<Props> = () => {
             onRemoveColor={handleRemoveColor}
             onRefreshPalette={handleRefreshPalette}
           />
+          
+          {palette.length > 0 && (
+            <LogColorsButtonContainer>
+              <BaseTextButton
+                text="Log & Copy Colors"
+                icon={<CopyIcon width="20" height="20" />}
+                onClick={handleLogCurrentColors}
+              />
+            </LogColorsButtonContainer>
+          )}
         </PaletteColumn>
       </GridContainer>
 
@@ -154,8 +231,8 @@ const StyledLabel = styled(Label)`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 1rem;
+  grid-template-columns: 1fr 17.5rem;
+  gap: 2rem;
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
@@ -168,6 +245,8 @@ const PaletteColumn = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 1rem;
+  width: 17.5rem;
+  flex-shrink: 0;
   @media (max-width: 768px) {
     order: 2;
     align-items: center;
@@ -181,6 +260,9 @@ const ImageColumn = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  flex: 1;
+  min-width: 0;
+
   & > *:first-child {
     min-width: 180px;
     max-width: 100%;
@@ -197,6 +279,11 @@ const ImageColumn = styled.div`
       width: 100%;
     }
   }
+`;
+
+const UploadButtonContainer = styled.div`
+  text-align: center;
+  margin: 0.5rem 0;
 `;
 
 const ImageExamplesContainer = styled.div`
@@ -230,6 +317,12 @@ const PlaceholderText = styled.div`
   text-align: center;
   line-height: 1.5;
   max-width: 300px;
+`;
+
+const LogColorsButtonContainer = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
 `;
 
 export { PaletteFromImageMain };
