@@ -6,13 +6,9 @@ import { analyticsEvents } from '@/services/google-analytics-service/analytics-e
 
 import { ImageColorPicker } from './image-picker';
 import { useToast } from '@/components/ui/toast';
-import { ImagePlaceholder } from '@/components/ui/images/image-placeholder';
-import { ImageInputMini, ImageData } from '@/components/ui/inputs/image-input-mini';
+import { ImageInput, ImageData } from '@/components/ui/inputs/image-input';
 import { ImageExamples } from './image-examples';
-import { Label } from '@/components/ui/texts/label';
 import { ToolCrossLinks } from '@/components/ui/cross-links';
-import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
-import { CopyIcon } from '@/components/icons/copy';
 import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button';
 
 import { Palette } from './palette';
@@ -128,11 +124,10 @@ const PaletteFromImageMain: React.FC<Props> = () => {
               clearedPaletteVersion={clearedPaletteVersion}
             />
           ) : (
-            <ImagePlaceholderContainer>
-              <PlaceholderText>
-                Upload an image or select from examples below to generate a color palette
-              </PlaceholderText>
-            </ImagePlaceholderContainer>
+            <ImageInputStyled
+              value={null}
+              onChange={(image) => handleImageSelect(image.content as string)} 
+            />
           )}
           <UploadButtonContainer>
             <UploadTextButton 
@@ -232,36 +227,9 @@ const ImageExamplesContainer = styled.div`
   }
 `;
 
-const ImagePlaceholderContainer = styled.div`
-  width: 20rem;
-  height: 10rem;
-  border: 0.0625rem dashed var(--surface-border);
-  border-radius: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: var(--surface-50);
-
-  @media (max-width: 768px) {
-    width: 100%;
-    height: 100%;
-    min-height: 8rem;
-  }
-`;
-
-const PlaceholderText = styled.div`
-  color: var(--surface-600);
-  font-size: 0.875rem;
-  text-align: center;
-  line-height: 1.5;
-  max-width: 300px;
-`;
-
-const LogColorsButtonContainer = styled.div`
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
+const ImageInputStyled = styled(ImageInput)`
+  width: 100%;
+  min-height: 15rem;
 `;
 
 export { PaletteFromImageMain };
