@@ -10,9 +10,6 @@ import { ToolCrossLinks } from '@/components/ui/cross-links';
 import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
 import { TrandUp } from '@/components/icons/trand-up';
 import { ShuffleIcon } from '@/components/icons/shuffle';
-import { ImageInput, ImageData } from '@/components/ui/inputs/image-input';
-import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button';
-import { getPaletteWithCoordinates } from '@/utils/colors-palette-from-image';
 
 const ColorContrast: React.FC = () => {
   const [{ textColor, bgColor }, setColors] = useState<{ textColor: string; bgColor: string }>({
@@ -21,9 +18,6 @@ const ColorContrast: React.FC = () => {
   });
 
   const [currentTargetContrast, setCurrentTargetContrast] = useState<number>(7);
-  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
-  const [imagePalette, setImagePalette] = useState<string[]>([]);
-  const [isGeneratingPalette, setIsGeneratingPalette] = useState(false);
 
   const handleTextColorChange = (color: string) => {
     setColors((prev) => ({ ...prev, textColor: color }));
@@ -59,74 +53,6 @@ const ColorContrast: React.FC = () => {
     // Reset target when colors change
     setCurrentTargetContrast(7);
   };
-
-  const handleImageChange = (image: ImageData) => {
-    setSelectedImage(image);
-    if (image.content) {
-      generatePaletteFromImage(image.content);
-    } else {
-      setImagePalette([]);
-    }
-  };
-
-  const handleFileSelect = (file: File | null) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const imageData: ImageData = {
-          content: reader.result as string,
-          fileMetaData: {
-            name: file.name,
-            type: file.type as any,
-            size: file.size,
-            lastModified: file.lastModified,
-          },
-        };
-        setSelectedImage(imageData);
-        generatePaletteFromImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const generatePaletteFromImage = (imageSrc: string) => {
-    setIsGeneratingPalette(true);
-    setImagePalette([]);
-
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      try {
-        const palette = getPaletteWithCoordinates(img, 15, img.naturalWidth, img.naturalHeight);
-        const colors = palette.map(item => item.color);
-        setImagePalette(colors);
-      } catch (error) {
-        console.error('Error generating palette:', error);
-        setImagePalette([]);
-      } finally {
-        setIsGeneratingPalette(false);
-      }
-    };
-    img.onerror = () => {
-      setIsGeneratingPalette(false);
-      setImagePalette([]);
-    };
-    img.src = imageSrc;
-  };
-
-  const handlePaletteColorSelect = (color: string) => {
-    // If text color is currently black (default), set it to the selected color
-    // Otherwise, set background color to the selected color
-    if (textColor === '#000000') {
-      setColors(prev => ({ ...prev, textColor: color }));
-    } else {
-      setColors(prev => ({ ...prev, bgColor: color }));
-    }
-    setCurrentTargetContrast(7);
-  };
-
-  // Calculate the number of grid items needed for minimum 3 rows (9 items) or based on actual colors
-  const gridItemCount = Math.max(9, Math.ceil(imagePalette.length / 3) * 3);
 
   return (
     <>
@@ -175,50 +101,6 @@ const ColorContrast: React.FC = () => {
           <ContrastStatus textColor={textColor} bgColor={bgColor} />
         </ResultsSection>
       </MainContainer>
-
-      <ImagePaletteSection>
-        <ImageInputContainer>
-          <ImageInput
-            value={selectedImage?.content || null}
-            onChange={handleImageChange}
-          />
-          <UploadButtonContainer>
-            <UploadTextButton 
-              text='Upload Image'
-              onFileSelect={handleFileSelect}
-            />
-          </UploadButtonContainer>
-        </ImageInputContainer>
-
-        <PaletteContainer>
-          <PaletteLabel>Palette</PaletteLabel>
-          <PaletteGrid>
-            {Array.from({ length: gridItemCount }).map((_, index) => {
-              const color = imagePalette[index];
-              if (color) {
-                return (
-                  <PaletteColor
-                    key={index}
-                    $backgroundColor={color}
-                    onClick={() => handlePaletteColorSelect(color)}
-                    title={`Click to use ${color}`}
-                  >
-                    <ColorHex>{color}</ColorHex>
-                  </PaletteColor>
-                );
-              }
-              return (
-                <EmptyPaletteColor key={index}>
-                  <EmptyText>No color</EmptyText>
-                </EmptyPaletteColor>
-              );
-            })}
-          </PaletteGrid>
-          {isGeneratingPalette && (
-            <GeneratingText>Generating palette...</GeneratingText>
-          )}
-        </PaletteContainer>
-      </ImagePaletteSection>
 
       <PreviewContainer>
         <TemplateCard textColor={textColor} backgroundColor={bgColor} />
