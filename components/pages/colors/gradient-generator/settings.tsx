@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
@@ -15,6 +15,7 @@ import { useToast } from '@/components/ui/toast';
 import { AdjustIcon } from '@/components/icons/adjust';
 import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
 import { AddTextButton } from '@/components/ui/text-buttons/add-text-button';
+import { ChevronDownIcon } from '@/components/icons/chevron-down';
 
 interface Props {
   gradientSettings: Gradient['colors'];
@@ -45,10 +46,14 @@ const GradientSettings: React.FC<Props> = ({
   return (
     <Container>
       <Header>
-        <ToggleContainer onClick={() => setIsOpen(!isOpen)}>
+        <AdjustTextButton
+          $isOpen={isOpen}
+          onClick={() => setIsOpen(!isOpen)}
+        >
           <AdjustIcon />
           Adjust Colors
-        </ToggleContainer>
+          <ChevronDownIcon width="16" height="16" />
+        </AdjustTextButton>
 
         {gradient && (
           <CopyTextButton
@@ -122,20 +127,34 @@ const Header = styled.div`
   align-items: center;
 `;
 
-const ToggleContainer = styled.div`
+const AdjustTextButton = styled.div<{ $isOpen: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.875rem;
   cursor: pointer;
+  gap: 0.5rem;
+  height: 2rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--surface-0);
+  border: 1px solid var(--surface-border);
 
   .icon {
-    margin-right: 0.5rem;
-
     * {
       fill: var(--text-color);
     }
   }
+
+  & > *:last-child {
+    transition: transform 0.3s;
+  }
+
+  ${({ $isOpen }) => $isOpen && css`
+    & > *:last-child {
+      transform: scaleY(-1);
+    }
+  `}
 `;
 
 const SettingsContainer = styled(TwoColumnsContainer).attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
