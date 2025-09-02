@@ -80,7 +80,6 @@ const ContrastStatus: React.FC<ContrastStatusProps> = ({ textColor, bgColor }) =
   return (
     <ContrastStatusContainer>
       <StatusHeader>
-        <StatusTitle>Contrast Analysis</StatusTitle>
         <ContrastRatio>
           <RatioLabel>Ratio:</RatioLabel>
           <RatioValue>{contrast.toFixed(2)}:1</RatioValue>
@@ -110,48 +109,24 @@ const ContrastStatus: React.FC<ContrastStatusProps> = ({ textColor, bgColor }) =
 const ContrastStatusContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 0.75rem;
-  border: 1px solid #e9ecef;
-  
-  @media (max-width: 768px) {
-    padding: 1rem;
-    gap: 1rem;
-  }
 `;
 
 const StatusHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #e9ecef;
-  
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
-`;
-
-const StatusTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-color);
-  margin: 0;
+  width: 100%;
+  margin-bottom: 1rem;
 `;
 
 const ContrastRatio = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #fff;
+  background: var(--surface-0);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--surface-200);
   
   @media (max-width: 600px) {
     align-self: stretch;
@@ -160,14 +135,14 @@ const ContrastRatio = styled.div`
 `;
 
 const RatioLabel = styled.span`
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 300;
   color: var(--text-color);
 `;
 
 const RatioValue = styled.span`
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
   font-family: monospace;
   color: var(--primary-color);
 `;
@@ -175,51 +150,34 @@ const RatioValue = styled.span`
 const StatusSections = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  
-  @media (max-width: 768px) {
-    gap: 1rem;
-  }
+  gap: 1rem;
 `;
 
 const ContrastSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 `;
 
 const SectionTitle = styled.h4`
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-color);
   margin: 0;
   padding-bottom: 0.25rem;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid var(--surface-200);
 `;
 
 const Ratio = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem;
-  background: #fff;
-  border-radius: 0.5rem;
-  border: 1px solid #f1f3f4;
-  
-  @media (max-width: 600px) {
-    padding: 0.4rem;
-    gap: 0.5rem;
-  }
+  gap: 0.5rem;
 `;
 
 const RatioText = styled.span`
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 300;
   color: var(--text-color);
-  
-  @media (max-width: 600px) {
-    font-size: 0.85rem;
-  }
 `;
 
 export { ContrastStatus };

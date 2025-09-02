@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
 import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
-import { ContrastTextButton } from '@/components/ui/text-buttons/contrast-button';
 import { ContrastStatus } from './contrast-status';
 import { TemplateCard } from './template-card';
 import { ColorPalette } from './example-palette';
 import { adjustColorForContrast } from '@/utils/adjust-color-for-contrast';
 import { ToolCrossLinks } from '@/components/ui/cross-links';
+import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
+import { TrandUp } from '@/components/icons/trand-up';
+import { ShuffleIcon } from '@/components/icons/shuffle';
 
 const ColorContrast: React.FC = () => {
   const [{ textColor, bgColor }, setColors] = useState<{ textColor: string; bgColor: string }>({
@@ -14,33 +17,47 @@ const ColorContrast: React.FC = () => {
     bgColor: '#FFFFFF',
   });
 
+  const [currentTargetContrast, setCurrentTargetContrast] = useState<number>(7);
+
   const handleTextColorChange = (color: string) => {
     setColors((prev) => ({ ...prev, textColor: color }));
+    // Reset target when colors change
+    setCurrentTargetContrast(7);
   };
 
   const handleBgColorChange = (color: string) => {
     setColors((prev) => ({ ...prev, bgColor: color }));
+    // Reset target when colors change
+    setCurrentTargetContrast(7);
   };
 
   const handleColorPaletteSelect = (background: string, text: string) => {
     setColors({ bgColor: background, textColor: text });
+    // Reset target when colors change
+    setCurrentTargetContrast(7);
   };
 
-  const handleSelectContrastForTextColor = () => {
-    const newTextColor = adjustColorForContrast(textColor, bgColor);
-    setColors((prev) => ({ ...prev, textColor: newTextColor }));
+  const handleImproveContrast = () => {
+    const { textColor: newTextColor, bgColor: newBgColor, newTarget } = adjustColorForContrast(
+      textColor, 
+      bgColor, 
+      currentTargetContrast
+    );
+    
+    setColors({ textColor: newTextColor, bgColor: newBgColor });
+    setCurrentTargetContrast(newTarget);
   };
 
-  const handleSelectContrastForBgColor = () => {
-    const newBgColor = adjustColorForContrast(bgColor, textColor);
-    setColors((prev) => ({ ...prev, bgColor: newBgColor }));
+  const handleSwapColors = () => {
+    setColors({ textColor: bgColor, bgColor: textColor });
+    // Reset target when colors change
+    setCurrentTargetContrast(7);
   };
 
   return (
     <>
       <MainContainer>
         <FormSection>
-          <FormTitle>Color Selection</FormTitle>
           <FormContainer>
             <FormRow>
               <FormField>
@@ -50,14 +67,7 @@ const ColorContrast: React.FC = () => {
                   onChange={handleBgColorChange}
                 />
               </FormField>
-              <ImproveButton
-                onClick={handleSelectContrastForBgColor}
-              >
-                Improve Contrast
-              </ImproveButton>
-            </FormRow>
 
-            <FormRow>
               <FormField>
                 <FormLabel>Text Color</FormLabel>
                 <ColorInputBig
@@ -65,12 +75,25 @@ const ColorContrast: React.FC = () => {
                   onChange={handleTextColorChange}
                 />
               </FormField>
-              <ImproveButton
-                onClick={handleSelectContrastForTextColor}
-              >
-                Improve Contrast
-              </ImproveButton>
             </FormRow>
+
+            <ButtonContainer>
+              <BaseTextButton
+                text="Improve Contrast"
+                icon={<TrandUp width="24" height="24" />}
+                onClick={handleImproveContrast}
+                isPrimary
+              />
+              <BaseTextButton
+                text="Swap Colors"
+                icon={<ShuffleIcon width="24" height="24" />}
+                onClick={handleSwapColors}
+              />
+            </ButtonContainer>
+
+            <ExamplesSection>
+              <ColorPalette onSelect={handleColorPaletteSelect} />
+            </ExamplesSection>
           </FormContainer>
         </FormSection>
 
@@ -78,11 +101,6 @@ const ColorContrast: React.FC = () => {
           <ContrastStatus textColor={textColor} bgColor={bgColor} />
         </ResultsSection>
       </MainContainer>
-
-      <PaletteSection>
-        <PaletteTitle>Quick Color Presets</PaletteTitle>
-        <ColorPalette onSelect={handleColorPaletteSelect} />
-      </PaletteSection>
 
       <PreviewContainer>
         <TemplateCard textColor={textColor} backgroundColor={bgColor} />
@@ -98,8 +116,8 @@ const ColorContrast: React.FC = () => {
 
 const MainContainer = styled.div`
   display: grid;
-  grid-template-columns: minmax(340px, 1fr) minmax(260px, 1fr);
-  gap: 2rem;
+  grid-template-columns: 3fr 3fr;
+  gap: 6rem;
   margin-top: 2rem;
 
   @media (max-width: 768px) {
@@ -112,89 +130,37 @@ const MainContainer = styled.div`
 const FormSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-`;
-
-const FormTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-color);
-  margin: 0 0 1rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #f0f0f0;
+  gap: 1rem;
 `;
 
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 `;
 
 const FormRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
   gap: 1rem;
-  align-items: end;
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
 `;
 
 const FormField = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 `;
 
 const FormLabel = styled.label`
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--text-color);
-  margin-bottom: 0.25rem;
-`;
-
-const ImproveButton = styled.button`
-  background: var(--primary-color);
-  color: #fff;
+  font-size: 0.75rem;
   font-weight: 600;
-  font-size: 0.9rem;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s ease;
-  min-width: 140px;
-
-  &:hover {
-    background: #7e4fd4;
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-    min-width: unset;
-  }
+  line-height: 1.2;
+  color: var(--surface-900);
+  margin-bottom: 0.25rem;
 `;
 
 const ResultsSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`;
-
-const PaletteSection = styled.div`
-  margin-top: 2.5rem;
-`;
-
-const PaletteTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-color);
-  margin: 0 0 1.5rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #f0f0f0;
 `;
 
 const PreviewContainer = styled.div`
@@ -205,6 +171,15 @@ const PreviewContainer = styled.div`
   @media (max-width: 768px) {
     margin-top: 2rem;
   }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+`;
+
+const ExamplesSection = styled.div`
 `;
 
 export default ColorContrast;

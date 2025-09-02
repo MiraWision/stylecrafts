@@ -2,79 +2,34 @@ const contrastColors = [
   {
     groupName: "Dark Contrasts",
     colors: [
-      { background: "#2C3E50", text: "#ECF0F1" },
-      { background: "#34495E", text: "#F1C40F" },
-      { background: "#2C3E50", text: "#AED6F1" },
-      { background: "#1C2833", text: "#D4E6F1" },
-      { background: "#212F3C", text: "#FDEDEC" },
-      { background: "#4A235A", text: "#E8DAEF" },
-      { background: "#0B5345", text: "#A9DFBF" },
-      { background: "#2E4053", text: "#FAD7A0" },
+      { background: "#000000", text: "#FFFFFF" },
+      { background: "#1A1A1A", text: "#FFFFFF" },
+      { background: "#2C3E50", text: "#FFFFFF" },
+      { background: "#2D3748", text: "#FFFFFF" },
+      { background: "#1C2833", text: "#FFFFFF" },
+      { background: "#212F3C", text: "#FFFFFF" }
     ]
   },
   {
     groupName: "Light Contrasts",
     colors: [
       { background: "#FFFFFF", text: "#000000" },
-      { background: "#F0F8FF", text: "#2C3E50" },
-      { background: "#FAFAD2", text: "#34495E" },
-      { background: "#F5FFFA", text: "#8E44AD" },
-      { background: "#F0F4C3", text: "#37474F" },
-      { background: "#FCE4EC", text: "#4A148C" },
-      { background: "#FFF3E0", text: "#4E342E" },
-      { background: "#F9FBE7", text: "#3E2723" }
-    ]
-  },
-  {
-    groupName: "Modern UI",
-    colors: [
-      { background: "#1A1A1A", text: "#FFFFFF" },
-      { background: "#2D3748", text: "#E2E8F0" },
-      { background: "#4A5568", text: "#F7FAFC" },
-      { background: "#718096", text: "#FFFFFF" },
-      { background: "#A0AEC0", text: "#2D3748" },
-      { background: "#E2E8F0", text: "#2D3748" },
-      { background: "#F7FAFC", text: "#4A5568" },
-      { background: "#FFFFFF", text: "#1A202C" }
-    ]
-  },
-  {
-    groupName: "Accessibility",
-    colors: [
-      { background: "#000000", text: "#FFFFFF" },
-      { background: "#FFFFFF", text: "#000000" },
-      { background: "#1A1A1A", text: "#FFFFFF" },
       { background: "#FFFFFF", text: "#1A1A1A" },
-      { background: "#2D3748", text: "#FFFFFF" },
       { background: "#FFFFFF", text: "#2D3748" },
-      { background: "#4A5568", text: "#FFFFFF" },
-      { background: "#FFFFFF", text: "#4A5568" }
-    ]
-  },
-  {
-    groupName: "Brand Colors",
-    colors: [
-      { background: "#3B82F6", text: "#FFFFFF" },
-      { background: "#10B981", text: "#FFFFFF" },
-      { background: "#F59E0B", text: "#FFFFFF" },
-      { background: "#EF4444", text: "#FFFFFF" },
-      { background: "#8B5CF6", text: "#FFFFFF" },
-      { background: "#EC4899", text: "#FFFFFF" },
-      { background: "#06B6D4", text: "#FFFFFF" },
-      { background: "#84CC16", text: "#FFFFFF" }
+      { background: "#FFFFFF", text: "#4A5568" },
+      { background: "#F7FAFC", text: "#2D3748" },
+      { background: "#E2E8F0", text: "#2D3748" }
     ]
   },
   {
     groupName: "Pastels",
     colors: [
-      { background: "#FEF3C7", text: "#92400E" },
-      { background: "#DBEAFE", text: "#1E40AF" },
-      { background: "#D1FAE5", text: "#065F46" },
-      { background: "#FEE2E2", text: "#991B1B" },
-      { background: "#F3E8FF", text: "#7C3AED" },
-      { background: "#FCE7F3", text: "#BE185D" },
-      { background: "#ECFDF5", text: "#047857" },
-      { background: "#FEF7CD", text: "#A16207" }
+      { background: "#FEF3C7", text: "#78350F" },
+      { background: "#DBEAFE", text: "#1E3A8A" },
+      { background: "#D1FAE5", text: "#064E3B" },
+      { background: "#FEE2E2", text: "#7F1D1D" },
+      { background: "#F3E8FF", text: "#5B21B6" },
+      { background: "#FCE7F3", text: "#9D174D" }
     ]
   }
 ];
