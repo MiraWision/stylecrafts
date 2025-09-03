@@ -1,34 +1,54 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
+import { generateSlug } from '@/utils/text';
 import { PaletteColor } from './types';
-import { examplePalettes } from './example-data';
+import { examplePaletteGroups } from './example-data';
 import { PaletteExample } from '../palette-example';
 
 interface Props {
-  onExampleClick: (exampleColors: PaletteColor[]) => void;
+  onExampleClick: (exampleColors: PaletteColor[], paletteName?: string) => void;
 }
 
 const Examples: React.FC<Props> = ({ onExampleClick }) => {
-  const handleExampleClick = (paletteData: typeof examplePalettes[number]) => {
-    onExampleClick(paletteData.colors);
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    
+    if (hash) {
+      // Find palette by slug in all groups
+      for (const group of examplePaletteGroups) {
+        const palette = group.palettes.find(palette => generateSlug(palette.name) === hash);
+        if (palette) {
+          onExampleClick(palette.colors, palette.name);
+          break;
+        }
+      }
+    }
+  }, [onExampleClick]);
+
+  const handleExampleClick = (paletteData: any) => {
+    onExampleClick(paletteData.colors, paletteData.name);
   };
 
   return (
     <ExamplesContainer>
-      <ExamplesTitle>Subheader example</ExamplesTitle>
-      <ExamplesGrid>
-        {examplePalettes.map((paletteData, index) => (
-          <PaletteExample
-            key={index} 
-            palette={{
-              name: paletteData.name,
-              colors: paletteData.colors.map(c => c.baseColor)
-            }}
-            onClick={() => handleExampleClick(paletteData)}
-          />
-        ))}
-      </ExamplesGrid>
+      {examplePaletteGroups.map((group, groupIndex) => (
+        <GroupContainer key={groupIndex}>
+          <GroupTitle>{group.title}</GroupTitle>
+          <ExamplesGrid>
+            {group.palettes.map((paletteData, index) => (
+              <PaletteExample
+                key={`${groupIndex}-${index}`}
+                palette={{
+                  name: paletteData.name,
+                  colors: paletteData.colors.map(c => c.baseColor)
+                }}
+                onClick={() => handleExampleClick(paletteData)}
+              />
+            ))}
+          </ExamplesGrid>
+        </GroupContainer>
+      ))}
     </ExamplesContainer>
   );
 };
@@ -41,12 +61,19 @@ const ExamplesContainer = styled.div`
   width: 100%;
 `;
 
-const ExamplesTitle = styled.h3`
+const GroupContainer = styled.div`
+  width: 100%;
+  margin-bottom: 1.5rem;
+`;
+
+const GroupTitle = styled.h4`
   width: 100%;
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  margin: 0 0 0.5rem;
   color: var(--text-color);
+  border-bottom: 2px solid var(--surface-border);
 `;
 
 const ExamplesGrid = styled.div`

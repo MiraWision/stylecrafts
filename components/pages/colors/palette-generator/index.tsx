@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { copyText } from '@mirawision/copily';
+import { color } from '@mirawision/imagine';
+
+import { generateSlug } from '@/utils/text';
 import { PaletteColor, Shade } from './types';
+import { useToast } from '@/components/ui/toast';
+import { exportToSVG } from './export-to-svg';
+import { examplePaletteGroups } from './example-data';
+
 import { ColorSelector } from './color-selector';
 import { ShadesList } from './shades-list';
 import { ContrastChecker } from './preview/contrast-checker';
 import { Preview } from './preview/preview';
 import { Examples } from './examples';
-import { CopyTextButton } from '@/components/ui/text-buttons/copy-text-button';
-import { exportToSVG } from './export-to-svg';
 import { AddTextButton } from '@/components/ui/text-buttons/add-text-button';
 import { DropdownTextButton } from '@/components/ui/text-buttons/dropdown-text-button';
-import { examplePalettes } from './example-data';
 import { ToolCrossLinks } from '@/components/ui/cross-links';
-import { useToast } from '@/components/ui/toast';
 import { CopyIcon } from '@/components/icons/copy';
 import { DownloadIcon } from '@/components/icons/download';
 
@@ -42,16 +45,39 @@ const PaletteGeneratorMain: React.FC = () => {
   const [selectedColors, setSelectedColors] = useState<PaletteColor[]>(initialColors);
   const { toast } = useToast();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (window.location.hash) {
       const hash = window.location.hash.replace('#', '');
-      const decoded = decodePalette(hash, initialColors.map(c => c.title));
-      if (decoded) setSelectedColors(decoded);
+      
+      // First check if hash matches an example palette slug
+      let exampleFound = false;
+      for (const group of examplePaletteGroups) {
+        const palette = group.palettes.find(palette => generateSlug(palette.name) === hash);
+        if (palette) {
+          setSelectedColors(palette.colors);
+          exampleFound = true;
+          break;
+        }
+      }
+      
+      // If no example found, try to decode as color-based hash
+      if (!exampleFound) {
+        const decoded = decodePalette(hash, initialColors.map(c => c.title));
+        if (decoded) setSelectedColors(decoded);
+      }
     }
   }, []);
 
-  React.useEffect(() => {
-    window.location.hash = encodePalette(selectedColors);
+  useEffect(() => {
+    // Only update hash if it's not already an example slug
+    const currentHash = window.location.hash.replace('#', '');
+    const isExampleSlug = examplePaletteGroups.some(group => 
+      group.palettes.some(palette => generateSlug(palette.name) === currentHash)
+    );
+    
+    if (!isExampleSlug) {
+      window.location.hash = encodePalette(selectedColors);
+    }
   }, [selectedColors]);
 
   const handleColorChange = (index: number, newBaseColor: string) => {
@@ -70,7 +96,7 @@ const PaletteGeneratorMain: React.FC = () => {
   const handleAddColor = () => {
     if (selectedColors.length < 7) {
       setSelectedColors([...selectedColors, {
-        baseColor: '#ff6600',
+        baseColor: color.hex(),
         title: 'Additional Color',
         shades: [],
       }]);
@@ -110,8 +136,12 @@ const PaletteGeneratorMain: React.FC = () => {
     exportToSVG(selectedColors);
   };
 
-  const handleExampleClick = (exampleColors: PaletteColor[]) => {
+  const handleExampleClick = (exampleColors: PaletteColor[], paletteName?: string) => {
     setSelectedColors(exampleColors);
+    // Update hash with palette slug if name is provided
+    if (paletteName) {
+      window.location.hash = generateSlug(paletteName);
+    }
   };
 
   return (
@@ -154,7 +184,6 @@ const PaletteGeneratorMain: React.FC = () => {
           ]}
           onClick={copyToCSS}
           isPrimary={true}
-          style={{ marginBottom: '0.8rem' }}
         />
       </CopyButtons>
 
@@ -199,10 +228,7 @@ const Column = styled.div`
 const CopyButtons = styled.div`
   display: flex;
   justify-content: flex-end;
-
-  @media (max-width: 768px) {
-    margin-bottom: 0.5rem;
-  }
+  margin: 0.5rem 0;
 `;
 
 export { PaletteGeneratorMain };
