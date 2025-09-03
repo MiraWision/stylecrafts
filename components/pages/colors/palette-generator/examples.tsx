@@ -16,7 +16,7 @@ const Examples: React.FC<Props> = ({ onExampleClick }) => {
 
   return (
     <ExamplesContainer>
-      <ExamplesTitle>Ready-to-use Color Palettes</ExamplesTitle>
+      <ExamplesTitle>Subheader example</ExamplesTitle>
       <ExamplesGrid>
         {examplePalettes.map((paletteData, index) => (
           <PaletteExample
@@ -42,32 +42,22 @@ const ExamplesContainer = styled.div`
 `;
 
 const ExamplesTitle = styled.h3`
-  font-size: 1.25rem;
+  width: 100%;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 1.5rem;
-  text-align: center;
+  margin-bottom: 1rem;
   color: var(--text-color);
 `;
 
 const ExamplesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
-  max-width: 1200px;
-
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (max-width: 900px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
 
   @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    padding: 0 1rem;
   }
 `;
 

@@ -159,7 +159,9 @@ const PaletteGeneratorMain: React.FC = () => {
       </CopyButtons>
 
       <ContrastChecker selectedColors={selectedColors} />
+
       <Preview palette={selectedColors} />
+      
       <Examples onExampleClick={handleExampleClick} />
 
       <ToolCrossLinks

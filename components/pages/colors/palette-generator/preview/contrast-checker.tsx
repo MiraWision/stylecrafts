@@ -85,9 +85,9 @@ const ContrastChecker: React.FC<Props> = ({ selectedColors }) => {
       {contrastIssues.map((issue, index) => (
         <Message key={index} $severity={issue.severity}>
           {issue.severity === 'error' ? (
-            <ErrorIcon />
+            <ErrorIcon width="16" height="16" />
           ) : (
-            <WarningIcon />
+            <WarningIcon width="16" height="16" />
           )}
 
           <MessageText>{issue.message}</MessageText>
@@ -117,17 +117,15 @@ const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severit
   className: $severity,
 }))`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   font-size: 0.875rem;
-  padding: 0.5rem;
-  border-radius: 0.375rem;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
   background: var(--surface-100);
-  border-left: 3px solid;
+  border-left: 0.125rem solid;
 
   .icon {
-    margin-right: 0.5rem;
-    margin-top: 0.125rem;
-    flex-shrink: 0;
+    margin: 0 0.25rem;
   }
 
   &.error {
@@ -149,11 +147,10 @@ const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severit
   }
 
   @media (max-width: 768px) {
-    font-size: 0.8rem;
-    padding: 0.375rem;
+    font-size: 0.75rem;
     
     .icon {
-      margin-right: 0.375rem;
+      margin: 0 0.25rem;
     }
   }
 `;
