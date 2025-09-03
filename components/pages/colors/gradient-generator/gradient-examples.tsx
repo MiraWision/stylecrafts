@@ -4,7 +4,7 @@ import { generateMultiSteppedGradient } from '@mirawision/colorize/generate-mult
 
 import { generateSlug } from '@/utils/text';
 
-import { PaletteExample, Palette } from '../palette-example';
+import { GradientColors, GradientExample } from '../gradient-example';
 
 interface Gradient {
   name: string;
@@ -83,7 +83,7 @@ const GradientExamples: Gradient[] = [
 ];
 
 const GradientExamplesList: React.FC<Props> = ({ onSelected }) => {
-  const palettes: Palette[] = useMemo(() => {
+  const gradients: GradientColors[] = useMemo(() => {
     return GradientExamples.map((example) => ({
       name: example.name,
       colors: generateMultiSteppedGradient(...example.colors),
@@ -112,10 +112,10 @@ const GradientExamplesList: React.FC<Props> = ({ onSelected }) => {
 
   return (
     <Container>
-      {palettes.map((palette, index) => (
-        <PaletteExample
+      {gradients.map((gradient, index) => (
+        <GradientExample
           key={index}
-          palette={palette}
+          gradient={gradient}
           onClick={() => handleSelected(GradientExamples[index])}
         />
       ))}
