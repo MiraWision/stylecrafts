@@ -13,12 +13,11 @@ The Bridgerton family embodies grace, nobility, and a timeless sophistication. T
 - **#9bbad1**: A muted blue, symbolizing their calm and composed nature.
 - **#6f8fa5**: A deeper blue, providing a classic touch of elegance.
 - **#f5f5f5**: A pristine white, representing purity and high status.
-- **#e6e6e6**: A soft grey, adding a neutral, sophisticated balance.
 
 \`\`\`json
 {
   "name": "Bridgerton Elegance",
-  "colors": ["#c6dbee", "#9bbad1", "#6f8fa5", "#f5f5f5", "#e6e6e6"]
+  "colors": ["#c6dbee", "#9bbad1", "#6f8fa5", "#f5f5f5"]
 }
 \`\`\`
 
@@ -34,12 +33,11 @@ Bold, vibrant, and unafraid to stand out, the Featheringtons are a burst of colo
 - **#f5a623**: A warm orange, reflecting their energetic and lively character.
 - **#e4572e**: A vivid coral, adding a dramatic flair.
 - **#ff6f61**: A playful pink, showcasing their penchant for vivid colors.
-- **#ffcccb**: A soft pink, providing a gentle, contrasting touch.
 
 \`\`\`json
 {
   "name": "Featherington Flair",
-  "colors": ["#ffeb3b", "#f5a623", "#e4572e", "#ff6f61", "#ffcccb"]
+  "colors": ["#ffeb3b", "#f5a623", "#e4572e", "#ff6f61"]
 }
 \`\`\`
 
@@ -47,7 +45,7 @@ Want to create something just as bold? [Explore this vibrant palette with our co
 
 ## Sharma Opulence
 
-Bringing an air of exotic luxury, the Sharma family’s palette is rich with deep purples, golds, and roses. These colors reflect their regal and sophisticated presence, adding a touch of mystery and enchantment to the Bridgerton universe.
+Bringing an air of exotic luxury, the Sharma family's palette is rich with deep purples, golds, and roses. These colors reflect their regal and sophisticated presence, adding a touch of mystery and enchantment to the Bridgerton universe.
 
 ![Sharma Opulence](/blog-images/exploring-colors-of-bridgerton-3.jpeg "The Sharmas bring a touch of exotic luxury to Bridgerton, with their rich purples and golds")
 
@@ -55,12 +53,11 @@ Bringing an air of exotic luxury, the Sharma family’s palette is rich with dee
 - **#d4af37**: A luxurious gold, adding a touch of opulence.
 - **#e0a899**: A warm rose, reflecting their elegant style.
 - **#4a274f**: A dark purple, enhancing their mysterious charm.
-- **#a68a5b**: A muted brown, providing an earthy, grounding balance.
 
 \`\`\`json
 {
   "name": "Sharma Opulence",
-  "colors": ["#7f3b6b", "#d4af37", "#e0a899", "#4a274f", "#a68a5b"]
+  "colors": ["#7f3b6b", "#d4af37", "#e0a899", "#4a274f"]
 }
 \`\`\`
 
@@ -76,33 +73,31 @@ Simon Basset, the Duke of Hastings, exudes a refined and enigmatic style. His pa
 - **#415a77**: A muted steel blue, adding a touch of cool elegance and formality.
 - **#778da9**: A soft, dusty blue, balancing the darker tones with a more approachable feel.
 - **#e0e1dd**: A light, off-white grey, symbolizing moments of vulnerability and introspection.
-- **#14213d**: A dark, almost black blue, reflecting the depth and mystery of his character.
 
 \`\`\`json
 {
   "name": "Duke of Hastings",
-  "colors": ["#1b263b", "#415a77", "#778da9", "#e0e1dd", "#14213d"]
+  "colors": ["#1b263b", "#415a77", "#778da9", "#e0e1dd"]
 }
 \`\`\`
 
 Ready to channel your inner Duke? [Experiment with these sophisticated hues using our blender tool](${Routes.ColorsInspectorTool}#duke-of-hastings).
 
-## Queen’s Court
+## Queen's Court
 
-Queen Charlotte’s court is the epitome of grandeur and opulence. The palette of rich golds, royal purples, and deep blues reflects the majesty and authority of the monarchy. These colors evoke the regal and commanding presence that defines the queen’s domain.
+Queen Charlotte's court is the epitome of grandeur and opulence. The palette of rich golds, royal purples, and deep blues reflects the majesty and authority of the monarchy. These colors evoke the regal and commanding presence that defines the queen's domain.
 
-![Queen’s Court](/blog-images/exploring-colors-of-bridgerton-5.jpeg "Queen Charlotte’s court dazzles with opulence, featuring luxurious golds and royal purples")
+![Queen's Court](/blog-images/exploring-colors-of-bridgerton-5.jpeg "Queen Charlotte's court dazzles with opulence, featuring luxurious golds and royal purples")
 
 - **#d4af37**: A luxurious gold, representing royal opulence.
 - **#b76e79**: A rich mauve, adding a regal warmth.
 - **#7d3c98**: A royal purple, symbolizing power and dignity.
-- **#5b2c6f**: A deep violet, enhancing the palette’s elegance.
-- **#1c2833**: A dark midnight blue, reflecting authority and mystery.
+- **#5b2c6f**: A deep violet, enhancing the palette's elegance.
 
 \`\`\`json
 {
-  "name": "Queen’s Court",
-  "colors": ["#d4af37", "#b76e79", "#7d3c98", "#5b2c6f", "#1c2833"]
+  "name": "Queen's Court",
+  "colors": ["#d4af37", "#b76e79", "#7d3c98", "#5b2c6f"]
 }
 \`\`\`
 
@@ -110,7 +105,7 @@ Step into the royal court! [Create majestic designs with these colors](${Routes.
 
 ## Lady Danbury
 
-Lady Danbury’s bold and sophisticated style is captured through a palette of vibrant purples and blues, with elegant greys. These colors reflect her sharp wit, commanding presence, and the wisdom she carries as a matriarch in high society.
+Lady Danbury's bold and sophisticated style is captured through a palette of vibrant purples and blues, with elegant greys. These colors reflect her sharp wit, commanding presence, and the wisdom she carries as a matriarch in high society.
 
 ![Lady Danbury](/blog-images/exploring-colors-of-bridgerton-6.jpeg "Lady Danbury commands attention with her vibrant purples and bold blues, symbolizing wisdom and authority")
 
@@ -118,16 +113,15 @@ Lady Danbury’s bold and sophisticated style is captured through a palette of v
 - **#7b2cbf**: A rich, deep violet, adding depth and intensity to the palette.
 - **#9d4edd**: A striking amethyst, showcasing her regal and sophisticated style.
 - **#c77dff**: A soft, lavender purple, providing a touch of elegance and refinement.
-- **#6a0572**: A dark, intense plum, reflecting her wisdom and authoritative presence.
 
 \`\`\`json
 {
   "name": "Lady Danbury",
-  "colors": ["#5a189a", "#7b2cbf", "#9d4edd", "#c77dff", "#6a0572"]
+  "colors": ["#5a189a", "#7b2cbf", "#9d4edd", "#c77dff"]
 }
 \`\`\`
 
-Capture Lady Danbury’s elegance! [Blend these powerful hues with our tool](${Routes.ColorsInspectorTool}#lady-danbury).
+Capture Lady Danbury's elegance! [Blend these powerful hues with our tool](${Routes.ColorsInspectorTool}#lady-danbury).
 
 ## Bringing Bridgerton into Your Designs
 
@@ -138,7 +132,7 @@ These palettes inspired by the Bridgerton series can infuse your projects with t
 ### Explore the full collection and create your own Bridgerton-inspired palettes:
 [Discover more palettes and start blending colors today!](${Routes.ColorsInspectorTool})
 
-Share your creations with us and let’s celebrate the beauty of Bridgerton through the art of color. Happy designing!
+Share your creations with us and let's celebrate the beauty of Bridgerton through the art of color. Happy designing!
 `;
 
 export { content };
