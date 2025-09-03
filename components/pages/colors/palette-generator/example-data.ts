@@ -151,11 +151,13 @@ export const examplePaletteGroups: PaletteGroup[] = [
       {
         name: 'Star Wars Saga',
         colors: [
-          { baseColor: '#000000', title: 'Background', shades: [] },
-          { baseColor: '#ffffff', title: 'Text', shades: [] },
-          { baseColor: '#ffd700', title: 'Primary', shades: [] },
-          { baseColor: '#4169e1', title: 'Accent', shades: [] },
-          { baseColor: '#dc143c', title: 'Additional Color 1', shades: [] },
+          { baseColor: '#0f172a', title: 'Background', shades: [] },
+          { baseColor: '#e2e8f0', title: 'Text', shades: [] },
+          { baseColor: '#fbbf24', title: 'Primary', shades: [] },
+          { baseColor: '#22c55e', title: 'Accent', shades: [] },
+          { baseColor: '#7c3aed', title: 'Additional Color 1', shades: [] },
+          { baseColor: '#dc2626', title: 'Additional Color 2', shades: [] },
+          { baseColor: '#1e40af', title: 'Additional Color 3', shades: [] },
         ]
       },
       {
