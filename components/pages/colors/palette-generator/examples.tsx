@@ -41,7 +41,8 @@ const Examples: React.FC<Props> = ({ onExampleClick }) => {
                 key={`${groupIndex}-${index}`}
                 palette={{
                   name: paletteData.name,
-                  colors: paletteData.colors.map(c => c.baseColor)
+                  colors: paletteData.colors.map(c => c.baseColor),
+                  iconPath: paletteData.iconPath
                 }}
                 onClick={() => handleExampleClick(paletteData)}
               />

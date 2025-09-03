@@ -9,4 +9,10 @@ interface PaletteColor {
   shades: Shade[];
 }
 
-export type { Shade, PaletteColor };
+interface PaletteData {
+  iconPath?: string;
+  name: string;
+  colors: PaletteColor[];
+}
+
+export type { Shade, PaletteColor, PaletteData };
