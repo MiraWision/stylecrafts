@@ -191,19 +191,15 @@ const MainContent = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 
 const CopyButtons = styled.div`
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
-  justify-content: center;
+  justify-content: flex-end;
 
   @media (max-width: 768px) {
-    margin-bottom: 1.5rem;
-    flex-direction: column;
-    align-items: center;
+    margin-bottom: 0.5rem;
   }
 `;
 

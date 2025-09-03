@@ -46,7 +46,8 @@ const ColorSelector: React.FC<Props> = ({
 const ColorPickerContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  height: 3.25rem;
+  justify-content: space-between;
 `;
 
 const ColorInputContainer = styled.div`

@@ -82,7 +82,6 @@ const ContrastChecker: React.FC<Props> = ({ selectedColors }) => {
 
   return (
     <CheckerContainer>
-      <CheckerTitle>Accessibility Check</CheckerTitle>
       {contrastIssues.map((issue, index) => (
         <Message key={index} $severity={issue.severity}>
           {issue.severity === 'error' ? (
@@ -102,27 +101,15 @@ const CheckerContainer = styled.div`
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
   width: 100%;
   max-width: 800px;
   align-self: center;
 
   @media (max-width: 768px) {
     margin-top: 1.5rem;
-    gap: 0.5rem;
+    gap: 0.375rem;
     padding: 0 1rem;
-  }
-`;
-
-const CheckerTitle = styled.h3`
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin: 0;
-  color: var(--text-color);
-  text-align: center;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
   }
 `;
 
@@ -132,13 +119,13 @@ const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severit
   display: flex;
   align-items: flex-start;
   font-size: 0.875rem;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
   background: var(--surface-100);
-  border-left: 4px solid;
+  border-left: 3px solid;
 
   .icon {
-    margin-right: 0.75rem;
+    margin-right: 0.5rem;
     margin-top: 0.125rem;
     flex-shrink: 0;
   }
@@ -163,16 +150,16 @@ const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severit
 
   @media (max-width: 768px) {
     font-size: 0.8rem;
-    padding: 0.5rem;
+    padding: 0.375rem;
     
     .icon {
-      margin-right: 0.5rem;
+      margin-right: 0.375rem;
     }
   }
 `;
 
 const MessageText = styled.span`
-  line-height: 1.4;
+  line-height: 1.3;
 `;
 
 export { ContrastChecker };

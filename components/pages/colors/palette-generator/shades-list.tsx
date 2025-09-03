@@ -46,10 +46,8 @@ const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
 
   return (
     <Container>
-      <ShadesTitle>Color Shades</ShadesTitle>
       {shadesList.map((colors, index) => (
         <ShadesRow key={index}>
-          <ColorLabel>{selectedColors[index].title}</ColorLabel>
           <ShadesContainer>
             {colors.map((shade, shadeIndex) => (
               <ShadeBox
@@ -70,66 +68,38 @@ const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  align-items: flex-end;
+  gap: 0.5rem;
   width: 100%;
-`;
-
-const ShadesTitle = styled.h3`
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin: 0;
-  color: var(--text-color);
-  text-align: center;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
 `;
 
 const ShadesRow = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  justify-content: center;
   align-items: center;
-
-  @media (max-width: 768px) {
-    gap: 0.5rem;
-  }
-`;
-
-const ColorLabel = styled.div`
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-color);
-  text-align: center;
 `;
 
 const ShadesContainer = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 0.25rem;
-  height: 3.125rem;
+  height: 3.25rem;
   overflow-x: auto;
-  padding: 0.25rem;
+  padding: 0.125rem;
   max-width: 100%;
-
-  @media (max-width: 768px) {
-    gap: 0.125rem;
-    height: 2.5rem;
-  }
 `;
 
 const ShadeBox = styled.div.attrs<{ $color: string; $isBase: boolean }>(({ $color, $isBase }) => ({
   style: {
     backgroundColor: $color,
-    borderColor: $isBase ? 'var(--text-color)' : 'var(--surface-border)',
+    borderColor: $isBase ? 'var(--surface-500)' : 'var(--surface-border)',
     cursor: 'pointer',
   },
 }))`
   width: 2rem;
   height: 2rem;
   border-radius: 0.25rem;
-  border: 0.125rem solid;
+  border: 1px solid;
   transition: transform 0.2s ease;
   flex-shrink: 0;
 

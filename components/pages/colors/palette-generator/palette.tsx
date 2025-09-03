@@ -72,15 +72,23 @@ const ColorBox = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundCo
 const CopyButtonContainer = styled.div`
   display: none;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: rgba(0, 0, 0, 0.5);
   border-radius: inherit;
+  padding-right: 0.25rem;
 
   button {
     background: transparent;
     border: none;
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
   }
 `;
 

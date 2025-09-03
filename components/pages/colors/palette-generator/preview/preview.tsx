@@ -6,7 +6,6 @@ import { StyleguidePreview } from './styleguide-preview';
 import { BlogPreview } from './blog-preview';
 import { ChevronLeftIcon } from '@/components/icons/chevron-left';
 import { ChevronRightIcon } from '@/components/icons/chevron-right';
-import { ShuffleIconButton } from '@/components/ui/icon-buttons/shuffle-icon-button';
 import { PaletteColor } from '../types';
 
 interface Props {
@@ -64,8 +63,6 @@ const Preview: React.FC<Props> = ({ palette }) => {
   ];
 
   const [selectedPreview, setSelectedPreview] = useState<number>(0);
-  const [refreshIndex, setRefreshIndex] = useState<number>(0);
-
 
   const nextPreview = () => {
     setSelectedPreview((selectedPreview + 1) % previews.length);
@@ -80,14 +77,11 @@ const Preview: React.FC<Props> = ({ palette }) => {
       <Header>
         <NavigationButton onClick={previousPreview}>
           <StyledChevronLeftIcon />
-          {previews[selectedPreview - 1 < 0 ? previews.length - 1 : selectedPreview - 1]}
+          {previews[(selectedPreview - 1 + previews.length) % previews.length]}
         </NavigationButton>
 
         <PreviewTitle>
           {previews[selectedPreview]}
-          <ShuffleIconButton
-            onClick={() => setRefreshIndex(refreshIndex + 1)}
-          />
         </PreviewTitle>
         
         <NavigationButton onClick={nextPreview}>
@@ -173,10 +167,6 @@ const PreviewTitle = styled.h3`
   align-items: center;
   color: var(--text-color);
 
-  button {
-    margin-left: 0.5rem;
-  }
-
   @media (max-width: 768px) {
     font-size: 0.875rem;
   }
@@ -203,10 +193,12 @@ const SliderContent = styled.div.attrs<{ $translateX: number }>(({ $translateX }
   display: flex;
   transition: transform 0.5s ease;
   width: 400%;
+  height: 100%;
 `;
 
 const PreviewContainer = styled.div`
-  min-width: 25%;
+  flex: 0 0 25%;
+  width: 25%;
   height: 100%;
   background: var(--surface-100);
   border-radius: 1rem;
