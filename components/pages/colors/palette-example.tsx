@@ -74,10 +74,10 @@ const PaletteExample: React.FC<Props> = ({ palette, onClick }) => {
       <TitleRow>
         {IconComponent && (
           <IconContainer>
-            <IconComponent width="1rem" height="1rem" />
+            <IconComponent width="24" height="24" />
           </IconContainer>
         )}
-        <Label>{palette.name}</Label>
+        <PaletteExampleLabel>{palette.name}</PaletteExampleLabel>
       </TitleRow>
 
       <ColorsRow>
@@ -104,10 +104,13 @@ const Container = styled.div`
   gap: 0.5rem;
 `;
 
+const PaletteExampleLabel = styled(Label)`
+  margin-bottom: 0;
+`;
+
 const TitleRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 `;
 
 const IconContainer = styled.div`
