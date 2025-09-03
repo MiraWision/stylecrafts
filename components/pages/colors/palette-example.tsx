@@ -4,34 +4,22 @@ import { Color } from '@mirawision/colorize';
 
 import { Label } from '@/components/ui/texts/label';
 
-// Import existing icons
 import { BridgertonIcon } from '@/components/icons/bridgerton';
 import { HarryPotterIcon } from '@/components/icons/harry-potter';
 import { ChristmasIcon } from '@/components/icons/christmas';
 import { HalloweenIcon } from '@/components/icons/halloween';
-import { HeartIcon } from '@/components/icons/heart';
-import { GameIcon } from '@/components/icons/game';
-import { InstagramIcon } from '@/components/icons/instagram';
-import { TiktokIcon } from '@/components/icons/tiktok';
-import { SunIcon } from '@/components/icons/sun';
-import { Star } from '@/components/icons/star';
-import { MoonIcon } from '@/components/icons/moon';
-import { BlogIcon } from '@/components/icons/blog';
+import { ValentineIcon } from '@/components/icons/valentine';
+import { EasterIcon } from '@/components/icons/easter';
+import { TwilightsIcon } from '@/components/icons/twilights';
 
-// Icon mapping
 const iconMap: Record<string, React.ComponentType<any>> = {
   '/icons/bridgerton': BridgertonIcon,
   '/icons/harry-potter': HarryPotterIcon,
   '/icons/christmas': ChristmasIcon,
   '/icons/halloween': HalloweenIcon,
-  '/icons/heart': HeartIcon,
-  '/icons/game': GameIcon,
-  '/icons/instagram': InstagramIcon,
-  '/icons/tiktok': TiktokIcon,
-  '/icons/sun': SunIcon,
-  '/icons/star': Star,
-  '/icons/moon': MoonIcon,
-  '/icons/blog': BlogIcon,
+  '/icons/twilights': TwilightsIcon,
+  '/icons/valentine': ValentineIcon,
+  '/icons/easter': EasterIcon,
 };
 
 interface Palette {
@@ -111,19 +99,23 @@ const PaletteExampleLabel = styled(Label)`
 const TitleRow = styled.div`
   display: flex;
   align-items: center;
+  height: 1.5rem;
 `;
 
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .icon * {
+    fill: var(--primary-color);
+  }
 `;
 
 const ColorsRow = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  margin: 0.5rem;
 `;
 
 const ColorColumn = styled.div`

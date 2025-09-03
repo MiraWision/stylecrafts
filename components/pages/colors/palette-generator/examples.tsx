@@ -80,7 +80,7 @@ const GroupTitle = styled.h4`
 const ExamplesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 2rem;
   width: 100%;
 
   @media (max-width: 600px) {

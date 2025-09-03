@@ -129,19 +129,19 @@ export const examplePaletteGroups: PaletteGroup[] = [
       {
         name: 'Marvel Universe',
         colors: [
-          { baseColor: '#1e1b4b', title: 'Background', shades: [] },
+          { baseColor: '#1a1a2e', title: 'Background', shades: [] },
           { baseColor: '#ffffff', title: 'Text', shades: [] },
-          { baseColor: '#dc2626', title: 'Primary', shades: [] },
-          { baseColor: '#0ea5e9', title: 'Accent', shades: [] },
-          { baseColor: '#fbbf24', title: 'Additional Color 1', shades: [] },
-          { baseColor: '#10b981', title: 'Additional Color 2', shades: [] },
+          { baseColor: '#e50914', title: 'Primary', shades: [] },
+          { baseColor: '#0066cc', title: 'Accent', shades: [] },
+          { baseColor: '#ffd700', title: 'Additional Color 1', shades: [] },
+          { baseColor: '#00ff00', title: 'Additional Color 2', shades: [] },
         ]
       },
       {
         name: 'Disney Magic',
         colors: [
-          { baseColor: '#fef3c7', title: 'Background', shades: [] },
-          { baseColor: '#92400e', title: 'Text', shades: [] },
+          { baseColor: '#fdf4ff', title: 'Background', shades: [] },
+          { baseColor: '#581c87', title: 'Text', shades: [] },
           { baseColor: '#ec4899', title: 'Primary', shades: [] },
           { baseColor: '#06b6d4', title: 'Accent', shades: [] },
           { baseColor: '#fbbf24', title: 'Additional Color 1', shades: [] },
@@ -161,20 +161,34 @@ export const examplePaletteGroups: PaletteGroup[] = [
       {
         name: 'Game of Thrones',
         colors: [
-          { baseColor: '#1a1a1a', title: 'Background', shades: [] },
+          { baseColor: '#0f0f0f', title: 'Background', shades: [] },
           { baseColor: '#d4af37', title: 'Text', shades: [] },
           { baseColor: '#8b0000', title: 'Primary', shades: [] },
           { baseColor: '#2f4f4f', title: 'Accent', shades: [] },
+          { baseColor: '#8b4513', title: 'Additional Color 1', shades: [] },
         ]
       },
       {
         name: 'Stranger Things',
         colors: [
-          { baseColor: '#0f0f0f', title: 'Background', shades: [] },
+          { baseColor: '#000000', title: 'Background', shades: [] },
           { baseColor: '#ffffff', title: 'Text', shades: [] },
           { baseColor: '#ff6b35', title: 'Primary', shades: [] },
           { baseColor: '#004e89', title: 'Accent', shades: [] },
           { baseColor: '#ffd23f', title: 'Additional Color 1', shades: [] },
+          { baseColor: '#ff1493', title: 'Additional Color 2', shades: [] },
+        ]
+      },
+      {
+        name: 'Twilight Saga',
+        iconPath: '/icons/twilights',
+        colors: [
+          { baseColor: '#1e293b', title: 'Background', shades: [] },
+          { baseColor: '#f8fafc', title: 'Text', shades: [] },
+          { baseColor: '#7c3aed', title: 'Primary', shades: [] },
+          { baseColor: '#dc2626', title: 'Accent', shades: [] },
+          { baseColor: '#0ea5e9', title: 'Additional Color 1', shades: [] },
+          { baseColor: '#10b981', title: 'Additional Color 2', shades: [] },
         ]
       },
     ]
@@ -207,16 +221,18 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'Valentine Love',
-        iconPath: '/icons/heart',
+        iconPath: '/icons/valentine',
         colors: [
           { baseColor: '#fdf2f8', title: 'Background', shades: [] },
           { baseColor: '#831843', title: 'Text', shades: [] },
           { baseColor: '#ec4899', title: 'Primary', shades: [] },
           { baseColor: '#f43f5e', title: 'Accent', shades: [] },
+          { baseColor: '#fbbf24', title: 'Additional Color 1', shades: [] },
         ]
       },
       {
         name: 'Easter Pastels',
+        iconPath: '/icons/easter',
         colors: [
           { baseColor: '#fef3c7', title: 'Background', shades: [] },
           { baseColor: '#92400e', title: 'Text', shades: [] },
@@ -227,6 +243,7 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'New Year Sparkle',
+        iconPath: '/icons/christmas',
         colors: [
           { baseColor: '#0f172a', title: 'Background', shades: [] },
           { baseColor: '#ffffff', title: 'Text', shades: [] },
@@ -236,6 +253,7 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'Thanksgiving Warmth',
+        iconPath: '/icons/halloween',
         colors: [
           { baseColor: '#7c2d12', title: 'Background', shades: [] },
           { baseColor: '#fef3c7', title: 'Text', shades: [] },
@@ -252,7 +270,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
     palettes: [
       {
         name: 'Spring Bloom',
-        iconPath: '/icons/sun',
         colors: [
           { baseColor: '#f0fdf4', title: 'Background', shades: [] },
           { baseColor: '#14532d', title: 'Text', shades: [] },
@@ -262,7 +279,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'Summer Sunset',
-        iconPath: '/icons/sun',
         colors: [
           { baseColor: '#fef3c7', title: 'Background', shades: [] },
           { baseColor: '#92400e', title: 'Text', shades: [] },
@@ -272,7 +288,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'Autumn Leaves',
-        iconPath: '/icons/star',
         colors: [
           { baseColor: '#fef2f2', title: 'Background', shades: [] },
           { baseColor: '#7f1d1d', title: 'Text', shades: [] },
@@ -282,7 +297,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'Winter Frost',
-        iconPath: '/icons/moon',
         colors: [
           { baseColor: '#f8fafc', title: 'Background', shades: [] },
           { baseColor: '#1e293b', title: 'Text', shades: [] },
@@ -699,7 +713,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
     palettes: [
       {
         name: 'Minecraft Blocks',
-        iconPath: '/icons/game',
         colors: [
           { baseColor: '#fef3c7', title: 'Background', shades: [] },
           { baseColor: '#8b4513', title: 'Text', shades: [] },
@@ -710,7 +723,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'Fortnite Battle',
-        iconPath: '/icons/game',
         colors: [
           { baseColor: '#1e3a8a', title: 'Background', shades: [] },
           { baseColor: '#fbbf24', title: 'Text', shades: [] },
@@ -720,7 +732,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'Pokemon Adventure',
-        iconPath: '/icons/game',
         colors: [
           { baseColor: '#fef3c7', title: 'Background', shades: [] },
           { baseColor: '#dc2626', title: 'Text', shades: [] },
@@ -730,7 +741,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'Super Mario',
-        iconPath: '/icons/game',
         colors: [
           { baseColor: '#fef3c7', title: 'Background', shades: [] },
           { baseColor: '#dc2626', title: 'Text', shades: [] },
@@ -748,7 +758,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
     palettes: [
       {
         name: 'Instagram Gradient',
-        iconPath: '/icons/instagram',
         colors: [
           { baseColor: '#fef3c7', title: 'Background', shades: [] },
           { baseColor: '#dc2743', title: 'Text', shades: [] },
@@ -759,7 +768,6 @@ export const examplePaletteGroups: PaletteGroup[] = [
       },
       {
         name: 'TikTok Energy',
-        iconPath: '/icons/tiktok',
         colors: [
           { baseColor: '#000000', title: 'Background', shades: [] },
           { baseColor: '#ffffff', title: 'Text', shades: [] },
