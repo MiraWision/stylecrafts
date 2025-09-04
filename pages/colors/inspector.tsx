@@ -8,19 +8,17 @@ import { MetaTags } from '@/components/pages/meta-tags';
 import { MainContainer } from '@/components/ui/containers';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
-import { Subtitle, Title } from '@/components/ui/texts/typography';
+import { Title } from '@/components/ui/texts/typography';
 import { NPMLink } from '@/components/ui/texts/npm-link';
 import { ColorInspectorMain } from '@/components/pages/colors/inspector';
 
 const ColorsInspectorToolPage = () => {
   return (
-    <BaseLayout pageTitle="Color Inspector">
+    <BaseLayout>
       <MetaTags {...metaTags} />
 
       <MainContainer>
         <Title>Color Inspector</Title>
-
-        <Subtitle>Get all the data you need about any color</Subtitle>
 
         <ColorInspectorMain />
 

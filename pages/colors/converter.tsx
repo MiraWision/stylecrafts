@@ -9,7 +9,7 @@ import { NPMLink } from '@/components/ui/texts/npm-link';
 import { MainContainer } from '@/components/ui/containers';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { Markdown } from '@/components/ui/texts/markdown';
-import { Subtitle, Title } from '@/components/ui/texts/typography';
+import { Title } from '@/components/ui/texts/typography';
 import { ColorConverter } from '@/components/pages/colors/converter';
 
 const ColorsConverterToolPage = () => {
@@ -19,8 +19,6 @@ const ColorsConverterToolPage = () => {
 
       <MainContainer>
         <Title>Color Converter</Title>
-
-        <Subtitle>Convert Between Different Color Formats</Subtitle>
 
         <ColorConverter />
 

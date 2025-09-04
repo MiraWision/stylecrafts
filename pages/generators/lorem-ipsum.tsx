@@ -19,9 +19,7 @@ const LoremIpsumGeneratorPage = () => {
       <MainContainer>
         <Title>Lorem Ipsum Generator</Title>
 
-        <Subtitle>
-          Generate placeholder text for your designs or projects in the form of sentences or paragraphs.
-        </Subtitle>
+        <Subtitle>Generate Placeholder Text for Your Projects</Subtitle>
 
         <MainLoremIpsumGenerator />
       </MainContainer>

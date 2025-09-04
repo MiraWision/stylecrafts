@@ -20,7 +20,7 @@ const ColorsInspectorToolPage = () => {
       <MainContainer>
         <Title>Color Palette Generator</Title>
 
-        <Subtitle>Create beautiful color palettes and find inspiration for your designs</Subtitle>
+        <Subtitle>Generate Harmonious Color Schemes Using Color Theory Principles</Subtitle>
 
         <PaletteGeneratorMain />
 

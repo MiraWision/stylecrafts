@@ -19,7 +19,7 @@ const ContrastChecker: React.FC = () => {
       <MainContainer>
         <Title>Color Contrast Checker</Title>
 
-        <Subtitle>Check the contrast between two colors to ensure that your text is readable</Subtitle>
+        <Subtitle>Test Color Combinations for Accessibility and Readability Compliance (WCAG)</Subtitle>
 
         <ColorContrast />
       </MainContainer>

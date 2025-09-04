@@ -14,7 +14,7 @@ import { GradientGenerator } from '@/components/pages/colors/gradient-generator'
 
 const ColorsGradientGeneratorToolPage = () => {
   return (
-    <BaseLayout pageTitle="Stepped Gradient Generator">
+    <BaseLayout>
       <MetaTags {...metaTags} />
 
       <MainContainer>

@@ -21,7 +21,8 @@ const PaletteFromImage: React.FC = () => {
 
       <MainContainer>
         <Title>Extract Color Palettes from Images</Title>
-        <Subtitle>Generate beautiful color palettes by analyzing your images for design inspiration</Subtitle>
+
+        <Subtitle>Extract Color Palettes from Images to Inspire Your Design Projects</Subtitle>
 
         <PaletteFromImageMain />
 

@@ -19,9 +19,7 @@ const URLFormatterPage = () => {
       <MainContainer>
         <Title>QR Code Generator</Title>
 
-        <Subtitle>
-          Generate free, forever-lasting, unlimited QR codes for your URLs, texts, and more
-        </Subtitle>
+        <Subtitle>Generate Free, Forever-Lasting, Unlimited QR Codes for Your URLs, Texts, and More</Subtitle>
 
         <QRCodeGenerator />
       </MainContainer>
