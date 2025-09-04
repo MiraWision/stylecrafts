@@ -10,6 +10,9 @@ import { DownloadTextButton } from '@/components/ui/text-buttons/download-text-b
 import { UploadTextButton } from '@/components/ui/text-buttons/upload-text-button';
 import { ToolCrossLinks } from '@/components/ui/cross-links';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 interface CompressedImage {
   content: string;
   size: number;
@@ -78,6 +81,12 @@ const ImageCompressionMain: React.FC = () => {
       const { image, size } = response;
       const content = `data:${originalImage.fileMetaData?.type};base64,${image}`;
       setCompressedImage({ content, size });
+      
+      // Calculate optimization percentage
+      const originalSize = originalImage.fileMetaData?.size || 0;
+      const optimizationPercentage = Math.round((1 - (size / originalSize)) * 100);
+      
+      GAService.logEvent(analyticsEvents.images.compression.imageCompressed(optimizationPercentage.toString()));
     } catch (error) {
       console.error('Error compressing image:', error);
     }
@@ -112,6 +121,8 @@ const ImageCompressionMain: React.FC = () => {
               lastModified: file.lastModified,
             },
           });
+          
+          GAService.logEvent(analyticsEvents.images.compression.imageUploaded(file.size.toString()));
         } else {
           console.error("Unsupported file type:", file.type);
         }

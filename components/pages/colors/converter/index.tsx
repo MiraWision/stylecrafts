@@ -56,14 +56,13 @@ const ColorConverter: React.FC<Props> = () => {
       try {
         newConvertedColors[format] = convertColor(color, format);
 
-        GAService.logEvent(
-          analyticsEvents.colors.converter.colorConverted(color)
-        );
       } catch (error) {
         console.error('Error converting color:', error);
         newConvertedColors[format] = '';
       }
     });
+
+    GAService.logEvent(analyticsEvents.colors.converter.colorConverted(color));
 
     setConvertedColors(newConvertedColors);
   }, [color]);

@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { copyText } from '@mirawision/copily';
 import { color } from '@mirawision/imagine';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { generateSlug } from '@/utils/text';
 import { PaletteColor, Shade } from './types';
 import { useToast } from '@/components/ui/toast';
@@ -49,31 +52,42 @@ const PaletteGeneratorMain: React.FC = () => {
   }, []);
 
   const handleColorChange = (index: number, newBaseColor: string) => {
+    const oldColor = selectedColors[index].baseColor;
     const updated = [...selectedColors];
     updated[index].baseColor = newBaseColor;
     updated[index].shades = [];
     setSelectedColors(updated);
+    
+    GAService.logEvent(analyticsEvents.palette.colorChanged(oldColor, newBaseColor));
   };
 
   const handleAddShade = (colorIndex: number, shade: Shade) => {
     const updated = [...selectedColors];
     updated[colorIndex].baseColor = shade.hex;
     setSelectedColors(updated);
+    
+    GAService.logEvent(analyticsEvents.palette.colorChanged(selectedColors[colorIndex].baseColor, shade.hex));
   };
 
   const handleAddColor = () => {
     if (selectedColors.length < 7) {
+      const newColor = color.hex();
       setSelectedColors([...selectedColors, {
-        baseColor: color.hex(),
+        baseColor: newColor,
         title: 'Additional Color',
         shades: [],
       }]);
+      
+      GAService.logEvent(analyticsEvents.palette.colorAdded(newColor));
     }
   };
 
   const handleRemoveColor = (index: number) => {
+    const removedColor = selectedColors[index].baseColor;
     const updated = selectedColors.filter((_, i) => i !== index);
     setSelectedColors(updated);
+    
+    GAService.logEvent(analyticsEvents.palette.colorRemoved(removedColor));
   };
 
   const copyToClipboard = (text: string, format: string) => {
@@ -93,15 +107,21 @@ const PaletteGeneratorMain: React.FC = () => {
       .join('\n');
     const cssContent = `:root {\n${cssVariables}\n}`;
     copyToClipboard(cssContent, 'CSS');
+    
+    GAService.logEvent(analyticsEvents.palette.paletteCopied('CSS'));
   };
 
   const copyToJSON = () => {
     const json = JSON.stringify(selectedColors, null, 2);
     copyToClipboard(json, 'JSON');
+    
+    GAService.logEvent(analyticsEvents.palette.paletteCopied('JSON'));
   };
 
   const exportSVG = () => {
     exportToSVG(selectedColors);
+    
+    GAService.logEvent(analyticsEvents.palette.paletteExported('SVG'));
   };
 
   const handleExampleClick = (exampleColors: PaletteColor[], paletteName?: string) => {
@@ -109,6 +129,7 @@ const PaletteGeneratorMain: React.FC = () => {
     // Update hash with palette slug if name is provided
     if (paletteName) {
       window.location.hash = generateSlug(paletteName);
+      GAService.logEvent(analyticsEvents.palette.examplePaletteSelected(paletteName));
     }
   };
 

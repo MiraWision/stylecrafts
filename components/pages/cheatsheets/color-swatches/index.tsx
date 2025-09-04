@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { colorPalettes } from './data';
 import { generateSlug } from '@/utils/text';
 import { MainContainer } from '@/components/ui/containers';
@@ -24,6 +27,8 @@ const ColorSwatchesCheatSheetMain: React.FC<Props> = () => {
     if (isClient && navigator.clipboard) {
       navigator.clipboard.writeText(text);
       toast.success('Copied!', 'Color copied to clipboard');
+      
+      GAService.logEvent(analyticsEvents.cheatsheets.colorSwatches.colorCopied(text));
     }
   };
 

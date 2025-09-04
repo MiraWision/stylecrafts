@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import QRCode from 'qrcode';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { CellShape, EyeShape, Settings } from './types';
 
 import { ContentSettings } from './content-settings';
@@ -39,6 +42,13 @@ const QRCodeGenerator = () => {
       matrix.push(rowData);
     }
     setQRMatrix(matrix);
+    
+    // Determine content type for analytics
+    const contentType = content.startsWith('http') ? 'URL' : 
+                       content.includes('@') ? 'Email' : 
+                       content.match(/^\d+$/) ? 'Phone' : 'Text';
+    
+    GAService.logEvent(analyticsEvents.generators.qrCode.qrCodeGenerated(contentType));
   };
 
   return (

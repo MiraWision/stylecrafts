@@ -4,6 +4,9 @@ import { Color } from '@mirawision/colorize';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 import { ColorExamples } from './color-examples';
 import { ColorExample } from './types';
@@ -121,16 +124,22 @@ const ColorInspectorMain: React.FC = () => {
       { color: '#000000', weight: colorExample.black },
     ]);
     setSelectedColor(createSafeColor(colorExample.color));
+    
+    GAService.logEvent(analyticsEvents.inspector.exampleColorSelected(colorExample.color));
   };
 
   const selectShade = (shade: string) => {
     setSelectedColor(createSafeColor(shade));
+    
+    GAService.logEvent(analyticsEvents.inspector.shadeSelected(shade));
   };
 
   const handleColorInputChange = (newColor: string) => {
     try {
       const updatedColor = createSafeColor(newColor);
       setSelectedColor(updatedColor);
+      
+      GAService.logEvent(analyticsEvents.inspector.colorInputChanged(newColor));
     } catch (error) {
       console.error('Invalid color format:', error);
       // Don't show alert, just log the error and keep the current color

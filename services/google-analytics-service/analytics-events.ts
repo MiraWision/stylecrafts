@@ -1,72 +1,41 @@
-const analyticsEvents = {
+export const analyticsEvents = {
   colors: {
     converter: {
       colorConverted: (color: string) => ({
         category: 'ColorsConverter',
-        action: 'ColorConverted',
+        action: 'ColorsConverter-ColorConverted',
         label: color
       }),
       colorCopied: (color: string) => ({
         category: 'ColorsConverter',
-        action: 'ColorCopied',
+        action: 'ColorsConverter-ColorCopied',
         label: color
-      }),
-    },
-    blender: {
-      colorAddedToPalette: (color: string) => ({
-        category: 'ColorsBlender',
-        action: 'ColorAddedToPalette',
-        label: color
-      }),
-      colorRemovedFromPalette: (color: string) => ({
-        category: 'ColorsBlender',
-        action: 'ColorRemovedFromPalette',
-        label: color
-      }),
-      paletteRefreshed: () => ({
-        category: 'ColorsBlender',
-        action: 'PaletteRefreshed'
-      }),
-      colorCopied: (color: string) => ({
-        category: 'ColorsBlender',
-        action: 'ColorCopied',
-        label: color
-      }),
-      colorsCopied: (colors: string) => ({
-        category: 'ColorsBlender',
-        action: 'ColorsCopied',
-        label: colors
-      }),
-      examplePaletteSelected: (paletteName: string) => ({
-        category: 'ColorsBlender',
-        action: 'ExamplePaletteSelected',
-        label: paletteName
       }),
     },
     gradient: {
       colorAddedToGradient: (color: string) => ({
         category: 'ColorsGradient',
-        action: 'ColorAddedToGradient',
+        action: 'ColorsGradient-ColorAddedToGradient',
         label: color
       }),
       colorRemovedFromGradient: (color: string) => ({
         category: 'ColorsGradient',
-        action: 'ColorRemovedFromGradient',
+        action: 'ColorsGradient-ColorRemovedFromGradient',
         label: color
       }),
       exampleGradientSelected: (gradientName: string) => ({
         category: 'ColorsGradient',
-        action: 'ExampleGradientSelected',
+        action: 'ColorsGradient-ExampleGradientSelected',
         label: gradientName
       }),
       gradientCopied: (gradient: string) => ({
         category: 'ColorsGradient',
-        action: 'GradientCopied',
+        action: 'ColorsGradient-GradientCopied',
         label: gradient
       }),
       colorCopied: (color: string) => ({
         category: 'ColorsGradient',
-        action: 'ColorCopied',
+        action: 'ColorsGradient-ColorCopied',
         label: color
       }),
     },
@@ -75,78 +44,78 @@ const analyticsEvents = {
     base64ToImage: {
       imageConverted: (size: string) => ({
         category: 'ImagesBase64ToImage',
-        action: 'ImageConverted',
+        action: 'ImagesBase64ToImage-ImageConverted',
         label: size,
       }),
       imageDownloaded: (size: string) => ({
         category: 'ImagesBase64ToImage',
-        action: 'ImageDownloaded',
+        action: 'ImagesBase64ToImage-ImageDownloaded',
         label: size,
       }),
     },
     imageToBase64: {
       imageConverted: (size: string) => ({
         category: 'ImagesImageToBase64',
-        action: 'ImageConverted',
+        action: 'ImagesImageToBase64-ImageConverted',
         label: size,
       }),
       imageCopied: (size: string) => ({
         category: 'ImagesImageToBase64',
-        action: 'ImageCopied',
+        action: 'ImagesImageToBase64-ImageCopied',
         label: size,
       }),
       imageCopiedToCSS: (size: string) => ({
         category: 'ImagesImageToBase64',
-        action: 'ImageCopiedToCSS',
+        action: 'ImagesImageToBase64-ImageCopiedToCSS',
         label: size,
       }),
       imageCopiedToHTML: (size: string) => ({
         category: 'ImagesImageToBase64',
-        action: 'ImageCopiedToHTML',
+        action: 'ImagesImageToBase64-ImageCopiedToHTML',
         label: size,
       }),
     },
     compression: {
       imageUploaded: (size: string) => ({
         category: 'ImagesCompression',
-        action: 'ImageUploaded',
+        action: 'ImagesCompression-ImageUploaded',
         label: size,
       }),
       compressionSettingsChanged: (settings: string) => ({
         category: 'ImagesCompression',
-        action: 'CompressionSettingsChanged',
+        action: 'ImagesCompression-CompressionSettingsChanged',
         label: settings,
       }),
-      imageCompressed: (oprimizationPercentage: string) => ({
+      imageCompressed: (optimizationPercentage: string) => ({
         category: 'ImagesCompression',
-        action: 'ImageCompressed',
-        label: oprimizationPercentage,
+        action: 'ImagesCompression-ImageCompressed',
+        label: optimizationPercentage,
       }),
     },
   },
   games: {
     colorMatched: (level: string) => ({
       category: 'Games',
-      action: 'ColorMatched',
+      action: 'Games-ColorMatched',
       label: level,
     }),
     challengeStarted: () => ({
       category: 'Games',
-      action: 'ChallengeStarted',
+      action: 'Games-ChallengeStarted',
     }),
     challengeEnded: (time: string) => ({
       category: 'Games',
-      action: 'ChallengeEnded',
+      action: 'Games-ChallengeEnded',
       label: time,
     }),
     challengeScored: (score: string) => ({
       category: 'Games',
-      action: 'ChallengeScored',
+      action: 'Games-ChallengeScored',
       label: score,
     }),
     challengeTopScored: (score: string) => ({
       category: 'Games',
-      action: 'ChallengeTopScored',
+      action: 'Games-ChallengeTopScored',
       label: score,
     }),
   },
@@ -154,18 +123,163 @@ const analyticsEvents = {
     characters: {
       characterCopied: (character: string) => ({
         category: 'CheatsheetsCharacters',
-        action: 'CharacterCopied',
+        action: 'CheatsheetsCharacters-CharacterCopied',
         label: character
       }),
     },
     emojis: {
       emojiCopied: (emoji: string) => ({
         category: 'CheatsheetsEmojis',
-        action: 'EmojiCopied',
+        action: 'CheatsheetsEmojis-EmojiCopied',
         label: emoji
       }),
     },
+    colorSwatches: {
+      colorCopied: (color: string) => ({
+        category: 'CheatsheetsColorSwatches',
+        action: 'CheatsheetsColorSwatches-ColorCopied',
+        label: color
+      }),
+    },
+  },
+  generators: {
+    loremIpsum: {
+      textGenerated: (type: string, count: string) => ({
+        category: 'GeneratorsLoremIpsum',
+        action: 'GeneratorsLoremIpsum-TextGenerated',
+        label: `${type}-${count}`
+      }),
+      textCopied: (type: string, count: string) => ({
+        category: 'GeneratorsLoremIpsum',
+        action: 'GeneratorsLoremIpsum-TextCopied',
+        label: `${type}-${count}`
+      }),
+    },
+    qrCode: {
+      qrCodeGenerated: (contentType: string) => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-QRCodeGenerated',
+        label: contentType
+      }),
+      qrCodeDownloaded: (contentType: string) => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-QRCodeDownloaded',
+        label: contentType
+      }),
+      logoAdded: () => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-LogoAdded',
+      }),
+      logoRemoved: () => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-LogoRemoved',
+      }),
+      styleChanged: (setting: string) => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-StyleChanged',
+        label: setting
+      }),
+    },
+  },
+  contrast: {
+    colorsChanged: (textColor: string, bgColor: string) => ({
+      category: 'ColorsContrast',
+      action: 'ColorsContrast-ColorsChanged',
+      label: `${textColor}-${bgColor}`
+    }),
+    contrastImproved: (originalContrast: string, newContrast: string) => ({
+      category: 'ColorsContrast',
+      action: 'ColorsContrast-ContrastImproved',
+      label: `${originalContrast}-${newContrast}`
+    }),
+    colorsSwapped: () => ({
+      category: 'ColorsContrast',
+      action: 'ColorsContrast-ColorsSwapped',
+    }),
+    examplePaletteSelected: (paletteName: string) => ({
+      category: 'ColorsContrast',
+      action: 'ColorsContrast-ExamplePaletteSelected',
+      label: paletteName
+    }),
+  },
+  palette: {
+    colorAdded: (color: string) => ({
+      category: 'ColorsPalette',
+      action: 'ColorsPalette-ColorAdded',
+      label: color
+    }),
+    colorRemoved: (color: string) => ({
+      category: 'ColorsPalette',
+      action: 'ColorsPalette-ColorRemoved',
+      label: color
+    }),
+    colorChanged: (oldColor: string, newColor: string) => ({
+      category: 'ColorsPalette',
+      action: 'ColorsPalette-ColorChanged',
+      label: `${oldColor}-${newColor}`
+    }),
+    paletteCopied: (format: string) => ({
+      category: 'ColorsPalette',
+      action: 'ColorsPalette-PaletteCopied',
+      label: format
+    }),
+    paletteExported: (format: string) => ({
+      category: 'ColorsPalette',
+      action: 'ColorsPalette-PaletteExported',
+      label: format
+    }),
+    examplePaletteSelected: (paletteName: string) => ({
+      category: 'ColorsPalette',
+      action: 'ColorsPalette-ExamplePaletteSelected',
+      label: paletteName
+    }),
+  },
+  paletteFromImage: {
+    imageUploaded: (imageSize: string) => ({
+      category: 'ColorsPaletteFromImage',
+      action: 'ColorsPaletteFromImage-ImageUploaded',
+      label: imageSize
+    }),
+    exampleImageSelected: (imageName: string) => ({
+      category: 'ColorsPaletteFromImage',
+      action: 'ColorsPaletteFromImage-ExampleImageSelected',
+      label: imageName
+    }),
+    colorRemoved: (color: string) => ({
+      category: 'ColorsPaletteFromImage',
+      action: 'ColorsPaletteFromImage-ColorRemoved',
+      label: color
+    }),
+    paletteRefreshed: () => ({
+      category: 'ColorsPaletteFromImage',
+      action: 'ColorsPaletteFromImage-PaletteRefreshed',
+    }),
+    colorCopied: (color: string) => ({
+      category: 'ColorsPaletteFromImage',
+      action: 'ColorsPaletteFromImage-ColorCopied',
+      label: color
+    }),
+  },
+  inspector: {
+    colorSelected: (color: string) => ({
+      category: 'ColorsInspector',
+      action: 'ColorsInspector-ColorSelected',
+      label: color
+    }),
+    colorInputChanged: (color: string) => ({
+      category: 'ColorsInspector',
+      action: 'ColorsInspector-ColorInputChanged',
+      label: color
+    }),
+    shadeSelected: (shade: string) => ({
+      category: 'ColorsInspector',
+      action: 'ColorsInspector-ShadeSelected',
+      label: shade
+    }),
+    exampleColorSelected: (color: string) => ({
+      category: 'ColorsInspector',
+      action: 'ColorsInspector-ExampleColorSelected',
+      label: color
+    }),
   },
 };
-
-export { analyticsEvents };

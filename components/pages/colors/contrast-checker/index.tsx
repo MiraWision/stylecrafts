@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
 import { ContrastStatus } from './contrast-status';
 import { TemplateCard } from './template-card';
@@ -23,18 +26,24 @@ const ColorContrast: React.FC = () => {
     setColors((prev) => ({ ...prev, textColor: color }));
     // Reset target when colors change
     setCurrentTargetContrast(7);
+    
+    GAService.logEvent(analyticsEvents.contrast.colorsChanged(color, bgColor));
   };
 
   const handleBgColorChange = (color: string) => {
     setColors((prev) => ({ ...prev, bgColor: color }));
     // Reset target when colors change
     setCurrentTargetContrast(7);
+    
+    GAService.logEvent(analyticsEvents.contrast.colorsChanged(textColor, color));
   };
 
   const handleColorPaletteSelect = (background: string, text: string) => {
     setColors({ bgColor: background, textColor: text });
     // Reset target when colors change
     setCurrentTargetContrast(7);
+    
+    GAService.logEvent(analyticsEvents.contrast.examplePaletteSelected(`${background}-${text}`));
   };
 
   const handleImproveContrast = () => {
@@ -46,12 +55,16 @@ const ColorContrast: React.FC = () => {
     
     setColors({ textColor: newTextColor, bgColor: newBgColor });
     setCurrentTargetContrast(newTarget);
+    
+    GAService.logEvent(analyticsEvents.contrast.contrastImproved(currentTargetContrast.toString(), newTarget.toString()));
   };
 
   const handleSwapColors = () => {
     setColors({ textColor: bgColor, bgColor: textColor });
     // Reset target when colors change
     setCurrentTargetContrast(7);
+    
+    GAService.logEvent(analyticsEvents.contrast.colorsSwapped());
   };
 
   return (

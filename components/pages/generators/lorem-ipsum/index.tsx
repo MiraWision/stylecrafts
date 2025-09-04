@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { generateLoremIpsum } from '@/utils/lorem-ipsum';
 import { NumberInput } from '@/components/ui/inputs/number-input';
 import { Select } from '@/components/ui/inputs/select';
@@ -22,6 +25,8 @@ const MainLoremIpsumGenerator: React.FC = () => {
   const handleGenerate = () => {
     const generated = generateLoremIpsum(type, count);
     setContent(generated);
+    
+    GAService.logEvent(analyticsEvents.generators.loremIpsum.textGenerated(type, count.toString()));
   };
 
   useEffect(() => {
@@ -35,6 +40,8 @@ const MainLoremIpsumGenerator: React.FC = () => {
       setTimeout(() => {
         setShowCheckmark(false);
       }, 2000);
+      
+      GAService.logEvent(analyticsEvents.generators.loremIpsum.textCopied(type, count.toString()));
     }).catch(() => {
       toast.error('Failed to copy', 'Unable to copy text to clipboard');
     });
