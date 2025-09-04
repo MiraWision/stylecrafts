@@ -102,6 +102,10 @@ const MenuContainer = styled.div.attrs<{ $isMenuVisible: boolean }>(({ $isMenuVi
     right: auto;
     width: fit-content;
     max-width: 100%;
+    border-color: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+    z-index: 1;
   }
 
   &.hidden {

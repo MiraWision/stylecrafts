@@ -65,6 +65,7 @@ const Row = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     margin-top: 2rem;
+    gap: 1rem;
   }
 `;
 
@@ -79,8 +80,9 @@ const CardColumn = styled(Column)`
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    width: 95%;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
   }
 `;
 

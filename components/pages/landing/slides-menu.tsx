@@ -34,6 +34,10 @@ const Container = styled.div`
   top: 50%;
   transform: translateY(-50%);
   z-index: 1000;
+
+  @media (max-width: 768px) {
+    right: 0;
+  }
 `;
 
 const SlideWrapper = styled.div`

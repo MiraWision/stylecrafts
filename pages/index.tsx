@@ -128,9 +128,15 @@ const HomePage: React.FC = () => {
 
 const MainContainer = styled.div`
   scroll-behavior: smooth;
-  width: calc(100% + 3rem);
+  width: 100%;
   height: 100vh;
-  margin: -1.5rem;
+  margin: 0;
+  overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 const Section = styled.section.attrs<{ $isFullHeight?: boolean; $isLast?: boolean }>(({ $isFullHeight = true }) => ({
@@ -143,6 +149,10 @@ const Section = styled.section.attrs<{ $isFullHeight?: boolean; $isLast?: boolea
   padding: ${({ $isLast }) => ($isLast ? '1.5rem 1.5rem 0 1.5rem' : '1.5rem')};
   justify-content: center;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: ${({ $isLast }) => ($isLast ? '1rem 0.5rem 0 0.5rem' : '1rem 0.5rem')};
+  }
 `;
 
 export default HomePage;

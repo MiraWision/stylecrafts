@@ -139,7 +139,7 @@ const CentralContainer = styled.div`
 
   @media (max-width: 768px) {
     width: 90%;
-    top: 28vh;
+    top: 32vh;
     transform: translateY(-28%);
   }
 `;

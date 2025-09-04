@@ -67,6 +67,11 @@ const TextColumn = styled(Column)`
   align-items: flex-start;
   gap: 2rem;
 
+  @media (max-width: 768px) {
+    width: 100%;
+    gap: 1rem;
+  }
+
   p {
     font-size: 1rem;
     line-height: 1.5;
@@ -78,7 +83,8 @@ const TextColumn = styled(Column)`
     background: var(--surface-100);
 
     @media (max-width: 768px) {
-      width: 90%;
+      width: 100%;
+      padding: 0.75rem 1rem;
     }
 
     &.accent {

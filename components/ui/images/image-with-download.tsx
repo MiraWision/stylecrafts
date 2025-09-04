@@ -100,13 +100,6 @@ const DownloadContainer = styled.div`
   .icon * {
     fill: #ffffff;
   }
-
-  @media (max-width: 768px) {
-    .p-button {
-      width: 2rem;
-      height: 2rem;
-    }
-  }
 `;
 
 export { ImageWithDownload };
