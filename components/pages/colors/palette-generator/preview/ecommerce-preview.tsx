@@ -18,11 +18,40 @@ interface ProductData {
 }
 
 interface Props {
-  data: ProductData;
   palette: PaletteColor[];
 }
 
-const ProductPreview: React.FC<Props> = ({ data, palette }) => {
+const productData: ProductData = {
+  name: "iPhone 16 Pro Max",
+  colorOptions: [
+    { color: "Black Titanium", hex: "#232629", images: [
+      "/image-examples/product_1.jpg",
+      "/image-examples/product_2.jpg",
+      "/image-examples/product_3.jpg"
+    ] },
+    { color: "White Titanium", hex: "#F7F7F7", images: [
+      "/image-examples/product_4.jpg",
+      "/image-examples/product_5.jpg",
+      "/image-examples/product_6.jpg"
+    ] },
+    { color: "Natural Titanium", hex: "#D6CFC7", images: [
+      "/image-examples/product_7.jpg",
+      "/image-examples/product_8.jpg",
+      "/image-examples/product_9.jpg"
+    ] },
+  ],
+  storageOptions: [
+    { size: 256, label: "256GB", price: 1499, available: true },
+    { size: 512, label: "512GB", price: 1699, available: true },
+    { size: 1024, label: "1TB", price: 1999, available: false }
+  ],
+  modelId: "A3100-16PM",
+  rating: 4.7,
+  reviewsCount: 52
+};
+
+const ProductPreview: React.FC<Props> = ({ palette }) => {
+  const data = productData;
   const [selectedColor, setSelectedColor] = useState<string>(data.colorOptions[0].color);
   const colorObj = data.colorOptions.find(c => c.color === selectedColor) ?? data.colorOptions[0];
   const [selectedImage, setSelectedImage] = useState<string>(colorObj.images[0]);

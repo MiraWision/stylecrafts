@@ -11,7 +11,7 @@ import { examplePaletteGroups } from './example-data';
 
 import { ColorSelector } from './color-selector';
 import { ShadesList } from './shades-list';
-import { ContrastChecker } from './preview/contrast-checker';
+import { ContrastChecker } from './contrast-checker';
 import { Preview } from './preview/preview';
 import { Examples } from './examples';
 import { AddTextButton } from '@/components/ui/text-buttons/add-text-button';

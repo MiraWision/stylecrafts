@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { ProductPreview } from './ecommerce-preview';
 import { DashboardPreview } from './dashboard-preview';
-import { StyleguidePreview } from './styleguide-preview';
+import { FormPreview } from './form-preview';
 import { BlogPreview } from './blog-preview';
 import { ChevronLeftIcon } from '@/components/icons/chevron-left';
 import { ChevronRightIcon } from '@/components/icons/chevron-right';
@@ -12,53 +12,12 @@ interface Props {
   palette: PaletteColor[];
 }
 
-const productData = {
-  name: "iPhone 16 Pro Max",
-  colorOptions: [
-    { color: "Black Titanium", hex: "#232629", images: [
-      "/image-examples/product_1.jpg",
-      "/image-examples/product_2.jpg",
-      "/image-examples/product_3.jpg"
-    ] },
-    { color: "White Titanium", hex: "#F7F7F7", images: [
-      "/image-examples/product_4.jpg",
-      "/image-examples/product_5.jpg",
-      "/image-examples/product_6.jpg"
-    ] },
-    { color: "Natural Titanium", hex: "#D6CFC7", images: [
-      "/image-examples/product_7.jpg",
-      "/image-examples/product_8.jpg",
-      "/image-examples/product_9.jpg"
-    ] },
-  ],
-  storageOptions: [
-    { size: 256, label: "256GB", price: 1499, available: true },
-    { size: 512, label: "512GB", price: 1699, available: true },
-    { size: 1024, label: "1TB", price: 1999, available: false }
-  ],
-  modelId: "A3100-16PM",
-  rating: 4.7,
-  reviewsCount: 52
-};
-
-const dashboardData = {
-  grossRevenue: 99.32,
-  avgOrderValue: 56.12,
-  totalOrders: 230,
-  transactionData: [
-    { month: 'Jan', total: 456, success: 400 },
-    { month: 'Feb', total: 587, success: 550 },
-    { month: 'Mar', total: 300, success: 280 },
-    { month: 'Apr', total: 450, success: 420 },
-    { month: 'May', total: 600, success: 587 },
-  ]
-};
 
 const Preview: React.FC<Props> = ({ palette }) => {
   const previews = [
-    'Blog Preview',
-    'Ecommerce',
-    'Styleguide',
+    'Blog',
+    'E-commerce',
+    'Form',
     'Dashboard'
   ];
 
@@ -98,18 +57,16 @@ const Preview: React.FC<Props> = ({ palette }) => {
           
           <ChartContainer>
             <ProductPreview 
-              data={productData}
               palette={palette}
             />
           </ChartContainer>
 
           <StyleguideContainer>
-            <StyleguidePreview palette={palette} />
+            <FormPreview palette={palette} />
           </StyleguideContainer>
 
           <DashboardContainer>
             <DashboardPreview
-              data={dashboardData}
               palette={palette}
             />
           </DashboardContainer>

@@ -93,7 +93,6 @@ const Subtitle = styled.h2<{ $color: string }>`
   font-size: 1rem;
   margin: 0 0 0.5rem 0;
   font-weight: 400;
-  opacity: 0.8;
   line-height: 1.4;
   color: ${({ $color }) => $color};
 `;
@@ -108,13 +107,11 @@ const MetaInfo = styled.div`
 
 const Author = styled.span<{ $color: string }>`
   font-size: 0.875rem;
-  opacity: 0.8;
   color: ${({ $color }) => $color};
 `;
 
 const Date = styled.span<{ $color: string }>`
   font-size: 0.875rem;
-  opacity: 0.6;
   color: ${({ $color }) => $color};
 `;
 
@@ -126,13 +123,8 @@ const ShareButton = styled.button<{ $backgroundColor: string; $textColor: string
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.2s ease;
   margin-left: auto;
   color: ${({ $textColor }) => $textColor};
-  
-  &:hover {
-    opacity: 0.8;
-  }
 `;
 
 const FeaturedImage = styled.img`
