@@ -113,7 +113,8 @@ const PaletteGrid = styled.div`
   margin-bottom: 0.5rem;
   
   @media (max-width: 768px) {
-    gap: 0.375rem;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.25rem;
   }
 `;
 

@@ -41,29 +41,10 @@ const GridContainer = styled.div`
   margin-right: auto;
   padding: 0;
 
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
-    padding: 0 0.5rem;
     margin-top: 0.5rem;
-  }
-  
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(1, 1fr);
-    gap: 0.75rem;
-    padding: 0 1rem;
-  }
-  
-  @media (max-width: 360px) {
-    padding: 0 0.5rem;
-    gap: 0.375rem;
-    max-width: 100%;
-    margin-top: 0.25rem;
-    grid-template-columns: repeat(1, 1fr);
   }
 `;
 
@@ -81,28 +62,6 @@ const ImageWrapper = styled.div`
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  }
-
-  @media (max-width: 768px) {
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-
-    &:nth-child(2n) {
-      margin-right: 0;
-    }
-    
-    &:active {
-      transform: scale(0.98);
-    }
-  }
-  
-  @media (max-width: 480px) {
-    margin-right: 0;
-    margin-bottom: 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 0.125rem;
-    min-height: 120px;
-    transition: all 0.15s ease;
   }
 `;
 
@@ -124,10 +83,6 @@ const ColorPalette = styled.div`
   margin-left: 0;
   height: 100%;
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.15);
-  
-  @media (max-width: 480px) {
-    width: 0.75rem;
-  }
 `;
 
 const ColorStrip = styled.div<{ $backgroundColor: string }>`

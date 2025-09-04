@@ -107,9 +107,7 @@ const CheckerContainer = styled.div`
   align-self: center;
 
   @media (max-width: 768px) {
-    margin-top: 1.5rem;
-    gap: 0.375rem;
-    padding: 0 1rem;
+    margin-top: 1rem;
   }
 `;
 
@@ -143,14 +141,6 @@ const Message = styled.div.attrs<{ $severity: 'error' | 'warning' }>(({ $severit
     
     .icon * {
       fill: var(--yellow-700);
-    }
-  }
-
-  @media (max-width: 768px) {
-    font-size: 0.75rem;
-    
-    .icon {
-      margin: 0 0.25rem;
     }
   }
 `;

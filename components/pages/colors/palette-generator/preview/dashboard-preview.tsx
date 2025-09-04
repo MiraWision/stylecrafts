@@ -248,6 +248,10 @@ const HeatmapContainer = styled.div<{ $backgroundColor?: string }>`
   flex-direction: column;
   padding: 0.5rem;
   width: 15rem;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 const InteractiveHeatmap = styled.div`
@@ -322,11 +326,24 @@ const TopRow = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 1.25rem;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+
+    > :last-child {
+      display: none;
+    }
+  }
 `;
 
 const BottomRow = styled.div`
   display: flex;
   gap: 1.25rem;
+
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+    flex-direction: column;
+  }
 `;
 
 const HeatmapSection = styled.div`
@@ -353,6 +370,10 @@ const Card = styled.div<{ $backgroundColor: string }>`
 
   &:hover {
     transform: translateY(-10px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
   }
 `;
 

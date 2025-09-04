@@ -90,13 +90,6 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
 `;
 
 const NavigationButton = styled.span`
@@ -137,7 +130,7 @@ const SliderContainer = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
-    height: 25rem;
+    height: 37rem;
     max-width: 100%;
   }
 `;

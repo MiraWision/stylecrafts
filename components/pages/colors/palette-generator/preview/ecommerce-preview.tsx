@@ -192,6 +192,10 @@ const MainImage = styled.img`
   width: 100%;
   max-width: 400px;
   border-radius: 0.5rem;
+
+  @media (max-width: 768px) {
+    width: 10rem;
+  }
 `;
 
 const ThumbnailWrapper = styled.div`
@@ -200,18 +204,27 @@ const ThumbnailWrapper = styled.div`
 `;
 
 const Thumbnail = styled.img<{ isActive: boolean }>`
-  width: 60px;
-  height: 60px;
-  margin-right: 5px;
+  width: 3.75rem;
+  height: 3.75rem;
+  margin-right: 0.25rem;
   border: 2px solid ${({ isActive }) => (isActive ? 'var(--text-color)' : 'transparent')};
   border-radius: 0.25rem;
   cursor: pointer;
   transition: border 0.3s;
+
+  @media (max-width: 768px) {
+    width: 3rem;
+    height: 3rem;
+  }
 `;
 
 const DetailsWrapper = styled.div`
   flex: 2;
-  padding-left: 20px;
+  padding-left: 1rem;
+
+  @media (max-width: 768px) {
+    padding-left: 0.5rem;
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -221,8 +234,12 @@ const TitleWrapper = styled.div`
 `;
 
 const ModelId = styled.div<{ $color: string }>`
-  font-size: 12px;
+  font-size: 0.875rem;
   color: ${({ $color }) => $color};
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const ProductTitle = styled.h1<{ $color: string }>`
@@ -235,6 +252,12 @@ const RatingWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  gap: 0.5rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const StarRating = styled.div`
@@ -243,7 +266,6 @@ const StarRating = styled.div`
 
 const ReviewCount = styled.span<{ $color: string }>`
   font-size: 0.875rem;
-  margin-left: 10px;
   color: ${({ $color }) => $color};
 `;
 

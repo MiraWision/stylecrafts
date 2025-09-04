@@ -203,6 +203,7 @@ const ImageColumn = styled.div`
     width: auto;
     white-space: nowrap;
   }
+
   @media (max-width: 768px) {
     order: 1;
     width: 100%;
@@ -211,6 +212,7 @@ const ImageColumn = styled.div`
     & > *:first-child {
       min-width: 100%;
       width: 100%;
+      white-space: normal;
     }
   }
 `;

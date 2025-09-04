@@ -182,8 +182,8 @@ const MainContent = styled.div`
   width: 100%;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
   }
 `;
 

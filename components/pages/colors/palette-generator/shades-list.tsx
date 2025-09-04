@@ -110,6 +110,10 @@ const ShadeBox = styled.div.attrs<{ $color: string; $isBase: boolean }>(({ $colo
   @media (max-width: 768px) {
     width: 1.75rem;
     height: 1.75rem;
+    
+    &:nth-child(1), &:nth-child(2), &:nth-child(8), &:nth-child(9) {
+      display: none;
+    }
   }
 `;
 

@@ -54,6 +54,10 @@ const ColorInputContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  @media (max-width: 768px) {
+    gap: 0;
+  }
 `;
 
 export { ColorSelector };
