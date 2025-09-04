@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { CodeBlock } from '@/components/ui/texts/code-block';
 import { Column, Container, Headline, TextColumn } from './common';
 
@@ -28,11 +31,21 @@ const NpmToolsSection: React.FC = () => {
 
         <CardColumn>
           <Header>
-            <ServiceLogo href='https://github.com/MiraWision' target='_blank' rel='noopener noreferrer'>
+            <ServiceLogo 
+              href='https://github.com/MiraWision' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.landingGithubOpened('MiraWision'))}
+            >
               <img src='/icons/github.svg' alt='github' />
             </ServiceLogo>
 
-            <ServiceLogo href='https://www.npmjs.com/org/mirawision' target='_blank' rel='noopener noreferrer'>
+            <ServiceLogo 
+              href='https://www.npmjs.com/org/mirawision' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.landingNpmOpened('mirawision'))}
+            >
               <img src='/icons/npm.png' alt='npm' />
             </ServiceLogo>
           </Header>
@@ -40,11 +53,19 @@ const NpmToolsSection: React.FC = () => {
           <LibraryList>
             {libraries.map((library) => (
               <LibraryItem key={library.name}>
-                <LibraryLink href={library.url} target='_blank' rel='noopener noreferrer'>
+                <LibraryLink 
+                  href={library.url} 
+                  target='_blank' 
+                  rel='noopener noreferrer'
+                  onClick={() => GAService.logEvent(analyticsEvents.general.landingLibraryClicked(library.name))}
+                >
                   {library.name}
                 </LibraryLink>
 
-                <CodeBlock code={`npm install ${library.name}`} />
+                <CodeBlock 
+                  code={`npm install ${library.name}`}
+                  onCopy={() => GAService.logEvent(analyticsEvents.general.landingLibraryCopied(library.name))}
+                />
               </LibraryItem>
             ))}
           </LibraryList>

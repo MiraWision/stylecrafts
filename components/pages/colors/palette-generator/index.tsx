@@ -58,7 +58,7 @@ const PaletteGeneratorMain: React.FC = () => {
     updated[index].shades = [];
     setSelectedColors(updated);
     
-    GAService.logEvent(analyticsEvents.palette.colorChanged(oldColor, newBaseColor));
+    GAService.logEvent(analyticsEvents.colors.palette.colorChanged(oldColor, newBaseColor));
   };
 
   const handleAddShade = (colorIndex: number, shade: Shade) => {
@@ -66,7 +66,7 @@ const PaletteGeneratorMain: React.FC = () => {
     updated[colorIndex].baseColor = shade.hex;
     setSelectedColors(updated);
     
-    GAService.logEvent(analyticsEvents.palette.colorChanged(selectedColors[colorIndex].baseColor, shade.hex));
+    GAService.logEvent(analyticsEvents.colors.palette.colorChanged(selectedColors[colorIndex].baseColor, shade.hex));
   };
 
   const handleAddColor = () => {
@@ -78,7 +78,7 @@ const PaletteGeneratorMain: React.FC = () => {
         shades: [],
       }]);
       
-      GAService.logEvent(analyticsEvents.palette.colorAdded(newColor));
+      GAService.logEvent(analyticsEvents.colors.palette.colorAdded(newColor));
     }
   };
 
@@ -87,7 +87,7 @@ const PaletteGeneratorMain: React.FC = () => {
     const updated = selectedColors.filter((_, i) => i !== index);
     setSelectedColors(updated);
     
-    GAService.logEvent(analyticsEvents.palette.colorRemoved(removedColor));
+    GAService.logEvent(analyticsEvents.colors.palette.colorRemoved(removedColor));
   };
 
   const copyToClipboard = (text: string, format: string) => {
@@ -108,20 +108,20 @@ const PaletteGeneratorMain: React.FC = () => {
     const cssContent = `:root {\n${cssVariables}\n}`;
     copyToClipboard(cssContent, 'CSS');
     
-    GAService.logEvent(analyticsEvents.palette.paletteCopied('CSS'));
+    GAService.logEvent(analyticsEvents.colors.palette.copyCSS());
   };
 
   const copyToJSON = () => {
     const json = JSON.stringify(selectedColors, null, 2);
     copyToClipboard(json, 'JSON');
     
-    GAService.logEvent(analyticsEvents.palette.paletteCopied('JSON'));
+    GAService.logEvent(analyticsEvents.colors.palette.copyJSON());
   };
 
   const exportSVG = () => {
     exportToSVG(selectedColors);
     
-    GAService.logEvent(analyticsEvents.palette.paletteExported('SVG'));
+    GAService.logEvent(analyticsEvents.colors.palette.paletteExported('SVG'));
   };
 
   const handleExampleClick = (exampleColors: PaletteColor[], paletteName?: string) => {
@@ -129,7 +129,7 @@ const PaletteGeneratorMain: React.FC = () => {
     // Update hash with palette slug if name is provided
     if (paletteName) {
       window.location.hash = generateSlug(paletteName);
-      GAService.logEvent(analyticsEvents.palette.examplePaletteSelected(paletteName));
+      GAService.logEvent(analyticsEvents.colors.palette.examplePaletteSelected(paletteName));
     }
   };
 

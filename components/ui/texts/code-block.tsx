@@ -9,15 +9,17 @@ import { CheckmarkIcon } from '@/components/icons/checkmark';
 
 interface Props {
   code: string;
+  onCopy?: () => void;
 }
 
-const CodeBlock: React.FC<Props> = ({ code }) => {
+const CodeBlock: React.FC<Props> = ({ code, onCopy }) => {
   const [icon, setIcon] = useState('copy');
 
   const copyText = async () => {
     copyToClipboard(code, {
       onSuccess: () => {
         setIcon('check');
+        onCopy?.();
 
         setTimeout(() => {
           setIcon('copy');

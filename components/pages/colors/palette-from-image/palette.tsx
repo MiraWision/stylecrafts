@@ -29,7 +29,7 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
   const onCopyColor = (color: string) => {
     copyText(color);
     toast.success('Copied!', 'Color copied to clipboard');
-    GAService.logEvent(analyticsEvents.colors.blender.colorCopied(color));
+    GAService.logEvent(analyticsEvents.colors.paletteFromImage.colorCopied(color));
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
@@ -40,7 +40,7 @@ const Palette: React.FC<Props> = ({ palette, onRemoveColor, onRefreshPalette }) 
     const text = JSON.stringify(palette).replace(/,/g, ', ');
     copyText(text);
     toast.success('Copied!', 'Colors copied to clipboard');
-    GAService.logEvent(analyticsEvents.colors.blender.colorsCopied(text));
+    GAService.logEvent(analyticsEvents.colors.paletteFromImage.paletteCopied());
   };
 
   return (

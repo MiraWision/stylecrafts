@@ -69,14 +69,14 @@ const PaletteFromImageMain: React.FC<Props> = () => {
       return updated;
     });
     
-    GAService.logEvent(analyticsEvents.paletteFromImage.colorRemoved(removedColor));
+    GAService.logEvent(analyticsEvents.colors.paletteFromImage.colorRemoved(removedColor));
   };
 
   const handleRefreshPalette = () => {
     setPalette([]);
     setClearedPaletteVersion(v => v + 1);
     
-    GAService.logEvent(analyticsEvents.paletteFromImage.paletteRefreshed());
+    GAService.logEvent(analyticsEvents.colors.paletteFromImage.paletteRefreshed());
   };
 
   const handleImageSelect = (imageSrc: string) => {
@@ -89,7 +89,7 @@ const PaletteFromImageMain: React.FC<Props> = () => {
     const exampleImage = exampleImages.find(img => img.src === imageSrc);
     if (exampleImage) {
       setPalette(exampleImage.colors);
-      GAService.logEvent(analyticsEvents.paletteFromImage.exampleImageSelected(imageSrc));
+      GAService.logEvent(analyticsEvents.colors.paletteFromImage.exampleImageSelected(imageSrc));
     } else {
       setPalette([]);
     }
@@ -115,7 +115,7 @@ const PaletteFromImageMain: React.FC<Props> = () => {
         // Clear palette for uploaded images to trigger auto-generation
         setPalette([]);
         
-        GAService.logEvent(analyticsEvents.paletteFromImage.imageUploaded(file.size.toString()));
+        GAService.logEvent(analyticsEvents.colors.paletteFromImage.imageUploaded(file.size.toString()));
       };
       reader.readAsDataURL(file);
     }

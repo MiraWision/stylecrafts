@@ -67,7 +67,6 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
     setGameOver(true);
 
     GAService.logEvent(analyticsEvents.games.challengeEnded(ellapsedTime.toString()));
-    GAService.logEvent(analyticsEvents.games.challengeScored(score.toString()));
 
     if (topScoreUpdated.current === true) {
       GAService.logEvent(analyticsEvents.games.challengeTopScored(topScore.toString()));

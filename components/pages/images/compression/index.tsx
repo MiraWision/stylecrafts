@@ -138,6 +138,8 @@ const ImageCompressionMain: React.FC = () => {
     link.href = compressedImage.content;
     link.download = originalImage?.fileMetaData?.name.replace(/\.[^.]+$/, '-compressed$&') ?? 'compressed-image';
     link.click();
+    
+    GAService.logEvent(analyticsEvents.images.compression.imageDownloaded(compressedImage.size.toString()));
   };
 
   return (

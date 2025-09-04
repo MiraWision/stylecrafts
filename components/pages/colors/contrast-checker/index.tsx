@@ -27,7 +27,7 @@ const ColorContrast: React.FC = () => {
     // Reset target when colors change
     setCurrentTargetContrast(7);
     
-    GAService.logEvent(analyticsEvents.contrast.colorsChanged(color, bgColor));
+    GAService.logEvent(analyticsEvents.colors.contrast.colorsChanged(color, bgColor));
   };
 
   const handleBgColorChange = (color: string) => {
@@ -35,7 +35,7 @@ const ColorContrast: React.FC = () => {
     // Reset target when colors change
     setCurrentTargetContrast(7);
     
-    GAService.logEvent(analyticsEvents.contrast.colorsChanged(textColor, color));
+    GAService.logEvent(analyticsEvents.colors.contrast.colorsChanged(textColor, color));
   };
 
   const handleColorPaletteSelect = (background: string, text: string) => {
@@ -43,7 +43,7 @@ const ColorContrast: React.FC = () => {
     // Reset target when colors change
     setCurrentTargetContrast(7);
     
-    GAService.logEvent(analyticsEvents.contrast.examplePaletteSelected(`${background}-${text}`));
+    GAService.logEvent(analyticsEvents.colors.contrast.examplePaletteSelected(`${background}-${text}`));
   };
 
   const handleImproveContrast = () => {
@@ -56,7 +56,7 @@ const ColorContrast: React.FC = () => {
     setColors({ textColor: newTextColor, bgColor: newBgColor });
     setCurrentTargetContrast(newTarget);
     
-    GAService.logEvent(analyticsEvents.contrast.contrastImproved(currentTargetContrast.toString(), newTarget.toString()));
+    GAService.logEvent(analyticsEvents.colors.contrast.contrastImproved(currentTargetContrast.toString(), newTarget.toString()));
   };
 
   const handleSwapColors = () => {
@@ -64,7 +64,7 @@ const ColorContrast: React.FC = () => {
     // Reset target when colors change
     setCurrentTargetContrast(7);
     
-    GAService.logEvent(analyticsEvents.contrast.colorsSwapped());
+    GAService.logEvent(analyticsEvents.colors.contrast.colorsSwapped());
   };
 
   return (

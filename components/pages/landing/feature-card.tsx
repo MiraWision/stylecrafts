@@ -2,6 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { Icon, IconProps } from '@/components/icons/icon';
 
 interface Props {
@@ -17,8 +20,12 @@ const FeatureCard: React.FC<Props> = ({
   title,
   description,
 }) => {
+  const handleClick = () => {
+    GAService.logEvent(analyticsEvents.general.landingFeatureClicked(title));
+  };
+
   return (
-    <Card href={href}>
+    <Card href={href} onClick={handleClick}>
       <IconWrapper>
         <Icon width='6rem' height='6rem' />
       </IconWrapper>

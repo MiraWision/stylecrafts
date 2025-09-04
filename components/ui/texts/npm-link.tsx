@@ -1,12 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 interface Props {
   text: string;
   packageName: string;
 }
 
 const NPMLink: React.FC<Props> = ({ text, packageName }) => {
+  const handleClick = () => {
+    GAService.logEvent(analyticsEvents.general.npmLibraryClicked(packageName));
+  };
+
   return (
     <Container>
       <Text>{text}</Text>
@@ -14,6 +21,7 @@ const NPMLink: React.FC<Props> = ({ text, packageName }) => {
       <Link 
         href={`https://www.npmjs.com/package/${packageName}`}
         target='_blank'
+        onClick={handleClick}
       >
         <Logo src='/icons/npm.svg' alt='NPM logo' />
         {packageName}

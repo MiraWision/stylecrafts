@@ -125,13 +125,13 @@ const ColorInspectorMain: React.FC = () => {
     ]);
     setSelectedColor(createSafeColor(colorExample.color));
     
-    GAService.logEvent(analyticsEvents.inspector.exampleColorSelected(colorExample.color));
+    GAService.logEvent(analyticsEvents.colors.inspector.exampleColorSelected(colorExample.color));
   };
 
   const selectShade = (shade: string) => {
     setSelectedColor(createSafeColor(shade));
     
-    GAService.logEvent(analyticsEvents.inspector.shadeSelected(shade));
+    GAService.logEvent(analyticsEvents.colors.inspector.shadeSelected(shade));
   };
 
   const handleColorInputChange = (newColor: string) => {
@@ -139,7 +139,7 @@ const ColorInspectorMain: React.FC = () => {
       const updatedColor = createSafeColor(newColor);
       setSelectedColor(updatedColor);
       
-      GAService.logEvent(analyticsEvents.inspector.colorInputChanged(newColor));
+      GAService.logEvent(analyticsEvents.colors.inspector.colorInputChanged(newColor));
     } catch (error) {
       console.error('Invalid color format:', error);
       // Don't show alert, just log the error and keep the current color

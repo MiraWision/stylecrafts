@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { Routes } from '@/content/routes';
 
 import { LinkedInIcon } from '@/components/icons/linked-in';
@@ -102,15 +105,30 @@ const Footer: React.FC<Props> = ({ className }) => {
           </Description>
 
           <SocialNetworks>
-            <FooterLink href='https://www.instagram.com/stylecrafts.app' target='_blank' rel='noopener noreferrer'>
+            <FooterLink 
+              href='https://www.instagram.com/stylecrafts.app' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.footerInstagramOpened())}
+            >
               <InstagramIcon />
             </FooterLink>
 
-            <FooterLink href='https://www.linkedin.com/company/mirawision' target='_blank' rel='noopener noreferrer'>
+            <FooterLink 
+              href='https://www.linkedin.com/company/mirawision' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.footerLinkedInOpened())}
+            >
               <LinkedInIcon />
             </FooterLink>
 
-            <FooterLink href='https://x.com/MiraWision' target='_blank' rel='noopener noreferrer'>
+            <FooterLink 
+              href='https://x.com/MiraWision' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.footerTwitterOpened())}
+            >
               <XIcon />
             </FooterLink>
           </SocialNetworks>
