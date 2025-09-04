@@ -5,7 +5,7 @@ import { calculateSimilarity } from '@mirawision/colorize/calculate-similarity';
 import { getDifficulty, getRandomColor } from './utils';
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
-import { Level, Difficulty, SelectedColor } from './types';
+import { Difficulty, SelectedColor } from './types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { PaletteColors } from './data';
 
@@ -23,7 +23,6 @@ const DefaultSelectedColors = PaletteColors.map((color) => ({ ...color, weight: 
 
 const GuessColorBlendMain: React.FC<Props> = ({}) => {
   const [selectedColors, setSelectedColors] = useState<SelectedColor[]>(DefaultSelectedColors);
-  const [level, setLevel] = useState<Level>(Level.Challenge);
   const [score, setScore] = useState<number>(0);
   const [topScore, setTopScore] = useLocalStorage<number>('top-score', 0);
   const [isClient, setIsClient] = useState<boolean>(false);
@@ -33,8 +32,8 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   const currentDropsCount = useRef<number>(0);
 
   const difficulty = useMemo<Difficulty>(() => {
-    return getDifficulty(level, score);
-  }, [level, score]);
+    return getDifficulty(score);
+  }, [score]);
 
   const totalWeight = useMemo<number>(
     () => selectedColors.reduce((acc, color) => acc + color.weight, 0),
@@ -81,11 +80,6 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   }, []);
 
   useEffect(() => {
-    resetSelectedColors();
-    generateTargetColor();
-  }, [level]);
-
-  useEffect(() => {
     if (isMatched && gameStarted) {
       setScore((prev) => prev + currentDropsCount.current);
       handleTime.pause();
@@ -93,10 +87,6 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
       setTimeout(() => {
         nextGame();
       }, 500);
-    }
-
-    if (isMatched) {
-      GAService.logEvent(analyticsEvents.games.colorMatched(level));
     }
   }, [isMatched]);
 
@@ -112,10 +102,7 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   };
 
   const generateTargetColor = () => {
-    const { color, dropsCount } = getRandomColor(
-      PaletteColors.map((color) => color.hex),
-      difficulty
-    );
+    const { color, dropsCount } = getRandomColor(PaletteColors.map((color) => color.hex), difficulty);
     setTargetColor(color);
     currentDropsCount.current = dropsCount;
   };
@@ -207,6 +194,7 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
         selectedColors={selectedColors}
         totalWeight={totalWeight}
         isMatched={isMatched}
+        gameStarted={gameStarted}
         gameOver={gameOver}
         onWeightChange={changeWeight}
         onResetAll={resetWeights}

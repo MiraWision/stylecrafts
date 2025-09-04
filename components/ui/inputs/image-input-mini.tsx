@@ -145,10 +145,6 @@ const Container = styled.div`
   justify-content: center;
   cursor: pointer;
 
-  @media (max-width: 768px) {
-    padding: 0.5rem;
-  }
-
   .icon * {
     fill: var(--surface-500);
   }

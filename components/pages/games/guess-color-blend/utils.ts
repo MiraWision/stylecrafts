@@ -1,5 +1,5 @@
-import { LevelDifficulty, ChallengeDifficulty } from './data';
-import { Difficulty, Level } from './types';
+import { ChallengeDifficulty } from './data';
+import { Difficulty } from './types';
 import { rybslColorsMixing } from '../../../../utils/rybsl-colors-mixing';
 import { int } from '@mirawision/imagine/number';
 
@@ -35,14 +35,10 @@ const getRandomColor = (colors: string[], difficulty: Difficulty): { color: stri
   };
 };
 
-const getDifficulty = (level: Level, score: number): Difficulty => {
-  if (level === Level.Challenge) {
-    const { from, to, ...difficulty } = ChallengeDifficulty.find((difficulty) => score >= difficulty.from && score < difficulty.to)!;
+const getDifficulty = (score: number): Difficulty => {
+  const { from, to, ...difficulty } = ChallengeDifficulty.find((difficulty) => score >= difficulty.from && score < difficulty.to)!;
 
-    return difficulty;
-  }
-
-  return LevelDifficulty[level]!;
+  return difficulty;
 };
 
 export {

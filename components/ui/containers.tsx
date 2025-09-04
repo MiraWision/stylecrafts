@@ -39,6 +39,7 @@ const TwoColumnsContainer = styled.div<TwoColumnsContainerProps>`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    margin: 0 auto 1rem;
   }
 `;
 

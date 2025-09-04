@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { SelectedColor } from './types';
@@ -11,13 +11,14 @@ interface Props {
   selectedColors: SelectedColor[];
   totalWeight: number;
   isMatched: boolean;
+  gameStarted: boolean;
   gameOver: boolean;
   onWeightChange: (color: string, increment: number) => void;
   onResetAll: () => void;
 }
 
-const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatched, gameOver, onWeightChange, onResetAll }) => {
-  const hasSelectedColors = selectedColors.some(color => color.weight > 0);
+const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatched, gameStarted, gameOver, onWeightChange, onResetAll }) => {
+  const hasSelectedColors = useMemo(() => selectedColors.some(color => color.weight > 0), [selectedColors]);
 
   return (
     <Container>
@@ -28,7 +29,7 @@ const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatche
           <ColorBarSegment
             key={color.hex}
             $backgroundColor={color.hex}
-            $width={`${color.weight / totalWeight * 100}%`}
+            $width={`${totalWeight > 0 ? color.weight / totalWeight * 100 : 0}%`}
           />
         ))}
       </ColorBar>
@@ -45,7 +46,7 @@ const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatche
               key={color.hex}
               color={color}
               totalWeight={totalWeight}
-              onWeightChange={(!isMatched && !gameOver) ? onWeightChange : undefined}
+              onWeightChange={(!isMatched && !gameOver && gameStarted) ? onWeightChange : undefined}
             />
           ))}
         </ColorCirclesContainer>
@@ -103,8 +104,9 @@ const ColorCirclesContainer = styled.div`
 
 const RefreshButtonContainer = styled.div`
   position: absolute;
-  left: -2.5rem;
-  bottom: -0.2rem;
+  left: 50%;
+  bottom: -2.5rem;
+  transform: translateX(-50%);
 `;
 
 export { ColorSelection };

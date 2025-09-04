@@ -14,7 +14,7 @@ import { ColorInspectorMain } from '@/components/pages/colors/inspector';
 
 const ColorsInspectorToolPage = () => {
   return (
-    <BaseLayout>
+    <BaseLayout pageTitle="Color Inspector">
       <MetaTags {...metaTags} />
 
       <MainContainer>

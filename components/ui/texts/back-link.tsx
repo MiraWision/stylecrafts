@@ -16,16 +16,15 @@ const BackLink: React.FC<Props> = ({ href, children }) => (
   </LinkStyled>
 );
 
-const Icon = styled.i`
-  font-size: 0.875rem;
-  margin-right: 0.125rem;
-`;
-
 const LinkStyled = styled(Link)`
   color: var(--primary-color);
   text-decoration: none;
   display: flex;
   align-items: center;
+
+  .icon * {
+    fill: var(--primary-color);
+  }
 
   &:hover {
     text-decoration: underline;

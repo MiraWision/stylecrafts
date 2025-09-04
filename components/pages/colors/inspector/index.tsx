@@ -205,17 +205,12 @@ const ColorListContainer = styled.div`
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
+
   @media (max-width: 768px) {
-    align-items: stretch;
-    padding: 0.5rem;
-    background: transparent;
-    border-radius: 0;
-    gap: 0.5rem;
+    align-items: center;
+    padding: 0;
   }
 `;
 

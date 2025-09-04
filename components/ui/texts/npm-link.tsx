@@ -15,7 +15,7 @@ const NPMLink: React.FC<Props> = ({ text, packageName }) => {
         href={`https://www.npmjs.com/package/${packageName}`}
         target='_blank'
       >
-        {/* <Logo src='../icons/npm.svg' alt='NPM logo' /> */}
+        <Logo src='/icons/npm.svg' alt='NPM logo' />
         {packageName}
       </Link>
     </Container>
@@ -24,15 +24,18 @@ const NPMLink: React.FC<Props> = ({ text, packageName }) => {
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: end;
+  align-items: center;
   margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const Text = styled.span`
   font-size: 0.875rem;
   color: var(--text-color);
-  text-align: right;
 `;
 
 const Logo = styled.img`

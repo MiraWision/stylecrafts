@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
-import { Button } from 'primereact/button';
 import { Logo } from '@/components/ui/logo';
 import { SideMenu } from '@/components/menu/side-menu';
 import { Footer } from '@/components/pages/landing/footer';
-import { BurgerIcon } from '@/components/icons/burger';
+import { MobileTopBar } from '@/components/ui/mobile-top-bar';
 
 import { GlobalDropdownStyles } from '@/components/ui/inputs/select';
 import 'primereact/resources/primereact.min.css';
@@ -15,59 +14,6 @@ interface Props {
   includeFooter?: boolean;
   children: React.ReactNode;
 }
-
-const LayoutWrapper = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  overflow-x: hidden;
-`;
-
-const Content = styled.main`
-  flex: 1 0 auto;
-  width: calc(100vw - 15rem);
-  margin-left: 15rem;
-  padding: 1.5rem;
-
-  @media (max-width: 768px) {
-    width: 100vw;
-    margin-left: 0;
-    padding: 1rem;
-  }
-
-  @media (max-width: 600px) {
-    padding: 0 1rem;
-  }
-`;
-
-const BaseFooter = styled(Footer)`
-  margin: 0;
-  width: 100%;
-`;
-
-const TopBar = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  @media (min-width: 769px) {
-    display: none;
-  }
-  @media (max-width: 600px) {
-    padding-bottom: 0.5rem;
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-    gap: 0.75rem;
-  }
-`;
-
-const PageTitle = styled.h1`
-  @media (max-width: 600px) {
-    text-align: center;
-    width: 100%;
-  }
-`;
 
 const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
   const router = useRouter();
@@ -92,11 +38,10 @@ const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
       <Content>
         <Overlay $isOpen={isSidebarOpen} onClick={toggleSidebar} />
         
-        <TopBar>
-          <StyledButton $isOpen={isSidebarOpen} onClick={toggleSidebar}>
-            <BurgerIcon width="24" height="24" />
-          </StyledButton>
-        </TopBar>
+        <MobileTopBar 
+          isSidebarOpen={isSidebarOpen}
+          onToggleSidebar={toggleSidebar}
+        />
         
         {children}
       </Content>
@@ -106,11 +51,6 @@ const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
     </LayoutWrapper>
   );
 };
-
-const Container = styled.div`
-  width: 100vw;
-  display: flex;
-`;
 
 const Sidebar = styled.div.attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
   className: $isOpen ? 'open' : 'closed',
@@ -151,38 +91,10 @@ const Sidebar = styled.div.attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
 
   @media (max-width: 768px) {
     transition: transform 0.3s ease-in-out;
-    z-index: 20;
+    z-index: 50;
 
     &::after {
       background: none;
-    }
-  }
-`;
-
-const StyledButton = styled(Button).attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
-  className: $isOpen ? 'open' : 'closed',
-}))`
-  && {
-    background-color: transparent !important;
-    border: none !important;
-    color: inherit;
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
-    z-index: 30;
-    display: none; 
-
-    @media (max-width: 768px) {
-      &.open {
-        display: none;
-      }
-
-      &.closed {
-        display: flex;
-      }
     }
   }
 `;
@@ -209,6 +121,38 @@ const Overlay = styled.div.attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
   @media (min-width: 769px) {
     display: none;
   }
+`;
+
+const LayoutWrapper = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  overflow-x: hidden;
+`;
+
+const Content = styled.main`
+  flex: 1 0 auto;
+  width: calc(100vw - 15rem);
+  margin-left: 15rem;
+  padding: 1.5rem;
+
+  @media (max-width: 768px) {
+    width: 100vw;
+    margin-left: 0;
+    padding: 1rem;
+    padding-top: 4rem;
+  }
+
+  @media (max-width: 600px) {
+    padding: 0 1rem;
+    padding-top: 4rem;
+  }
+`;
+
+const BaseFooter = styled(Footer)`
+  margin: 0;
+  width: 100%;
 `;
 
 export { BaseLayout };

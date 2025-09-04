@@ -145,7 +145,7 @@ const FooterContent = styled.div`
 
   @media (max-width: 768px) {
     margin-left: 0;
-    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    padding: 1rem;
   }
 `;
 

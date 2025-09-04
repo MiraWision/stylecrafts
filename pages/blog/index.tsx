@@ -32,15 +32,16 @@ const BlogPage = () => {
           ))}
         </PostsGrid>
       </Container>
-      <DiscoverLink href="/colors/palette-generator">
-        Discover more palettes and start blending colors today!
-      </DiscoverLink>
     </BaseLayout>
   );
 };
 
 const Container = styled(FullSizeContainer)`
   padding: 0 2rem;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 const PostsGrid = styled.div`
@@ -53,24 +54,11 @@ const PostsGrid = styled.div`
   max-width: 70rem;
   margin-right: auto;
   margin-left: auto;
-`;
 
-const DiscoverLink = styled.a`
-  display: block;
-  margin: 3rem auto 0 auto;
-  width: fit-content;
-  padding: 0.75rem 2rem;
-  background: var(--accent-color, #ff69b4);
-  color: #fff;
-  border-radius: 2rem;
-  font-weight: 500;
-  font-size: 1.1rem;
-  text-decoration: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  transition: background 0.2s, color 0.2s;
-  &:hover {
-    background: #e055a1;
-    color: #fff;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
   }
 `;
 

@@ -1,14 +1,4 @@
-import { PaletteColor, Difficulty, Level } from './types';
-
-const PracticeLevelOptions = [
-  { value: Level.Easy, label: 'Easy' },
-  { value: Level.Medium, label: 'Medium' },
-  { value: Level.Hard, label: 'Hard' },
-];
-
-const ChallengeLevelOptions = [
-  { value: Level.Challenge, label: 'Challenge' },
-];
+import { PaletteColor, Difficulty } from './types';
 
 const PaletteColors: PaletteColor[] = [
   { name: 'Red', hex: '#e63946' },
@@ -18,24 +8,6 @@ const PaletteColors: PaletteColor[] = [
   { name: 'Grey', hex: '#a9a9a9' },
   { name: 'Black', hex: '#1b1b1b' },
 ];
-
-const LevelDifficulty: Partial<Record<Level, Difficulty>> = {
-  [Level.Easy]: { 
-    basicColorsCount: [1, 2],
-    shadeColorsCount: [1, 1],
-    dropsCount: [3, 3],
-  },
-  [Level.Medium]: { 
-    basicColorsCount: [2, 2],
-    shadeColorsCount: [1, 2],
-    dropsCount: [4, 5],
-  },
-  [Level.Hard]: {
-    basicColorsCount: [2, 2],
-    shadeColorsCount: [2, 2],
-    dropsCount: [6, 7],
-  },
-};
 
 const ChallengeDifficulty: (Difficulty & { from: number, to: number})[] = [
   { 
@@ -97,9 +69,6 @@ const ChallengeDifficulty: (Difficulty & { from: number, to: number})[] = [
 ];
 
 export { 
-  PracticeLevelOptions, 
-  ChallengeLevelOptions,
   PaletteColors,
-  LevelDifficulty,
   ChallengeDifficulty,
 };

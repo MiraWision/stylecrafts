@@ -235,8 +235,8 @@ const ImageLabel = styled(Label)`
 
   @media (max-width: 600px) {
     width: 100%;
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    margin-bottom: 0;
   }
 `;
 
@@ -249,7 +249,7 @@ const ImagesContainer = styled.div`
   @media (max-width: 600px) {
     flex-direction: column;
     gap: 0.5rem;
-    margin-top: 1rem;
+    margin-top: 0;
   }
 `;
 

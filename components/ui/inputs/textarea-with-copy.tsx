@@ -110,6 +110,7 @@ const InputTextareaStyled = styled(InputTextarea)`
   height: 100%;
   border: none;
   resize: none;
+  overflow-x: hidden;
 `;
 
 const ActionsContainer = styled.div`

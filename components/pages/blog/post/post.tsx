@@ -52,8 +52,14 @@ const Post: React.FC<Props> = ({ post, content }) => {
 
 const Header = styled.header`
   @media (max-width: 768px) {
-    padding-left: 2.5rem;
-    margin-top: 0.375rem;
+    position: fixed;
+    top: 0;
+    left: 1rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 31;
   }
 `;
 
@@ -73,7 +79,7 @@ const PostTitle = styled.h1`
 
   @media (max-width: 768px) {
     font-size: 1.25rem;
-    margin: 1rem auto 1.5rem;
+    margin: 0 auto 1.5rem;
   }
 `;
 

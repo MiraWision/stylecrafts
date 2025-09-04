@@ -17,7 +17,7 @@ const CharacterCheatSheetPage = () => {
     <BaseLayout>
       <MetaTags {...metaTags} />
       <MainContainer>
-        <Title>Ultimate HTML Character Entities Cheatsheet</Title>
+        <Title>HTML Character Entities Cheatsheet</Title>
 
         <CharactersCheatSheetMain />
       </MainContainer>

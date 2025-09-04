@@ -35,6 +35,12 @@ const Container = styled(Link)`
   grid-template-columns: 5fr 3fr;
   gap: 4rem;
   margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 0;
+  }
 `;
 
 const Column = styled.div`
