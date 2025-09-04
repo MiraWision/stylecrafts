@@ -66,10 +66,10 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
   const [remainingTime, ellapsedTime, handleTime] = useTimer(60, () => {
     setGameOver(true);
 
-    GAService.logEvent(analyticsEvents.games.challengeEnded(ellapsedTime.toString()));
+    GAService.logEvent(analyticsEvents.games.guessColorBlend.gameEnded(ellapsedTime.toString()));
 
     if (topScoreUpdated.current === true) {
-      GAService.logEvent(analyticsEvents.games.challengeTopScored(topScore.toString()));
+      GAService.logEvent(analyticsEvents.games.guessColorBlend.gameTopScored(topScore.toString()));
       topScoreUpdated.current = false;
     }
   });
@@ -86,6 +86,8 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
       setTimeout(() => {
         nextGame();
       }, 500);
+
+      GAService.logEvent(analyticsEvents.games.guessColorBlend.colorMatched(currentDropsCount.current.toString()));
     }
   }, [isMatched]);
 
@@ -127,7 +129,7 @@ const GuessColorBlendMain: React.FC<Props> = ({}) => {
     handleTime.play();
     resetSelectedColors();
     generateTargetColor();
-    GAService.logEvent(analyticsEvents.games.challengeStarted());
+    GAService.logEvent(analyticsEvents.games.guessColorBlend.gameStarted());
   };
 
   const nextGame = () => {

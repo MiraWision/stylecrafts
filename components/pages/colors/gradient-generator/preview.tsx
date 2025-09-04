@@ -3,6 +3,9 @@ import styled, { keyframes } from 'styled-components';
 import { USAMap, StateAbbreviations } from '@mirawision/usa-map-react';
 import number from '@mirawision/imagine/number';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { ChartPreview } from './chart-preview';
 import { HeatmapPreview } from './heatmap-preview';
 import { ChevronLeftIcon } from '@/components/icons/chevron-left';
@@ -68,10 +71,14 @@ const Preview: React.FC<Props> = ({ gradient }) => {
 
   const nextPreview = () => {
     setSelectedPreview((selectedPreview + 1) % previews.length);
+
+    GAService.logEvent(analyticsEvents.colors.gradient.previewSwiped());
   };
 
   const previousPreview = () => {
     setSelectedPreview((selectedPreview - 1 + previews.length) % previews.length);
+
+    GAService.logEvent(analyticsEvents.colors.gradient.previewSwiped());
   };
   
   return (

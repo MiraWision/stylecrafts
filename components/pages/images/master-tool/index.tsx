@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { GAService } from '@/services/google-analytics-service';
-import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 import { ImageType } from '@/types/image-types';
 
 import { ImageData, ImageInput } from '@/components/ui/inputs/image-input';
@@ -45,8 +43,6 @@ const ImageCompression: React.FC<Props> = ({}) => {
     if (settings !== null) {
       saveSettingsToStorage();
     }
-
-    GAService.logEvent(analyticsEvents.images.compression.compressionSettingsChanged(JSON.stringify(settings)));
 
     if (!originalImage) {
       return;
@@ -102,8 +98,6 @@ const ImageCompression: React.FC<Props> = ({}) => {
         settings?.width ?? imageElement.width, 
         settings?.height ?? imageElement.height,
       );
-
-      GAService.logEvent(analyticsEvents.images.compression.imageUploaded(`${image.fileMetaData?.size} bytes`));
     };
 
     imageElement.src = image.content;
@@ -162,7 +156,6 @@ const ImageCompression: React.FC<Props> = ({}) => {
   };
 
   const onDownload = () => {
-    GAService.logEvent(analyticsEvents.images.compression.imageCompressed(compressionPercentage.toString()));
   };
   
   return (

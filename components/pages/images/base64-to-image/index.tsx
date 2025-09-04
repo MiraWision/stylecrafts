@@ -25,6 +25,13 @@ const Base64ToImage: React.FC<Props> = ({}) => {
   };
 
   const onDownload = () => {
+    const link = document.createElement('a');
+    link.href = base64Text;
+    link.download = `image.${base64Text.split(';')[0].split('/')[1]}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
     GAService.logEvent(analyticsEvents.images.base64ToImage.imageDownloaded(base64Text.length.toString()));
   };
 

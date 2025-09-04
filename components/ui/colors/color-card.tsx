@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import { copyText } from '@mirawision/copily';
 import { CopyIcon } from '@/components/icons/copy';
 import Link from 'next/link';
-import { IconLink } from '@/components/ui/links/icon-link';
+
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { ColorInspectorIcon } from '@/components/icons/color-inspector';
 
 interface Props {
@@ -33,7 +36,10 @@ const ColorCard: React.FC<Props> = ({ color, title, onCopy, onClick }) => {
   return (
     <Container>
       <ColorRectangle $backgroundColor={color}>
-        <OverlayLink href={`/colors/inspector#${color.replace('#', '')}`}>
+        <OverlayLink 
+          href={`/colors/inspector#${color.replace('#', '')}`}
+          onClick={() => GAService.logEvent(analyticsEvents.cheatsheets.colorSwatches.colorInspected(color))}
+        >
           <OverlayContent>
             <ColorInspectorIcon width="16" height="16" />
             <span>Inspect</span>

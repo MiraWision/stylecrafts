@@ -3,9 +3,12 @@ import styled from 'styled-components'
 import { convertColor, ColorFormat, parseColorNumbers, HSL } from '@mirawision/colorize'
 
 import { useToast } from '@/components/ui/toast'
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
 import { CopyIcon } from '@/components/icons/copy'
 import { CheckmarkIcon } from '@/components/icons/checkmark'
+import { copyText } from '@mirawision/copily';
 
 const Harmonies = [
   { name: 'Complementary',       angles: [0, 180] },
@@ -106,7 +109,8 @@ export const HarmonyCircles: React.FC<Props> = ({ color }) => {
                         setCenterText(null)
                       }}
                       onClick={() => {
-                        navigator.clipboard.writeText(colorHex)
+                        copyText(colorHex);
+                        GAService.logEvent(analyticsEvents.colors.inspector.harmonyColorCopied(colorHex));
                         toast.success('Copied!', 'Color copied to clipboard')
                         setCopiedCircle(circleId)
                         setTimeout(() => {

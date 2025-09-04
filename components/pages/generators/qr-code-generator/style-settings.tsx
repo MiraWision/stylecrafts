@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { calculateContrast } from '@mirawision/colorize/calculate-contrast';
 
 import { CellShape, EyeShape, Settings } from './types';
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
 import { Label } from '@/components/ui/texts/label';
-
 import { QRPattern1Icon } from '@/components/icons/qr-pattern-1';
 import { QRPattern2Icon } from '@/components/icons/qr-pattern-2';
 import { QRPattern3Icon } from '@/components/icons/qr-pattern-3';
@@ -23,6 +24,7 @@ import { ColorInput } from '@/components/ui/inputs/color-input';
 import { QRExampleIcon } from '@/components/icons/qr-example';
 import { colorExamples } from './color-examples';
 import { WarningIcon } from '@/components/icons/warning';
+
 
 interface Props {
   settings: Settings;
@@ -68,7 +70,10 @@ const StyleSettings: React.FC<Props> = ({ settings, setSettings }) => {
 
             <ColorInput
               value={settings.foregroundColor}
-              onChange={(value) => onUpdate({ foregroundColor: value })}
+              onChange={(value) => {
+                onUpdate({ foregroundColor: value });
+                GAService.logEvent(analyticsEvents.generators.qrCode.colorChanged(value));
+              }}
             />
           </FieldContainer>
 
@@ -77,7 +82,10 @@ const StyleSettings: React.FC<Props> = ({ settings, setSettings }) => {
 
             <ColorInput
               value={settings.backgroundColor}
-              onChange={(value) => onUpdate({ backgroundColor: value })}
+              onChange={(value) => {
+                onUpdate({ backgroundColor: value });
+                GAService.logEvent(analyticsEvents.generators.qrCode.colorChanged(value));
+              }}
             />
           </FieldContainer>
         </div>
@@ -93,6 +101,7 @@ const StyleSettings: React.FC<Props> = ({ settings, setSettings }) => {
                   foregroundColor: example.foregroundColor,
                   backgroundColor: example.backgroundColor,
                 });
+                GAService.logEvent(analyticsEvents.generators.qrCode.colorChanged(example.foregroundColor));
               }}
             >
               <QRExampleIcon width='16' height='16' />
@@ -115,7 +124,10 @@ const StyleSettings: React.FC<Props> = ({ settings, setSettings }) => {
         <IconButtonGroup 
           options={CellShapeOptions} 
           value={settings.cellShape} 
-          onChange={(value) => onUpdate({ cellShape: value as CellShape })}
+          onChange={(value) => {
+            onUpdate({ cellShape: value as CellShape });
+            GAService.logEvent(analyticsEvents.generators.qrCode.cellShapeChanged(value as CellShape));
+          }}
         />
       </FieldContainer>
 
@@ -125,7 +137,10 @@ const StyleSettings: React.FC<Props> = ({ settings, setSettings }) => {
         <IconButtonGroup 
           options={EyeShapeOptions} 
           value={settings.eyeShape} 
-          onChange={(value) => onUpdate({ eyeShape: value as EyeShape })}
+          onChange={(value) => {
+            onUpdate({ eyeShape: value as EyeShape });
+            GAService.logEvent(analyticsEvents.generators.qrCode.eyeShapeChanged(value as EyeShape));
+          }}
         />
       </FieldContainer>
     </Container>

@@ -23,7 +23,7 @@ export const adjustColorForContrast = (
       return { textColor: textColor.hex(), bgColor: bgColor.hex(), newTarget: targetContrast };
     }
     
-    const newTarget = targetContrast + 2;
+    const newTarget = targetContrast + 1;
     
     // Try to improve to the new target
     const maxIterations = 100;

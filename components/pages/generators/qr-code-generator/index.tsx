@@ -43,12 +43,7 @@ const QRCodeGenerator = () => {
     }
     setQRMatrix(matrix);
     
-    // Determine content type for analytics
-    const contentType = content.startsWith('http') ? 'URL' : 
-                       content.includes('@') ? 'Email' : 
-                       content.match(/^\d+$/) ? 'Phone' : 'Text';
-    
-    GAService.logEvent(analyticsEvents.generators.qrCode.qrCodeGenerated(contentType));
+    GAService.logEvent(analyticsEvents.generators.qrCode.qrCodeGenerated(content));
   };
 
   return (
@@ -89,13 +84,19 @@ const QRCodeGenerator = () => {
                 
                 <RemoveLogoButton
                   text='Remove'
-                  onClick={() => setLogo(null)}
+                  onClick={() => {
+                    setLogo(null);
+                    GAService.logEvent(analyticsEvents.generators.qrCode.logoRemoved());
+                  }}
                 />
               </SelectedLogo>  
             ) : (
               <ImageInputMini
                 value={null}
-                onChange={setLogo}
+                onChange={(logo) => {
+                  setLogo(logo);
+                  GAService.logEvent(analyticsEvents.generators.qrCode.logoAdded());
+                }}
               />
             )}
             

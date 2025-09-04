@@ -94,11 +94,6 @@ export const analyticsEvents = {
         action: 'ColorsPalette-ColorChanged',
         label: `${oldColor}-${newColor}`
       }),
-      paletteCopied: (format: string) => ({
-        category: 'ColorsPalette',
-        action: 'ColorsPalette-PaletteCopied',
-        label: format
-      }),
       paletteExported: (format: string) => ({
         category: 'ColorsPalette',
         action: 'ColorsPalette-PaletteExported',
@@ -158,15 +153,10 @@ export const analyticsEvents = {
       }),
     },
     inspector: {
-      colorInputChanged: (color: string) => ({
+      colorChanged: (color: string) => ({
         category: 'ColorsInspector',
-        action: 'ColorsInspector-ColorInputChanged',
+        action: 'ColorsInspector-ColorChanged',
         label: color
-      }),
-      shadeSelected: (shade: string) => ({
-        category: 'ColorsInspector',
-        action: 'ColorsInspector-ShadeSelected',
-        label: shade
       }),
       exampleColorSelected: (color: string) => ({
         category: 'ColorsInspector',
@@ -186,6 +176,11 @@ export const analyticsEvents = {
       colorSwatchesOpened: () => ({
         category: 'ColorsInspector',
         action: 'ColorsInspector-ColorSwatchesOpened',
+      }),
+      shadeSelected: (shade: string) => ({
+        category: 'ColorsInspector',
+        action: 'ColorsInspector-ShadeSelected',
+        label: shade
       }),
       tintSelected: (tint: string) => ({
         category: 'ColorsInspector',
@@ -250,38 +245,40 @@ export const analyticsEvents = {
         action: 'ImagesCompression-CompressionSettingsChanged',
         label: settings,
       }),
-              imageCompressed: (optimizationPercentage: string) => ({
-          category: 'ImagesCompression',
-          action: 'ImagesCompression-ImageCompressed',
-          label: optimizationPercentage,
-        }),
-        imageDownloaded: (imageSize: string) => ({
-          category: 'ImagesCompression',
-          action: 'ImagesCompression-ImageDownloaded',
-          label: imageSize,
-        }),
+      imageCompressed: (optimizationPercentage: string) => ({
+        category: 'ImagesCompression',
+        action: 'ImagesCompression-ImageCompressed',
+        label: optimizationPercentage,
+      }),
+      imageDownloaded: (imageSize: string) => ({
+        category: 'ImagesCompression',
+        action: 'ImagesCompression-ImageDownloaded',
+        label: imageSize,
+      }),
     },
   },
   games: {
-    colorMatched: (level: string) => ({
-      category: 'Games',
-      action: 'Games-ColorMatched',
-      label: level,
-    }),
-    challengeStarted: () => ({
-      category: 'Games',
-      action: 'Games-ChallengeStarted',
-    }),
-    challengeEnded: (time: string) => ({
-      category: 'Games',
-      action: 'Games-ChallengeEnded',
-      label: time,
-    }),
-    challengeTopScored: (score: string) => ({
-      category: 'Games',
-      action: 'Games-ChallengeTopScored',
-      label: score,
-    }),
+    guessColorBlend: {
+      colorMatched: (level: string) => ({
+        category: 'GamesGuessColorBlend',
+        action: 'GamesGuessColorBlend-ColorMatched',
+        label: level,
+      }),
+      gameStarted: () => ({
+        category: 'GamesGuessColorBlend',
+        action: 'GamesGuessColorBlend-GameStarted',
+      }),
+      gameEnded: (time: string) => ({
+        category: 'GamesGuessColorBlend',
+        action: 'GamesGuessColorBlend-GameEnded',
+        label: time,
+      }),
+      gameTopScored: (score: string) => ({
+        category: 'GamesGuessColorBlend',
+        action: 'GamesGuessColorBlend-GameTopScored',
+        label: score,
+      }),
+    },
   },
   cheatsheets: {
     characters: {
@@ -299,16 +296,16 @@ export const analyticsEvents = {
       }),
     },
     colorSwatches: {
-              colorCopied: (color: string) => ({
-          category: 'CheatsheetsColorSwatches',
-          action: 'CheatsheetsColorSwatches-ColorCopied',
-          label: color
-        }),
-        colorInspected: (color: string) => ({
-          category: 'CheatsheetsColorSwatches',
-          action: 'CheatsheetsColorSwatches-ColorInspected',
-          label: color
-        }),
+      colorCopied: (color: string) => ({
+        category: 'CheatsheetsColorSwatches',
+        action: 'CheatsheetsColorSwatches-ColorCopied',
+        label: color
+      }),
+      colorInspected: (color: string) => ({
+        category: 'CheatsheetsColorSwatches',
+        action: 'CheatsheetsColorSwatches-ColorInspected',
+        label: color
+      }),
     },
   },
   generators: {
@@ -330,11 +327,6 @@ export const analyticsEvents = {
         action: 'GeneratorsQRCode-QRCodeGenerated',
         label: contentType
       }),
-      qrCodeDownloaded: (contentType: string) => ({
-        category: 'GeneratorsQRCode',
-        action: 'GeneratorsQRCode-QRCodeDownloaded',
-        label: contentType
-      }),
       logoAdded: () => ({
         category: 'GeneratorsQRCode',
         action: 'GeneratorsQRCode-LogoAdded',
@@ -343,39 +335,34 @@ export const analyticsEvents = {
         category: 'GeneratorsQRCode',
         action: 'GeneratorsQRCode-LogoRemoved',
       }),
-              styleChanged: (setting: string) => ({
-          category: 'GeneratorsQRCode',
-          action: 'GeneratorsQRCode-StyleChanged',
-          label: setting
-        }),
-        typeChanged: (type: string) => ({
-          category: 'GeneratorsQRCode',
-          action: 'GeneratorsQRCode-TypeChanged',
-          label: type
-        }),
-        downloadSVG: () => ({
-          category: 'GeneratorsQRCode',
-          action: 'GeneratorsQRCode-DownloadSVG',
-        }),
-        downloadJPEG: () => ({
-          category: 'GeneratorsQRCode',
-          action: 'GeneratorsQRCode-DownloadJPEG',
-        }),
-        colorChanged: (color: string) => ({
-          category: 'GeneratorsQRCode',
-          action: 'GeneratorsQRCode-ColorChanged',
-          label: color
-        }),
-        eyeShapeChanged: (shape: string) => ({
-          category: 'GeneratorsQRCode',
-          action: 'GeneratorsQRCode-EyeShapeChanged',
-          label: shape
-        }),
-        cellShapeChanged: (shape: string) => ({
-          category: 'GeneratorsQRCode',
-          action: 'GeneratorsQRCode-CellShapeChanged',
-          label: shape
-        }),
+      typeChanged: (type: string) => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-TypeChanged',
+        label: type
+      }),
+      downloadSVG: () => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-DownloadSVG',
+      }),
+      downloadJPEG: () => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-DownloadJPEG',
+      }),
+      colorChanged: (color: string) => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-ColorChanged',
+        label: color
+      }),
+      eyeShapeChanged: (shape: string) => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-EyeShapeChanged',
+        label: shape
+      }),
+      cellShapeChanged: (shape: string) => ({
+        category: 'GeneratorsQRCode',
+        action: 'GeneratorsQRCode-CellShapeChanged',
+        label: shape
+      }),
     },
   },
   general: {

@@ -61,12 +61,12 @@ const PaletteGeneratorMain: React.FC = () => {
     GAService.logEvent(analyticsEvents.colors.palette.colorChanged(oldColor, newBaseColor));
   };
 
-  const handleAddShade = (colorIndex: number, shade: Shade) => {
+  const handleSelectShade = (colorIndex: number, shade: Shade) => {
     const updated = [...selectedColors];
     updated[colorIndex].baseColor = shade.hex;
     setSelectedColors(updated);
     
-    GAService.logEvent(analyticsEvents.colors.palette.colorChanged(selectedColors[colorIndex].baseColor, shade.hex));
+    GAService.logEvent(analyticsEvents.colors.palette.shadeSelected(shade.hex));
   };
 
   const handleAddColor = () => {
@@ -150,7 +150,7 @@ const PaletteGeneratorMain: React.FC = () => {
         <Column>
           <ShadesList
             selectedColors={selectedColors}
-            onAddShade={handleAddShade}
+            onSelectShade={handleSelectShade}
           />
         </Column>
       </MainContent>

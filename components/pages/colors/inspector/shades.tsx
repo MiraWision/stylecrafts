@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { adjustBrightness, adjustSaturation, convertColor, ColorFormat } from '@mirawision/colorize';
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
 interface ShadesGridProps {
   baseColor: string;
@@ -48,7 +50,24 @@ const ShadesGrid: React.FC<ShadesGridProps> = ({ baseColor, onShadeSelect }) => 
                 <ShadeSquare
                   key={`${shadeType.name}-${shadeIndex}`}
                   $backgroundColor={shade}
-                  onClick={() => onShadeSelect(shade)}
+                  onClick={() => {
+                    onShadeSelect(shade);
+                    
+                    switch (shadeType.name) {
+                      case 'Tint (more white)':
+                        GAService.logEvent(analyticsEvents.colors.inspector.tintSelected(shade));
+                        break;
+                      case 'Shade (more black)':
+                        GAService.logEvent(analyticsEvents.colors.inspector.shadeSelected(shade));
+                        break;
+                      case 'Tone (more grey)':
+                        GAService.logEvent(analyticsEvents.colors.inspector.toneSelected(shade));
+                        break;
+                      case 'Hue Variations':
+                        GAService.logEvent(analyticsEvents.colors.inspector.hueSelected(shade));
+                        break;
+                    }
+                  }}
                 />
               ))}
             </ShadesRow>

@@ -64,6 +64,8 @@ const GradientGenerator: React.FC<Props> = ({}) => {
     updatedGradientSettings[index * 2] = newColor;
 
     setGradientSettings(updatedGradientSettings as Gradient['colors']);
+
+    GAService.logEvent(analyticsEvents.colors.gradient.editColor(newColor));
   };
 
   const updateSteps = (index: number, newSteps: number) => {
@@ -72,6 +74,8 @@ const GradientGenerator: React.FC<Props> = ({}) => {
     updatedGradientSettings[index * 2 + 1] = newSteps;
 
     setGradientSettings(updatedGradientSettings as Gradient['colors']);
+
+    GAService.logEvent(analyticsEvents.colors.gradient.editSteps(newSteps.toString()));
   };
 
   return (

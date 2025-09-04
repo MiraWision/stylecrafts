@@ -37,6 +37,10 @@ export const ImageToBase64: React.FC<Props> = ({}) => {
       const reader = new FileReader();
       reader.onload = () => {
         setImage(reader.result as string);
+
+        if (reader.result?.toString().length) {
+          GAService.logEvent(analyticsEvents.images.imageToBase64.imageConverted(reader.result.toString().length.toString()));
+        }
       };
       reader.readAsDataURL(file);
     }

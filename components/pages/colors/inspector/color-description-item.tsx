@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 import { Slider } from 'primereact/slider';
 import { ColorScale } from './color-scale';
@@ -18,7 +22,14 @@ const ColorDescriptionItem: React.FC<Props> = ({ label, value, copyable, scaleVa
       <Row>
         <Label>{label}</Label>
         <Value>{value}</Value>
-        {copyable && <CopyIconButton text={String(value)} />}
+        {copyable && (
+          <CopyIconButton
+            text={String(value)}
+            onCopyCallback={() => {
+              GAService.logEvent(analyticsEvents.colors.inspector.colorCopied(String(value)));
+            }}
+          />
+        )}
       </Row>
 
       {scaleValue !== undefined && scaleGradient?.length && (

@@ -89,7 +89,6 @@ const PaletteFromImageMain: React.FC<Props> = () => {
     const exampleImage = exampleImages.find(img => img.src === imageSrc);
     if (exampleImage) {
       setPalette(exampleImage.colors);
-      GAService.logEvent(analyticsEvents.colors.paletteFromImage.exampleImageSelected(imageSrc));
     } else {
       setPalette([]);
     }
@@ -114,8 +113,6 @@ const PaletteFromImageMain: React.FC<Props> = () => {
         setSelectedImage(newImage);
         // Clear palette for uploaded images to trigger auto-generation
         setPalette([]);
-        
-        GAService.logEvent(analyticsEvents.colors.paletteFromImage.imageUploaded(file.size.toString()));
       };
       reader.readAsDataURL(file);
     }
@@ -134,13 +131,19 @@ const PaletteFromImageMain: React.FC<Props> = () => {
           ) : (
             <ImageInputStyled
               value={null}
-              onChange={(image) => handleImageSelect(image.content as string)} 
+              onChange={(image) => {
+                handleImageSelect(image.content as string);
+                GAService.logEvent(analyticsEvents.colors.paletteFromImage.imageUploaded(image.fileMetaData?.size?.toString() ?? '0'));
+              }} 
             />
           )}
           <UploadButtonContainer>
             <UploadTextButton 
               text='Upload Image'
-              onFileSelect={handleFileSelect}
+              onFileSelect={(file) => {
+                handleFileSelect(file);
+                GAService.logEvent(analyticsEvents.colors.paletteFromImage.imageUploaded(file?.size?.toString() ?? '0'));
+              }}
             />
           </UploadButtonContainer>
         </ImageColumn>

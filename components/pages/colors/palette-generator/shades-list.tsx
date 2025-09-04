@@ -36,10 +36,10 @@ const generateShades = (color: string): Shade[] => {
 
 interface Props {
   selectedColors: PaletteColor[];
-  onAddShade: (colorIndex: number, shade: Shade) => void;
+  onSelectShade: (colorIndex: number, shade: Shade) => void;
 }
 
-const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
+const ShadesList: React.FC<Props> = ({ selectedColors, onSelectShade }) => {
   const shadesList = useMemo(() => {
     return selectedColors.map((color) => generateShades(color.baseColor));
   }, [selectedColors]);
@@ -53,7 +53,7 @@ const ShadesList: React.FC<Props> = ({ selectedColors, onAddShade }) => {
               <ShadeBox
                 key={shadeIndex}
                 $color={shade.hex}
-                onClick={() => onAddShade(index, shade)}
+                onClick={() => onSelectShade(index, shade)}
                 title={`Shade: ${shade.shade}`}
                 $isBase={shadeIndex === 4}
               />

@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 interface CrossLink {
   title: string;
   description: string;
@@ -25,7 +28,11 @@ const CrossLinks: React.FC<Props> = ({ title = "Related Tools", links, className
       <Title>{title}</Title>
       <LinksGrid>
         {links.map((link, index) => (
-          <CrossLinkItem key={index} link={link} />
+          <CrossLinkItem 
+            key={index} 
+            link={link} 
+            onClick={() => GAService.logEvent(analyticsEvents.general.exploreMoreToolsClicked(link.title))}
+          />
         ))}
       </LinksGrid>
     </Container>
@@ -34,9 +41,10 @@ const CrossLinks: React.FC<Props> = ({ title = "Related Tools", links, className
 
 interface CrossLinkItemProps {
   link: CrossLink;
+  onClick: () => void;
 }
 
-const CrossLinkItem: React.FC<CrossLinkItemProps> = ({ link }) => {
+const CrossLinkItem: React.FC<CrossLinkItemProps> = ({ link, onClick }) => {
   const linkContent = (
     <LinkContent>
       <LinkHeader>
@@ -58,7 +66,7 @@ const CrossLinkItem: React.FC<CrossLinkItemProps> = ({ link }) => {
   if (link.isExternal) {
     return (
       <LinkItem>
-        <a href={link.href} target="_blank" rel="noopener noreferrer">
+        <a href={link.href} target="_blank" rel="noopener noreferrer" onClick={onClick}>
           {linkContent}
         </a>
       </LinkItem>
@@ -67,7 +75,7 @@ const CrossLinkItem: React.FC<CrossLinkItemProps> = ({ link }) => {
 
   return (
     <LinkItem>
-      <Link href={link.href} passHref>
+      <Link href={link.href} passHref onClick={onClick}>
         {linkContent}
       </Link>
     </LinkItem>

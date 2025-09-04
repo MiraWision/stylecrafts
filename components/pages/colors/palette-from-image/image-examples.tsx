@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 interface ImageExample {
   src: string;
   colors: string[];
@@ -15,7 +18,10 @@ const ImageExamples: React.FC<ImageExamplesProps> = ({ images, onImageSelect }) 
   return (
     <GridContainer>
       {images.map((image, index) => (
-        <ImageWrapper key={index} onClick={() => onImageSelect(image.src)}>
+        <ImageWrapper key={index} onClick={() => {
+          onImageSelect(image.src);
+          GAService.logEvent(analyticsEvents.colors.paletteFromImage.exampleImageSelected(image.src));
+        }}>
           <ExampleImage src={image.src} alt={`Example ${index + 1}`} />
           <ColorPalette>
             {image.colors.map((color, colorIndex) => (

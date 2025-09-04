@@ -2,6 +2,8 @@ import React, { useMemo, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import { CellShape, EyeShape, Settings } from './types';
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
 import { DownloadIcon } from '@/components/icons/download';
 import { BaseTextButton } from '@/components/ui/text-buttons/base-text-button';
@@ -568,14 +570,20 @@ const QRCodeRenderer: React.FC<Props> = ({ qrMatrix, settings, logo }) => {
           text='Save as JPEG'
           icon={<DownloadIcon width='24' height='24' />}
           isPrimary
-          onClick={onSaveJPEG}
+          onClick={() => {
+            onSaveJPEG();
+            GAService.logEvent(analyticsEvents.generators.qrCode.downloadJPEG());
+          }}
         />
 
         <BaseTextButton
           text='Save as SVG'
           icon={<DownloadIcon width='24' height='24' />}
           isPrimary
-          onClick={onSaveSVG}
+          onClick={() => {
+            onSaveSVG();
+            GAService.logEvent(analyticsEvents.generators.qrCode.downloadSVG());
+          }}
         />
       </SaveButtons>
     </Container>

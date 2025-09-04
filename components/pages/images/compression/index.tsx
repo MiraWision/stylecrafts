@@ -131,7 +131,6 @@ const ImageCompressionMain: React.FC = () => {
     }
   };
   
-  
   const handleDownloadImage = () => {
     if (!compressedImage?.content) return;
     const link = document.createElement('a');
@@ -152,7 +151,10 @@ const ImageCompressionMain: React.FC = () => {
             <CompressionOption 
               key={option.value}
               $selected={compressionLevel === option.value}
-              onClick={() => setCompressionLevel(option.value)}
+              onClick={() => {
+                setCompressionLevel(option.value);
+                GAService.logEvent(analyticsEvents.images.compression.compressionSettingsChanged(option.value));
+              }}
             >
               <h4>{option.label}</h4>
               <p>~{option.compression}% Compression</p>
@@ -171,7 +173,10 @@ const ImageCompressionMain: React.FC = () => {
           <ImageContainer>
             <ImageInputStyled 
               value={originalImage?.content ?? null} 
-              onChange={setOriginalImage} 
+              onChange={(image) => {
+                setOriginalImage(image);
+                GAService.logEvent(analyticsEvents.images.compression.imageUploaded(image.fileMetaData?.size.toString() ?? '0'));
+              }} 
             />
             {originalImage?.content && (
               <>

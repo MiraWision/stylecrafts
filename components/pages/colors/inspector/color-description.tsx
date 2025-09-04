@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
-import { Color, parseColorNumbers, getTemperature, getLuminance, ColorFormat, HSL } from '@mirawision/colorize';
-import { ColorDescriptionItem } from './color-description-item';
 import styled from 'styled-components';
+import { Color, parseColorNumbers, getTemperature, getLuminance, ColorFormat, HSL } from '@mirawision/colorize';
+
+import { ColorDescriptionItem } from './color-description-item';
 
 interface Props {
   color: Color;

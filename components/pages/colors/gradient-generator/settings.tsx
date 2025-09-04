@@ -48,7 +48,10 @@ const GradientSettings: React.FC<Props> = ({
       <Header>
         <AdjustTextButton
           $isOpen={isOpen}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            setIsOpen(!isOpen);
+            GAService.logEvent(analyticsEvents.colors.gradient.adjustColorMenuOpened());
+          }}
         >
           <AdjustIcon />
           Adjust Colors
@@ -59,7 +62,10 @@ const GradientSettings: React.FC<Props> = ({
           <CopyTextButton
             text="Copy Colors"
             copyText={JSON.stringify(gradient).replace(/,/g, ', ')}
-            onCopyCallback={onCopy}
+            onCopyCallback={() => {
+              onCopy();
+              GAService.logEvent(analyticsEvents.colors.gradient.gradientCopied(JSON.stringify(gradient).replace(/,/g, ', ')));
+            }}
           />
         )}
       </Header>
