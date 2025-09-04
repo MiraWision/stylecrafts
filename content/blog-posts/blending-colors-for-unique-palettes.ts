@@ -41,7 +41,7 @@ Blended color palettes have versatile applications in design:
 ## Conclusion
 Mastering color blending allows you to create dynamic and harmonious palettes that can transform your design projects.
 
-> Enhance your designs with unique color palettes. Try our [Color Blending Tool](${Routes.ColorsInspectorTool}) now and discover the endless possibilities of color blending.
+> Enhance your designs with unique color palettes. Try our [Palette Generator Tool](${Routes.ColorsPaletteGeneratorTool}) now and discover the endless possibilities of color blending.
 `;
 
 export { content };

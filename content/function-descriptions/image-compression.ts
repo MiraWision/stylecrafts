@@ -21,7 +21,7 @@ Our image compression tool supports multiple formats and compression strategies:
 
 Image compression is essential for various web development scenarios. E-commerce sites benefit from faster product image loading, while content-heavy blogs improve readability with optimized images. Social media platforms rely on compression to handle millions of image uploads efficiently. By implementing proper image compression, developers can create faster, more responsive websites that provide better user experiences across all devices and connection speeds.
 
-Learn more about image optimization techniques and best practices by reading our comprehensive [blog post on optimizing images for the web](/blog/compressing-images-for-the-web).
+Learn more about image optimization techniques and best practices by reading our comprehensive [blog post on optimizing images for the web](/blog/optimizing-images-for-the-web).
 `;
 
 export { content };

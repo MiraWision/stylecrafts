@@ -73,7 +73,7 @@ With our all-in-one Image Optimization tool, enhancing your images for the web h
 ## Conclusion
 Optimizing images for the web is crucial for creating fast, user-friendly websites. By understanding the strengths and use cases of different image formats and learning how to adjust quality settings effectively, you can enhance your site’s performance and visual appeal.
 
-> Ready to optimize your images? Try our [Image Optimization Tool](${Routes.ImageCompressionTool}) now to ensure your website loads faster and looks great on any device.
+> Ready to optimize your images? Try our [Image Compression Tool](${Routes.ImageCompressionTool}) now to ensure your website loads faster and looks great on any device.
 `;
 
 export { content };

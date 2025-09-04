@@ -61,14 +61,14 @@ Selecting the appropriate color scheme for your website involves understanding y
 ## Implementing Color Psychology with Our Tools
 Our suite of tools can assist you in selecting and applying the right colors for your web projects:
 
-- **Color Converter**: Easily switch between color formats to find the perfect hue for your design.
+- **Palette Generator**: Create beautiful and harmonious color palettes.
 - **Gradient Generator**: Create smooth or stepped gradients that enhance the visual appeal of your site.
-- **Color Blending Tool**: Blend multiple colors to create harmonious palettes that resonate with your audience.
+- **Colors Inspector**: Analyze colors and their properties, find their harmonies and more.
 
 ## Conclusion
 Understanding and leveraging the psychology of color can transform your web design, making it more engaging and effective. By choosing colors that align with your brand and resonate with your audience, you can enhance the overall user experience.
 
-> Elevate your web design by harnessing the power of color psychology. Try our [Colors Converter](${Routes.ColorsConverterTool}), [Gradient Generator](${Routes.ColorsGradientGeneratorTool}), and [Colors Blending Tool](${Routes.ColorsInspectorTool}) to create visually compelling and emotionally resonant websites.
+> Elevate your web design by harnessing the power of color psychology. Try our [Palette Generator](${Routes.ColorsPaletteGeneratorTool}), [Gradient Generator](${Routes.ColorsGradientGeneratorTool}), and [Colors Inspector](${Routes.ColorsInspectorTool}) to create visually compelling and emotionally resonant websites.
 `;
 
 export { content };

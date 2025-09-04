@@ -30,7 +30,7 @@ enum Routes {
   Base64ImagesBlog = '/blog/integrating-base64-images-in-your-web-projects',
   ToolsForDesignersBlog = '/blog/essential-tools-for-designers-in-2024',
   BlendingColorsBlog = '/blog/blending-colors-for-unique-palettes',
-  OptimizingImagesBlog = '/blog/compressing-images-for-the-web',
+  OptimizingImagesBlog = '/blog/optimizing-images-for-the-web',
   WebDesignTrendsBlog = '/blog/top-trends-in-web-design-for-2024',
   UnderstandingColorFormatsBlog = '/blog/understanding-color-formats',
   ExploringColorsOfBridgertonBlog = '/blog/exploring-colors-of-bridgerton',
