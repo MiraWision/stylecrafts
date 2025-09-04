@@ -146,12 +146,12 @@ const Section = styled.section.attrs<{ $isFullHeight?: boolean; $isLast?: boolea
 }))<{ $isLast?: boolean }>`
   width: 100%;
   display: flex;
-  padding: ${({ $isLast }) => ($isLast ? '1.5rem 1.5rem 0 1.5rem' : '1.5rem')};
+  padding: ${({ $isLast }) => ($isLast ? '0' : '1.5rem')};
   justify-content: center;
   overflow: hidden;
 
   @media (max-width: 768px) {
-    padding: ${({ $isLast }) => ($isLast ? '1rem 0.5rem 0 0.5rem' : '1rem 0.5rem')};
+    padding: ${({ $isLast }) => ($isLast ? '0' : '1rem 0.5rem')};
   }
 `;
 

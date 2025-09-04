@@ -262,6 +262,7 @@ const ImagesContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+  margin-top: 2rem;
 
   @media (max-width: 600px) {
     flex-direction: column;

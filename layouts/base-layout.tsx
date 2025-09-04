@@ -151,8 +151,15 @@ const Content = styled.main`
 `;
 
 const BaseFooter = styled(Footer)`
-  margin: 0;
-  width: 100%;
+  @media (min-width: 769px) {
+    margin-left: 15rem;
+    width: calc(100% - 15rem);
+  }
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    padding: 1rem;
+  }
 `;
 
 export { BaseLayout };

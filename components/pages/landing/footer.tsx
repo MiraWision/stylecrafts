@@ -156,13 +156,7 @@ const FooterContent = styled.div`
   padding: 2rem 2rem 0 2rem;
   box-sizing: border-box;
 
-  @media (min-width: 769px) {
-    margin-left: 15rem;
-    width: calc(100% - 15rem);
-  }
-
   @media (max-width: 768px) {
-    margin-left: 0;
     padding: 1rem;
   }
 `;
