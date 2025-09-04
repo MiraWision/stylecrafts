@@ -228,7 +228,7 @@ const Container = styled.div`
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   width: 100%;
   max-width: 700px;
   margin: 0 auto;
@@ -243,18 +243,17 @@ const ImageLabel = styled(Label)`
   width: 48%;
   line-height: 1.5;
   color: var(--text-color);
+  margin-bottom: 0;
 
   @media (max-width: 600px) {
     width: 100%;
     font-size: 0.75rem;
-    margin-bottom: 0;
   }
 `;
 
 const ImagesContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 1.5rem;
   gap: 1rem;
 
   @media (max-width: 600px) {
