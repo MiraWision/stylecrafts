@@ -32,10 +32,10 @@ const featureCardData = [
     description: 'Instantly create beautiful and harmonious color palettes or simply find inspiration',
   },
   {
-    href: Routes.ColorStepsForHeatmapsBlog,
+    href: Routes.ColorsContrastCheckerTool,
     Icon: ContrastCheckerIcon,
-    title: 'Color Mixer',
-    description: 'Blend colors seamlessly to find the perfect shade for your designs',
+    title: 'Color Contrast Checker',
+    description: 'Check the contrast between colors for accessibility and readability',
   },
   {
     href: Routes.ColorsConverterTool,
@@ -54,7 +54,7 @@ const featureCardData = [
 const ColorsSection: React.FC = () => {
   return (
     <Container>
-      <Headline>{'{ COLORS FEATURES }'}</Headline>
+      <Headline>{'{ COLORS TOOLS }'}</Headline>
 
       <FeaturesRow>
         {featureCardData.map((feature, index) => (

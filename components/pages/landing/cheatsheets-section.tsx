@@ -11,6 +11,12 @@ import { EmojisIcon } from '@/components/icons/emojis';
 
 const cheatsheetData = [
   {
+    href: Routes.ColorSwatchesCheatSheet,
+    Icon: ColorSwatchesIcon,
+    title: 'Color Swatches Cheatsheet',
+    description: 'Find the perfect color swatch for your design projects',
+  },
+  {
     href: Routes.CharactersCheatSheet,
     Icon: CharactersIcon,
     title: 'Characters Cheatsheet',
@@ -21,12 +27,6 @@ const cheatsheetData = [
     Icon: EmojisIcon,
     title: 'Emojis Cheatsheet',
     description: 'Browse a comprehensive list of emojis to add personality and fun to your content',
-  },
-  {
-    href: Routes.ColorSwatchesCheatSheet,
-    Icon: ColorSwatchesIcon,
-    title: 'Color Swatches Cheatsheet',
-    description: 'Find the perfect color swatch for your design projects',
   },
 ];
 

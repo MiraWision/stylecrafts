@@ -33,7 +33,7 @@ const featureCardData = [
 const ImagesSection: React.FC = () => {
   return (
     <Container>
-      <Headline>{'{ IMAGES FEATURES }'}</Headline>
+      <Headline>{'{ IMAGES TOOLS }'}</Headline>
 
       <FeaturesRow>
         {featureCardData.map((feature, index) => (

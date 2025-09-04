@@ -13,7 +13,7 @@ const TopMenu: React.FC = () => {
         <IconImage src="./landing/top-menu-logo.svg" alt="Logo" />
       </Icon>
       <MenuItem href={Routes.ContactUs}>contact us</MenuItem>
-      <MenuItem  href={Routes.ImageCompressionTool}>go to app</MenuItem>
+      <MenuItem  href={Routes.ColorsGradientGeneratorTool}>go to app</MenuItem>
     </Container>
   );
 };

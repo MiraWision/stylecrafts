@@ -10,13 +10,13 @@ import { LoremIpsumGeneratorIcon } from '@/components/icons/lorem-ipsum-generato
 
 const featureCardData = [
   {
-    href: Routes.ColorsPaletteGeneratorTool,
+    href: Routes.GeneratorsQRCode,
     Icon: QRCodeGeneratorIcon,
     title: 'QR Code Generator',
     description: 'Generate QR codes for your website, business card, or any other use case',
   },
   {
-    href: Routes.ColorsGradientGeneratorTool,
+    href: Routes.GeneratorsLoremIpsum,
     Icon: LoremIpsumGeneratorIcon,
     title: 'Lorem Ipsum Generator',
     description: 'Generate placeholder text for your designs or websites',
@@ -26,7 +26,7 @@ const featureCardData = [
 const GeneratorsSection: React.FC = () => {
   return (
     <Container>
-      <Headline>{'{ GENERATORS FEATURES }'}</Headline>
+      <Headline>{'{ GENERATORS }'}</Headline>
 
       <FeaturesRow>
         {featureCardData.map((feature, index) => (

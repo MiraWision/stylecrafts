@@ -45,7 +45,7 @@ const HeroSection: React.FC<Props> = () => {
                   Optimize images, create vibrant palettes, generate heatmaps, and many more with our free tools and libraries
                 </Paragraph>
               
-                <GoToAppLink href={Routes.ImageCompressionTool}>
+                <GoToAppLink href={Routes.ColorsGradientGeneratorTool}>
                   GO TO APP <GoToAppIcon width='2.5vw' height='2.5vw' />
                 </GoToAppLink>
               </ParagraphContainer>
