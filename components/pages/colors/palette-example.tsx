@@ -38,19 +38,15 @@ const PaletteExample: React.FC<Props> = ({ palette, onClick }) => {
     try {
       const baseColor = new Color(color);
       return {
-        lightest: baseColor.withBrightness(25),
         lighter: baseColor.withBrightness(15),
         main: color,
         darker: baseColor.withBrightness(-15),
-        darkest: baseColor.withBrightness(-25)
       };
     } catch {
       return {
-        lightest: color,
         lighter: color,
         main: color,
         darker: color,
-        darkest: color
       };
     }
   };

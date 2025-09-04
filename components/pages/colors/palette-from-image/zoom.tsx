@@ -40,16 +40,14 @@ const Zoom: React.FC<ZoomProps> = ({
 
     return (
       <Magnifier
-        style={{
-          top: circleTop,
-          left: circleLeft,
-          width: ZOOM_SIZE_PX,
-          height: ZOOM_SIZE_PX,
-          transform: 'none',
-          backgroundImage: `url(${imageUrl})`,
-          backgroundSize: `${scaledBgWidth}px ${scaledBgHeight}px`,
-          backgroundPosition: `${offsetX}px ${offsetY}px`,
-        }}
+        $top={circleTop}
+        $left={circleLeft}
+        $width={ZOOM_SIZE_PX}
+        $height={ZOOM_SIZE_PX}
+        $transform="none"
+        $backgroundImage={`url(${imageUrl})`}
+        $backgroundSize={`${scaledBgWidth}px ${scaledBgHeight}px`}
+        $backgroundPosition={`${offsetX}px ${offsetY}px`}
       >
         <CenterDot />
       </Magnifier>
@@ -58,13 +56,11 @@ const Zoom: React.FC<ZoomProps> = ({
 
   return (
     <Magnifier
-      style={{
-        top: circleTop,
-        left: circleLeft,
-        width: ZOOM_SIZE_PX,
-        height: ZOOM_SIZE_PX,
-        transform: 'none',
-      }}
+      $top={circleTop}
+      $left={circleLeft}
+      $width={ZOOM_SIZE_PX}
+      $height={ZOOM_SIZE_PX}
+      $transform="none"
     >
       {pixelMatrix && (
         <PixelGrid>
@@ -77,7 +73,7 @@ const Zoom: React.FC<ZoomProps> = ({
                 return (
                   <Cell
                     key={colIndex}
-                    style={{ backgroundColor: color }}
+                    $backgroundColor={color}
                     isCenter={isCenter}
                   />
                 );
@@ -90,7 +86,16 @@ const Zoom: React.FC<ZoomProps> = ({
   );
 };
 
-const Magnifier = styled.div`
+const Magnifier = styled.div<{
+  $top: number;
+  $left: number;
+  $width: number;
+  $height: number;
+  $transform: string;
+  $backgroundImage?: string;
+  $backgroundSize?: string;
+  $backgroundPosition?: string;
+}>`
   position: absolute;
   pointer-events: none;
   border: 2px solid #999;
@@ -99,6 +104,14 @@ const Magnifier = styled.div`
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   background-repeat: no-repeat;
   background-color: #fff;
+  top: ${({ $top }) => $top}px;
+  left: ${({ $left }) => $left}px;
+  width: ${({ $width }) => $width}px;
+  height: ${({ $height }) => $height}px;
+  transform: ${({ $transform }) => $transform};
+  ${({ $backgroundImage }) => $backgroundImage && `background-image: ${$backgroundImage};`}
+  ${({ $backgroundSize }) => $backgroundSize && `background-size: ${$backgroundSize};`}
+  ${({ $backgroundPosition }) => $backgroundPosition && `background-position: ${$backgroundPosition};`}
 `;
 
 const CenterDot = styled.div`
@@ -124,9 +137,10 @@ const Row = styled.div`
   flex: 1;
 `;
 
-const Cell = styled.div<{ isCenter?: boolean }>`
+const Cell = styled.div<{ isCenter?: boolean; $backgroundColor: string }>`
   flex: 1;
   border: 1px solid #000;
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
   ${({ isCenter }) =>
     isCenter &&
     `

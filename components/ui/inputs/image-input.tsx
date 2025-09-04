@@ -168,11 +168,10 @@ const ImageInput: React.FC<Props> = ({ value, onChange, className }) => {
         </Overlay>
       )}
 
-      <input
+      <HiddenInput
         ref={fileInputRef}
         type="file"
         accept="image/jpeg,image/png,image/webp,image/tiff,image/gif,image/avif,image/heif"
-        style={{ display: 'none' }}
         onChange={handleInputChange}
       />
 
@@ -292,6 +291,10 @@ const Image = styled.img`
   width: 100%;
   height: auto;
   border-radius: 0.5rem;
+`;
+
+const HiddenInput = styled.input`
+  display: none;
 `;
 
 export { ImageInput };

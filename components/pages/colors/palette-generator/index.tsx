@@ -19,6 +19,7 @@ import { DropdownTextButton } from '@/components/ui/text-buttons/dropdown-text-b
 import { ToolCrossLinks } from '@/components/ui/cross-links';
 import { CopyIcon } from '@/components/icons/copy';
 import { DownloadIcon } from '@/components/icons/download';
+import { Color } from '@mirawision/colorize';
 
 const initialColors: PaletteColor[] = [
   { baseColor: '#ffffff', title: 'Background', shades: [] },
@@ -27,19 +28,6 @@ const initialColors: PaletteColor[] = [
   { baseColor: '#f59e0b', title: 'Accent', shades: [] },
 ];
 
-function encodePalette(colors: PaletteColor[]): string {
-  return colors.map(c => c.baseColor).join('-');
-}
-
-function decodePalette(hash: string, fallbackTitles: string[]): PaletteColor[] | null {
-  const colorCodes = hash.split('-');
-  if (!colorCodes.every(code => /^#?[0-9a-fA-F]{3,8}$/.test(code))) return null;
-  return colorCodes.map((baseColor, i) => ({
-    baseColor: baseColor.startsWith('#') ? baseColor : `#${baseColor}`,
-    title: fallbackTitles[i] || `Color ${i+1}`,
-    shades: []
-  }));
-}
 
 const PaletteGeneratorMain: React.FC = () => {
   const [selectedColors, setSelectedColors] = useState<PaletteColor[]>(initialColors);
@@ -49,36 +37,16 @@ const PaletteGeneratorMain: React.FC = () => {
     if (window.location.hash) {
       const hash = window.location.hash.replace('#', '');
       
-      // First check if hash matches an example palette slug
-      let exampleFound = false;
+      // Check if hash matches an example palette slug
       for (const group of examplePaletteGroups) {
         const palette = group.palettes.find(palette => generateSlug(palette.name) === hash);
         if (palette) {
           setSelectedColors(palette.colors);
-          exampleFound = true;
           break;
         }
       }
-      
-      // If no example found, try to decode as color-based hash
-      if (!exampleFound) {
-        const decoded = decodePalette(hash, initialColors.map(c => c.title));
-        if (decoded) setSelectedColors(decoded);
-      }
     }
   }, []);
-
-  useEffect(() => {
-    // Only update hash if it's not already an example slug
-    const currentHash = window.location.hash.replace('#', '');
-    const isExampleSlug = examplePaletteGroups.some(group => 
-      group.palettes.some(palette => generateSlug(palette.name) === currentHash)
-    );
-    
-    if (!isExampleSlug) {
-      window.location.hash = encodePalette(selectedColors);
-    }
-  }, [selectedColors]);
 
   const handleColorChange = (index: number, newBaseColor: string) => {
     const updated = [...selectedColors];

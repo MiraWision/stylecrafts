@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { adjustBrightness } from '@mirawision/colorize';
+
+import { PaletteColor } from '../types';
+
 import { HeartIcon } from '@/components/icons/heart';
 import { AddToCart } from '@/components/icons/add-to-cart';
 import { Star } from '@/components/icons/star';
-import { PaletteColor } from '../types';
 
 interface ProductData {
   name: string;
@@ -25,27 +28,19 @@ const ProductPreview: React.FC<Props> = ({ data, palette }) => {
   const [selectedImage, setSelectedImage] = useState<string>(colorObj.images[0]);
   const [selectedStorage, setSelectedStorage] = useState<number | null>(data.storageOptions[0]?.size ?? null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectedImage(colorObj.images[0]);
   }, [selectedColor]);
 
-  const primaryColor = palette.find(c => c.title === 'Primary')?.baseColor ?? '#3468db';
-  const accentColor  = palette.find(c => c.title === 'Accent')?.baseColor  ?? '#e74c3c';
-  const textColor    = palette.find(c => c.title === 'Text')?.baseColor    ?? '#333333';
+  const primary = palette.find(c => c.title === 'Primary')?.baseColor ?? '#3468db';
+  const accent = palette.find(c => c.title === 'Accent')?.baseColor  ?? '#e74c3c';
+  const text = palette.find(c => c.title === 'Text')?.baseColor    ?? '#333333';
+  const background = palette.find(c => c.title === 'Background')?.baseColor ?? '#f5f5f5';
+  
+  const primaryLight = adjustBrightness(primary, 10);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedStorage === null) {
-      alert('Please select a storage option before adding to cart.');
-      return;
-    }
-    console.log({
-      name: data.name,
-      storage: selectedStorage,
-      color: selectedColor,
-      modelId: data.modelId,
-      price: data.storageOptions.find(o => o.size === selectedStorage)?.price
-    });
   };
 
   const currentPrice =
@@ -54,7 +49,7 @@ const ProductPreview: React.FC<Props> = ({ data, palette }) => {
     0;
 
   return (
-    <ProductContainer>
+    <ProductContainer $backgroundColor={background}>
       <Form onSubmit={handleSubmit}>
         <ImageSection>
           <MainImage src={selectedImage} alt={data.name} />
@@ -72,10 +67,10 @@ const ProductPreview: React.FC<Props> = ({ data, palette }) => {
 
         <DetailsWrapper>
           <TitleWrapper>
-            <ProductTitle style={{ color: textColor }}>
+            <ProductTitle $color={text}>
               {data.name}
             </ProductTitle>
-            <ModelId>ID: {data.modelId}</ModelId>
+            <ModelId $color={text}>ID: {data.modelId}</ModelId>
           </TitleWrapper>
 
           <RatingWrapper>
@@ -85,17 +80,17 @@ const ProductPreview: React.FC<Props> = ({ data, palette }) => {
                 return <Star key={i} filled={fraction} />;
               })}
             </StarRating>
-            <ReviewCount>
+            <ReviewCount $color={text}>
               ({data.rating} / {data.reviewsCount} reviews)
             </ReviewCount>
           </RatingWrapper>
 
-          <Price style={{ color: accentColor }}>
+          <Price $color={primary}>
             ${currentPrice.toFixed(2)}
           </Price>
 
           <ColorOptions>
-            <label>Color:</label>
+            <ColorLabel $color={text}>Color:</ColorLabel>
             <ColorsWrapper>
               {data.colorOptions.map((opt, idx) => (
                 <ColorCircle
@@ -110,21 +105,16 @@ const ProductPreview: React.FC<Props> = ({ data, palette }) => {
           </ColorOptions>
 
           <SizeOptions>
-            <label>Storage:</label>
+            <StorageLabel $color={text}>Storage:</StorageLabel>
             <SizesWrapper>
               {data.storageOptions.map((opt, idx) => (
                 <SizeBox
                   key={idx}
-                  type="button"
-                  disabled={!opt.available}
-                  isSelected={opt.size === selectedStorage}
+                  $disabled={!opt.available}
+                  $isSelected={opt.size === selectedStorage}
                   onClick={() => opt.available && setSelectedStorage(opt.size)}
-                  style={{
-                    backgroundColor:
-                      opt.size === selectedStorage ? primaryColor : '#fff',
-                    color:
-                      opt.size === selectedStorage ? '#fff' : textColor,
-                  }}
+                  $backgroundColor={primary}
+                  $textColor={text}
                 >
                   {opt.label}
                 </SizeBox>
@@ -133,11 +123,11 @@ const ProductPreview: React.FC<Props> = ({ data, palette }) => {
           </SizeOptions>
 
           <ButtonContainer>
-            <CartButton type="submit" style={{ backgroundColor: primaryColor }}>
+            <CartButton type="submit" $backgroundColor={primary} $hoverBackgroundColor={primaryLight}>
               <AddToCart width="16" height="16" />
               Add to cart
             </CartButton>
-            <FavoriteButton type="button">
+            <FavoriteButton type="button" $borderColor={primary} $color={primary} $hoverColor={primaryLight}>
               <HeartIcon width="16" height="16" />
             </FavoriteButton>
           </ButtonContainer>
@@ -147,27 +137,15 @@ const ProductPreview: React.FC<Props> = ({ data, palette }) => {
   );
 };
 
-const StarWrapper = styled.div<{ size: number }>`
-  position: relative;
-  width: ${({ size }) => size}px;
-  height: ${({ size }) => size}px;
-  display: inline-block;
-`;
-
-const FilledClip = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  overflow: hidden;
-`;
-
-const ProductContainer = styled.div`
+const ProductContainer = styled.div<{ $backgroundColor?: string }>`
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding: 1rem;
   max-width: 800px;
   margin: 0 auto;
+  background-color: ${({ $backgroundColor }) => $backgroundColor || 'transparent'};
+  border-radius: 0.5rem;
+  min-height: 100%;
 `;
 
 const Form = styled.form`
@@ -189,14 +167,14 @@ const MainImage = styled.img`
 
 const ThumbnailWrapper = styled.div`
   display: flex;
-  margin-top: 10px;
+  margin-top: 0.5rem;
 `;
 
 const Thumbnail = styled.img<{ isActive: boolean }>`
   width: 60px;
   height: 60px;
   margin-right: 5px;
-  border: 2px solid ${({ isActive }) => (isActive ? '#000' : 'transparent')};
+  border: 2px solid ${({ isActive }) => (isActive ? 'var(--text-color)' : 'transparent')};
   border-radius: 0.25rem;
   cursor: pointer;
   transition: border 0.3s;
@@ -213,14 +191,15 @@ const TitleWrapper = styled.div`
   align-items: center;
 `;
 
-const ModelId = styled.div`
+const ModelId = styled.div<{ $color: string }>`
   font-size: 12px;
-  color: gray;
+  color: ${({ $color }) => $color};
 `;
 
-const ProductTitle = styled.h1`
+const ProductTitle = styled.h1<{ $color: string }>`
   font-size: 24px;
   margin-bottom: 10px;
+  color: ${({ $color }) => $color};
 `;
 
 const RatingWrapper = styled.div`
@@ -233,25 +212,33 @@ const StarRating = styled.div`
   display: flex;
 `;
 
-const ReviewCount = styled.span`
+const ReviewCount = styled.span<{ $color: string }>`
   font-size: 0.875rem;
   margin-left: 10px;
-  color: #555;
+  color: ${({ $color }) => $color};
 `;
 
-const Price = styled.div`
+const Price = styled.div<{ $color: string }>`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: ${({ $color }) => $color};
 `;
 
 const ColorOptions = styled.div`
   margin-bottom: 20px;
 `;
 
+const ColorLabel = styled.label<{ $color: string }>`
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: ${({ $color }) => $color};
+`;
+
 const ColorsWrapper = styled.div`
   display: flex;
-  margin-top: 10px;
+  margin-top: 0.5rem;
 `;
 
 const ColorCircle = styled.div<{ color: string; isActive: boolean }>`
@@ -261,78 +248,101 @@ const ColorCircle = styled.div<{ color: string; isActive: boolean }>`
   border-radius: 50%;
   margin-right: 10px;
   cursor: pointer;
-  border: 2px solid ${({ isActive }) => (isActive ? '#000' : '#ddd')};
+  border: 2px solid ${({ isActive }) => (isActive ? 'var(--surface-500)' : 'var(--surface-border)')};
 `;
 
 const SizeOptions = styled.div`
   margin-bottom: 20px;
-  label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
+`;
+
+const StorageLabel = styled.label<{ $color: string }>`
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: ${({ $color }) => $color};
 `;
 
 const SizesWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.5rem;
 `;
 
-const SizeBox = styled.button<{ isSelected: boolean; disabled: boolean }>`
-  padding: 6px 12px;
+const SizeBox = styled.div<{ $isSelected: boolean; $disabled: boolean; $backgroundColor: string; $textColor: string }>`
+  padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  border-radius: 8px;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  transition: all 0.2s;
-  border: ${({ isSelected }) => (isSelected ? 'none' : '1px solid #ccc')};
+  border-radius: 4px;
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
+  transition: all 0.3s;
+  border: ${({ $backgroundColor }) => `1px solid ${$backgroundColor}`};
+  background-color: ${({ $isSelected, $backgroundColor }) => $isSelected ? $backgroundColor : 'transparent'};
+  color: ${({ $isSelected, $textColor }) => $isSelected ? 'var(--surface-0)' : $textColor};
+  filter: ${({ $disabled }) => ($disabled ? 'grayscale(100%)' : 'none')};
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 0.5rem;
+  margin-top: 1rem;
 `;
 
-const CartButton = styled.button`
+const CartButton = styled.button<{ $backgroundColor: string, $hoverBackgroundColor: string }>`
   display: flex;
   align-items: center;
   padding: 6px 12px;
   font-size: 0.875rem;
-  color: #fff;
+  color: var(--surface-0);
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.3s;
   max-width: 120px;
-  svg {
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
+
+  &:hover {
+    background-color: ${({ $hoverBackgroundColor }) => $hoverBackgroundColor};
+  }
+
+  .icon {
     width: 16px;
     height: 16px;
     margin-right: 4px;
-  }
-  &:hover {
-    background-color: #333;
+    
+    * {
+      fill: var(--surface-0);
+    }
   }
 `;
 
-const FavoriteButton = styled.button`
+const FavoriteButton = styled.button<{ $borderColor: string; $color: string; $hoverColor: string }>`
   width: 32px;
   height: 32px;
-  background-color: #f5f5f5;
-  color: #000;
-  border: 1px solid #ddd;
+  background-color: transparent;
+  border: 1px solid;
+  border-color: ${({ $borderColor }) => $borderColor};
   border-radius: 0.25rem;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.2s;
-  svg {
+  transition: all 0.3s;
+
+  .icon {
     width: 16px;
     height: 16px;
+
+    * {
+      fill: ${({ $color }) => $color};
+    }
   }
+
   &:hover {
-    background-color: #e5e5e5;
+    background-color: ${({ $hoverColor }) => $hoverColor};
+
+    * {
+      fill: var(--surface-0);
+    }
   }
 `;
 

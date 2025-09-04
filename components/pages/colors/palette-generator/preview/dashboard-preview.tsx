@@ -35,7 +35,8 @@ const timeSlots = ['9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM'];
 const Heatmap: React.FC<{
   primaryColor: string;
   textColor: string;
-}> = React.memo(({ primaryColor, textColor }) => {
+  backgroundColor?: string;
+}> = React.memo(({ primaryColor, textColor, backgroundColor }) => {
   const [hoveredCell, setHoveredCell] = useState<{ row: number; col: number } | null>(null);
 
   const handleMouseEnter = (row: number, col: number) => {
@@ -60,12 +61,12 @@ const Heatmap: React.FC<{
   };
 
   return (
-    <HeatmapContainer>
+    <HeatmapContainer backgroundColor={backgroundColor}>
       <InteractiveHeatmap>
         <GridContainer>
           <TimeLabels>
             {timeSlots.map((time, rowIndex) => (
-              <TimeLabel key={rowIndex} style={{ color: textColor }}>
+              <TimeLabel key={rowIndex} $color={textColor}>
                 {time}
               </TimeLabel>
             ))}
@@ -86,9 +87,7 @@ const Heatmap: React.FC<{
                       intensity={intensity}
                       onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
                       onMouseLeave={handleMouseLeave}
-                      style={{
-                        backgroundColor: `rgba(${r}, ${g}, ${b}, ${intensity})`,
-                      }}
+                      $backgroundColor={`rgba(${r}, ${g}, ${b}, ${intensity})`}
                     />
                   );
                 })}
@@ -98,7 +97,7 @@ const Heatmap: React.FC<{
         </GridContainer>
         <DaysOfWeekContainer>
           {daysOfWeek.map((day, i) => (
-            <DayLabel key={i} style={{ color: textColor }}>
+            <DayLabel key={i} $color={textColor}>
               {day}
             </DayLabel>
           ))}
@@ -113,6 +112,15 @@ const DashboardPreview: React.FC<DashboardPreviewProps> = ({ data, palette }) =>
   const accentColor = palette.find(color => color.title === 'Accent')?.baseColor || '#e74c3c';
   const textColor = palette.find(color => color.title === 'Text')?.baseColor || '#333333';
   const backgroundColor = palette.find(color => color.title === 'Background')?.baseColor || '#f5f5f5';
+  
+  // Get shades for better color variety
+  const primaryShades = palette.find(color => color.title === 'Primary')?.shades || [];
+  const accentShades = palette.find(color => color.title === 'Accent')?.shades || [];
+  
+  // Use lighter shades for backgrounds and darker shades for text
+  const lightPrimary = primaryShades.find(s => s.shade >= 50)?.hex || primaryColor;
+  const darkPrimary = primaryShades.find(s => s.shade <= 900)?.hex || primaryColor;
+  const lightAccent = accentShades.find(s => s.shade >= 50)?.hex || accentColor;
 
   const cardData: TrendCardData[] = [
     {
@@ -184,32 +192,30 @@ const DashboardPreview: React.FC<DashboardPreviewProps> = ({ data, palette }) =>
   };
 
   return (
-    <DashboardContainer>
+    <DashboardContainer backgroundColor={backgroundColor}>
       <TopRow>
         {cardData.map((card, index) => (
           <Card
             key={index}
             positive={card.positive}
-            style={{
-              backgroundColor: card.positive ? `${primaryColor}1A` : `${accentColor}1A`,
-            }}
+            $backgroundColor={card.positive ? `${primaryColor}1A` : `${accentColor}1A`}
           >
             <CardTop>
-              <CardValue style={{ color: textColor }}>{card.value}</CardValue>
+              <CardValue $color={textColor}>{card.value}</CardValue>
               <CardChange positive={card.positive}>
                 {card.positive ? <TrandUp /> : <TrandDown />}
                 {card.trend > 0 ? `+${card.trend}%` : `${card.trend}%`}
               </CardChange>
             </CardTop>
-            <CardTitle style={{ color: textColor }}>{card.title}</CardTitle>
-            <CardSubText>{card.dateRange}</CardSubText>
+            <CardTitle $color={textColor}>{card.title}</CardTitle>
+            <CardSubText textColor={textColor}>{card.dateRange}</CardSubText>
           </Card>
         ))}
       </TopRow>
 
       <BottomRow>
         <HeatmapSection>
-          <Heatmap primaryColor={primaryColor} textColor={textColor} />
+          <Heatmap primaryColor={primaryColor} textColor={textColor} backgroundColor={darkPrimary} />
         </HeatmapSection>
 
         <ChartSection>
@@ -227,10 +233,10 @@ const DashboardPreview: React.FC<DashboardPreviewProps> = ({ data, palette }) =>
   );
 };
 
-const HeatmapContainer = styled.div`
+const HeatmapContainer = styled.div<{ backgroundColor?: string }>`
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: ${({ backgroundColor }) => backgroundColor || '#fff'};
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -265,11 +271,12 @@ const Row = styled.div`
   gap: 2px;
 `;
 
-const HeatmapCell = styled.div<{ intensity: number }>`
+const HeatmapCell = styled.div<{ intensity: number; $backgroundColor: string }>`
   width: 20px;
   height: 20px;
   border-radius: 2px;
   transition: background-color 0.1s ease;
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
 `;
 
 const DaysOfWeekContainer = styled.div`
@@ -280,22 +287,27 @@ const DaysOfWeekContainer = styled.div`
   width: 12.2rem;
 `;
 
-const DayLabel = styled.div`
+const DayLabel = styled.div<{ $color: string }>`
   font-size: 12px;
   text-align: center;
   width: 24px;
+  color: ${({ $color }) => $color};
 `;
 
-const TimeLabel = styled.div`
+const TimeLabel = styled.div<{ $color: string }>`
   font-size: 13px;
   text-align: right;
+  color: ${({ $color }) => $color};
 `;
 
-const DashboardContainer = styled.div`
+const DashboardContainer = styled.div<{ backgroundColor?: string }>`
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 20px;
+  background-color: ${({ backgroundColor }) => backgroundColor || 'transparent'};
+  border-radius: 0.5rem;
+  min-height: 100%;
 `;
 
 const TopRow = styled.div`
@@ -321,7 +333,7 @@ const ChartWrapper = styled.div`
   width: 100%;
 `;
 
-const Card = styled.div<{ positive: boolean }>`
+const Card = styled.div<{ positive: boolean; $backgroundColor: string }>`
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -329,6 +341,7 @@ const Card = styled.div<{ positive: boolean }>`
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease-in-out;
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
 
   &:hover {
     transform: translateY(-10px);
@@ -341,27 +354,30 @@ const CardTop = styled.div`
   align-items: center;
 `;
 
-const CardValue = styled.div`
+const CardValue = styled.div<{ $color: string }>`
   font-size: 24px;
   font-weight: bold;
+  color: ${({ $color }) => $color};
 `;
 
 const CardChange = styled.div<{ positive: boolean }>`
   display: flex;
   align-items: center;
   gap: 5px;
-  color: ${({ positive }) => (positive ? 'green' : 'red')};
+  color: ${({ positive }) => (positive ? 'var(--success-color)' : 'var(--error-color)')};
   font-weight: bold;
 `;
 
-const CardTitle = styled.h3`
+const CardTitle = styled.h3<{ $color: string }>`
   font-size: 16px;
   margin-bottom: 10px;
+  color: ${({ $color }) => $color};
 `;
 
-const CardSubText = styled.div`
+const CardSubText = styled.div<{ textColor?: string }>`
   font-size: 12px;
-  color: gray;
+  color: ${({ textColor }) => textColor || 'var(--text-muted)'};
+  opacity: 0.7;
 `;
 
 export { DashboardPreview };

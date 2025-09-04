@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { adjustBrightness } from '@mirawision/colorize';
+
 import { PaletteColor } from '../types';
 
 interface BlogPreviewProps {
@@ -7,110 +9,165 @@ interface BlogPreviewProps {
 }
 
 const BlogPreview: React.FC<BlogPreviewProps> = ({ palette }) => {
-  const primaryColor = palette.find(color => color.title === 'Primary')?.baseColor || '#3468db';
-  const accentColor = palette.find(color => color.title === 'Accent')?.baseColor || '#e74c3c';
-  const textColor = palette.find(color => color.title === 'Text')?.baseColor || '#333333';
-  const backgroundColor = palette.find(color => color.title === 'Background')?.baseColor || '#f5f5f5';
-  const additionalColor = palette.find(color => color.title === 'Additional')?.baseColor || '#f5f5f5';
+  const primary = palette.find(color => color.title === 'Primary')?.baseColor || '#3468db';
+  const accent = palette.find(color => color.title === 'Accent')?.baseColor || '#e74c3c';
+  const text = palette.find(color => color.title === 'Text')?.baseColor || '#333333';
+  const background = palette.find(color => color.title === 'Background')?.baseColor || '#f5f5f5';
+  
+  const primaryDark = adjustBrightness(primary, -10);
+  const backgroundDark = adjustBrightness(background, -5);
+  const textDark = adjustBrightness(text, -5);
 
   return (
-    <Container>
-      <LeftColumn>
-        <Section backgroundColor={backgroundColor}>
-          <CompactHeading style={{ color: textColor }}>Headings</CompactHeading>
-          <Title style={{ color: primaryColor }}>Exploring the Wonders of the Universe</Title>
-          <Subtitle style={{ color: accentColor }}>A Journey Through Space and Time</Subtitle>
-        </Section>
+    <Container $backgroundColor={background}>
+      <ArticleContent $backgroundColor={background}>
+        <Category $color={textDark}>Technology</Category>
+        <Title $color={text}>Exploring the Wonders of the Universe</Title>
+        <Subtitle $color={text}>A Journey Through Space and Time</Subtitle>
+        <MetaInfo>
+          <Author $color={text}>By John Doe</Author>
+          <Date $color={text}>March 15, 2024</Date>
+          <ShareButton $backgroundColor={primary} $textColor="white">
+            Share
+          </ShareButton>
+        </MetaInfo>
 
-        <Section backgroundColor={backgroundColor}>
-          <CompactHeading style={{ color: textColor }}>Paragraphs</CompactHeading>
-          <Paragraph style={{ color: textColor }}>
+        <FeaturedImage src="https://picsum.photos/800/400" alt="Blog cover" />
+        
+        <TextContent>
+          <Paragraph $color={text}>
             The universe is vast and full of mysteries. Scientists have been working
             for decades to unravel the secrets of the cosmos, and each discovery only
             raises more questions.
           </Paragraph>
-        </Section>
-      </LeftColumn>
-
-      <RightColumn>
-        <Section backgroundColor={backgroundColor}>
-          <CompactHeading style={{ color: textColor }}>Quotes</CompactHeading>
-          <Quote backgroundColor={additionalColor} style={{ borderLeftColor: primaryColor }}>
+          
+          <Quote $backgroundColor={backgroundDark} $borderColor={primaryDark} $textColor={text}>
             "Imagination is more important than knowledge." – Albert Einstein
           </Quote>
-        </Section>
-
-        <Section backgroundColor={backgroundColor}>
-          <CompactHeading style={{ color: textColor }}>Images</CompactHeading>
-          <Image src="https://picsum.photos/800/400" alt="Blog cover" width={800} height={400} />
-        </Section>
-      </RightColumn>
+          
+          <Paragraph $color={text}>
+            From the smallest particles to the largest galaxies, our understanding
+            of the universe continues to evolve. Each new observation brings us
+            closer to understanding the fundamental nature of reality.
+          </Paragraph>
+        </TextContent>
+      </ArticleContent>
     </Container>
   );
 };
 
-const Container = styled.div`
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-`;
-
-const LeftColumn = styled.div`
+const Container = styled.div<{ $backgroundColor?: string }>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 50%;
+  height: 100%;
+  background-color: ${({ $backgroundColor }) => $backgroundColor || 'var(--surface-100)'};
 `;
 
-const RightColumn = styled.div`
+const ArticleContent = styled.div<{ $backgroundColor: string }>`
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
+  flex: 1;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 50%;
 `;
 
-const Section = styled.div<{ backgroundColor: string }>`
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  padding: 5px 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+const Category = styled.span<{ $color: string }>`
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: ${({ $color }) => $color};
 `;
 
-const CompactHeading = styled.h2`
+const Title = styled.h1<{ $color: string }>`
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+  line-height: 1.2;
+  color: ${({ $color }) => $color};
+`;
+
+const Subtitle = styled.h2<{ $color: string }>`
   font-size: 1rem;
-  margin: 10px 0px;
+  margin: 0 0 0.5rem 0;
+  font-weight: 400;
+  opacity: 0.8;
+  line-height: 1.4;
+  color: ${({ $color }) => $color};
 `;
 
-const Title = styled.h1`
-  font-size: 1.8rem;
-  margin: 10px 0 20px 0;
+const MetaInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 `;
 
-const Subtitle = styled.h2`
-  font-size: 1.2rem;
-  margin: 15px 0;
+const Author = styled.span<{ $color: string }>`
+  font-size: 0.875rem;
+  opacity: 0.8;
+  color: ${({ $color }) => $color};
 `;
 
-const Paragraph = styled.p`
-  font-size: 1.07rem;
-  margin-bottom: 20px;
+const Date = styled.span<{ $color: string }>`
+  font-size: 0.875rem;
+  opacity: 0.6;
+  color: ${({ $color }) => $color};
 `;
 
-const Quote = styled.blockquote<{ backgroundColor: string }>`
-  font-size: 1rem;
-  font-style: italic;
-  margin: 20px 0;
-  padding: 20px;
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  border-left: 5px solid;
+const ShareButton = styled.button<{ $backgroundColor: string; $textColor: string }>`
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
+  border: none;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  margin-left: auto;
+  color: ${({ $textColor }) => $textColor};
+  
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
-const Image = styled.img`
+const FeaturedImage = styled.img`
   width: 100%;
   height: 8rem;
-  margin-bottom: 5px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin: 0.5rem 0;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const TextContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Paragraph = styled.p<{ $color: string }>`
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.6;
+  color: ${({ $color }) => $color};
+`;
+
+const Quote = styled.blockquote<{ $backgroundColor: string, $borderColor: string, $textColor: string }>`
+  font-size: 0.875rem;
+  font-style: italic;
+  margin: 0;
+  padding: 1rem;
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
+  border-left: 4px solid ${({ $borderColor }) => $borderColor};
+  color: ${({ $textColor }) => $textColor};
+  border-radius: 0.25rem;
+  line-height: 1.5;
 `;
 
 export { BlogPreview };

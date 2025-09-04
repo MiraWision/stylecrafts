@@ -10,7 +10,7 @@
     "postbuild": "npm run sitemap"
   },
   "dependencies": {
-    "@mirawision/colorize": "1.5.0",
+    "@mirawision/colorize": "1.5.1",
     "@mirawision/copily": "1.0.0",
     "@mirawision/imagine": "2.0.2",
     "@mirawision/usa-map-react": "2.0.1",

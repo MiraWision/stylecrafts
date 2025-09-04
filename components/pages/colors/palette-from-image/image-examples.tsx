@@ -21,7 +21,7 @@ const ImageExamples: React.FC<ImageExamplesProps> = ({ images, onImageSelect }) 
             {image.colors.map((color, colorIndex) => (
               <ColorStrip
                 key={colorIndex}
-                style={{ backgroundColor: color }}
+                $backgroundColor={color}
               />
             ))}
           </ColorPalette>
@@ -130,9 +130,10 @@ const ColorPalette = styled.div`
   }
 `;
 
-const ColorStrip = styled.div`
+const ColorStrip = styled.div<{ $backgroundColor: string }>`
   flex: 1;
   width: 100%;
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
 `;
 
 export { ImageExamples };

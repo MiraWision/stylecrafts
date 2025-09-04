@@ -128,7 +128,7 @@ const ImageInputMini: React.FC<Props> = ({ value, onChange, className }) => {
 
           <Text>Upload your image</Text>
         
-          <input type='file' accept='image/*' style={{ display: 'none' }} onChange={handleInputChange} />
+          <HiddenInput type='file' accept='image/*' onChange={handleInputChange} />
         </Label>
       )}
     </Container>
@@ -181,6 +181,10 @@ const Overlay = styled.div`
   justify-content: center;
   align-items: center;
   background-color: var(--surface-ground);
+`;
+
+const HiddenInput = styled.input`
+  display: none;
 `;
 
 export { ImageInputMini };

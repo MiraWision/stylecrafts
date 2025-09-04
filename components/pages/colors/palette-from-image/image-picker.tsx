@@ -444,7 +444,7 @@ const ImageColorPicker: React.FC<Props> = ({
 
   return (
     <Container>
-      <ImageWrapper>
+      <ImageWrapper $cursor="crosshair">
         {selectedImage && (
           <>
             <img
@@ -459,7 +459,6 @@ const ImageColorPicker: React.FC<Props> = ({
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
               onTouchCancel={handleTouchCancel}
-              style={{ cursor: 'crosshair' }}
             />
           </>
         )}
@@ -477,7 +476,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<{ $cursor?: string }>`
   position: relative;
   width: 100%;
   img {
@@ -490,6 +489,7 @@ const ImageWrapper = styled.div`
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    cursor: ${({ $cursor }) => $cursor || 'default'};
   }
 `;
 
@@ -505,22 +505,30 @@ const PixelWindow: React.FC<{
 
   return (
     <SinglePixelWrapper
-      style={{
-        left: mouse.x + offsetX,
-        top: mouse.y + offsetY,
-        width: size,
-        height: size,
-        pointerEvents: 'none',
-      }}
+      $left={mouse.x + offsetX}
+      $top={mouse.y + offsetY}
+      $width={size}
+      $height={size}
+      $pointerEvents="none"
       $color={color}
     />
   );
 };
 
-const SinglePixelWrapper = styled.div<{ $color: string }>`
+const SinglePixelWrapper = styled.div<{ 
+  $color: string; 
+  $left: number; 
+  $top: number; 
+  $width: number; 
+  $height: number; 
+  $pointerEvents: string; 
+}>`
   position: absolute;
-  width: 22px;
-  height: 22px;
+  left: ${({ $left }) => $left}px;
+  top: ${({ $top }) => $top}px;
+  width: ${({ $width }) => $width}px;
+  height: ${({ $height }) => $height}px;
+  pointer-events: ${({ $pointerEvents }) => $pointerEvents};
   border-radius: 6px;
   background: ${({ $color }) => $color};
   border: 2.5px solid #e53935;

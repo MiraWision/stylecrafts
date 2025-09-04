@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import styled from 'styled-components';
 import { BaseTextButton } from './base-text-button';
 import { UploadIcon } from '@/components/icons/upload';
 
@@ -33,15 +34,18 @@ const UploadTextButton: React.FC<Props> = ({ text = 'Upload', onFileSelect, styl
         style={style}
         isPrimary={true}
       />
-      <input
+      <HiddenInput
         type="file"
         ref={fileInputRef}
-        style={{ display: 'none' }}
         onChange={handleFileChange}
         accept="image/*"
       />
     </>
   );
 };
+
+const HiddenInput = styled.input`
+  display: none;
+`;
 
 export { UploadTextButton };

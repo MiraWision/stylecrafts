@@ -91,7 +91,7 @@ const Preview: React.FC<Props> = ({ palette }) => {
       </Header>
 
       <SliderContainer>
-        <SliderContent $translateX={selectedPreview * 100}>
+        <SliderContent $translateX={selectedPreview * -25}>
           <PreviewContainer>
             <BlogPreview palette={palette} />
           </PreviewContainer>
@@ -187,7 +187,7 @@ const SliderContainer = styled.div`
 
 const SliderContent = styled.div.attrs<{ $translateX: number }>(({ $translateX }) => ({
   style: {
-    transform: `translateX(-${$translateX}%)`,
+    transform: `translateX(${$translateX}%)`,
   },
 }))`
   display: flex;

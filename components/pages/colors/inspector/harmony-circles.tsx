@@ -92,16 +92,11 @@ export const HarmonyCircles: React.FC<Props> = ({ color }) => {
 
                 return (
                   <g key={i}>
-                    <circle
+                    <StyledCircle
                       cx={p.x}
                       cy={p.y}
                       r={isHovered ? 11 : 8}
                       fill={colorHex}
-                      style={{ 
-                        cursor: 'pointer', 
-                        transition: 'r 0.3s ease',
-                        filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15))'
-                      }}
                       onMouseEnter={() => {
                         setHoveredCircle(circleId)
                         setCenterText(colorHex)
@@ -249,4 +244,10 @@ const CenterTextContent = styled.div`
   .icon * {
     fill: var(--primary-color);
   }
+`
+
+const StyledCircle = styled.circle`
+  cursor: pointer;
+  transition: r 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
 `
