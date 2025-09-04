@@ -26,26 +26,6 @@ interface Props {}
 
 const MenuItems = [
   {
-    name: 'Images',
-    items: [
-      {
-        icon: ImageCompressionIcon,
-        name: 'Compression',
-        url: Routes.ImageCompressionTool,
-      },
-      {
-        icon: ImageToBase64Icon,
-        name: 'Image to Base64',
-        url: Routes.ImageToBase64Tool,
-      },
-      {
-        icon: Base64ToImageIcon,
-        name: 'Base64 to Image',
-        url: Routes.Base64ToImageTool,
-      },
-    ],
-  },
-  {
     name: 'Colors',
     items: [
       {
@@ -77,6 +57,26 @@ const MenuItems = [
         icon: ColorInspectorIcon,
         name: 'Color Inspector',
         url: Routes.ColorsInspectorTool,
+      },
+    ],
+  },
+  {
+    name: 'Images',
+    items: [
+      {
+        icon: ImageCompressionIcon,
+        name: 'Compression',
+        url: Routes.ImageCompressionTool,
+      },
+      {
+        icon: ImageToBase64Icon,
+        name: 'Image to Base64',
+        url: Routes.ImageToBase64Tool,
+      },
+      {
+        icon: Base64ToImageIcon,
+        name: 'Base64 to Image',
+        url: Routes.Base64ToImageTool,
       },
     ],
   },
