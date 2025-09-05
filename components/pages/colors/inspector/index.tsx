@@ -27,7 +27,7 @@ const getRandomColor = (): ColorExample => {
 const ColorInspectorMain: React.FC = () => {
   const router = useRouter();
 
-  const [selectedColor, setSelectedColor] = useState<Color>(new Color('#ffffff'));
+  const [selectedColor, setSelectedColor] = useState('#ffffff');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -42,17 +42,12 @@ const ColorInspectorMain: React.FC = () => {
       if (window.location.hash) {
         const hash = window.location.hash.replace('#', '').trim();
         if (/^[0-9a-fA-F]{6}$/.test(hash)) {
-          try {
-            setSelectedColor(new Color('#' + hash));
-          } catch (error) {
-            console.warn('Failed to load color from hash:', hash, error);
-            setSelectedColor(new Color('#ffffff'));
-          }
+          setSelectedColor('#' + hash);
         }
       } else {
         // No color provided in URL, select a random color
         const randomColorExample = getRandomColor();
-        setSelectedColor(new Color(randomColorExample.color));
+        setSelectedColor(randomColorExample.color);
       }
     }
   }, [router]);
@@ -60,7 +55,8 @@ const ColorInspectorMain: React.FC = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
-        const hex = selectedColor.hex().replace('#', '');
+        const color = new Color(selectedColor);
+        const hex = color.hex().replace('#', '');
         if (window.location.hash !== '#' + hex) {
           window.history.replaceState(null, '', `#${hex}`);
         }
@@ -71,38 +67,31 @@ const ColorInspectorMain: React.FC = () => {
   }, [selectedColor]);
 
   const selectColorExample = (colorExample: ColorExample) => {
-    setSelectedColor(new Color(colorExample.color));
+    setSelectedColor(colorExample.color);
     
     GAService.logEvent(analyticsEvents.colors.inspector.exampleColorSelected(colorExample.color));
   };
 
   const selectShade = (shade: string) => {
-    setSelectedColor(new Color(shade));
+    setSelectedColor(shade);
   };
 
   const handleColorInputChange = (newColor: string) => {
-    try {
-      const updatedColor = new Color(newColor);
-      setSelectedColor(updatedColor);
-      
-      GAService.logEvent(analyticsEvents.colors.inspector.colorChanged(newColor));
-    } catch (error) {
-      console.error('Invalid color format:', error);
-    }
+    setSelectedColor(newColor);
   };
 
   // Safely get the current color's hex value
-  const currentColorHex = selectedColor.hex();
+  const currentColorHex = new Color(selectedColor).hex();
 
   return (
     <MainContainer>
       <TwoColumnsContainer ratio="1fr 1fr">
         <LeftColumn>
           <ColorInputBig
-            value={currentColorHex}
+            value={selectedColor}
             onChange={handleColorInputChange}
           />
-          <ColorDescription color={selectedColor} />
+          <ColorDescription color={new Color(selectedColor)} />
         </LeftColumn>
 
         <Column>

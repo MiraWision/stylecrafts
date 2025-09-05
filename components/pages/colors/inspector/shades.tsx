@@ -11,12 +11,12 @@ interface ShadesGridProps {
 
 const generateHues = (baseColor: string, hues: number[]): string[] => {
   const [h, s, l] = convertColor(baseColor, ColorFormat.HSL).match(/\d+/g)?.map(Number) || [0, 0, 0];
-  return hues.map(hue => convertColor(`hsl(${hue}, ${s}%, ${l}%)`, ColorFormat.HEX));
+  return hues.map(hue => convertColor(`hsl(${(h + hue) % 360}, ${s}%, ${l}%)`, ColorFormat.HEX));
 };
 
 const generateShades = (color: string, adjustmentFunc: (color: string, amount: number) => string, steps: number) => {
   const shades = [];
-  const adjustmentStep = 35 / steps; 
+  const adjustmentStep = 30 / steps; 
   for (let i = 1; i <= steps; i++) {
     shades.push(adjustmentFunc(color, adjustmentStep * i));
   }
@@ -25,11 +25,11 @@ const generateShades = (color: string, adjustmentFunc: (color: string, amount: n
 
 const ShadesGrid: React.FC<ShadesGridProps> = ({ baseColor, onShadeSelect }) => {
 
-  const tintShades = generateShades(baseColor, (color, amount) => adjustBrightness(color, amount), 7);
-  const shadeShades = generateShades(baseColor, (color, amount) => adjustBrightness(color, -amount), 7);
-  const toneShades = generateShades(baseColor, (color, amount) => adjustSaturation(color, -amount), 7);
+  const tintShades = generateShades(baseColor, (color, amount) => adjustBrightness(color, amount), 6);
+  const shadeShades = generateShades(baseColor, (color, amount) => adjustBrightness(color, -amount), 6);
+  const toneShades = generateShades(baseColor, (color, amount) => adjustSaturation(color, -amount), 6);
 
-  const hueAngles = [30, 90, 150, 210, 270, 330];
+  const hueAngles = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
   const hueVariations = generateHues(baseColor, hueAngles);
 
   const shadeTypes = [
@@ -91,8 +91,9 @@ const ShadesContainer = styled.div`
 `;
 
 const ShadesRow = styled.div`
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
   margin-bottom: 0.5rem;
 `;
 
@@ -118,7 +119,6 @@ const ShadeSquare = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroun
   width: 2rem;
   height: 2rem;
   border-radius: 0.25rem;
-  margin-right: 0.5rem;
   cursor: pointer;
 `;
 
