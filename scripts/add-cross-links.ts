@@ -7,7 +7,7 @@
  * cross-links to all tool pages in the application.
  */
 
-import { ALL_TOOLS, TOOL_CATEGORIES } from '../components/ui/cross-links/tool-links';
+import { AllTools, ToolCategories } from '../components/ui/cross-links/tool-links';
 
 console.log('🔗 Adding ToolCrossLinks to all tool pages...\n');
 
@@ -16,8 +16,8 @@ console.log('========================');
 
 // Color tools
 console.log('\n🎨 Color Tools:');
-Object.entries(ALL_TOOLS)
-  .filter(([_, tool]) => tool.category === TOOL_CATEGORIES.COLORS)
+Object.entries(AllTools)
+  .filter(([_, tool]) => tool.category === ToolCategories.Colors)
   .forEach(([key, tool]) => {
     console.log(`  • ${tool.title} (${key})`);
     console.log(`    Path: ${tool.href}`);
@@ -26,8 +26,8 @@ Object.entries(ALL_TOOLS)
 
 // Image tools
 console.log('\n🖼️  Image Tools:');
-Object.entries(ALL_TOOLS)
-  .filter(([_, tool]) => tool.category === TOOL_CATEGORIES.IMAGES)
+Object.entries(AllTools)
+  .filter(([_, tool]) => tool.category === ToolCategories.Images)
   .forEach(([key, tool]) => {
     console.log(`  • ${tool.title} (${key})`);
     console.log(`    Path: ${tool.href}`);
@@ -36,8 +36,8 @@ Object.entries(ALL_TOOLS)
 
 // Generator tools
 console.log('\n⚙️  Generator Tools:');
-Object.entries(ALL_TOOLS)
-  .filter(([_, tool]) => tool.category === TOOL_CATEGORIES.GENERATORS)
+Object.entries(AllTools)
+  .filter(([_, tool]) => tool.category === ToolCategories.Generators)
   .forEach(([key, tool]) => {
     console.log(`  • ${tool.title} (${key})`);
     console.log(`    Path: ${tool.href}`);

@@ -4,9 +4,8 @@ export { ToolCrossLinks } from './tool-cross-links';
 export { 
   getToolCrossLinks, 
   getDynamicToolCrossLinks,
-  getRandomToolsFromCategory,
-  getRandomToolsFromList,
-  ALL_TOOLS,
-  TOOL_CATEGORIES,
-  TOOL_CROSS_LINKS
+  AllTools as ALL_TOOLS,
+  BlogPosts as BLOG_POSTS,
+  ToolCategories as TOOL_CATEGORIES,
+  CrossLinks as TOOL_CROSS_LINKS
 } from './tool-links';

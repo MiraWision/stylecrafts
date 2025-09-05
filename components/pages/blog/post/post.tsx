@@ -50,7 +50,7 @@ const Post: React.FC<Props> = ({ post, content }) => {
         {post.toolKey && (
           <ToolCrossLinks 
             toolKey={post.toolKey}
-            title="Explore More Tools"
+            title="Explore Our Tools"
           />
         )}
       </Main>

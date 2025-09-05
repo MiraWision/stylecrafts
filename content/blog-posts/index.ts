@@ -10,7 +10,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.ExploringColorsOfBridgertonBlog,
     tags: ['Bridgerton', 'Colors', 'Design Inspiration', 'Web Design'],
     thumbnail: '/blog-images/exploring-colors-of-bridgerton-1.jpeg',
-    toolKey: 'palette-generator',
+    toolKey: 'blog-exploring-colors-of-bridgerton',
   },
   {
     title: 'QR Codes in Modern Web & Design',
@@ -20,7 +20,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.QRCodesInModernWebDesignBlog,
     tags: ['QR Codes', 'Web Design', 'Digital Marketing', 'Mobile Integration'],
     thumbnail: '/blog-images/qr-codes-in-modern-web-design-1.jpeg',
-    toolKey: 'qr-code-generator',
+    toolKey: 'blog-qr-codes-in-modern-web-design',
   },
   {
     title: 'Accessible Web Design: Ensuring Everyone Can See Your Work',
@@ -30,7 +30,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.AccessibleWebDesignBlog,
     tags: ['Web Accessibility', 'Inclusive Design', 'User Experience', 'WCAG'],
     thumbnail: '/blog-images/accessible-web-design-ensuring-everyone-can-see-your-work-1.jpeg',
-    toolKey: 'contrast-checker',
+    toolKey: 'blog-accessible-web-design',
   },
   {
     title: 'The Psychology of Color in Web Design',
@@ -40,7 +40,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.PsychologyOfColorBlog,
     tags: ['Colors', 'User Experience', 'Web Design'],
     thumbnail: '/blog-images/the-psychology-of-color-in-web-design-1.jpeg',
-    toolKey: 'contrast-checker',
+    toolKey: 'blog-psychology-of-color',
   },
   {
     title: 'Creating Color Steps for Heatmaps',
@@ -50,7 +50,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.ColorStepsForHeatmapsBlog,
     tags: ['Data Visualization', 'Colors', 'Design Techniques'],
     thumbnail: '/blog-images/creating-color-steps-for-heatmaps-1.jpeg',
-    toolKey: 'gradient-generator',
+    toolKey: 'blog-creating-color-steps-for-heatmaps',
   },
   {
     title: 'Color Theory for Digital Design: Basics and Beyond',
@@ -60,7 +60,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.ColorTheoryForDigitalDesignBlog,
     tags: ['Colors', 'Design Principles', 'Digital Design'],
     thumbnail: '/blog-images/color-theory-for-digital-design-1.jpeg',
-    toolKey: 'color-inspector',
+    toolKey: 'blog-color-theory-for-digital-design',
   },
   {
     title: 'Integrating Base64 Images in Your Web Projects',
@@ -70,7 +70,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.Base64ImagesBlog,
     tags: ['Images', 'Web Development', 'Optimization'],
     thumbnail: '/blog-images/integrating-base64-images-in-your-web-projects-1.jpeg',
-    toolKey: 'image-to-base64',
+    toolKey: 'blog-integrating-base64-images-in-your-web-projects',
   },
   {
     title: 'Essential Tools for Designers in 2025',
@@ -80,7 +80,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.ToolsForDesignersBlog,
     tags: ['Tools', 'Design Resources', 'Productivity'],
     thumbnail: '/blog-images/essential-tools-for-designers-in-2025-1.jpeg',
-    toolKey: 'palette-generator',
+    toolKey: 'blog-essential-tools-for-designers-in-2025',
   },
   {
     title: 'Blending Colors for Unique Palettes',
@@ -90,7 +90,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.BlendingColorsBlog,
     tags: ['Colors', 'Design Techniques', 'Digital Design'],
     thumbnail: '/blog-images/blending-colors-for-unique-palettes-1.jpeg',
-    toolKey: 'guess-color-blend',
+    toolKey: 'blog-blending-colors-for-unique-palettes',
   },
   {
     title: 'Optimizing Images for the Web: Formats and Quality',
@@ -100,7 +100,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.OptimizingImagesBlog,
     tags: ['Images', 'Optimization', 'Web Performance'],
     thumbnail: '/blog-images/optimizing-images-for-the-web-1.jpeg',
-    toolKey: 'image-compression',
+    toolKey: 'blog-optimizing-images-for-the-web',
   },
   {
     title: 'Top Trends in Web Design for 2025',
@@ -110,7 +110,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.WebDesignTrendsBlog,
     tags: ['Trends', 'Web Design', 'Innovation'],
     thumbnail: '/blog-images/top-trends-in-web-design-for-2025-1.jpeg',
-    toolKey: 'qr-code-generator',
+    toolKey: 'blog-top-trends-in-web-design-for-2025',
   },
   {
     title: 'Understanding Color Formats: From Hex to CMYK',
@@ -120,7 +120,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.UnderstandingColorFormatsBlog,
     tags: ['Colors', 'Digital Design', 'Technical'],
     thumbnail: '/blog-images/understanding-color-formats-1.jpeg',
-    toolKey: 'color-converter',
+    toolKey: 'blog-understanding-color-formats',
   }
 ];
 

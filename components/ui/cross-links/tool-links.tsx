@@ -1,4 +1,5 @@
-import { CrossLink } from './cross-links';
+import { Tool, CrossLink, CustomLinkFunction } from './types';
+
 import { ColorInspectorIcon } from '@/components/icons/color-inspector';
 import { ContrastCheckerIcon } from '@/components/icons/contrast-checker';
 import { PaletteGenerationIcon } from '@/components/icons/palette-generation';
@@ -14,27 +15,20 @@ import { GameIcon } from '@/components/icons/game';
 import { ColorSwatchesIcon } from '@/components/icons/color-swatches';
 
 // Tool categories for better organization
-export const TOOL_CATEGORIES = {
-  COLORS: 'colors',
-  IMAGES: 'images',
-  GENERATORS: 'generators',
-  UTILITIES: 'utilities'
+export const ToolCategories = {
+  Colors: 'colors',
+  Images: 'images',
+  Generators: 'generators',
+  Utilities: 'utilities'
 } as const;
 
 // All available tools with their metadata
-export const ALL_TOOLS: Record<string, {
-  title: string;
-  description: string;
-  href: string;
-  category: string;
-  icon: React.ReactNode;
-  tags: string[];
-}> = {
+export const AllTools: Record<string, Tool> = {
   'color-inspector': {
     title: 'Color Inspector',
     description: 'Analyze colors in detail (shades, harmonies, and more)',
     href: '/colors/inspector',
-    category: TOOL_CATEGORIES.COLORS,
+    category: ToolCategories.Colors,
     icon: <ColorInspectorIcon width="32" height="32" />,
     tags: ['color', 'analysis', 'hex', 'rgb', 'hsl']
   },
@@ -42,7 +36,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Color Converter',
     description: 'Convert colors between different formats (HEX, RGB, HSL, CMYK, and more)',
     href: '/colors/converter',
-    category: TOOL_CATEGORIES.COLORS,
+    category: ToolCategories.Colors,
     icon: <ColorConversionIcon width="32" height="32" />,
     tags: ['color', 'conversion', 'hex', 'rgb', 'hsl']
   },
@@ -50,7 +44,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Contrast Checker',
     description: 'Test color combinations for accessibility and readability',
     href: '/colors/contrast-checker',
-    category: TOOL_CATEGORIES.COLORS,
+    category: ToolCategories.Colors,
     icon: <ContrastCheckerIcon width="32" height="32" />,
     tags: ['color', 'contrast', 'accessibility', 'readability']
   },
@@ -58,7 +52,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Palette Generator',
     description: 'Create beautiful color palettes and schemes',
     href: '/colors/palette-generator',
-    category: TOOL_CATEGORIES.COLORS,
+    category: ToolCategories.Colors,
     icon: <PaletteGenerationIcon width="32" height="32" />,
     tags: ['color', 'palette', 'scheme', 'generation']
   },
@@ -66,7 +60,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Palette from Image',
     description: 'Find inspiration by extracting color palettes from images',
     href: '/colors/palette-from-image',
-    category: TOOL_CATEGORIES.COLORS,
+    category: ToolCategories.Colors,
     icon: <PaletteFromImageIcon width="32" height="32" />,
     tags: ['color', 'palette', 'image', 'extraction']
   },
@@ -74,7 +68,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Gradient Generator',
     description: 'Create stunning gradients for heatmaps, charts, and visual designs',
     href: '/colors/gradient-generator',
-    category: TOOL_CATEGORIES.COLORS,
+    category: ToolCategories.Colors,
     icon: <GradientGenerationIcon width="32" height="32" />,
     tags: ['color', 'gradient', 'transition', 'generation']
   },
@@ -82,7 +76,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Image Compression',
     description: 'Compress images while maintaining quality for faster loading times',
     href: '/images/compression',
-    category: TOOL_CATEGORIES.IMAGES,
+    category: ToolCategories.Images,
     icon: <ImageCompressionIcon width="32" height="32" />,
     tags: ['image', 'compression', 'optimization', 'quality']
   },
@@ -90,7 +84,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Image to Base64',
     description: 'Convert images to Base64 encoded strings for use in web applications',
     href: '/images/image-to-base64',
-    category: TOOL_CATEGORIES.IMAGES,
+    category: ToolCategories.Images,
     icon: <ImageToBase64Icon width="32" height="32" />,
     tags: ['image', 'base64', 'conversion', 'encoding']
   },
@@ -98,7 +92,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Base64 to Image',
     description: 'Convert Base64 strings back to images for use in web applications',
     href: '/images/base64-to-image',
-    category: TOOL_CATEGORIES.IMAGES,
+    category: ToolCategories.Images,
     icon: <Base64ToImageIcon width="32" height="32" />,
     tags: ['image', 'base64', 'conversion', 'decoding']
   },
@@ -106,7 +100,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'QR Code Generator',
     description: 'Generate free, forever-lasting, unlimited QR codes for URLs, WiFi, and more',
     href: '/generators/qr-code',
-    category: TOOL_CATEGORIES.GENERATORS,
+    category: ToolCategories.Generators,
     icon: <QRCodeGeneratorIcon width="32" height="32" />,
     tags: ['qr', 'code', 'generation', 'url', 'text']
   },
@@ -114,7 +108,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Lorem Ipsum Generator',
     description: 'Generate placeholder text for design and development for your projects',
     href: '/generators/lorem-ipsum',
-    category: TOOL_CATEGORIES.GENERATORS,
+    category: ToolCategories.Generators,
     icon: <LoremIpsumGeneratorIcon width="32" height="32" />,
     tags: ['text', 'placeholder', 'lorem', 'ipsum']
   },
@@ -122,7 +116,7 @@ export const ALL_TOOLS: Record<string, {
     title: 'Guess Color Blend',
     description: 'Test your color knowledge and learn about color blending through an interactive game',
     href: '/games/guess-color-blend',
-    category: TOOL_CATEGORIES.UTILITIES,
+    category: ToolCategories.Utilities,
     icon: <GameIcon width="32" height="32" />,
     tags: ['color', 'game', 'blend', 'interactive']
   },
@@ -130,198 +124,191 @@ export const ALL_TOOLS: Record<string, {
     title: 'Comprehensive Color Swatches',
     description: 'Browse our extensive collection of color swatches to find the perfect hues for your designs',
     href: '/cheatsheets/colors-swatches',
-    category: TOOL_CATEGORIES.UTILITIES,
+    category: ToolCategories.Utilities,
     icon: <ColorSwatchesIcon width="32" height="32" />,
     tags: ['color', 'swatches', 'palette', 'reference']
   }
 };
 
 // Tool-specific cross-link configurations
-export const TOOL_CROSS_LINKS: Record<string, {
-  relevantTools: string[];
-  randomCount: number;
-  customLinks?: CrossLink[];
+export const CrossLinks: Record<string, {
+  mandatoryTools: (string | CustomLinkFunction)[];
+  optionalTools: string[];
 }> = {
   'color-converter': {
-    relevantTools: ['contrast-checker', 'palette-generator', 'gradient-generator'],
-    randomCount: 2,
-    customLinks: [
-      {
+    mandatoryTools: [
+      (dynamicData?: any) => ({
         title: 'Inspect This Color',
-        description: 'Analyze the current color in detail (shades, harmonies, and more)',
-        href: '/colors/inspector',
+        description: dynamicData?.color 
+          ? `Analyze ${dynamicData.color} color in detail (shades, harmonies, and more)`
+          : 'Analyze the current color in detail (shades, harmonies, and more)',
+        href: dynamicData?.color 
+          ? `/colors/inspector#${dynamicData.color.replace(/^#/, '')}`
+          : '/colors/inspector',
         icon: <ColorInspectorIcon width="32" height="32" />
-      }
-    ]
+      }),
+    ],
+    optionalTools: ['gradient-generator', 'color-inspector', 'contrast-checker', 'palette-generator'],
   },
   'color-inspector': {
-    relevantTools: ['color-converter', 'contrast-checker', 'palette-generator', 'gradient-generator', 'palette-from-image'],
-    randomCount: 3
+    mandatoryTools: ['color-converter', 'contrast-checker'],
+    optionalTools: ['palette-generator', 'gradient-generator', 'palette-from-image'],
   },
   'contrast-checker': {
-    relevantTools: ['color-inspector', 'color-converter', 'palette-generator', 'palette-from-image', 'gradient-generator'],
-    randomCount: 3
+    mandatoryTools: ['color-inspector', 'color-converter'],
+    optionalTools: ['palette-generator', 'palette-from-image', 'gradient-generator']
   },
   'palette-generator': {
-    relevantTools: ['color-inspector', 'color-converter', 'contrast-checker', 'palette-from-image', 'gradient-generator'],
-    randomCount: 3
+    mandatoryTools: ['color-inspector', 'contrast-checker'],
+    optionalTools: ['color-converter', 'palette-from-image', 'gradient-generator']
   },
   'palette-from-image': {
-    relevantTools: ['palette-generator', 'color-inspector', 'contrast-checker', 'gradient-generator', 'palette-from-image'],
-    randomCount: 3
+    mandatoryTools: ['palette-generator', 'color-inspector'],
+    optionalTools: ['contrast-checker', 'gradient-generator', 'color-converter']
   },
   'gradient-generator': {
-    relevantTools: ['color-inspector', 'palette-generator', 'color-converter', 'palette-from-image', 'contrast-checker'],
-    randomCount: 3
+    mandatoryTools: ['color-inspector', 'palette-generator'],
+    optionalTools: ['color-converter', 'palette-from-image', 'contrast-checker']
   },
   'image-compression': {
-    relevantTools: ['image-to-base64', 'base64-to-image'],
-    randomCount: 2
+    mandatoryTools: ['image-to-base64'],
+    optionalTools: ['base64-to-image']
   },
   'image-to-base64': {
-    relevantTools: ['image-compression', 'base64-to-image'],
-    randomCount: 2
+    mandatoryTools: ['image-compression'],
+    optionalTools: ['base64-to-image']
   },
   'base64-to-image': {
-    relevantTools: ['image-compression', 'image-to-base64'],
-    randomCount: 2
+    mandatoryTools: ['image-compression'],
+    optionalTools: ['image-to-base64']
   },
   'qr-code-generator': {
-    relevantTools: ['lorem-ipsum-generator'],
-    randomCount: 1
+    mandatoryTools: ['lorem-ipsum-generator'],
+    optionalTools: []
   },
   'lorem-ipsum-generator': {
-    relevantTools: ['qr-code-generator'],
-    randomCount: 1
+    mandatoryTools: ['qr-code-generator'],
+    optionalTools: []
   },
   'guess-color-blend': {
-    relevantTools: ['palette-generator', 'color-inspector', 'palette-from-image'],
-    randomCount: 3
+    mandatoryTools: ['palette-generator', 'color-inspector'],
+    optionalTools: ['palette-from-image']
   },
   'color-swatches': {
-    relevantTools: ['palette-generator', 'color-inspector', 'color-converter'],
-    randomCount: 3
-  }
+    mandatoryTools: ['palette-generator', 'color-inspector'],
+    optionalTools: ['color-converter']
+  },
+  'blog-exploring-colors-of-bridgerton': {
+    mandatoryTools: ['palette-generator', 'color-inspector'],
+    optionalTools: ['color-converter']
+  },
+  'blog-qr-codes-in-modern-web-design': {
+    mandatoryTools: ['qr-code-generator', 'lorem-ipsum-generator'],
+    optionalTools: []
+  },
+  'blog-accessible-web-design': {
+    mandatoryTools: ['contrast-checker', 'color-inspector'],
+    optionalTools: ['color-converter']
+  },
+  'blog-psychology-of-color': {
+    mandatoryTools: ['palette-generator', 'color-inspector'],
+    optionalTools: []
+  },
+  'blog-creating-color-steps-for-heatmaps': {
+    mandatoryTools: ['gradient-generator', 'color-inspector'],
+    optionalTools: ['color-converter']
+  },
+  'blog-color-theory-for-digital-design': {
+    mandatoryTools: ['palette-generator', 'color-inspector'],
+    optionalTools: []
+  },
+  'blog-integrating-base64-images-in-your-web-projects': {
+    mandatoryTools: ['image-to-base64', 'image-compression'],
+    optionalTools: ['color-converter']
+  },
+  'blog-essential-tools-for-designers-in-2025': {
+    mandatoryTools: ['palette-generator', 'color-inspector'],
+    optionalTools: []
+  },
+  'blog-blending-colors-for-unique-palettes': {
+    mandatoryTools: ['palette-generator', 'color-inspector'],
+    optionalTools: []
+  },
+  'blog-optimizing-images-for-the-web': {
+    mandatoryTools: ['image-compression', 'image-to-base64'],
+    optionalTools: []
+  },
+  'blog-top-trends-in-web-design-for-2025': {
+    mandatoryTools: ['qr-code-generator', 'lorem-ipsum-generator'],
+    optionalTools: []
+  },
+  'blog-understanding-color-formats': {
+    mandatoryTools: ['color-converter', 'color-inspector'],
+    optionalTools: []
+  },
 };
 
-// Function to get random tools from a category
-export const getRandomToolsFromCategory = (category: string, count: number, excludeTool?: string): CrossLink[] => {
-  const toolsInCategory = Object.entries(ALL_TOOLS)
-    .filter(([key, tool]) => 
-      tool.category === category && key !== excludeTool
-    );
-  
-  // If we don't have enough tools, return what we have
-  const availableCount = Math.min(count, toolsInCategory.length);
-  if (availableCount === 0) return [];
-  
-  const shuffled = toolsInCategory.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, availableCount).map(([key, tool]) => ({
-    title: tool.title,
-    description: tool.description,
-    href: tool.href,
-    icon: tool.icon
-  }));
-};
-
-// Function to get random tools from a list
-export const getRandomToolsFromList = (toolKeys: string[], count: number, excludeTool?: string): CrossLink[] => {
-  const availableTools = toolKeys.filter(key => key !== excludeTool);
-  
-  // If we don't have enough tools, return what we have
-  const availableCount = Math.min(count, availableTools.length);
-  if (availableCount === 0) return [];
-  
-  const shuffled = availableTools.sort(() => 0.5 - Math.random());
-  const selectedKeys = shuffled.slice(0, availableCount);
-  
-  return selectedKeys.map(key => {
-    const tool = ALL_TOOLS[key];
+// Helper function to get a tool or blog post by key
+const getToolByKey = (key: string): CrossLink | null => {
+  // First check if it's a tool
+  const tool = AllTools[key];
+  if (tool) {
     return {
       title: tool.title,
       description: tool.description,
       href: tool.href,
       icon: tool.icon
     };
-  });
+  }
+  
+  return null;
+};
+
+// Helper function to get random tools from a list
+const getRandomToolsFromList = (toolKeys: string[], count: number, excludeTool?: string): CrossLink[] => {
+  const availableTools = toolKeys.filter(key => key !== excludeTool);
+  
+  if (availableTools.length === 0) return [];
+  
+  const shuffled = [...availableTools].sort(() => 0.5 - Math.random());
+  const selectedKeys = shuffled.slice(0, count);
+  
+  return selectedKeys
+    .map(key => getToolByKey(key))
+    .filter((tool): tool is CrossLink => tool !== null);
 };
 
 // Main function to get cross-links for a tool
-export const getToolCrossLinks = (toolKey: string, customData?: any): CrossLink[] => {
-  const toolConfig = TOOL_CROSS_LINKS[toolKey];
+export const getToolCrossLinks = (toolKey: string, dynamicData?: any): CrossLink[] => {
+  const toolConfig = CrossLinks[toolKey];
   
   if (!toolConfig) {
-    // Default: return up to 3 random tools from the same category
-    const tool = ALL_TOOLS[toolKey];
-    if (tool) {
-      return getRandomToolsFromCategory(tool.category, 3, toolKey);
-    }
-    // Fallback: return up to 3 random tools
-    const allToolKeys = Object.keys(ALL_TOOLS);
+    const allToolKeys = Object.keys(AllTools);
     return getRandomToolsFromList(allToolKeys, 3, toolKey);
   }
 
   let links: CrossLink[] = [];
 
-  // Add custom links if specified
-  if (toolConfig.customLinks) {
-    links.push(...toolConfig.customLinks);
-  }
-
-  // Add random relevant tools
-  const randomTools = getRandomToolsFromList(toolConfig.relevantTools, toolConfig.randomCount, toolKey);
-  links.push(...randomTools);
-
-  // If we don't have enough links and want to fill up to 3, add from same category
-  // But only if we actually have more tools available
-  const tool = ALL_TOOLS[toolKey];
-  if (tool && links.length < 3) {
-    const remainingCount = 3 - links.length;
-    const categoryTools = getRandomToolsFromCategory(tool.category, remainingCount, toolKey);
-    
-    // Only add tools that aren't already in the links array
-    const newTools = categoryTools.filter(categoryTool => 
-      !links.some(existingLink => existingLink.href === categoryTool.href)
-    );
-    
-    links.push(...newTools);
-  }
-
-  // Ensure no duplicate links
-  return ensureUniqueLinks(links);
-};
-
-// Function to get cross-links with dynamic data (like current color for color tools)
-export const getDynamicToolCrossLinks = (toolKey: string, dynamicData?: any): CrossLink[] => {
-  const baseLinks = getToolCrossLinks(toolKey, dynamicData);
-  
-  // Apply dynamic modifications based on tool and data
-  if (toolKey === 'color-converter' && dynamicData?.color) {
-    const color = dynamicData.color.replace(/^#/, '');
-    return baseLinks.map(link => {
-      if (link.title === 'Inspect This Color') {
-        return {
-          ...link,
-          href: `/colors/inspector#${color}`,
-          description: `Analyze ${dynamicData.color} color in detail (shades, harmonies, and more)`
-        };
-      }
-      return link;
-    });
-  }
-  
-  // Ensure no duplicate links
-  return ensureUniqueLinks(baseLinks);
-};
-
-// Helper function to ensure unique links
-export const ensureUniqueLinks = (links: CrossLink[]): CrossLink[] => {
-  const seen = new Set<string>();
-  return links.filter(link => {
-    if (seen.has(link.href)) {
-      return false;
+  // Add mandatory tools (always in the specified order)
+  for (const mandatoryTool of toolConfig.mandatoryTools) {
+    if (typeof mandatoryTool === 'string') {
+      const tool = getToolByKey(mandatoryTool);
+      if (tool) links.push(tool);
+    } else {
+      const customLinkResult = mandatoryTool(dynamicData);
+      links.push(customLinkResult);
     }
-    seen.add(link.href);
-    return true;
-  });
+  }
+
+  // Calculate how many optional tools we need to reach 3 total
+  const targetCount = 3;
+  const neededCount = Math.max(0, targetCount - links.length);
+
+  // Add random optional tools if we need more
+  if (neededCount > 0) {  
+    const optionalTools = getRandomToolsFromList(toolConfig.optionalTools, neededCount);
+    links.push(...optionalTools);
+  }
+
+  return links;
 };

@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
+
+import { getToolCrossLinks } from './tool-links';
+
 import { CrossLinks } from './cross-links';
-import { getDynamicToolCrossLinks } from './tool-links';
 
 interface Props {
   toolKey: string;
@@ -15,7 +17,7 @@ const ToolCrossLinks: React.FC<Props> = ({
   dynamicData,
   className 
 }) => {
-  const links = useMemo(() => getDynamicToolCrossLinks(toolKey, dynamicData), [toolKey, dynamicData]);
+  const links = useMemo(() => getToolCrossLinks(toolKey, dynamicData), [toolKey, dynamicData]);
   
   if (!links || links.length === 0) return null;
 

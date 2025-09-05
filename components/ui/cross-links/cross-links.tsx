@@ -4,15 +4,7 @@ import Link from 'next/link';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
-
-interface CrossLink {
-  title: string;
-  description: string;
-  href: string;
-  isExternal?: boolean;
-  icon?: React.ReactNode;
-  externalLogo?: string;
-}
+import { CrossLink } from './types';
 
 interface Props {
   title?: string;
