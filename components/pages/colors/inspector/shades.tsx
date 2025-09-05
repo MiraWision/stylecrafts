@@ -9,9 +9,14 @@ interface ShadesGridProps {
   onShadeSelect: (shade: string) => void;
 }
 
-const generateHues = (baseColor: string, hues: number[]): string[] => {
+const generateHues = (baseColor: string): string[] => {
   const [h, s, l] = convertColor(baseColor, ColorFormat.HSL).match(/\d+/g)?.map(Number) || [0, 0, 0];
-  return hues.map(hue => convertColor(`hsl(${(h + hue) % 360}, ${s}%, ${l}%)`, ColorFormat.HEX));
+
+  const hues = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]
+    .map(hue => (h + hue) % 360)
+    .sort((a, b) => (a - b));
+
+  return hues.map(hue => convertColor(`hsl(${hue}, ${s}%, ${l}%)`, ColorFormat.HEX));
 };
 
 const generateShades = (color: string, adjustmentFunc: (color: string, amount: number) => string, steps: number) => {
@@ -29,8 +34,7 @@ const ShadesGrid: React.FC<ShadesGridProps> = ({ baseColor, onShadeSelect }) => 
   const shadeShades = generateShades(baseColor, (color, amount) => adjustBrightness(color, -amount), 6);
   const toneShades = generateShades(baseColor, (color, amount) => adjustSaturation(color, -amount), 6);
 
-  const hueAngles = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
-  const hueVariations = generateHues(baseColor, hueAngles);
+  const hueVariations = generateHues(baseColor);
 
   const shadeTypes = [
     { name: 'Tint (more white)', shades: tintShades },
