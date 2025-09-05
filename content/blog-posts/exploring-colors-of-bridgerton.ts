@@ -137,7 +137,7 @@ These palettes inspired by the Bridgerton series can infuse your projects with t
 
 ### Create Your Own Bridgerton-Inspired Palettes
 
-Ready to bring the elegance of Bridgerton to your designs? Use our [Color Palette Generator](${Routes.ColorsPaletteGeneratorTool}) to create custom palettes inspired by your favorite characters and families from the series.
+Ready to bring the elegance of Bridgerton to your designs? Use our [color palette generator](${Routes.ColorsPaletteGeneratorTool}) to create custom palettes inspired by your favorite characters and families from the series.
 
 Share your creations with us and let's celebrate the beauty of Bridgerton through the art of color. Happy designing!
 `;

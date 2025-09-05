@@ -10,7 +10,7 @@ Color plays a huge role in accessibility. Poor contrast between text and backgro
 
 The **WCAG guidelines** suggest minimum contrast ratios (4.5:1 for normal text, 3:1 for large text). Meeting these levels ensures better readability for all users.  
 
-A simple way to test is to use online tools that instantly calculate the contrast ratio of two colors. For example, you can try our [Color Contrast Checker](${Routes.ColorsContrastCheckerTool}) to validate whether your chosen palette meets WCAG standards before going live.  
+A simple way to test is to use [color contrast checker](${Routes.ColorsContrastCheckerTool}) that instantly calculate the contrast ratio of two colors. These tools can validate whether your chosen palette meets WCAG standards before going live, ensuring your designs are accessible to all users.  
 
 ![Color Contrast Checker](/blog-images/accessible-web-design-ensuring-everyone-can-see-your-work-2.jpeg "Designers need to test their color pairs against WCAG standards.")
 

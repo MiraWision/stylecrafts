@@ -18,7 +18,7 @@ QR codes are now common across landing pages, e-commerce checkout flows, and per
 - **Placement on print + digital materials** for cross-channel campaigns.  
 - **Interactive call-to-action designs** where the QR code feels like part of the UI.  
 
-When experimenting, you don’t need to start from scratch — our [QR Code Generator](${Routes.GeneratorsQRCode}) lets you create and customize free, unlimited QR codes with unique styles.  
+When experimenting with QR code designs, you don't need to start from scratch. Modern [QR code generators](${Routes.GeneratorsQRCode}) allow you to create and customize codes with unique styles, colors, and even embedded logos while maintaining functionality.  
 
 ![QR Codes in Modern Web Design](/blog-images/qr-codes-in-modern-web-design-3.jpeg "Creative approaches to QR code design in digital projects")
 
