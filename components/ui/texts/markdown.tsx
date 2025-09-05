@@ -129,7 +129,8 @@ const Container = styled.div`
   }
 
   blockquote {
-    border: 0.0625rem solid var(--primary-color);
+    border-left: 0.25rem solid var(--primary-color);
+    border-right: 0.25rem solid var(--primary-color);
     border-radius: 0.75rem;
     padding: 0.5rem 1rem;
     margin: 0;
