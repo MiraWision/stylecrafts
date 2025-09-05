@@ -6,10 +6,9 @@ import { GAService } from '../services/google-analytics-service';
 
 import { ToastProvider } from '@/components/ui/toast';
 
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
-import 'primeflex/primeflex.css';
-import '../styles/global.css';
+// import 'primereact/resources/primereact.min.css';
+// import 'primeflex/primeflex.css';
+import '../public/styles/global.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();

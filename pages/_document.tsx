@@ -34,12 +34,13 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel='preconnect' href='https://fonts.googleapis.com' />
-          <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
-          <link href='https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap' rel='stylesheet' />
-          <link id='theme-link' rel='stylesheet' href='/themes/lara-dark-pink/theme.css' />
+          <link id='theme-link' rel='stylesheet' href='/styles/light.css' />
+          <link rel='stylesheet' href='/themes/lara-light-pink/theme.css' />
           <link rel='icon' type='image/x-icon' href='/logo/favicon.ico' />
-          <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet"></link>
+          <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:wght@400;700&display=swap" rel="stylesheet"></link>
         </Head>
         <body>
           <Main />

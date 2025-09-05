@@ -81,7 +81,7 @@ const Container = styled.div`
 
   h1 {
     font-size: 1.75rem;
-    margin: 1rem 0;
+    margin: 2rem 0 0.5rem;
 
     @media (max-width: 768px) {
       font-size: 1.25rem;
@@ -90,7 +90,7 @@ const Container = styled.div`
 
   h2 {
     font-size: 1.5rem;
-    margin: 1rem 0;
+    margin: 2.5rem 0 0.5rem;
 
     @media (max-width: 768px) {
       font-size: 1rem;
@@ -99,7 +99,7 @@ const Container = styled.div`
 
   h3 {
     font-size: 1.25rem;
-    margin: 1rem 0;
+    margin: 2.5rem 0 0.5rem;
 
     @media (max-width: 768px) {
       font-size: 0.875rem;
@@ -118,9 +118,16 @@ const Container = styled.div`
   a {
     text-decoration: none;
     color: var(--primary-color);
+    font-weight: 600;
+    background-color: #9058aa15;
+    border-radius: 4px;
+    padding: 0 4px;
+    margin: 0 -2px;
+    transition: background-color 0.3s ease;
 
     &:hover {
       text-decoration: underline;
+      background-color: #9058aa30;
     }
   }
 
@@ -129,7 +136,8 @@ const Container = styled.div`
   }
 
   blockquote {
-    border: 0.0625rem solid var(--primary-color);
+    border-left: 0.25rem solid var(--primary-color);
+    border-right: 0.25rem solid var(--primary-color);
     border-radius: 0.75rem;
     padding: 0.5rem 1rem;
     margin: 0;
@@ -150,7 +158,7 @@ const Container = styled.div`
 
     figcaption {
       font-size: 0.75rem;
-      color: var(--text-color-secondary);
+      color: var(--text-color);
       text-align: center;
     }
   }

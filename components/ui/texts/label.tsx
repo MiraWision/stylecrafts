@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
-const Label = styled.div`
+interface LabelProps {
+  fontSize?: string;
+}
+
+const Label = styled.div<LabelProps>`
   margin-bottom: 0.25rem;
-  font-size: 0.75rem;
+  font-size: ${({ fontSize }) => fontSize || '0.75rem'};
   font-weight: 600;
   line-height: 1.2;
   color: var(--surface-900);

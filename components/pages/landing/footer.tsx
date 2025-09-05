@@ -1,85 +1,246 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+
 import { Routes } from '@/content/routes';
 
+import { LinkedInIcon } from '@/components/icons/linked-in';
+import { XIcon } from '@/components/icons/x';
+import { InstagramIcon } from '@/components/icons/instagram';
+
 const footerData = [
+  // {
+  //   groupName: 'Images Tools',
+  //   items: [
+  //     { name: 'Image Compression', href: Routes.ImageCompressionTool },
+  //     { name: 'Image to Base64', href: Routes.ImageToBase64Tool },
+  //     { name: 'Base64 to Image', href: Routes.Base64ToImageTool },
+  //   ],
+  // },
+  // {
+  //   groupName: 'Colors Tools',
+  //   items: [
+  //     { name: 'Gradient Generator', href: Routes.ColorsGradientGeneratorTool },
+  //     { name: 'Palette Generator', href: Routes.ColorsPaletteGeneratorTool },
+  //     { name: 'Palette from Image', href: Routes.ColorsPaletteFromImageTool },
+  //     { name: 'Contrast Checker', href: Routes.ColorsContrastCheckerTool },
+  //     { name: 'Color Converter', href: Routes.ColorsConverterTool },
+  //     { name: 'Color Mixer', href: Routes.ColorsInspectorTool },
+  //   ],
+  // },
+  // {
+  //   groupName: 'Other',
+  //   items: [
+  //     { name: 'Colors Swatches', href: Routes.ColorSwatchesCheatSheet },
+  //     { name: 'Characters Cheatsheet', href: Routes.CharactersCheatSheet },
+  //     { name: 'Emojis Cheatsheet', href: Routes.EmojisCheatSheet },
+  //     { name: 'Guess Color Blend Game', href: Routes.GuessColorBlendGame },
+  //     { name: 'Blog', href: Routes.Blog },
+  //   ],
+  // },
   {
-    groupName: 'Legal',
+    groupName: 'Company',
+    items: [
+      { name: 'About Us', href: Routes.AboutUs },
+      { name: 'Contact Us', href: Routes.ContactUs },
+      { name: 'Support Us', href: Routes.SupportUs },
+    ],
+  },
+  {
+    groupName: 'Terms & Policies',
     items: [
       { name: 'Privacy Policy', href: Routes.PrivacyPolicy },
       { name: 'Terms of Use', href: Routes.TermsOfUse },
       { name: 'Cookie Policy', href: Routes.CookiePolicy },
     ],
   },
-  {
-    groupName: 'Images Tools',
-    items: [
-      { name: 'Image Optimization', href: Routes.ImageOptimizationTool },
-      { name: 'Image to Base64 Converter', href: Routes.ImageToBase64Tool },
-      { name: 'Base64 to Image Converter', href: Routes.Base64ToImageTool },
-    ],
-  },
-  {
-    groupName: 'Colors Tools',
-    items: [
-      { name: 'Color Blender', href: Routes.ColorsBlenderTool },
-      { name: 'Gradient Generator', href: Routes.ColorsGradientGeneratorTool },
-      { name: 'Color Converter', href: Routes.ColorsConverterTool },
-    ],
-  },
-  {
-    groupName: 'Other',
-    items: [
-      { name: 'Guess Color Blend Game', href: Routes.GuessColorBlendGame },
-      { name: 'Blog', href: Routes.Blog },
-    ],
-  },
 ];
 
-const Footer: React.FC = () => {
+interface Props {
+  className?: string;
+}
+
+const Footer: React.FC<Props> = ({ className }) => {
   return (
-    <Container>
-      <Title>MiraWision</Title>
+    <Container className={className}>
+      <FooterContent>
+        <Row>
+          <Company>
+            <Title>
+              <span>
+                <Logo src='/logo/mwicon.png' alt='MiraWision Logo' />
+              </span>
 
-      <Links>
-        {footerData.map((group, index) => (
-          <Column key={index}>
-            <FooterHeading>{group.groupName}</FooterHeading>
+              MiraWision
+            </Title>
 
-            {group.items.map((item, itemIndex) => (
-              <FooterLink key={itemIndex} href={item.href} rel='noopener noreferrer'>
-                {item.name}
-              </FooterLink>
+            <Description>
+              Our vision is to bridge creativity and technology, delivering versatile tools that support 
+              designers and developers in crafting extraordinary digital experiences.
+            </Description>
+          </Company>
+
+          <Links>
+            {footerData.map((group, index) => (
+              <Column key={index}>
+                <FooterHeading>{group.groupName}</FooterHeading>
+                
+                {group.items.map((item, itemIndex) => (
+                  <FooterLink key={itemIndex} href={item.href} rel='noopener noreferrer'>
+                    {item.name}
+                  </FooterLink>
+                ))}
+              </Column>
             ))}
-          </Column>
-        ))}
-      </Links>
+          </Links>
+        </Row>
+
+        <Separator />
+
+        <Row>
+          <Description>
+            © 2025 MiraWision. All rights reserved.
+          </Description>
+
+          <SocialNetworks>
+            <FooterLink 
+              href='https://www.instagram.com/stylecrafts.app' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.footerInstagramOpened())}
+            >
+              <InstagramIcon />
+            </FooterLink>
+
+            <FooterLink 
+              href='https://www.linkedin.com/company/mirawision' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.footerLinkedInOpened())}
+            >
+              <LinkedInIcon />
+            </FooterLink>
+
+            <FooterLink 
+              href='https://x.com/MiraWision' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.footerTwitterOpened())}
+            >
+              <XIcon />
+            </FooterLink>
+          </SocialNetworks>
+        </Row>
+      </FooterContent>
     </Container>
   );
 };
 
 const Container = styled.footer`
   width: 100%;
+  max-width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   background-color: var(--surface-100);
   color: var(--text-color);
-  padding: 2rem;
+  padding: 0;
+  box-sizing: border-box;
+`;
+
+const FooterContent = styled.div`
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 2rem 0 2rem;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+`;
+
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+`;
+
+const Company = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 25rem;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`;
+
+const Title = styled.h2`
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 2rem 0;
+  display: flex;
+  align-items: center;
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const Logo = styled.img`
+  width: 1.75rem;
+  margin-right: 1rem;
+
+  @media (max-width: 768px) {
+    width: 1.3rem;
+    margin-right: 0.7rem;
+  }
+`;
+
+const Description = styled.p`
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.5;
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    max-width: 90vw;
+  }
+`;
+
+const SocialNetworks = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
   }
 `;
 
 const Links = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
 
   @media (max-width: 768px) {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
   }
 `;
 
@@ -88,26 +249,47 @@ const Column = styled.div`
   flex-direction: column;
 `;
 
-const Title = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 500;
-`;
-
 const FooterHeading = styled.h3`
   font-size: 1rem;
-  margin-bottom: 1rem;
+  margin: 0 0 0.5rem 0;
   font-weight: 500;
+  color: var(--text-color);
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
 `;
 
 const FooterLink = styled.a`
   display: block;
   font-size: 0.875rem;
   text-decoration: none;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   color: var(--text-color);
+
+  .icon * {
+    fill: var(--text-color);
+  }
 
   &:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    margin-bottom: 0.15rem;
+  }
+`;
+
+const Separator = styled.div`
+  width: 100%;
+  height: 0.0625rem;
+  background: linear-gradient(to right, transparent 0%, var(--surface-border) 20%, var(--surface-border) 80%, transparent 100%);
+  margin: 2rem 0;
+
+  @media (max-width: 768px) {
+    margin: 1rem 0;
   }
 `;
 

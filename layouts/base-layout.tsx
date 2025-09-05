@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
-import { Button } from 'primereact/button';
 import { Logo } from '@/components/ui/logo';
 import { SideMenu } from '@/components/menu/side-menu';
-import { ThemeButton } from '@/components/ui/buttons/theme-button';
+import { Footer } from '@/components/pages/landing/footer';
+import { MobileTopBar } from '@/components/ui/mobile-top-bar';
 
+import { GlobalDropdownStyles } from '@/components/ui/inputs/select';
 import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
 
 interface Props {
+  includeFooter?: boolean;
   children: React.ReactNode;
 }
 
-const BaseLayout: React.FC<Props> = ({ children }) => {
+const BaseLayout: React.FC<Props> = ({ includeFooter = true, children }) => {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -27,40 +28,33 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
   };
 
   return (
-    <Container>
-      {!isSidebarOpen && (
-        <StyledButton
-          isOpen={isSidebarOpen}
-          icon='pi pi-bars'
-          onClick={toggleSidebar}
-          className='p-button-rounded p-button-text'
-          aria-label='Toggle Menu'
-        />
-      )}
-
-      <Sidebar isOpen={isSidebarOpen}>
+    <LayoutWrapper>
+      <Sidebar $isOpen={isSidebarOpen}>
         <Logo onClick={handleLogoClick} />
 
         <SideMenu />
       </Sidebar>
 
       <Content>
-        <ThemeButton />
+        <Overlay $isOpen={isSidebarOpen} onClick={toggleSidebar} />
         
-        <Overlay isOpen={isSidebarOpen} onClick={toggleSidebar} />
+        <MobileTopBar 
+          isSidebarOpen={isSidebarOpen}
+          onToggleSidebar={toggleSidebar}
+        />
         
         {children}
       </Content>
-    </Container>
+      {includeFooter && <BaseFooter />}
+
+      <GlobalDropdownStyles />
+    </LayoutWrapper>
   );
 };
 
-const Container = styled.div`
-  width: 100vw;
-  display: flex;
-`;
-
-const Sidebar = styled.div<{ isOpen: boolean }>`
+const Sidebar = styled.div.attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
+  className: $isOpen ? 'open' : 'closed',
+}))`
   width: 15rem;
   height: 100vh;
   padding: 1.5rem;
@@ -79,14 +73,25 @@ const Sidebar = styled.div<{ isOpen: boolean }>`
     right: -0.0625rem; 
     height: 100%;
     width: 0.0625rem; 
-    background: linear-gradient(to bottom, var(--primary-color) 50%, transparent 95%);
+    background: linear-gradient(to bottom, var(--surface-border) 80%, transparent 95%);
     z-index: 10;
+  }
+
+  &.open {
+    @media (max-width: 768px) {
+      transform: translateX(0);
+    }
+  }
+
+  &.closed {
+    @media (max-width: 768px) {
+      transform: translateX(-100%);
+    }
   }
 
   @media (max-width: 768px) {
     transition: transform 0.3s ease-in-out;
-    transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
-    z-index: 20;
+    z-index: 50;
 
     &::after {
       background: none;
@@ -94,27 +99,9 @@ const Sidebar = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const StyledButton = styled(Button)<{ isOpen: boolean }>`
-  && {
-    background-color: transparent !important;
-    border: none !important;
-    color: inherit;
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    width: 2rem;
-    height: 2rem;
-    z-index: 30;
-    display: none; 
-
-    @media (max-width: 768px) {
-      display: ${({ isOpen }) => (isOpen ? 'none' : 'flex')};
-    }
-  }
-`;
-
-const Overlay = styled.div<{ isOpen: boolean }>`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+const Overlay = styled.div.attrs<{ $isOpen: boolean }>(({ $isOpen }) => ({
+  className: $isOpen ? 'open' : 'closed',
+}))`
   position: fixed;
   top: 0;
   left: 0;
@@ -123,15 +110,51 @@ const Overlay = styled.div<{ isOpen: boolean }>`
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
 
+  &.open {
+    display: block;
+  }
+
+  &.closed {
+    display: none;
+  }
+  
   @media (min-width: 769px) {
     display: none;
   }
 `;
 
-const Content = styled.div`
-  flex-grow: 1;
-  padding: 1.5rem;
+const LayoutWrapper = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  overflow-x: hidden;
+`;
+
+const Content = styled.main`
+  flex: 1 0 auto;
+  width: calc(100vw - 15rem);
   margin-left: 15rem;
+  padding: 1.5rem;
+
+  @media (max-width: 768px) {
+    width: 100vw;
+    margin-left: 0;
+    padding: 1rem;
+    padding-top: 4rem;
+  }
+
+  @media (max-width: 600px) {
+    padding: 0 1rem;
+    padding-top: 4rem;
+  }
+`;
+
+const BaseFooter = styled(Footer)`
+  @media (min-width: 769px) {
+    margin-left: 15rem;
+    width: calc(100% - 15rem);
+  }
 
   @media (max-width: 768px) {
     margin-left: 0;

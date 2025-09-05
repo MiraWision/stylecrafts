@@ -2,39 +2,48 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { copyToClipboard } from '@/utils/copy';
-import { useTheme } from '@/services/theme-service/use-theme';
-import { Theme } from '@/services/theme-service/types';
 
 import { Button } from 'primereact/button';
+import { CopyIcon } from '@/components/icons/copy';
+import { CheckmarkIcon } from '@/components/icons/checkmark';
 
 interface Props {
   code: string;
+  onCopy?: () => void;
 }
 
-const CodeBlock: React.FC<Props> = ({ code }) => {
-  const [icon, setIcon] = useState('pi pi-copy');
-
-  const [theme] = useTheme();
+const CodeBlock: React.FC<Props> = ({ code, onCopy }) => {
+  const [icon, setIcon] = useState('copy');
 
   const copyText = async () => {
     copyToClipboard(code, {
       onSuccess: () => {
-        setIcon('pi pi-check');
+        setIcon('check');
+        onCopy?.();
 
         setTimeout(() => {
-          setIcon('pi pi-copy');
+          setIcon('copy');
         }, 3000);
       },
     });
   };
 
   return (
-    <Container isDark={theme === Theme.Dark}>
+    <Container onClick={copyText}>
       <Text>
         {code}
       </Text>
 
-      <CopyButton icon={icon} onClick={copyText} />
+      <CopyButton onClick={(e) => {
+        e.stopPropagation();
+        copyText();
+      }}>
+        {icon === 'copy' ? (
+          <CopyIcon width='16' height='16' />
+        ) : (
+          <CheckmarkIcon width='16' height='16' />
+        )}
+      </CopyButton>
     </Container>
   );
 }
@@ -46,28 +55,35 @@ const CopyButton = styled(Button)`
   border-radius: 0.4rem;
   height: 2rem;
   width: 2rem;
+  padding: 0.5rem;
   border: none;
-  color: var(--primary-color);
   background: none;
   transition: opacity 0.3s;
+  opacity: 0;
 
   &:focus {
     box-shadow: none;
   }
 
-  .pi {
-    color: var(--primary-color);
+  .icon * {
+    fill: var(--primary-color);
+  }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
-const Container = styled.div<{ isDark: boolean }>`
+const Container = styled.div`
   position: relative;
   margin: 1rem 0;
-  background: ${({ isDark }) => isDark ? '#2d2d2d' : '#f8f8f2'};
-  color: ${({ isDark }) => isDark ? '#f8f8f2' : '#2d2d2d'};
   padding: 1rem;
   border-radius: 0.25rem;
   overflow: auto;
+  background-color: #f8f8f2;
+  color: #2d2d2d;
+  cursor: pointer;
+  transition: background-color 0.2s;
 
   ${CopyButton} {
     opacity: 0;
@@ -78,10 +94,19 @@ const Container = styled.div<{ isDark: boolean }>`
       opacity: 1;
     }
   }
+
+  @media (max-width: 768px) {
+    cursor: pointer;
+    
+    &:active {
+      background-color: #e8e8d2;
+    }
+  }
 `;
 
 const Text = styled.pre`
   margin: 0;
+  font-size: 0.9rem;
 `;
 
 export { CodeBlock };

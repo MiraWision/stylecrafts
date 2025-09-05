@@ -1,27 +1,48 @@
 enum Routes {
+  ColorsPaletteFromImageTool = '/colors/palette-from-image',
+  ColorsContrastCheckerTool = '/colors/contrast-checker',
   ColorsGradientGeneratorTool = '/colors/gradient-generator',
-  ColorsBlenderTool = '/colors/blender',
+  ColorsPaletteGeneratorTool = '/colors/palette-generator',
+  ColorsInspectorTool = '/colors/inspector',
   ColorsConverterTool = '/colors/converter',
-  ImageOptimizationTool = '/images/optimization',
+
+  ImageCompressionTool = '/images/compression',
   ImageToBase64Tool = '/images/image-to-base64',
   Base64ToImageTool = '/images/base64-to-image',
+  ImagesMasterTool = '/images/master-tool',
+  
+  GeneratorsQRCode = '/generators/qr-code',
+  GeneratorsLoremIpsum = '/generators/lorem-ipsum',
+
+  CharactersCheatSheet = '/cheatsheets/characters',
+  EmojisCheatSheet = '/cheatsheets/emojis',
+  ColorSwatchesCheatSheet = '/cheatsheets/colors-swatches',
+  
+  ImageCroppingTool = '/images/image-cropping',
+  
   GuessColorBlendGame = '/games/guess-color-blend',
+  
   Blog = '/blog',
+  
   PsychologyOfColorBlog = '/blog/the-psychology-of-color-in-web-design',
   ColorStepsForHeatmapsBlog = '/blog/creating-color-steps-for-heatmaps',
   ColorTheoryForDigitalDesignBlog = '/blog/color-theory-for-digital-design',
   Base64ImagesBlog = '/blog/integrating-base64-images-in-your-web-projects',
-  ToolsForDesignersBlog = '/blog/essential-tools-for-designers-in-2024',
+  ToolsForDesignersBlog = '/blog/essential-tools-for-designers-in-2025',
   BlendingColorsBlog = '/blog/blending-colors-for-unique-palettes',
   OptimizingImagesBlog = '/blog/optimizing-images-for-the-web',
-  WebDesignTrendsBlog = '/blog/top-trends-in-web-design-for-2024',
+  WebDesignTrendsBlog = '/blog/top-trends-in-web-design-for-2025',
   UnderstandingColorFormatsBlog = '/blog/understanding-color-formats',
   ExploringColorsOfBridgertonBlog = '/blog/exploring-colors-of-bridgerton',
+  QRCodesInModernWebDesignBlog = '/blog/qr-codes-in-modern-web-design',
+  AccessibleWebDesignBlog = '/blog/accessible-web-design-ensuring-everyone-can-see-your-work',
+  
   TermsOfUse = '/terms-of-use',
   PrivacyPolicy = '/privacy-policy',
   CookiePolicy = '/cookie-policy',
-  CharactersCheatSheet = '/cheatsheets/characters',
-  EmojisCheatSheet = '/cheatsheets/emojis',
+  AboutUs = '/about-us',
+  ContactUs = '/contact-us',
+  SupportUs = '/support-us',
 }
 
 export { Routes };

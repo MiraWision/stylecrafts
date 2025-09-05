@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useRef } from 'react';
+import styled from 'styled-components';
 
 import { Toast, ToastMessage } from 'primereact/toast';
 
@@ -15,6 +16,25 @@ interface ToastContextType {
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
+
+const ToastContainer = styled.div`
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: var(--surface-0);
+    color: var(--text-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0,0,0,0.08);
+    padding: 0.75rem 1rem;
+    max-width: 98vw;
+    width: auto;
+    box-sizing: border-box;
+    word-break: break-word;
+  }
+`;
 
 const ToastProvider = ({ children }: { children: React.ReactNode}) => {
   const toastRef = useRef<Toast>(null);

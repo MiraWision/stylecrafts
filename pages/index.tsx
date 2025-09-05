@@ -5,23 +5,39 @@ import { metaTags } from '@/content/meta-data/default';
 
 import { MetaTags } from '@/components/pages/meta-tags';
 import { HeroSection } from '@/components/pages/landing/hero-section';
-import { FeaturesSection } from '@/components/pages/landing/features-section';
+import { ImagesSection } from '@/components/pages/landing/images-section';
+import { ColorsSection } from '@/components/pages/landing/colors-section';
+import { GeneratorsSection } from '@/components/pages/landing/generators-section';
 import { NpmToolsSection } from '@/components/pages/landing/npm-tools-section';
 import { Footer } from '@/components/pages/landing/footer';
-import { ThemeButton } from '@/components/ui/buttons/theme-button';
+import { CheatsheetsSection } from '@/components/pages/landing/cheatsheets-section';
+import { ColorMixingSection } from '@/components/pages/landing/color-mixing-section';
+import { SlidesMenu } from '@/components/pages/landing/slides-menu';
 
 const Sections = [
   {
-    title: 'Hero',
-    renderComponent: () => (<HeroSection />),
+    title: 'Colors',
+    renderComponent: () => (<ColorsSection />),
   },
   {
-    title: 'Features',
-    renderComponent: () => (<FeaturesSection />),
+    title: 'Images',
+    renderComponent: () => (<ImagesSection />),
+  },
+  {
+    title: 'Generators',
+    renderComponent: () => (<GeneratorsSection />),
+  },
+  {
+    title: 'Cheatsheets',
+    renderComponent: () => (<CheatsheetsSection />),
   },
   {
     title: 'Npm Tools',
     renderComponent: () => (<NpmToolsSection />),
+  },
+  {
+    title: 'Color Mixing',
+    renderComponent: () => (<ColorMixingSection />),
   },
   {
     title: 'Footer',
@@ -33,145 +49,110 @@ const Sections = [
 const HomePage: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSection, setCurrentSection] = useState(0);
-  const isScrolling = useRef(false);
-  const touchStartY = useRef<number | null>(null);
-  const touchEndY = useRef<number | null>(null);
+
+  const handleScroll = () => {
+    const sections = containerRef.current?.children;
+    if (sections) {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const viewportHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+  
+      let newCurrentSection = 0;
+  
+      Array.from(sections).forEach((section, index) => {
+        const sectionTop = section.getBoundingClientRect().top + scrollTop;
+        const sectionHeight = section.clientHeight;
+  
+        if (scrollTop >= sectionTop - sectionHeight / 2) {
+          newCurrentSection = index;
+        }
+      });
+  
+      if (scrollTop + viewportHeight >= documentHeight) {
+        newCurrentSection = Sections.length - 1;
+      }
+  
+      setCurrentSection(newCurrentSection);
+    }
+  };
+  
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const scrollToSection = (index: number) => {
-    if (index >= 0 && index < Sections.length) {
+    if (index >= 0 && index < Sections.length + 1) {
       const targetSection = containerRef.current?.children?.[index];
 
       if (targetSection) {
         targetSection.scrollIntoView({ behavior: 'smooth' });
-
         setCurrentSection(index);
       }
     }
   };
 
-  const handleWheel = (event: React.WheelEvent) => {
-    event.preventDefault();
-
-    if (isScrolling.current) return;
-
-    if (Math.abs(event.deltaY) < 20) return;
-
-    isScrolling.current = true;
-
-    if (event.deltaY > 0) {
-      scrollToSection(currentSection + 1);
-    } else {
-      scrollToSection(currentSection - 1);
-    }
-
-    setTimeout(() => {
-      isScrolling.current = false;
-    }, 800);
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (isScrolling.current) return;
-
-    isScrolling.current = true;
-
-    if (event.key === 'ArrowDown') {
-      scrollToSection(currentSection + 1);
-    } else if (event.key === 'ArrowUp') {
-      scrollToSection(currentSection - 1);
-    }
-
-    event.preventDefault();
-
-    setTimeout(() => {
-      isScrolling.current = false;
-    }, 800);
-  };
-
-  const handleTouchStart = (event: TouchEvent) => {
-    touchStartY.current = event.touches[0].clientY;
-  };
-
-  const handleTouchMove = (event: TouchEvent) => {
-    event.preventDefault();
-  };
-
-  const handleTouchEnd = (event: TouchEvent) => {
-    touchEndY.current = event.changedTouches[0].clientY;
-
-    if (isScrolling.current || touchStartY.current === null || touchEndY.current === null) return;
-
-    isScrolling.current = true;
-
-    const touchDifference = touchStartY.current - touchEndY.current;
-
-    if (Math.abs(touchDifference) > 20) {
-      if (touchDifference > 0) {
-        scrollToSection(currentSection + 1);
-      } else {
-        scrollToSection(currentSection - 1);
-      }
-    }
-
-    touchStartY.current = null;
-    touchEndY.current = null;
-
-    setTimeout(() => {
-      isScrolling.current = false;
-    }, 800);
-  };
-
-  useEffect(() => {
-    const container = containerRef.current;
-
-    // @ts-ignore
-    container?.addEventListener('wheel', handleWheel, { passive: false });
-    // @ts-ignore
-    window.addEventListener('keydown', handleKeyDown);
-    
-    container?.addEventListener('touchstart', handleTouchStart, { passive: false });
-    container?.addEventListener('touchmove', handleTouchMove, { passive: false });
-    container?.addEventListener('touchend', handleTouchEnd);
-
-    return () => {
-      // @ts-ignore
-      container?.removeEventListener('wheel', handleWheel);
-      // @ts-ignore
-      window.removeEventListener('keydown', handleKeyDown);
-      
-      container?.removeEventListener('touchstart', handleTouchStart);
-      container?.removeEventListener('touchmove', handleTouchMove);
-      container?.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [currentSection]);
-
   return (
     <>
       <MetaTags {...metaTags} />
 
-      <ThemeButton />
-
       <MainContainer ref={containerRef}>
-        {Sections.map((section) => (
-          <Section key={section.title} id={section.title} isFullHeight={section.isFullHeight}>
+        <Section id='Hero' $isFullHeight>
+          <HeroSection />
+        </Section>
+
+        {Sections.map((section, index) => (
+          <Section 
+            key={section.title} 
+            id={section.title} 
+            $isFullHeight={false} 
+            $isLast={index === Sections.length - 1}
+          >
             {section.renderComponent()}
           </Section>
         ))}
       </MainContainer>
-    </> 
+
+      <SlidesMenu 
+        slidesCount={Sections.length}
+        currentSlideIndex={currentSection}
+        onSlideChange={scrollToSection}
+      />
+    </>
   );
 };
 
 const MainContainer = styled.div`
   scroll-behavior: smooth;
-  overflow-y: hidden;
+  width: 100%;
   height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0;
+  }
 `;
 
-const Section = styled.section<{ isFullHeight?: boolean }>`
-  height: ${({ isFullHeight = true }) => isFullHeight ? '100vh' : 'auto'};
+const Section = styled.section.attrs<{ $isFullHeight?: boolean; $isLast?: boolean }>(({ $isFullHeight = true }) => ({
+  style: {
+    height: $isFullHeight ? '100vh' : 'auto',
+  },
+}))<{ $isLast?: boolean }>`
+  width: 100%;
   display: flex;
-  align-items: center;
+  padding: ${({ $isLast }) => ($isLast ? '0' : '1.5rem')};
   justify-content: center;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: ${({ $isLast }) => ($isLast ? '0' : '1rem 0.5rem')};
+  }
 `;
 
 export default HomePage;

@@ -10,6 +10,7 @@ import { BlogContainer } from '../blog-container';
 import { PostSummary } from '../post-summary';
 import { BackLink } from '@/components/ui/texts/back-link';
 import { Markdown } from '@/components/ui/texts/markdown';
+import { ToolCrossLinks } from '@/components/ui/cross-links/tool-cross-links';
 
 interface Props {
   post: BlogPost;
@@ -45,14 +46,29 @@ const Post: React.FC<Props> = ({ post, content }) => {
             </PostTags>
           )}
         </footer>
+
+        {post.toolKey && (
+          <ToolCrossLinks 
+            toolKey={post.toolKey}
+            title="Explore Our Tools"
+          />
+        )}
       </Main>
     </BlogContainer>
   );
 }
 
 const Header = styled.header`
-  padding-left: 2.5rem;
-  margin-top: 0.375rem;
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: 1rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 31;
+  }
 `;
 
 const Main = styled.main`
@@ -71,7 +87,7 @@ const PostTitle = styled.h1`
 
   @media (max-width: 768px) {
     font-size: 1.25rem;
-    margin: 1rem auto 1.5rem;
+    margin: 0 auto 1.5rem;
   }
 `;
 
@@ -81,7 +97,7 @@ const PostSubtitle = styled.h2`
   font-weight: 400;
   font-style: italic;
   line-height: 1.5;
-  color: var(--text-color-secondary);
+  color: var(--text-color);
   margin: -0.5rem 0 0;
 
   @media (max-width: 768px) {

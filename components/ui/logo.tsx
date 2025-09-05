@@ -1,21 +1,16 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-import { StarIcon } from './icons/star';
-
-
-interface LogoProps {
+interface Props {
   onClick?: () => void;
+  className?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({ onClick }) => {
+const Logo: React.FC<Props> = ({ onClick, className }) => {
   return (
-    <Container onClick={onClick}>
-      <Text>CssCraft</Text>
-
-      <PinkStar width={0.5} height={0.5} top={1.25} left={1.0625} />
-      
-      <PinkStar width={0.3125} height={0.3125} top={0.4375} left={7.3125} />
+    <Container onClick={onClick} className={className}>
+      <Icon src='/logo/logo.svg' alt="Logo" />
+      <Text><b>Style</b>Crafts</Text>
     </Container>
   );
 }
@@ -24,44 +19,25 @@ const Container = styled.div`
   position: relative;
   width: fit-content;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 `;
 
 const Text = styled.span`
-  font-family: 'Delius Swash Caps', cursive;
-  font-size: 1.875rem;
-  /* color: var(--primary-color); */
+  font-size: 1.5rem;
   user-select: none;
-  background: linear-gradient(70deg, var(--primary-color), #ff4e50);
-  -webkit-background-clip: text;
-  color: transparent;
-`;
+  color: var(--text-color);
+  font-weight: 300;
 
-const scaleUpDown = keyframes`
-  0% {
-    transform: scale(0);
-  }
-  80% {
-    transform: scale(0);
-  }
-  95% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
+  b {
+    font-weight: 600;
   }
 `;
 
-const PinkStar = styled(StarIcon)<{ top: number, left: number, width: number, height: number }>`
-  position: absolute;
-  width: ${({ width }) => `${width}rem`};
-  height: ${({ height }) => `${height}rem`};
-  top: ${({ top }) => `${top}rem`};
-  left: ${({ left }) => `${left}rem`};
-  animation: ${scaleUpDown} 4s ease-in-out;
-
-  svg path {
-    fill: var(--primary-color);
-  }
+const Icon = styled.img`
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-right: 0.5rem;
 `;
 
 export { Logo };

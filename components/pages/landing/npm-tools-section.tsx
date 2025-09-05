@@ -1,129 +1,92 @@
 import React from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-import { useObserver } from '@/hooks/use-observer';
+import { GAService } from '@/services/google-analytics-service';
+import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
 import { CodeBlock } from '@/components/ui/texts/code-block';
+import { Column, Container, Headline, TextColumn } from './common';
 
 const libraries = [
   { name: '@mirawision/colorize', url: 'https://www.npmjs.com/package/@mirawision/colorize' },
+  { name: '@mirawision/usa-map-react', url: 'https://www.npmjs.com/package/@mirawision/usa-map-react' },
 ];
 
 const NpmToolsSection: React.FC = () => {
-  const [observerRef, isVisible] = useObserver<HTMLDivElement>();
- 
   return (
-    <Container ref={observerRef}>
-      <TextColumn isVisible={isVisible}>
-        <h2>Our Solutions</h2>
+    <Container>
+      <Headline>{'{ OUR SOLUTIONS }'}</Headline>
 
-        <p>
-          At MiraWision, we’re passionate about creating tools that enhance web development and design. 
-          The same innovative solutions that power our website are available for you to use in your own projects.
-          <br />
-          <br />
-          We believe in giving back to the community and are excited to share these tools with you. 
-          Explore our resources, join the conversation, and let’s build a better web together.
-        </p>
-      </TextColumn>
+      <Row>
+        <TextColumn>
+          <p>
+            At MiraWision, we're passionate about creating tools that enhance web development and design. 
+            The same innovative solutions that power our website are available for you to use in your own projects.
+          </p>
+          <p>
+            We believe in giving back to the community and are excited to share these tools with you. 
+            Explore our resources, join the conversation, and let's build a better web together.
+          </p>
+        </TextColumn>
 
-      <CardColumn isVisible={isVisible}>
-        <Header>
-          <ServiceLogo href='https://github.com/MiraWision' target='_blank' rel='noopener noreferrer'>
-            <img src='/icons/github.svg' alt='github' />
-          </ServiceLogo>
+        <CardColumn>
+          <Header>
+            <ServiceLogo 
+              href='https://github.com/MiraWision' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.landingGithubOpened('MiraWision'))}
+            >
+              <img src='/icons/github.svg' alt='github' />
+            </ServiceLogo>
 
-          <ServiceLogo href='https://www.npmjs.com/org/mirawision' target='_blank' rel='noopener noreferrer'>
-            <img src='/icons/npm.png' alt='npm' />
-          </ServiceLogo>
-        </Header>
+            <ServiceLogo 
+              href='https://www.npmjs.com/org/mirawision' 
+              target='_blank' 
+              rel='noopener noreferrer'
+              onClick={() => GAService.logEvent(analyticsEvents.general.landingNpmOpened('mirawision'))}
+            >
+              <img src='/icons/npm.png' alt='npm' />
+            </ServiceLogo>
+          </Header>
 
-        <LibraryList>
-          {libraries.map((library) => (
-            <LibraryItem key={library.name}>
-              <LibraryLink href={library.url} target='_blank' rel='noopener noreferrer'>
-                {library.name}
-              </LibraryLink>
+          <LibraryList>
+            {libraries.map((library) => (
+              <LibraryItem key={library.name}>
+                <LibraryLink 
+                  href={library.url} 
+                  target='_blank' 
+                  rel='noopener noreferrer'
+                  onClick={() => GAService.logEvent(analyticsEvents.general.landingLibraryClicked(library.name))}
+                >
+                  {library.name}
+                </LibraryLink>
 
-              <CodeBlock code={`npm install ${library.name}`} />
-            </LibraryItem>
-          ))}
-        </LibraryList>
-      </CardColumn>
+                <CodeBlock 
+                  code={`npm install ${library.name}`}
+                  onCopy={() => GAService.logEvent(analyticsEvents.general.landingLibraryCopied(library.name))}
+                />
+              </LibraryItem>
+            ))}
+          </LibraryList>
+        </CardColumn>
+      </Row>
     </Container>
   );
 };
 
-const fadeInSlideUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(250px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 3rem 10rem;
-  display: grid;
-  grid-template-columns: 2fr 2fr;
-  grid-gap: 2rem;
+const Row = styled.div`
+  display: flex;
   align-items: center;
-  background-color: var(--surface-50);
+  justify-content: space-around;
+  gap: 2rem;
+  margin-top: 20vh;
+  width: 100%;
 
   @media (max-width: 768px) {
-    padding: 1rem 0.5rem;
-    grid-template-columns: 1fr;
-    align-items: flex-start;
-    justify-content: center;
-  }
-`;
-
-const Column = styled.div<{ isVisible: boolean }>`
-  opacity: 0;
-  animation-fill-mode: both;
-
-  ${({ isVisible }) => isVisible && css`
-    animation: ${fadeInSlideUp} 1s ease-out;
-    opacity: 1;
-    transform: translateY(0);
-  `}
-
-  @media (max-width: 768px) {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const TextColumn = styled(Column)`
-  h2 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-
-    @media (max-width: 768px) {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-  }
-
-  p {
-    font-size: 1.125rem;
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
-    border-left: 0.25rem solid var(--primary-color);
-    border-right: 0.25rem solid var(--primary-color);
-    border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
-
-    @media (max-width: 768px) {
-      width: 90%;
-    }
+    margin-top: 2rem;
+    gap: 1rem;
   }
 `;
 
@@ -134,12 +97,13 @@ const CardColumn = styled(Column)`
   align-items: center;
   background-color: var(--surface-0);
   padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    width: 95%;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
   }
 `;
 

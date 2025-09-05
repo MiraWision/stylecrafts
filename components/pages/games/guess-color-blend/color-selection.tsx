@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { SelectedColor } from './types';
 
 import { ColorCircle } from './color-circle';
-import { RefreshButton } from '@/components/ui/buttons/refresh-button';
+import { RefreshIconButton } from '@/components/ui/icon-buttons/refresh-icon-button';
 import { Label } from '@/components/ui/texts/label';
 
 interface Props {
   selectedColors: SelectedColor[];
-  totalWeight: number; 
+  totalWeight: number;
   isMatched: boolean;
+  gameStarted: boolean;
   gameOver: boolean;
   onWeightChange: (color: string, increment: number) => void;
-  onResetAll: () => void; 
+  onResetAll: () => void;
 }
 
-const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatched, gameOver, onWeightChange, onResetAll }) => {
+const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatched, gameStarted, gameOver, onWeightChange, onResetAll }) => {
+  const hasSelectedColors = useMemo(() => selectedColors.some(color => color.weight > 0), [selectedColors]);
+
   return (
     <Container>
       <Label>Mix Basic Colors to Match Target Color</Label>
@@ -25,27 +28,32 @@ const ColorSelection: React.FC<Props> = ({ selectedColors, totalWeight, isMatche
         {selectedColors.map((color) => (
           <ColorBarSegment
             key={color.hex}
-            color={color.hex}
-            width={`${color.weight / totalWeight * 100}%`}
-          />  
+            $backgroundColor={color.hex}
+            $width={`${totalWeight > 0 ? color.weight / totalWeight * 100 : 0}%`}
+          />
         ))}
       </ColorBar>
 
-      <ColorCirclesContainer>
-        <RefreshButtonStyled onClick={onResetAll} />
-
-        {selectedColors.map((color) => (
-          <ColorCircle
-            key={color.hex}
-            color={color}
-            totalWeight={totalWeight}
-            onWeightChange={(!isMatched && !gameOver) ? onWeightChange : undefined}
-          />
-        ))}
-      </ColorCirclesContainer>
+      <ColorCirclesRow>
+        {hasSelectedColors && (
+          <RefreshButtonContainer>
+            <RefreshIconButton onClick={onResetAll} />
+          </RefreshButtonContainer>
+        )}
+        <ColorCirclesContainer>
+          {selectedColors.map((color) => (
+            <ColorCircle
+              key={color.hex}
+              color={color}
+              totalWeight={totalWeight}
+              onWeightChange={(!isMatched && !gameOver && gameStarted) ? onWeightChange : undefined}
+            />
+          ))}
+        </ColorCirclesContainer>
+      </ColorCirclesRow>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   display: flex;
@@ -53,10 +61,6 @@ const Container = styled.div`
   align-items: center;
   gap: 0.5rem;
   margin-top: 1rem;
-
-  @media (max-width: 768px) {
-    margin-top: 10vh;
-  }
 `;
 
 const ColorBar = styled.div`
@@ -72,11 +76,23 @@ const ColorBar = styled.div`
   }
 `;
 
-const ColorBarSegment = styled.div<{ color: string; width: string }>`
-  width: ${({ width }) => width};
+const ColorBarSegment = styled.div.attrs<{ $backgroundColor: string; $width: string }>(({ $backgroundColor, $width }) => ({
+  style: {
+    backgroundColor: $backgroundColor,
+    width: $width,
+  },
+}))`
   height: 100%;
   transition: width 0.5s;
-  background-color: ${({ color }) => color};
+`;
+
+const ColorCirclesRow = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 1rem;
+  position: relative;
 `;
 
 const ColorCirclesContainer = styled.div`
@@ -84,11 +100,13 @@ const ColorCirclesContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.75rem;
-  margin-top: 1rem;
 `;
 
-const RefreshButtonStyled = styled(RefreshButton)`
-  margin-top: -2rem;
+const RefreshButtonContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  bottom: -2.5rem;
+  transform: translateX(-50%);
 `;
 
 export { ColorSelection };

@@ -5,6 +5,8 @@ interface BlogPost {
   createdAt: string;
   url: string;
   tags: string[];
+  thumbnail: string;
+  toolKey?: string;
 }
 
 export type { BlogPost };

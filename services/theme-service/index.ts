@@ -32,7 +32,7 @@ class ThemeService extends Observer<Theme> {
     const themeLink = document.getElementById('theme-link') as HTMLLinkElement | null;
 
     if (themeLink) {
-      themeLink.href = `/themes/lara-${theme}-pink/theme.css`;
+      themeLink.href = `/styles/${theme}.css`;
     }
   }
 

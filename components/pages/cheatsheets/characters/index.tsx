@@ -3,10 +3,12 @@ import styled from 'styled-components';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+import { generateSlug } from '@/utils/text';
 
 import { MainContainer, SingleColumnContainer } from '@/components/ui/containers';
 import { characterEntities } from './data';
 import { CheatSheetTable } from '../cheatsheet-table';
+import { FloatingMenu } from '../floating-menu';
 
 interface Props {
 }
@@ -18,6 +20,10 @@ const CharactersCheatSheetMain: React.FC<Props> = ({}) => {
 
   return (
     <MainContainer>
+      <FloatingMenu 
+        sections={characterEntities.map((group) => ({ id: generateSlug(group.groupName), title: group.groupName }))} 
+      />
+
       <SingleColumnContainer>
         {characterEntities.map((group, index) => (
           <CharactersGroup key={index}>

@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ColorFormat, convertColor, getColorFormat } from '@mirawision/colorize';
 
-import { ColorPicker } from 'primereact/colorpicker';
 import { InputText } from 'primereact/inputtext';
+import { ColorPicker } from './color-picker';
 
 interface Props {
   value: string;
@@ -12,12 +12,17 @@ interface Props {
 }
 
 const ColorInput: React.FC<Props> = ({ value, onChange, className }) => {
+  const colorPickerRef = useRef<HTMLDivElement>(null);
+  const colorInputRef = useRef<HTMLInputElement>(null);
+  
+  const [isColorPickerVisible, setIsColorPickerVisible] = useState<boolean>(false);
+
   const hexValue = useMemo(() => {
     if (!value.length) {
       return '';
     }
 
-    if (value.startsWith('#')) {
+    if (value?.startsWith('#')) {
       return value;
     }
 
@@ -28,10 +33,34 @@ const ColorInput: React.FC<Props> = ({ value, onChange, className }) => {
       return '';
     }
   }, [value]);
-  
-  const handleColorPickerChange = (e: any) => {
-    let newColor = e.value;
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (colorPickerRef.current && !colorPickerRef.current.contains(event.target as Node)) {
+      setIsColorPickerVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isColorPickerVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+
+      if (colorInputRef.current) {
+        colorInputRef.current.focus();
+      }
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+
+      if (colorInputRef.current) {
+        colorInputRef.current.blur();
+      }
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isColorPickerVisible]);
+  
+  const handleColorPickerChange = (newColor: string) => {
     if (!newColor.startsWith('#')) {
       newColor = `#${newColor}`;
     }
@@ -62,33 +91,61 @@ const ColorInput: React.FC<Props> = ({ value, onChange, className }) => {
 
   return (
     <Container className={className}>
-      <ColorPickerStyled value={hexValue} onChange={handleColorPickerChange} />
+      <ColorBox 
+        $color={hexValue}
+        onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}
+      />
 
-      <InputTextStyled type='text' value={value} onChange={handleInputTextChange} />
+      <InputTextStyled 
+        ref={colorInputRef}
+        type='text' 
+        value={value} 
+        onChange={handleInputTextChange}
+      />
+
+      {isColorPickerVisible && (
+        <ColorPickerContainer ref={colorPickerRef}>
+          <ColorPicker
+            value={hexValue}
+            onChange={handleColorPickerChange}
+          />  
+        </ColorPickerContainer>          
+      )}
     </Container>
   );
 };
 
-const Container = styled.div<{ margin?: string }>`
-  display: flex;
-  align-items: center;
-  width: 14rem;
+const Container = styled.div`
+  position: relative;
 `;
 
-const ColorPickerStyled = styled(ColorPicker)`
-  input {
-    width: 2rem;
-    height: 2rem;
-    border-right: 0;
-    border-radius: 0.25rem 0 0 0.25rem;
-  }
+const ColorBox = styled.div.attrs<{ $color: string }>(({ $color }) => ({
+  style: {
+    backgroundColor: $color,
+  },
+}))`
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  border: 0.0625rem solid var(--surface-border);
 `;
 
 const InputTextStyled = styled(InputText)`
-  border-left: 0;
-  border-radius: 0 0.25rem 0.25rem 0;
-  width: 12rem;
+  border-radius: 0.5rem;
+  width: 10rem;
   height: 2rem;
+  padding-left: 2rem;
+`;
+
+const ColorPickerContainer = styled.div`
+  position: absolute;
+  z-index: 1000;
+  top: 2.5rem;
+  left: 0;
 `;
 
 export { ColorInput };

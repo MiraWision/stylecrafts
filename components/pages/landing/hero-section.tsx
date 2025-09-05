@@ -1,85 +1,316 @@
-// components/HeroSection.tsx
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import Link from 'next/link';
 
+import { TopMenu } from './top-menu';
 import { Routes } from '@/content/routes';
+import { GoToAppIcon } from '@/components/icons/go-to-app';
+import { ExpandIcon } from '@/components/icons/expand';
+import { fadeInAnimation } from './common';
 
-const HeroSection: React.FC = () => (
-  <Container>
-    <Headline>Empower Your Projects<br />with Our Cutting-Edge Solutions</Headline>
+interface Props {}
 
-    <Subheadline>Optimize images, create vibrant palettes,<br />generate heatmaps, and many more<br />with our free tools and libraries</Subheadline>
-    
-    <LinkStyled href={Routes.ImageOptimizationTool}>
-      Explore Our Tools
-    </LinkStyled>
-  </Container>
-);
+const HeroSection: React.FC<Props> = () => {
+  const onScroll = () => {
+    window.scrollBy({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  };
 
-const fadeInSlideUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(50px);
+  return (
+    <MainContainer>
+      <TopMenu />
+
+      <Container>
+        <HeroContainer>
+          <CentralContainer>
+            <TopContainer>
+              <TopLeftText>DESIGN<br />GETS<br />EASIER</TopLeftText>
+              
+              <StyledImageTop src="./landing/hero-top.png" alt="Hero Top Image" />
+              
+              <div />
+            </TopContainer>
+
+            <CenterText>STYLE CRAFTS</CenterText>
+            
+            <BottomContainer>
+              <BottomLeftPlaceholder />
+              
+              <StyledImageBottom src="./landing/hero-bottom.png" alt="Hero Bottom Image" />
+              
+              <ParagraphContainer>
+                <Paragraph>
+                  Optimize images, create vibrant palettes, generate heatmaps, and many more with our free tools and libraries
+                </Paragraph>
+              
+                <GoToAppLink href={Routes.ColorsGradientGeneratorTool}>
+                  GO TO APP <GoToAppIcon width='2.5vw' height='2.5vw' />
+                </GoToAppLink>
+              </ParagraphContainer>
+            </BottomContainer>
+          </CentralContainer>
+        </HeroContainer>
+      </Container>
+
+      <ExploreContainer onClick={onScroll}>
+        <ExploreLink>EXPLORE MORE</ExploreLink>
+        
+        <ExpandIcon
+          width='2.5rem'
+          height='2.5rem'
+        />
+      </ExploreContainer>
+    </MainContainer>
+  );
+};
+
+const ExploreContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  cursor: pointer;
+
+  .icon {
+    margin-left: -1rem;
+
+    * {
+      fill: var(--primary-color);
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  @media (max-width: 768px) {
+    left: 1rem;
+    bottom: 1rem;
+  }
+`;
+
+const ExploreLink = styled.div`
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--primary-color);
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+`;
+
+const MainContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 3vw;
+
+  @media (max-width: 768px) {
+    padding-bottom: 2rem;
   }
 `;
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: url('/landing/background.jpeg') no-repeat center center/cover;
+  width: 100%;
+  display: flex;
+  ${fadeInAnimation}
+`;
+
+const HeroContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CentralContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  color: #ffffff;
+  align-items: center;
+  width: 63%;
+  position: absolute;
+  top: 45vh;
+  transform: translateY(-55%);
+
+  @media (max-width: 768px) {
+    width: 90%;
+    top: 32vh;
+    transform: translateY(-28%);
+  }
+`;
+
+const TopContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: flex-end;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+`;
+
+const BottomContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: flex-start;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+`;
+
+const TopLeftText = styled.div`
+  font-family: 'Montagu Slab', serif;
+  grid-column: 1;
+  font-size: 2.5vw;
+  font-weight: 50;
+  color: var(--primary-color);
+  text-align: left;
+  line-height: 0.9;
+  letter-spacing: 0.1em;
+  width: 100%;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+  user-select: none;
+
+  @media (max-width: 768px) {
+    font-size: 3.6vw;
+    line-height: 1;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 4.5vw;
+  }
+`;
+
+const StyledImageTop = styled.img`
+  grid-column: 2;
+  width: 25vw;
+  height: auto;
+  object-fit: contain;
+
+  @media (max-width: 768px) {
+    width: 31.5vw;
+  }
+
+  @media (max-width: 480px) {
+    width: 36vw;
+  }
+`;
+
+const StyledImageBottom = styled.img`
+  grid-column: 2;
+  width: 25vw;
+  height: auto;
+  object-fit: contain;
+
+  @media (max-width: 768px) {
+    width: 31.5vw;
+  }
+
+  @media (max-width: 480px) {
+    width: 36vw;
+  }
+`;
+
+const BottomLeftPlaceholder = styled.div`
+  grid-column: 1;
+  width: 100%;
+  height: 100%;
+`;
+
+const CenterText = styled.div`
+  font-family: 'Montagu Slab', serif;
+  font-size: 5.25vw;
+  line-height: 5vw;
+  font-weight: 450;
+  color: var(--primary-color);
   text-align: center;
+  letter-spacing: 0.35em;
+  white-space: nowrap;
+  margin: 0.4vw 0;
+  user-select: none;
+
+  @media (max-width: 768px) {
+    font-size: 7.2vw;
+    line-height: 6.8vw;
+    letter-spacing: 0.2em;
+    margin: 1rem 0;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 9vw;
+    line-height: 8.1vw;
+    letter-spacing: 0.15em;
+  }
 `;
 
-const Headline = styled.h1`
-  font-size: 2.5rem;
-  text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
-  animation: ${fadeInSlideUp} 0.8s ease-out;
-  margin: 0.5rem 0;
+const ParagraphContainer = styled.div`
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  margin-left: 5vw;
+
+  @media (max-width: 768px) {
+    margin-left: 2vw;
+  }
+
+  @media (max-width: 480px) {
+    margin-left: 1vw;
+  }
 `;
 
-const Subheadline = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin: 0.5rem 0 1rem;
-  text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
-  animation: ${fadeInSlideUp} 0.8s ease-out;
-  animation-delay: 0.2s;
-  animation-fill-mode: both;
-`;
-
-const LinkStyled = styled(Link)`
-  animation: ${fadeInSlideUp} 0.8s ease-out;
-  animation-delay: 0.4s;
-  animation-fill-mode: both;
-  padding: 1rem 2rem;
-  border: 0.0625rem solid #ffffff;
-  border-radius: 1rem;
-  color: #ffffff;
+const GoToAppLink = styled(Link)`
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ff4500;
   text-decoration: none;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 1.125rem;
-  transition: background-color 0.3s, box-shadow 0.3s;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.3);
+    text-decoration: underline;
   }
 
-  &:active, &:focus {
-    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.5);
+  .icon * {
+    fill: #ff4500;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+`;
+
+const Paragraph = styled.div`
+  font-size: 1.2vw;
+  font-weight: 300;
+  color: var(--text-color);
+  text-align: left;
+  margin-bottom: 0.8vw;
+
+  @media (max-width: 768px) {
+    font-size: 2.25vw;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 3.15vw;
+    margin-bottom: 1.5rem;
   }
 `;
 

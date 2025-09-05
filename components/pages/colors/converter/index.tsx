@@ -1,48 +1,69 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { convertColor, ColorFormat } from '@mirawision/colorize';
+import { useRouter } from 'next/router';
+import imagineColor from '@mirawision/imagine/color';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
 
 import { Label } from '@/components/ui/texts/label';
-import { convertColor, ColorFormat } from '@mirawision/colorize';
-import { CopyButton } from '@/components/ui/buttons/copy-button';
+import { CopyIconButton } from '@/components/ui/icon-buttons/copy-icon-button';
 import { TwoColumnsContainer } from '@/components/ui/containers';
-import { ColorInputPreview } from '@/components/ui/inputs/color-input-preview';
+import { ColorInputBig } from '@/components/ui/inputs/color-input-big';
+import { IconLink } from '@/components/ui/links/icon-link';
+import { ToolCrossLinks } from '@/components/ui/cross-links';
 
 type ConvertedColors = {
   [key in ColorFormat]?: string;
-}
+};
 
-interface Props {
-}
+interface Props {}
 
-const ColorConverter: React.FC<Props> = ({}) => {
+const ColorConverter: React.FC<Props> = () => {
   const [color, setColor] = useState('');
   const [convertedColors, setConvertedColors] = useState<ConvertedColors>({});
+  const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
+  const { color: queryColor } = router.query;
 
   const generateRandomColor = () => {
-    return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0');
+    return imagineColor.hex();
   };
 
   useEffect(() => {
-    setColor(generateRandomColor());
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
+    if (queryColor && typeof queryColor === 'string') {
+      try {
+        setColor(queryColor);
+      } catch (error) {
+        setColor(generateRandomColor());
+      }
+    } else {
+      setColor(generateRandomColor());
+    }
+  }, [queryColor]);
+
+  useEffect(() => {
+    if (!color) return;
+
     const newConvertedColors: ConvertedColors = {};
 
     Object.values(ColorFormat).forEach((format) => {
       try {
         newConvertedColors[format] = convertColor(color, format);
 
-        GAService.logEvent(analyticsEvents.colors.converter.colorConverted(color));
       } catch (error) {
         console.error('Error converting color:', error);
         newConvertedColors[format] = '';
       }
     });
-    
+
+    GAService.logEvent(analyticsEvents.colors.converter.colorConverted(color));
+
     setConvertedColors(newConvertedColors);
   }, [color]);
 
@@ -54,37 +75,52 @@ const ColorConverter: React.FC<Props> = ({}) => {
     GAService.logEvent(analyticsEvents.colors.converter.colorCopied(text));
   };
 
+  if (!isClient) {
+    return null;
+  }
+
   return (
-    <TwoColumnsContainer>
-      <ColorPickerContainer>
-        <Label>Enter color</Label>
+    <MainContainer>
+      <TwoColumnsContainer ratio="1fr 2fr">
+        <ColorPickerContainer>
+          <Label fontSize="1rem">Enter color</Label>
+          <ColorInputBig value={color} onChange={handleColorChange} />
+        </ColorPickerContainer>
 
-        <ColorInputPreview
-          value={color}
-          onChange={handleColorChange}
-        />
-      </ColorPickerContainer>
+        <FormatsContainer>
+          <FlexContainer>
+            {Object.values(ColorFormat).map((format) => (
+              <ResultColorContainer key={format}>
+                <ColorTitle>{format.toUpperCase()}</ColorTitle>
 
-      <FormatsContainer>
-        <FlexContainer>
-          {Object.values(ColorFormat).map((format) => (
-            <ResultColorContainer key={format}>
-              <ColorTitle>{format.toUpperCase()}</ColorTitle>
+                <ColorValue>{convertedColors[format]}</ColorValue>
 
-              <ColorValue>{convertedColors[format]}</ColorValue>
-              
-              <CopyButton 
-                text={convertedColors[format] || ''}
-                label='Color'
-                onCopyCallback={() => handleCopy(convertedColors[format] ?? '')} 
-              />
-            </ResultColorContainer>
-          ))}
-        </FlexContainer>
-      </FormatsContainer>
-    </TwoColumnsContainer>
+                <CopyIconButton
+                  text={convertedColors[format] || ''}
+                  onCopyCallback={() =>
+                    handleCopy(convertedColors[format] ?? '')
+                  }
+                />
+              </ResultColorContainer>
+            ))}
+          </FlexContainer>
+        </FormatsContainer>
+      </TwoColumnsContainer>
+
+      <ToolCrossLinks
+        toolKey="color-converter"
+        title="Explore More Color Tools"
+        dynamicData={{ color }}
+      />
+    </MainContainer>
   );
-}
+};
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const ColorPickerContainer = styled.div`
   display: flex;
@@ -97,11 +133,29 @@ const ColorPickerContainer = styled.div`
   }
 `;
 
+const InspectLink = styled(IconLink)`
+  display: inline-block;
+  color: var(--surface-500);
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--surface-border);
+  background-color: var(--surface-50);
+  border-radius: 0.4rem;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    color: var(--surface-600);
+    background-color: var(--surface-100);
+    border-color: var(--surface-300);
+  }
+`;
+
 const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
+  width: 100%;
 `;
 
 const FormatsContainer = styled.div`
@@ -113,20 +167,20 @@ const FormatsContainer = styled.div`
 
 const ResultColorContainer = styled.div`
   display: grid;
-  grid-template-columns: 3rem 10rem 1rem;
+  grid-template-columns: 3rem 12rem 1rem;
   align-items: center;
   gap: 1rem;
   padding: 0.5rem;
 `;
 
 const ColorTitle = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 400;
   color: var(--surface-900);
 `;
 
 const ColorValue = styled.div`
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--surface-900);
 `;

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -6,49 +6,12 @@ interface Props {
   targetColor: string;
   matchPercentage: number;
   isMatched: boolean;
-  isChallenge: boolean;
-  gameOver: boolean;
-  onClick?: () => void;
 }
 
-const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercentage, isMatched, isChallenge, gameOver, onClick }) => {
-  const text = useMemo(() => {
-    if (gameOver) {
-      return 'Game Over';
-    }
-
-    return `${matchPercentage.toFixed(2)}% Match`;
-  }, [gameOver, matchPercentage]);
-
-  const hoverText = useMemo(() => {
-    if (isChallenge) {
-      if (gameOver) {
-        return 'New Challenge';
-      }
-
-      if (isMatched) {
-        return 'Next Game';
-      }
-
-      return 'Keep Going!';
-    }
-
-    return 'New Game';
-  }, [isChallenge, gameOver, isMatched]);
-  
-  const handleOnClick = () => {
-    if (isChallenge) {
-      if (gameOver || isMatched) {
-        onClick?.();
-      }
-    } else {
-      onClick?.();
-    }
-  };
-
+const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercentage, isMatched }) => {
   return (
     <Container>
-      <ColorSection color={currentColor}>
+      <ColorSection $backgroundColor={currentColor}>
         {!currentColor && (
           <EmptyBackground />
         )}
@@ -60,16 +23,11 @@ const ColorsPreview: React.FC<Props> = ({ currentColor, targetColor, matchPercen
         </Overlay>
       </ColorSection>
 
-      <Match
-        isMatched={isMatched}
-        onClick={handleOnClick}  
-      >
-        <MatchText>{text}</MatchText>
-
-        <HoverText>{hoverText}</HoverText>
+      <Match $isMatched={isMatched}>
+        {`${matchPercentage.toFixed(2)}% Match`}
       </Match>
 
-      <ColorSection color={targetColor}>
+      <ColorSection $backgroundColor={targetColor}>
         <Overlay>
           <SectionTitle>Target</SectionTitle>
 
@@ -94,13 +52,17 @@ const Container = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
+    overflow: visible;
   }
 `;
 
-const ColorSection = styled.div<{ color: string }>`
+const ColorSection = styled.div.attrs<{ $backgroundColor: string }>(({ $backgroundColor }) => ({
+  style: {
+    backgroundColor: $backgroundColor || 'white',
+  },
+}))`
   flex: 1;
   height: 100%;
-  background-color: ${({ color }) => color || 'white'};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -160,24 +122,12 @@ const ColorCode = styled.p`
   text-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.8);
 `;
 
-const MatchText = styled.div`
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-align: center;
-  line-height: 1.5;
-`;
-
-const HoverText = styled.div`
-  display: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-align: center;
-  line-height: 1.5;
-  color: var(--primary-color);
-`;
-
-const Match = styled.div<{ isMatched: boolean }>`
+const Match = styled.div.attrs<{ $isMatched: boolean }>(({ $isMatched }) => ({
+  style: {
+    borderColor: $isMatched ? 'var(--primary-color)' : 'var(--surface-border)',
+    color: $isMatched ? 'var(--primary-color)' : 'var(--text-color)',
+  },
+}))<{ $isMatched: boolean }>`
   position: absolute;
   z-index: 1;
   top: 50%;
@@ -190,24 +140,21 @@ const Match = styled.div<{ isMatched: boolean }>`
   gap: 0.5rem;
   background-color: var(--surface-100);
   padding: 0.5rem 1rem;
-  border: 0.0625rem solid ${({ isMatched }) => isMatched ? 'var(--primary-color)' : 'var(--surface-border)'};
+  border: 0.0625rem solid;
   border-radius: 1rem;
   width: 5rem;
   height: 5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
-  cursor: pointer;
-  color: ${({ isMatched }) => (isMatched ? 'var(--primary-color)' : 'var(--text-color)')};
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.5;
 
-  &:hover {
-    background-color: var(--surface-200);
-
-    ${HoverText} {
-      display: block;
-    }
-
-    ${MatchText} {
-      display: none;
-    }
+  @media (max-width: 768px) {
+    top: calc(100% + 0.5rem);
+    transform: translate(-50%, -250%);
+    width: 6rem;
+    height: 4rem;
   }
 `;
 

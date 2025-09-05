@@ -1,37 +1,13 @@
-import { PaletteColor, Difficulty, Level } from './types';
-
-const LevelOptions = [
-  { value: Level.Easy, label: 'Easy' },
-  { value: Level.Medium, label: 'Medium' },
-  { value: Level.Hard, label: 'Hard' },
-  { value: Level.Challenge, label: 'Challenge' },
-];
+import { PaletteColor, Difficulty } from './types';
 
 const PaletteColors: PaletteColor[] = [
   { name: 'Red', hex: '#e63946' },
   { name: 'Yellow', hex: '#ffbf00' },
   { name: 'Blue', hex: '#457b9d' },
   { name: 'White', hex: '#fafafa' },
+  { name: 'Grey', hex: '#a9a9a9' },
   { name: 'Black', hex: '#1b1b1b' },
 ];
-
-const LevelDifficulty: Partial<Record<Level, Difficulty>> = {
-  [Level.Easy]: { 
-    basicColorsCount: [1, 2],
-    shadeColorsCount: [1, 1],
-    dropsCount: [3, 3],
-  },
-  [Level.Medium]: { 
-    basicColorsCount: [2, 2],
-    shadeColorsCount: [1, 2],
-    dropsCount: [4, 5],
-  },
-  [Level.Hard]: {
-    basicColorsCount: [2, 2],
-    shadeColorsCount: [2, 2],
-    dropsCount: [6, 7],
-  },
-};
 
 const ChallengeDifficulty: (Difficulty & { from: number, to: number})[] = [
   { 
@@ -80,21 +56,19 @@ const ChallengeDifficulty: (Difficulty & { from: number, to: number})[] = [
     from: 110,
     to: 145,
     basicColorsCount: [2, 2],
-    shadeColorsCount: [2, 2],
+    shadeColorsCount: [2, 3],
     dropsCount: [7, 8],
   },
   { 
     from: 145,
     to: Infinity,
     basicColorsCount: [2, 3],
-    shadeColorsCount: [2, 2],
+    shadeColorsCount: [2, 3],
     dropsCount: [8, 10],
   },
 ];
 
 export { 
-  LevelOptions, 
   PaletteColors,
-  LevelDifficulty,
   ChallengeDifficulty,
 };

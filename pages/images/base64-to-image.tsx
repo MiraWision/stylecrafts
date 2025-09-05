@@ -1,9 +1,9 @@
 import { content } from '@/content/function-descriptions/base64-to-image';
-import { MetaTags } from '@/components/pages/meta-tags';
 import { metaTags } from '@/content/meta-data/function-base64-to-image';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { Markdown } from '@/components/ui/texts/markdown';
+import { MetaTags } from '@/components/pages/meta-tags';
 import { BlogContainer } from '@/components/pages/blog/blog-container';
 import { MainContainer } from '@/components/ui/containers';
 import { Title } from '@/components/ui/texts/typography';
@@ -16,7 +16,7 @@ const Base64ToImageToolPage = () => {
 
       <MainContainer>
         <Title>Base64 to Image Converter</Title>
-  
+
         <Base64ToImage />
       </MainContainer>
       
