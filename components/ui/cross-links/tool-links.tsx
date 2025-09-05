@@ -135,6 +135,7 @@ export const CrossLinks: Record<string, {
   mandatoryTools: (string | CustomLinkFunction)[];
   optionalTools: string[];
 }> = {
+  // --- Colors ---
   'color-converter': {
     mandatoryTools: [
       (dynamicData?: any) => ({
@@ -148,103 +149,107 @@ export const CrossLinks: Record<string, {
         icon: <ColorInspectorIcon width="32" height="32" />
       }),
     ],
-    optionalTools: ['gradient-generator', 'color-inspector', 'contrast-checker', 'palette-generator'],
+    optionalTools: ['contrast-checker', 'gradient-generator', 'palette-generator', 'palette-from-image', 'qr-code-generator'],
   },
   'color-inspector': {
     mandatoryTools: ['color-converter', 'contrast-checker'],
-    optionalTools: ['palette-generator', 'gradient-generator', 'palette-from-image'],
+    optionalTools: ['palette-generator', 'palette-from-image', 'gradient-generator', 'qr-code-generator'],
   },
   'contrast-checker': {
     mandatoryTools: ['color-inspector', 'color-converter'],
-    optionalTools: ['palette-generator', 'palette-from-image', 'gradient-generator']
+    optionalTools: ['palette-generator', 'gradient-generator', 'palette-from-image', 'qr-code-generator'],
   },
   'palette-generator': {
-    mandatoryTools: ['color-inspector', 'contrast-checker'],
-    optionalTools: ['color-converter', 'palette-from-image', 'gradient-generator']
+    mandatoryTools: ['palette-from-image', 'color-inspector'],
+    optionalTools: ['contrast-checker', 'gradient-generator', 'color-converter', 'qr-code-generator'],
   },
   'palette-from-image': {
     mandatoryTools: ['palette-generator', 'color-inspector'],
-    optionalTools: ['contrast-checker', 'gradient-generator', 'color-converter']
+    optionalTools: ['gradient-generator', 'contrast-checker', 'color-converter', 'qr-code-generator'],
   },
   'gradient-generator': {
-    mandatoryTools: ['color-inspector', 'palette-generator'],
-    optionalTools: ['color-converter', 'palette-from-image', 'contrast-checker']
+    mandatoryTools: ['palette-generator', 'color-inspector'],
+    optionalTools: ['contrast-checker', 'color-converter', 'palette-from-image', 'qr-code-generator'],
   },
+
+  // --- Images ---
   'image-compression': {
-    mandatoryTools: ['image-to-base64'],
-    optionalTools: ['base64-to-image']
+    mandatoryTools: ['image-to-base64', 'base64-to-image'],
+    optionalTools: ['qr-code-generator', 'palette-from-image', 'gradient-generator']
   },
   'image-to-base64': {
-    mandatoryTools: ['image-compression'],
-    optionalTools: ['base64-to-image']
+    mandatoryTools: ['base64-to-image', 'image-compression'],
+    optionalTools: ['qr-code-generator', 'lorem-ipsum-generator', 'gradient-generator']
   },
   'base64-to-image': {
-    mandatoryTools: ['image-compression'],
-    optionalTools: ['image-to-base64']
+    mandatoryTools: ['image-to-base64', 'image-compression'],
+    optionalTools: ['qr-code-generator', 'palette-from-image', 'gradient-generator']
   },
+
+  // --- Generators ---
   'qr-code-generator': {
     mandatoryTools: ['lorem-ipsum-generator'],
-    optionalTools: []
+    optionalTools: ['contrast-checker', 'image-compression', 'color-inspector']
   },
   'lorem-ipsum-generator': {
     mandatoryTools: ['qr-code-generator'],
-    optionalTools: []
+    optionalTools: ['contrast-checker', 'image-compression', 'gradient-generator']
   },
-  'guess-color-blend': {
-    mandatoryTools: ['palette-generator', 'color-inspector'],
-    optionalTools: ['palette-from-image']
-  },
+
+  // --- Cheatsheets ---
   'color-swatches': {
     mandatoryTools: ['palette-generator', 'color-inspector'],
-    optionalTools: ['color-converter']
+    optionalTools: ['contrast-checker', 'color-converter']
   },
+
+  // --- Blogs ---
   'blog-exploring-colors-of-bridgerton': {
-    mandatoryTools: ['palette-generator', 'color-inspector'],
-    optionalTools: ['color-converter']
+    mandatoryTools: ['palette-generator'],
+    optionalTools: ['palette-from-image', 'color-inspector', 'gradient-generator', 'color-swatches']
   },
   'blog-qr-codes-in-modern-web-design': {
-    mandatoryTools: ['qr-code-generator', 'lorem-ipsum-generator'],
-    optionalTools: []
+    mandatoryTools: ['qr-code-generator'],
+    optionalTools: ['palette-generator', 'color-inspector', 'palette-from-image']
   },
   'blog-accessible-web-design': {
     mandatoryTools: ['contrast-checker', 'color-inspector'],
-    optionalTools: ['color-converter']
+    optionalTools: ['color-converter', 'gradient-generator']
   },
   'blog-psychology-of-color': {
     mandatoryTools: ['palette-generator', 'color-inspector'],
-    optionalTools: []
+    optionalTools: ['color-swatches', 'gradient-generator']
   },
   'blog-creating-color-steps-for-heatmaps': {
-    mandatoryTools: ['gradient-generator', 'color-inspector'],
-    optionalTools: ['color-converter']
+    mandatoryTools: ['gradient-generator'],
+    optionalTools: ['color-converter', 'color-swatches', 'palette-generator']
   },
   'blog-color-theory-for-digital-design': {
     mandatoryTools: ['palette-generator', 'color-inspector'],
-    optionalTools: []
+    optionalTools: ['color-swatches', 'gradient-generator']
   },
   'blog-integrating-base64-images-in-your-web-projects': {
     mandatoryTools: ['image-to-base64', 'image-compression'],
-    optionalTools: ['color-converter']
+    optionalTools: ['base64-to-image', 'qr-code-generator']
   },
   'blog-essential-tools-for-designers-in-2025': {
     mandatoryTools: ['palette-generator', 'color-inspector'],
-    optionalTools: []
+    optionalTools: ['contrast-checker', 'color-swatches']
   },
   'blog-blending-colors-for-unique-palettes': {
     mandatoryTools: ['palette-generator', 'color-inspector'],
-    optionalTools: []
+    optionalTools: ['guess-color-blend', 'color-swatches']
   },
   'blog-optimizing-images-for-the-web': {
     mandatoryTools: ['image-compression', 'image-to-base64'],
-    optionalTools: []
+    optionalTools: ['base64-to-image', 'qr-code-generator']
   },
   'blog-top-trends-in-web-design-for-2025': {
-    mandatoryTools: ['qr-code-generator', 'lorem-ipsum-generator'],
-    optionalTools: []
+    mandatoryTools: ['qr-code-generator', 'palette-generator'],
+    optionalTools: ['color-swatches', 'gradient-generator']
   },
   'blog-understanding-color-formats': {
     mandatoryTools: ['color-converter', 'color-inspector'],
-    optionalTools: []
+    optionalTools: ['color-swatches', 'gradient-generator']
   },
 };
 

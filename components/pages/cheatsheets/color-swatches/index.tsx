@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
 
 import { GAService } from '@/services/google-analytics-service';
 import { analyticsEvents } from '@/services/google-analytics-service/analytics-events';
+import { useToast } from '@/components/ui/toast';
 
 import { colorPalettes } from './data';
 import { generateSlug } from '@/utils/text';
 import { MainContainer } from '@/components/ui/containers';
 import { FloatingMenu } from '../floating-menu';
 import { ColorCard } from '@/components/ui/colors/color-card';
-import { useToast } from '@/components/ui/toast';
+import { ToolCrossLinks } from '@/components/ui/cross-links/tool-cross-links';
 
 interface Props {}
 
@@ -62,6 +62,11 @@ const ColorSwatchesCheatSheetMain: React.FC<Props> = () => {
           </React.Fragment>
         ))}
       </MobileSingleColumnContainer>
+
+      <ToolCrossLinks
+        toolKey="color-swatches"
+        title="Explore More Color Tools"
+      />
     </MainContainer>
   );
 };

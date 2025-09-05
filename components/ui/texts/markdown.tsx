@@ -118,9 +118,16 @@ const Container = styled.div`
   a {
     text-decoration: none;
     color: var(--primary-color);
+    font-weight: 600;
+    background-color: #9058aa15;
+    border-radius: 4px;
+    padding: 0 4px;
+    margin: 0 -2px;
+    transition: background-color 0.3s ease;
 
     &:hover {
       text-decoration: underline;
+      background-color: #9058aa30;
     }
   }
 
