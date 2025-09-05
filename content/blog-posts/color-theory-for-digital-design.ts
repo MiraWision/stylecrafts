@@ -33,15 +33,14 @@ How colors appear can change based on their context and the colors around them. 
 Using the right tools can simplify the application of color theory in your projects. Our platform offers several utilities to help you with this:
 
 - **Colors Inspector**: Analyze colors and their properties, find their harmonies and more.
-- **Colors Contrast Checker**: Check the contrast between colors and improve it.
-- **Colors Palette Generator**: Create beautiful and harmonious color palettes.
+- **Colors Palette Generator**: Create beautiful and harmonious color palettes based on color theory principles.
 
 ![Tools for Color Theory Application](/blog-images/color-theory-for-digital-design-4.jpeg "Harness the power of digital tools to master color theory.")
 
 ## Conclusion
-Mastering color theory can elevate your digital designs, making them more appealing and effective. Whether you’re selecting a color palette or tweaking your design’s visual hierarchy, understanding these principles will guide you to better results. Explore our tools to put these principles into practice and create designs that not only look good but also resonate with your audience.
+Mastering color theory can elevate your digital designs, making them more appealing and effective. Whether you're selecting a color palette or tweaking your design's visual hierarchy, understanding these principles will guide you to better results. Explore our tools to put these principles into practice and create designs that not only look good but also resonate with your audience.
 
-> Start experimenting with colors today! Check out our [Colors Inspector](${Routes.ColorsInspectorTool}), [Colors Contrast Checker](${Routes.ColorsContrastCheckerTool}), and [Colors Palette Generator](${Routes.ColorsPaletteGeneratorTool}) to bring your digital designs to life.
+> Start experimenting with colors today! Check out our [Colors Inspector](${Routes.ColorsInspectorTool}) and [Colors Palette Generator](${Routes.ColorsPaletteGeneratorTool}) to bring your digital designs to life.
 `;
 
 export { content };

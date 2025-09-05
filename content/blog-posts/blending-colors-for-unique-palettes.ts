@@ -22,12 +22,12 @@ There are several techniques to blend colors effectively, each suited to differe
 
 ![Blending Techniques Examples](/blog-images/blending-colors-for-unique-palettes-3.jpeg "Experiment with different blending techniques to achieve desired effects.")
 
-## Creating Palettes with the Color Blending Tool
-Our Color Blending Tool simplifies the process of mixing colors and creating palettes. Here’s how you can use it:
+## Creating Palettes with Our Color Tools
+Our color tools simplify the process of mixing colors and creating palettes. Here's how you can use them:
 
-- **Select Base Colors**: Choose your starting colors to blend.
+- **Guess Color Blend Game**: Test your color knowledge and learn about color blending through an interactive game.
+- **Color Palette Generator**: Select base colors and generate harmonious palettes with various blending techniques.
 - **Adjust Blending Levels**: Control the intensity and balance between colors to achieve the desired mix.
-- **Generate Palette**: Use the tool to create a range of blended colors that can be applied across your projects.
 
 ![Color Blending Tool Interface](/blog-images/blending-colors-for-unique-palettes-4.jpeg "Use intuitive tools to blend colors and create custom palettes.")
 
@@ -41,7 +41,7 @@ Blended color palettes have versatile applications in design:
 ## Conclusion
 Mastering color blending allows you to create dynamic and harmonious palettes that can transform your design projects.
 
-> Enhance your designs with unique color palettes. Try our [Palette Generator Tool](${Routes.ColorsPaletteGeneratorTool}) now and discover the endless possibilities of color blending.
+> Enhance your designs with unique color palettes. Try our [Guess Color Blend Game](${Routes.GuessColorBlendGame}) and [Palette Generator Tool](${Routes.ColorsPaletteGeneratorTool}) now and discover the endless possibilities of color blending.
 `;
 
 export { content };

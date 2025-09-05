@@ -6,29 +6,31 @@ const blogPosts: BlogPost[] = [
     title: 'Dive into the World of Bridgerton: Palettes Inspired by Iconic Families and Characters',
     subtitle: 'Discover color palettes inspired by the families and characters of Bridgerton. Bring a touch of Regency-era elegance and drama to your designs with these rich and diverse color schemes.',
     minutesToRead: 5,
-    createdAt: '2024-06-15',
+    createdAt: '2025-06-15',
     url: Routes.ExploringColorsOfBridgertonBlog,
     tags: ['Bridgerton', 'Colors', 'Design Inspiration', 'Web Design'],
     thumbnail: '/blog-images/exploring-colors-of-bridgerton-1.jpeg',
-    
+    toolKey: 'palette-generator',
   },
   {
     title: 'The Psychology of Color in Web Design',
     subtitle: 'Explore how different colors influence user behavior and emotions, and learn how to choose the right colors to create engaging and effective web designs.',
     minutesToRead: 4,
-    createdAt: '2024-06-03',
+    createdAt: '2025-06-03',
     url: Routes.PsychologyOfColorBlog,
     tags: ['Colors', 'User Experience', 'Web Design'],
     thumbnail: '/blog-images/the-psychology-of-color-in-web-design-1.jpeg',
+    toolKey: 'contrast-checker',
   },
   {
     title: 'Creating Color Steps for Heatmaps',
     subtitle: 'Learn how to use stepped gradients to create clear and informative heatmaps, enhancing your data visualizations with distinct color bands.',
     minutesToRead: 3,
-    createdAt: '2024-05-30',
+    createdAt: '2025-05-30',
     url: Routes.ColorStepsForHeatmapsBlog,
     tags: ['Data Visualization', 'Colors', 'Design Techniques'],
     thumbnail: '/blog-images/creating-color-steps-for-heatmaps-1.jpeg',
+    toolKey: 'gradient-generator',
   },
   {
     title: 'Color Theory for Digital Design: Basics and Beyond',
@@ -38,6 +40,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.ColorTheoryForDigitalDesignBlog,
     tags: ['Colors', 'Design Principles', 'Digital Design'],
     thumbnail: '/blog-images/color-theory-for-digital-design-1.jpeg',
+    toolKey: 'color-inspector',
   },
   {
     title: 'Integrating Base64 Images in Your Web Projects',
@@ -47,6 +50,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.Base64ImagesBlog,
     tags: ['Images', 'Web Development', 'Optimization'],
     thumbnail: '/blog-images/integrating-base64-images-in-your-web-projects-1.jpeg',
+    toolKey: 'image-to-base64',
   },
   {
     title: 'Essential Tools for Designers in 2024',
@@ -56,6 +60,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.ToolsForDesignersBlog,
     tags: ['Tools', 'Design Resources', 'Productivity'],
     thumbnail: '/blog-images/essential-tools-for-designers-in-2024-1.jpeg',
+    toolKey: 'palette-generator',
   },
   {
     title: 'Blending Colors for Unique Palettes',
@@ -65,6 +70,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.BlendingColorsBlog,
     tags: ['Colors', 'Design Techniques', 'Digital Design'],
     thumbnail: '/blog-images/blending-colors-for-unique-palettes-1.jpeg',
+    toolKey: 'guess-color-blend',
   },
   {
     title: 'Optimizing Images for the Web: Formats and Quality',
@@ -74,6 +80,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.OptimizingImagesBlog,
     tags: ['Images', 'Optimization', 'Web Performance'],
     thumbnail: '/blog-images/optimizing-images-for-the-web-1.jpeg',
+    toolKey: 'image-compression',
   },
   {
     title: 'Top Trends in Web Design for 2024',
@@ -83,6 +90,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.WebDesignTrendsBlog,
     tags: ['Trends', 'Web Design', 'Innovation'],
     thumbnail: '/blog-images/top-trends-in-web-design-for-2024-1.jpeg',
+    toolKey: 'qr-code-generator',
   },
   {
     title: 'Understanding Color Formats: From Hex to CMYK',
@@ -92,6 +100,7 @@ const blogPosts: BlogPost[] = [
     url: Routes.UnderstandingColorFormatsBlog,
     tags: ['Colors', 'Digital Design', 'Technical'],
     thumbnail: '/blog-images/understanding-color-formats-1.jpeg',
+    toolKey: 'color-converter',
   }
 ];
 

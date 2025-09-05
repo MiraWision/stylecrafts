@@ -10,6 +10,7 @@ import { BlogContainer } from '../blog-container';
 import { PostSummary } from '../post-summary';
 import { BackLink } from '@/components/ui/texts/back-link';
 import { Markdown } from '@/components/ui/texts/markdown';
+import { ToolCrossLinks } from '@/components/ui/cross-links/tool-cross-links';
 
 interface Props {
   post: BlogPost;
@@ -45,6 +46,13 @@ const Post: React.FC<Props> = ({ post, content }) => {
             </PostTags>
           )}
         </footer>
+
+        {post.toolKey && (
+          <ToolCrossLinks 
+            toolKey={post.toolKey}
+            title="Explore More Tools"
+          />
+        )}
       </Main>
     </BlogContainer>
   );

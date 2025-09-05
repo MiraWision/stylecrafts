@@ -1,3 +1,5 @@
+import { Routes } from '../routes';
+
 const content = `
 As the design landscape continues to evolve, staying equipped with the right tools is crucial for delivering top-notch projects efficiently. Whether you're a web designer, graphic designer, or digital artist, the right software and resources can significantly enhance your creativity and workflow. This article highlights the essential tools for designers in 2024, covering everything from design software to productivity enhancers.
 
@@ -74,8 +76,18 @@ As the design landscape continues to evolve, staying equipped with the right too
 - **Why It’s Essential**: It provides a powerful, portable solution for creating digital artwork on the go.
 - **Notable Features**: Extensive brush library, high-resolution canvas support, and time-lapse recording for creating and sharing digital art.
 
+## Essential Online Tools for Designers
+
+In addition to the comprehensive software mentioned above, our platform offers essential tools that every designer should have in their toolkit:
+
+- **Color Palette Generator**: Create beautiful and harmonious color palettes for your design projects.
+- **Image Compression**: Optimize your images for faster loading times and better web performance.
+- **QR Code Generator**: Create professional QR codes for your designs, marketing materials, and digital projects.
+
 ## Conclusion
 In 2024, designers have a plethora of tools at their disposal, each catering to different aspects of the creative process. Whether you're looking for comprehensive design software, resourceful graphic libraries, or collaborative project management platforms, these essential tools will enhance your workflow and creativity. Equip yourself with the best tools and stay ahead in your design projects.
+
+> Enhance your design workflow with our essential tools. Try our [Color Palette Generator](${Routes.ColorsPaletteGeneratorTool}), [Image Compression](${Routes.ImageCompressionTool}), and [QR Code Generator](${Routes.GeneratorsQRCode}) to streamline your creative process.
 
 Explore and integrate these essential tools into your design workflow. Enhance your creativity and productivity in 2024 by leveraging the power of top design software and resources.
 `;

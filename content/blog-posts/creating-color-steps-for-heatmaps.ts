@@ -23,7 +23,7 @@ Choosing the right colors for your stepped gradient is crucial for creating an e
 ![Creating Stepped Gradient Tutorial](/blog-images/creating-color-steps-for-heatmaps-3.jpeg "Learn how to create stepped gradients with our step-by-step guide.")
 
 ## Applying Stepped Gradients to Heatmaps
-Using our Gradient Generator, you can create custom stepped gradients tailored to your data visualization needs. Here’s how you can apply stepped gradients to your heatmaps:
+Using our Stepped Gradient Generator, you can create custom stepped gradients tailored to your data visualization needs. Here's how you can apply stepped gradients to your heatmaps:
 
 - **Define Data Ranges**: Determine the data intervals you want to represent with each color step.
 - **Select Base Colors**: Choose the starting and ending colors for your gradient.
@@ -40,9 +40,9 @@ Stepped gradients are widely used in various types of heatmaps to illustrate dat
 ![Heatmaps with Different Color Palettes](/blog-images/creating-color-steps-for-heatmaps-4.jpeg "Explore various color palettes to make your heatmaps more informative and accessible.")
 
 ## Conclusion
-Stepped gradients are an excellent choice for creating clear and informative heatmaps. By carefully selecting and applying these gradients, you can enhance the readability and effectiveness of your data visualizations. Use our [Gradient Generator](${Routes.ColorsGradientGeneratorTool}) to create custom stepped gradients and elevate your heatmap designs today.
+Stepped gradients are an excellent choice for creating clear and informative heatmaps. By carefully selecting and applying these gradients, you can enhance the readability and effectiveness of your data visualizations.
 
-> Start creating effective heatmaps with custom stepped gradients. Try our [Colors Gradient Generator](${Routes.ColorsGradientGeneratorTool}) now and transform your data visualizations.
+> Start creating effective heatmaps with custom stepped gradients. Try our [Stepped Gradient Generator](${Routes.ColorsGradientGeneratorTool}) now and transform your data visualizations.
 `;
 
 export { content };

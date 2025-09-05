@@ -10,6 +10,8 @@ import { ImageToBase64Icon } from '@/components/icons/image-to-base64';
 import { Base64ToImageIcon } from '@/components/icons/base64-to-image';
 import { QRCodeGeneratorIcon } from '@/components/icons/qr-code-generator';
 import { LoremIpsumGeneratorIcon } from '@/components/icons/lorem-ipsum-generator';
+import { GameIcon } from '@/components/icons/game';
+import { ColorSwatchesIcon } from '@/components/icons/color-swatches';
 
 // Tool categories for better organization
 export const TOOL_CATEGORIES = {
@@ -115,6 +117,22 @@ export const ALL_TOOLS: Record<string, {
     category: TOOL_CATEGORIES.GENERATORS,
     icon: <LoremIpsumGeneratorIcon width="32" height="32" />,
     tags: ['text', 'placeholder', 'lorem', 'ipsum']
+  },
+  'guess-color-blend': {
+    title: 'Guess Color Blend',
+    description: 'Test your color knowledge and learn about color blending through an interactive game',
+    href: '/games/guess-color-blend',
+    category: TOOL_CATEGORIES.UTILITIES,
+    icon: <GameIcon width="32" height="32" />,
+    tags: ['color', 'game', 'blend', 'interactive']
+  },
+  'color-swatches': {
+    title: 'Comprehensive Color Swatches',
+    description: 'Browse our extensive collection of color swatches to find the perfect hues for your designs',
+    href: '/cheatsheets/colors-swatches',
+    category: TOOL_CATEGORIES.UTILITIES,
+    icon: <ColorSwatchesIcon width="32" height="32" />,
+    tags: ['color', 'swatches', 'palette', 'reference']
   }
 };
 
@@ -175,6 +193,14 @@ export const TOOL_CROSS_LINKS: Record<string, {
   'lorem-ipsum-generator': {
     relevantTools: ['qr-code-generator'],
     randomCount: 1
+  },
+  'guess-color-blend': {
+    relevantTools: ['palette-generator', 'color-inspector', 'palette-from-image'],
+    randomCount: 3
+  },
+  'color-swatches': {
+    relevantTools: ['palette-generator', 'color-inspector', 'color-converter'],
+    randomCount: 3
   }
 };
 

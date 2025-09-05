@@ -61,17 +61,17 @@ Optimizing images often involves adjusting their quality settings to find the be
 
 ## Tools for Image Optimization
 
-Our comprehensive Image Optimization tool is designed to streamline your web image management. Whether you need to convert formats, resize dimensions, or adjust quality settings, our tool has you covered:
+Our comprehensive Image Compression tool is designed to streamline your web image management. Whether you need to convert formats, resize dimensions, or adjust quality settings, our tool has you covered:
 
 - **Format Conversion**: Effortlessly switch between popular formats like JPEG, PNG, GIF, WebP, and SVG to ensure compatibility and performance.
 - **Resize and Adjust**: Easily resize your images to specific dimensions and fine-tune their quality to balance clarity and file size, perfect for any digital platform.
 
-With our all-in-one Image Optimization tool, enhancing your images for the web has never been easier.
+With our all-in-one Image Compression tool, enhancing your images for the web has never been easier.
 
 ![Image Optimization Tools](/blog-images/optimizing-images-for-the-web-4.jpeg "Leverage powerful tools to optimize your images for the web.")
 
 ## Conclusion
-Optimizing images for the web is crucial for creating fast, user-friendly websites. By understanding the strengths and use cases of different image formats and learning how to adjust quality settings effectively, you can enhance your site’s performance and visual appeal.
+Optimizing images for the web is crucial for creating fast, user-friendly websites. By understanding the strengths and use cases of different image formats and learning how to adjust quality settings effectively, you can enhance your site's performance and visual appeal.
 
 > Ready to optimize your images? Try our [Image Compression Tool](${Routes.ImageCompressionTool}) now to ensure your website loads faster and looks great on any device.
 `;
