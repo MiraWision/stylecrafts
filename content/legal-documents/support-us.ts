@@ -1,18 +1,16 @@
 const content = `
 # Support Us
 
-Thank you for considering supporting us! Your contributions help us continue developing amazing projects for the community.
+We create and share our tools because we believe in open knowledge and accessible design.  
+By supporting us, you're helping new ideas come to life and keeping our resources free for everyone.  
+Together, we can make the web a better place.  
 
 ## How to Support Us
 
-You can support us in the following ways:
+### Crypto Donations
 
-1. **Stripe**: [Donate via Stripe](https://stripe.com)
-2. **Cryptocurrency**: 
-   - Bitcoin: \`1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa\`
-   - Ethereum: \`0xE0F5206BBd039e7b0592D8918820024e2a7437b9\`
+You can support us with cryptocurrency donations using any of the wallets below. Simply scan the QR code or copy the wallet address to send your donation.
 
-We appreciate your generosity!
 `;
 
 export { content };

@@ -1,36 +1,24 @@
 const content = `
-# About Us
+# About Us  
 
-Welcome to MiraWision!
+MiraWision is a small team with Ukrainian roots, united by a passion for technology and design. We started with open-source libraries and quickly grew into creating tools used by developers and designers around the world.  
 
-We are a passionate team of up to 5 members from Ukraine, united by our love for web technologies and design. With years of experience, we have successfully created over 10 open-source libraries and are currently working on more than 5 innovative projects for designers and developers.
+Our mission is simple: make creativity and technology easier.  
+We believe that great tools should be accessible, intuitive, and spark inspiration — whether you’re coding a new app or designing your next masterpiece.  
 
-## Our Mission
-To make design and development easier, more accessible, and more inspiring for everyone. We strive to deliver high-quality, user-friendly tools that empower creators around the world.
+## What We Do  
+- Build open-source libraries that save time and remove friction  
+- Create apps and utilities for designers and developers  
+- Share knowledge with the community through guides and experiments  
+- Constantly explore new ways to make the web more human and inspiring  
 
-## What We Do
-- Develop open-source libraries for web and UI
-- Build free and paid tools for designers and developers
-- Share knowledge and best practices with the community
-- Support creative and technical growth
+## Our Values  
+- **Clarity** — Simple tools, clear design, no clutter  
+- **Craft** — Every detail matters  
+- **Openness** — Knowledge and code are meant to be shared  
+- **Playfulness** — Creativity works best when it’s fun  
 
-## Our Team
-- **Ivan Ivanov** — Founder & Lead Developer
-- **Maria Petrova** — UI/UX Designer
-- **Alexey Smirnov** — Frontend Engineer
-- **Olena Bondarenko** — Community & Support
-- **Dmytro Shevchenko** — Product Manager
-
-## Our Values
-- Openness & transparency
-- Quality & innovation
-- Community support
-- Continuous learning
-
-## Get in Touch
-We love to connect! If you have questions, suggestions, or want to collaborate, reach out via our [Contact page](/contact-us) or email us at info@MiraWision.com.
-
-Thank you for being a part of MiraWision!
+If you share our love for building, exploring, and improving the web — welcome to MiraWision.
 `;
 
 export { content };

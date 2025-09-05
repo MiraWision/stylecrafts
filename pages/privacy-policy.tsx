@@ -5,7 +5,7 @@ import { metaTags } from '@/content/meta-data/legal-privacy-policy';
 
 import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';
-import { BlogContainer } from '@/components/pages/blog/blog-container';
+import { DocumentContainer } from '@/components/ui/containers';
 import { Markdown } from '@/components/ui/texts/markdown';
 
 const PrivacyPolicy = () => {
@@ -13,11 +13,11 @@ const PrivacyPolicy = () => {
     <BaseLayout>
       <MetaTags {...metaTags} />
 
-      <BlogContainer>
+      <DocumentContainer>
         <Markdown 
           markdownText={content}
         />
-      </BlogContainer>
+      </DocumentContainer>
     </BaseLayout>
   );
 };

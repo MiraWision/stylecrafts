@@ -1,14 +1,21 @@
 import React from 'react';
+
+import { content } from '@/content/legal-documents/about-us';
 import { metaTags } from '@/content/meta-data/about-us';
+
 import { BaseLayout } from '@/layouts/base-layout';
 import { MetaTags } from '@/components/pages/meta-tags';
-import { AboutUsSection } from '@/components/pages/landing/about-us-section';
+import { DocumentContainer } from '@/components/ui/containers';
+import { Markdown } from '@/components/ui/texts/markdown';
 
 const AboutUs = () => {
   return (
     <BaseLayout>
       <MetaTags {...metaTags} />
-      <AboutUsSection />
+
+      <DocumentContainer>
+        <Markdown markdownText={content} />
+      </DocumentContainer>
     </BaseLayout>
   );
 };

@@ -1,274 +1,203 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { copyText } from '@mirawision/copily';
-import { BaseLayout } from '@/layouts/base-layout';
-import { MetaTags } from '@/components/pages/meta-tags';
+
+import { content } from '@/content/legal-documents/support-us';
 import { metaTags } from '@/content/meta-data/support-us';
 
-const SUPPORT_OPTIONS = [
+import { BaseLayout } from '@/layouts/base-layout';
+import { MetaTags } from '@/components/pages/meta-tags';
+import { DocumentContainer } from '@/components/ui/containers';
+import { Markdown } from '@/components/ui/texts/markdown';
+import { CopyIcon } from '@/components/icons/copy';
+import { CheckmarkIcon } from '@/components/icons/checkmark';
+
+const CryptoWallets = [
   {
-    label: 'Buy Me a Coffee',
-    url: 'https://www.buymeacoffee.com/', // Замените на вашу ссылку
-    type: 'coffee',
-  },
-  {
+    id: 'btc',
     label: 'Bitcoin',
-    value: 'bc1qexampleaddress',
-    type: 'crypto',
+    symbol: 'BTC',
+    address: 'bc1q0dgvk4fep38cmc7xvzh6j6snndn072fdhwasvt',
+    qrCode: '/crypto-wallets/btc.jpeg',
   },
   {
+    id: 'eth',
     label: 'Ethereum',
-    value: '0xExampleEthereumAddress',
-    type: 'crypto',
+    symbol: 'ETH',
+    address: '0x22a8a01e170BaEb0F98259F5865912EC151954ec',
+    qrCode: '/crypto-wallets/eth.jpeg',
   },
   {
+    id: 'sol',
+    label: 'Solana',
+    symbol: 'SOL',
+    address: 'BXLrATm9wJjDcb6qxZWNuRrh6X8sLHNE3sqaupz6KgBN',
+    qrCode: '/crypto-wallets/sol.jpeg',
+  },
+  {
+    id: 'usdt',
     label: 'USDT (TRC20)',
-    value: 'TExampleTRC20Address',
-    type: 'crypto',
+    symbol: 'USDT',
+    address: 'TQb1eqtJSiiYkcqscLyAdwkWHJWiZ8KRv9',
+    qrCode: '/crypto-wallets/usdt.jpeg',
   },
 ];
 
-const SupportUsSection: React.FC = () => {
-  const [modal, setModal] = useState<null | { type: string; label: string; url?: string; value?: string }>(null);
+const CryptoWalletCard: React.FC<{ wallet: typeof CryptoWallets[0] }> = ({ wallet }) => {
   const [copied, setCopied] = useState(false);
 
-  const handleSupportClick = (option: any) => {
-    setModal(option);
-    setCopied(false);
-  };
-
-  const handleCopy = async (value: string) => {
+  const handleCopy = async () => {
     try {
-        await copyText(value);
+      await copyText(wallet.address);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {}
+      setTimeout(() => setCopied(false), 3000);
+    } catch (error) {
+      console.error('Failed to copy address:', error);
+    }
   };
 
   return (
-    <SectionContainer>
-      <ContentContainer>
-        <LeftBlock>
-          <Title>Support Us</Title>
-          <Description>
-            If you enjoy our project and want to help it grow, you can support us in several ways! Your contribution helps us add new features, improve the platform, and keep it free for everyone.
-          </Description>
-          <SupportOptions>
-            {SUPPORT_OPTIONS.map((option) => (
-              option.type === 'coffee' ? (
-                <SupportLink as="button" key={option.label} onClick={() => handleSupportClick(option)}>
-                  {option.label}
-                </SupportLink>
-              ) : (
-                <SupportWalletButton key={option.label} onClick={() => handleSupportClick(option)}>
-                  <WalletLabel>{option.label}:</WalletLabel>
-                  <WalletValue>{option.value}</WalletValue>
-                </SupportWalletButton>
-              )
-            ))}
-          </SupportOptions>
-          <MoreContent>
-            <p>Thank you for your support! 💜</p>
-          </MoreContent>
-        </LeftBlock>
-      </ContentContainer>
-      {modal && (
-        <ModalOverlay onClick={() => setModal(null)}>
-          <ModalContent onClick={e => e.stopPropagation()}>
-            {modal.type === 'coffee' ? (
-              <>
-                <ModalTitle>Поддержать через Buy Me a Coffee</ModalTitle>
-                <ModalText>Вы будете перенаправлены на Buy Me a Coffee для завершения платежа.</ModalText>
-                <ModalButton as="a" href={modal.url} target="_blank" rel="noopener noreferrer">Перейти к оплате</ModalButton>
-                <ModalButton onClick={() => setModal(null)} $secondary>Отмена</ModalButton>
-              </>
-            ) : (
-              <>
-                <ModalTitle>Кошелёк {modal.label}</ModalTitle>
-                <ModalText>Скопируйте адрес для перевода:</ModalText>
-                <ModalWallet>{modal.value}</ModalWallet>
-                <ModalButton onClick={() => handleCopy(modal.value!)}>{copied ? 'Скопировано!' : 'Скопировать адрес'}</ModalButton>
-                <ModalButton onClick={() => setModal(null)} $secondary>Закрыть</ModalButton>
-              </>
-            )}
-          </ModalContent>
-        </ModalOverlay>
-      )}
-    </SectionContainer>
+    <WalletCard>
+      <WalletHeader>
+        <WalletSymbol>{wallet.symbol}</WalletSymbol>
+        <WalletLabel>{wallet.label}</WalletLabel>
+      </WalletHeader>
+      
+      <QRCodeContainer>
+        <img 
+          src={wallet.qrCode} 
+          alt={`${wallet.label} QR Code`}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '0.5rem' }}
+        />
+      </QRCodeContainer>
+      
+      <AddressContainer onClick={handleCopy} title="Click to copy address">
+        <WalletAddress>{wallet.address}</WalletAddress>
+        <CopyIconContainer>
+          {copied ? (
+            <CheckmarkIcon width="16" height="16" fill="var(--success-color)" />
+          ) : (
+            <CopyIcon width="16" height="16" />
+          )}
+        </CopyIconContainer>
+      </AddressContainer>
+    </WalletCard>
   );
 };
 
-const SupportUs = () => {
+const SupportUsPage: React.FC = () => {
   return (
     <BaseLayout>
       <MetaTags {...metaTags} />
-      <SupportUsSection />
+
+      <DocumentContainer>
+        <Markdown markdownText={content} />
+
+        <CryptoWalletsGrid>
+          {CryptoWallets.map((wallet) => (
+            <CryptoWalletCard key={wallet.id} wallet={wallet} />
+          ))}
+        </CryptoWalletsGrid>
+      </DocumentContainer>
     </BaseLayout>
   );
 };
 
-const SectionContainer = styled.section`
-  width: 100%;
-  min-height: calc(100vh - 3rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+const CryptoWalletsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
 
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: stretch;
-  width: 80%;
-  max-width: 700px;
-  border-radius: 1.5rem;
-  box-shadow: 0 0 2rem 0 rgba(0,0,0,0.07);
-  padding: 2.5rem 2rem;
-  gap: 2.5rem;
-  margin: 3rem 0;
-
-  @media (max-width: 900px) {
-    flex-direction: column;
-    width: 95%;
-    padding: 2rem 1rem;
-    gap: 1.5rem;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 `;
 
-const LeftBlock = styled.div`
-  flex: 1;
+const WalletCard = styled.div`
+  background: var(--surface-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+`;
+
+const WalletHeader = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
-const Title = styled.h1`
-  font-family: 'Montagu Slab', serif;
-  font-size: 2.5rem;
-  color: var(--primary-color);
-  margin: 0 0 0.5rem 0;
-`;
-
-const Description = styled.p`
-  font-size: 1.1rem;
-  color: var(--text-color);
-  margin: 0 0 1.5rem 0;
-`;
-
-const SupportOptions = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-`;
-
-const SupportLink = styled.button`
-  background: var(--primary-color);
-  color: #fff;
+const WalletSymbol = styled.span`
   font-weight: 600;
-  font-size: 1.1rem;
-  border-radius: 0.5rem;
-  padding: 0.9rem 1.2rem;
-  text-decoration: none;
-  width: fit-content;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-  &:hover {
-    background: #7e4fd4;
-  }
-`;
-
-const SupportWalletButton = styled.button`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.7rem;
-  background: #fafbfc;
-  border-radius: 0.5rem;
-  padding: 0.7rem 1rem;
-  font-size: 1rem;
-  border: none;
-  color: var(--text-color);
-  cursor: pointer;
-  transition: background 0.2s;
-  &:hover {
-    background: #f0e6ff;
-  }
+  font-size: 1.125rem;
+  color: var(--primary-color);
 `;
 
 const WalletLabel = styled.span`
-  font-weight: 600;
-  color: var(--primary-color);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 `;
 
-const WalletValue = styled.span`
-  color: var(--text-color);
-  font-family: monospace;
-`;
-
-const MoreContent = styled.div`
-  margin-top: 2rem;
-  color: var(--text-color);
-  font-size: 1.05rem;
-`;
-
-// Модальные окна
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 1000;
+const QRCodeContainer = styled.div`
+  width: 10rem;
+  height: 10rem;
+  margin: 0 auto 1rem;
+  background: var(--surface-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
 `;
-const ModalContent = styled.div`
-  background: #fff;
-  border-radius: 1rem;
-  padding: 2.5rem 2rem 2rem 2rem;
-  min-width: 320px;
-  max-width: 90vw;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.13);
+
+const AddressContainer = styled.button`
   display: flex;
-  flex-direction: column;
   align-items: center;
-`;
-const ModalTitle = styled.h2`
-  margin: 0 0 1.2rem 0;
-  color: var(--primary-color);
-  font-size: 1.5rem;
-`;
-const ModalText = styled.p`
-  color: var(--text-color);
-  margin-bottom: 1.2rem;
-  text-align: center;
-`;
-const ModalWallet = styled.div`
-  font-family: monospace;
-  background: #fafbfc;
+  gap: 0.5rem;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 0.5rem;
-  padding: 0.7rem 1rem;
-  margin-bottom: 1.2rem;
-  word-break: break-all;
-`;
-const ModalButton = styled.button<{ $secondary?: boolean }>`
-  background: ${({ $secondary }) => $secondary ? '#f3f3f3' : 'var(--primary-color)'};
-  color: ${({ $secondary }) => $secondary ? 'var(--text-color)' : '#fff'};
-  font-weight: 600;
-  font-size: 1.05rem;
-  border-radius: 0.5rem;
-  padding: 0.7rem 1.2rem;
-  border: none;
-  margin-top: 0.5rem;
-  margin-bottom: 0.2rem;
-  cursor: pointer;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
   width: 100%;
-  transition: background 0.2s;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
   &:hover {
-    background: ${({ $secondary }) => $secondary ? '#ececec' : '#7e4fd4'};
+    background: var(--surface-hover);
+    border-color: var(--primary-color);
+  }
+
+  &:active {
+    transform: scale(0.98);
   }
 `;
 
-export default SupportUs;
+const WalletAddress = styled.span`
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-color);
+  word-break: break-all;
+  flex: 1;
+  text-align: left;
+`;
+
+const CopyIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+  
+  ${AddressContainer}:hover & {
+    color: var(--primary-color);
+  }
+`;
+
+export default SupportUsPage;
