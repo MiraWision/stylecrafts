@@ -64,6 +64,7 @@ const Image = styled.img`
   height: auto;
   object-fit: cover;
   border-radius: 0.5rem;
+  aspect-ratio: 16/9;
 `;
 
 const PostSummaryStyled = styled(PostSummary)`

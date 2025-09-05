@@ -3,8 +3,15 @@ import { Routes } from '../routes';
 
 const metaTags: MetaTags = {
   title: 'Accessible Web Design: Ensuring Everyone Can See Your Work',
-  description: 'Learn the essential principles of accessible web design to create inclusive websites that can be enjoyed by everyone, regardless of their abilities or devices.',
-  keywords: ['Web Accessibility', 'Inclusive Design', 'WCAG', 'User Experience', 'Accessibility Guidelines'],
+  description: 'Make your designs inclusive and WCAG-compliant. Explore color contrast, accessibility tips, and test your work with free online tools.',
+  keywords: [
+    'accessible web design',
+    'WCAG color contrast checker',
+    'inclusive UX design',
+    'color accessibility in websites',
+    'web accessibility best practices',
+    'ADA compliant design tips'
+  ],
   url: Routes.AccessibleWebDesignBlog,
 };
 
