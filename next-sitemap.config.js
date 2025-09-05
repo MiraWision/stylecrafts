@@ -8,7 +8,7 @@ const config = {
 
     if (path === '/') {
       priority = 0.7;
-    } else if (path.startsWith('/images') || path.startsWith('/colors')) {
+    } else if (path.startsWith('/images') || path.startsWith('/colors') || path.startsWith('/generators')) {
       priority = 1;
     } else if (path.startsWith('/games')) {
       priority = 0.9;
