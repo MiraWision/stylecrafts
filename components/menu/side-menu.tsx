@@ -8,6 +8,13 @@ import { Routes } from '@/content/routes';
 import { ImageCompressionIcon } from '../icons/image-compression';
 import { ImageToBase64Icon } from '../icons/image-to-base64';
 import { Base64ToImageIcon } from '../icons/base64-to-image';
+import { RasterToSvgIcon } from '../icons/raster-to-svg';
+import { BackgroundRemovalIcon } from '../icons/background-removal';
+import { ResizeIcon } from '../icons/resize';
+import { ConvertIcon } from '../icons/convert';
+import { AsciiArtIcon } from '../icons/ascii-art';
+import { FaviconIcon } from '../icons/favicon';
+import { ExifIcon } from '../icons/exif';
 import { GradientGenerationIcon } from '../icons/gradient-generation';
 import { PaletteGenerationIcon } from '../icons/palette-generation';
 import { PaletteFromImageIcon } from '../icons/palette-from-image';
@@ -78,6 +85,41 @@ const MenuItems = [
         name: 'Base64 to Image',
         url: Routes.Base64ToImageTool,
       },
+      {
+        icon: RasterToSvgIcon,
+        name: 'Raster to SVG',
+        url: Routes.RasterToSvgTool,
+      },
+      {
+        icon: BackgroundRemovalIcon,
+        name: 'Background Removal',
+        url: Routes.BackgroundRemovalTool,
+      },
+      {
+        icon: ResizeIcon,
+        name: 'Image Resize',
+        url: Routes.ImageResizeTool,
+      },
+      {
+        icon: ConvertIcon,
+        name: 'Format Convert',
+        url: Routes.ImageConvertTool,
+      },
+    {
+      icon: AsciiArtIcon,
+      name: 'ASCII Art Generator',
+      url: Routes.AsciiArtTool,
+    },
+    {
+      icon: FaviconIcon,
+      name: 'Favicon Generator',
+      url: Routes.FaviconTool,
+    },
+    {
+      icon: ExifIcon,
+      name: 'EXIF Metadata',
+      url: Routes.ExifTool,
+    },
     ],
   },
   {

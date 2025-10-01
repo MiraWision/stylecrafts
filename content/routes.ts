@@ -10,6 +10,13 @@ enum Routes {
   ImageToBase64Tool = '/images/image-to-base64',
   Base64ToImageTool = '/images/base64-to-image',
   ImagesMasterTool = '/images/master-tool',
+  RasterToSvgTool = '/images/raster-to-svg',
+  BackgroundRemovalTool = '/images/background-removal',
+  ImageResizeTool = '/images/resize',
+  ImageConvertTool = '/images/convert',
+  AsciiArtTool = '/images/ascii-art',
+  FaviconTool = '/images/favicon',
+  ExifTool = '/images/exif',
   
   GeneratorsQRCode = '/generators/qr-code',
   GeneratorsLoremIpsum = '/generators/lorem-ipsum',

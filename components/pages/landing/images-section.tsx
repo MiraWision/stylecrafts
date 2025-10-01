@@ -8,6 +8,8 @@ import { FeatureCard } from './feature-card';
 import { ImageCompressionIcon } from '@/components/icons/image-compression';
 import { ImageToBase64Icon } from '@/components/icons/image-to-base64';
 import { Base64ToImageIcon } from '@/components/icons/base64-to-image';
+import { RasterToSvgIcon } from '@/components/icons/raster-to-svg';
+import { BackgroundRemovalIcon } from '@/components/icons/background-removal';
 
 const featureCardData = [
   {
@@ -27,6 +29,18 @@ const featureCardData = [
     Icon: Base64ToImageIcon,
     title: 'Base64 to Image Converter',
     description: 'Decode Base64 strings to view and download the original images',
+  },
+  {
+    href: Routes.RasterToSvgTool,
+    Icon: RasterToSvgIcon,
+    title: 'Raster to SVG Converter',
+    description: 'Convert raster images to scalable vector graphics using advanced OpenCV algorithms',
+  },
+  {
+    href: Routes.BackgroundRemovalTool,
+    Icon: BackgroundRemovalIcon,
+    title: 'Background Removal',
+    description: 'Remove backgrounds from images using AI-powered OpenCV algorithms with edge detection',
   },
 ];
 

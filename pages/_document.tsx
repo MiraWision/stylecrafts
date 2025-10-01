@@ -41,6 +41,7 @@ class MyDocument extends Document {
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
           <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet"></link>
           <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:wght@400;700&display=swap" rel="stylesheet"></link>
+          <script async src="https://docs.opencv.org/4.11.0/opencv.js" type="text/javascript"></script>
         </Head>
         <body>
           <Main />
